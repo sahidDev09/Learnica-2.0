@@ -1,20 +1,9 @@
-import Image from "next/image";
+import HomePage from "@/pages/Home";
 
 export default function Home() {
   return (
-    <div>
-      
-      <h1>Web Warriors</h1>
-
-      {/* navbar */}
-
-      {/* Hero banner */}
-
-      {/* companies */}
-
-      {/* leatest course */}
-
-      {/* footer */}
-    </div>
+    <>
+      <HomePage />
+    </>
   );
 }
