@@ -1,6 +1,6 @@
 const page = () => {
   return (
-    <div>
+    <div className="bg-white">
       <div
         className="hero rounded-b-[60px] py-20"
         style={{

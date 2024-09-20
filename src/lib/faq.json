@@ -1,0 +1,42 @@
+[
+    {
+      "id": 1,
+      "question": "What is Learnica?",
+      "answer": "Learnica is an online learning platform where you can access a wide range of courses from various subjects, allowing you to learn from home at your own pace."
+    },
+    {
+      "id": 2,
+      "question": "How do I enroll in a course?",
+      "answer": "To enroll in a course, simply sign up or log into your Learnica account, browse the available courses, and click on the 'Enroll Now' button for the course you wish to take."
+    },
+    {
+      "id": 3,
+      "question": "Are there any free courses available?",
+      "answer": "Yes, Learnica offers both free and paid courses. You can filter by 'free' courses when browsing to find options that suit your budget."
+    },
+    {
+      "id": 4,
+      "question": "Can I access my courses offline?",
+      "answer": "Currently, Learnica does not offer offline access, but you can stream your courses from any device with an internet connection."
+    },
+    {
+      "id": 5,
+      "question": "Do I get a certificate after completing a course?",
+      "answer": "Yes, upon successful completion of a course, you will receive a certificate that can be downloaded and shared on platforms like LinkedIn."
+    },
+    {
+      "id": 6,
+      "question": "How can I request a refund?",
+      "answer": "If you are unsatisfied with a course, you can request a refund within 30 days of your purchase. Visit your profile, go to the 'My Purchases' section, and click 'Request Refund.'"
+    },
+    {
+      "id": 7,
+      "question": "What are the payment methods accepted on Learnica?",
+      "answer": "Learnica accepts a wide range of payment methods including credit/debit cards, PayPal, and digital wallets."
+    },
+    {
+      "id": 8,
+      "question": "How do I become an instructor on Learnica?",
+      "answer": "To become an instructor, click on the 'Teach on Learnica' link, complete the application process, and submit your course for review. Once approved, your course will be available to learners."
+    }
+  ]

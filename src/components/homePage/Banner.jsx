@@ -9,11 +9,11 @@ const Banner = () => {
           backgroundImage: "url(/assets/banner-bg.jpg)",
         }}
       >
-        <div className="flex flex-col item-center lg:justify-between px-8 lg:flex-row-reverse mb-6">
+        <div className="pt-10 flex flex-col item-center lg:justify-between lg:flex-row-reverse mb-6 w-9/12 mx-auto">
           <div className="lg:w-1/2">
             <Image
               width={600}
-              height={80}
+              height={60}
               alt="banner logo"
               src={"/assets/courseui.png"}
               className="pl-0 ml-0"
