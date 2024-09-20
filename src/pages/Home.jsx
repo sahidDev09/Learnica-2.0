@@ -1,3 +1,4 @@
+import Banner from "@/components/homePage/Banner";
 import Categories from "@/components/homePage/Categories";
 import LatestCourses from "@/components/homePage/LatestCourse";
 import React from "react";
@@ -10,12 +11,12 @@ const HomePage = () => {
       {/* navbar */}
 
       {/* Hero banner */}
-
+      <Banner></Banner>
       {/* companies */}
 
       {/* categories */}
       <Categories />
-      
+
       {/* leatest course */}
       <LatestCourses />
 
