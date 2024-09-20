@@ -5,6 +5,8 @@ import { RxCross1 } from "react-icons/rx";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import DarkModeLogo from "../../../public/assets/learnicaNavlogo.png"; 
+import Link from "next/link";
+import { Button } from "../ui/button";
 
 const Navbar = () => {
     const [openMenu, setOpenMenu] = useState(false);
@@ -26,7 +28,7 @@ const Navbar = () => {
         <nav className="max-w-screen-xl">
             <div
                 className={`fixed z-20 top-0 w-full ${scrollY > 1
-                    ? "bg-blue-500 text-white shadow-lg"
+                    ? "bg-[#3B8BFF] text-white shadow-lg"
                     : "bg-transparent text-white"
                     } dark:bg-black duration-500`}
             >
@@ -81,9 +83,11 @@ const Navbar = () => {
 </label>
                                     </li>
                                 </a>
-                                <a href="#portfolio" className="duration-150 border-transparent rounded-2xl bg-red-500 w-20 p-1 text-center">
-                                    <li>SIGN IN</li>
-                                </a>
+                               
+                                   <Link href="/">
+                                   <Button className="bg-primary">SIGN IN</Button>
+                                   </Link>
+                               
 
                             </ul>
                         </div>
@@ -93,16 +97,16 @@ const Navbar = () => {
 
             <div
                 className={`${openMenu ? "w-1/2 md:w-1/4" : "w-0"
-                    } fixed duration-200 h-full top-0 z-20 left-0 bg-[#DBDADA]`}
+                    } fixed duration-200 h-full top-0 z-20 left-0 bg-[#3B8BFF]`}
             >
                 <div className="w-full flex justify-end">
                     <RxCross1
                         onClick={handleCloseMenu}
-                        className="text-right text-2xl mr-5 mt-5 text-black"
+                        className="text-right text-2xl mr-5 mt-5 text-white"
                     />
                 </div>
                 <div className={`${!openMenu ? "hidden" : "block"} flex justify-center`}>
-                    <ul className="flex flex-col text-center gap-5 text-black">
+                    <ul className="flex flex-col text-center gap-5 text-white">
                         <li className="cursor-pointer hover:text-[#D01D3F] duration-300">
                             Home
                         </li>
