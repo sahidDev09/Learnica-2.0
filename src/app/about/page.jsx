@@ -6,7 +6,7 @@ const page = () => {
       {/* Hero Section */}
       <section className="hero bg-blue-600 py-10">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl font-bold text-white">About Us</h1>
+          <h1 className="text-4xl font-bold text-white pt-16">About Us</h1>
           <p className="mt-4 text-lg text-blue-200">
             Welcome to <strong>Learnica</strong>, a next-generation platform
             designed to simplify and enhance the online learning experience for
@@ -104,12 +104,7 @@ const page = () => {
         </div>
       </section>
 
-      {/* Footer Section */}
-      <footer className="footer bg-blue-600 py-6 text-white text-center">
-        <div className="container mx-auto px-4">
-          <p>© {new Date().getFullYear()} Learnica. All rights reserved.</p>
-        </div>
-      </footer>
+     
     </div>
   );
 };
