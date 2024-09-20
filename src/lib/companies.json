@@ -1,8 +1,8 @@
 [
   {
     "id": 1,
-    "name": "amazon",
-    "location": "/assets/companies/amazon.svg"
+    "name": "coursera",
+    "location": "/assets/companies/coursera.png"
   },
 
   {
@@ -20,7 +20,7 @@
   {
     "id": 4,
     "name": "ibm",
-    "location": "/assets/companies/ibm.svg"
+    "location": "/assets/companies/ibm.png"
   },
 
   {
@@ -43,7 +43,12 @@
 
   {
     "id": 8,
-    "name": "uber",
-    "location": "/assets/companies/uber.svg"
+    "name": "udemy",
+    "location": "/assets/companies/udemy.png"
+  },
+  {
+    "id": 9,
+    "name": "intel",
+    "location": "/assets/companies/intel.png"
   }
 ]
