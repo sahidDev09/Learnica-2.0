@@ -9,19 +9,14 @@ const HomePage = () => {
     <div>
       <h1>Web Warriors</h1>
 
-      {/* navbar */}
-
       {/* Hero banner */}
       <Banner></Banner>
       {/* companies */}
       <Companies />
       {/* categories */}
       <Categories />
-
       {/* leatest course */}
       <LatestCourses />
-
-      {/* footer */}
     </div>
   );
 };
