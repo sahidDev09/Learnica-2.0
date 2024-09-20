@@ -1,3 +1,5 @@
+import Categories from "@/components/homePage/Categories";
+import LatestCourses from "@/components/homePage/LatestCourse";
 import React from "react";
 
 const HomePage = () => {
@@ -11,7 +13,11 @@ const HomePage = () => {
 
       {/* companies */}
 
+      {/* categories */}
+      <Categories />
+      
       {/* leatest course */}
+      <LatestCourses />
 
       {/* footer */}
     </div>
