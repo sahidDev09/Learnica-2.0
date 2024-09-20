@@ -39,7 +39,7 @@ const Navbar = () => {
               alt="Logo"
               width={100}
               height={100}
-              className="w-32"
+              className="w-40"
             />
           </div>
           <div>
@@ -90,7 +90,9 @@ const Navbar = () => {
                 </a>
 
                 <Link href="/">
-                  <Button variant="destructive" className="rounded-md">SIGN IN</Button>
+                  <Button variant="destructive" className="rounded-md">
+                    SIGN IN
+                  </Button>
                 </Link>
               </ul>
             </div>
