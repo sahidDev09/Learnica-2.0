@@ -8,8 +8,6 @@ import React from "react";
 const HomePage = () => {
   return (
     <div>
-      <h1>Web Warriors</h1>
-
       {/* navbar */}
       
       {/* Hero banner */}
