@@ -8,6 +8,7 @@ import React from "react";
 const HomePage = () => {
   return (
     <div>
+    
       {/* navbar */}
       
       {/* Hero banner */}
@@ -16,11 +17,8 @@ const HomePage = () => {
       <Companies />
       {/* categories */}
       <Categories />
-
       {/* leatest course */}
       <LatestCourses />
-
-      {/* footer */}
     </div>
   );
 };
