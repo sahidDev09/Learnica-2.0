@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1,
+    "name": "coursera",
+    "location": "/assets/companies/coursera.png"
+  },
+
+  {
+    "id": 2,
+    "name": "atlassian",
+    "location": "/assets/companies/atlassian.svg"
+  },
+
+  {
+    "id": 3,
+    "name": "google",
+    "location": "/assets/companies/google.webp"
+  },
+
+  {
+    "id": 4,
+    "name": "ibm",
+    "location": "/assets/companies/ibm.png"
+  },
+
+  {
+    "id": 5,
+    "name": "meta",
+    "location": "/assets/companies/meta.svg"
+  },
+
+  {
+    "id": 6,
+    "name": "microsoft",
+    "location": "/assets/companies/microsoft.webp"
+  },
+
+  {
+    "id": 7,
+    "name": "netflix",
+    "location": "/assets/companies/netflix.png"
+  },
+
+  {
+    "id": 8,
+    "name": "udemy",
+    "location": "/assets/companies/udemy.png"
+  },
+  {
+    "id": 9,
+    "name": "intel",
+    "location": "/assets/companies/intel.png"
+  }
+]
