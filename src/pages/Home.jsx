@@ -1,5 +1,6 @@
 import Banner from "@/components/homePage/Banner";
 import Categories from "@/components/homePage/Categories";
+import CertificateSection from "@/components/homePage/CertificatesSection/CertificateSection";
 import Companies from "@/components/homePage/Companies";
 import Faq from "@/components/homePage/Faq";
 import LatestCourses from "@/components/homePage/LatestCourse";
@@ -19,6 +20,8 @@ const HomePage = () => {
       <Categories />
       {/* leatest course */}
       <LatestCourses />
+      {/* certificates */}
+      <CertificateSection></CertificateSection>
       {/* faq */}
       <Faq />
     </div>
