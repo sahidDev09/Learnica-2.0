@@ -14,7 +14,7 @@ const ReviewsCard = ({ first }) => {
                 width={100}
                 height={100}
                 className=" object-cover w-full h-full rounded-full"
-                src={"/assets/cybersecurity.jpg"}
+                src={first.userImage}
                 alt="iamge"></Image>
             </div>
             <div>
