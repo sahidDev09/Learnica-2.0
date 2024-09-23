@@ -18,7 +18,7 @@ function CourseCard({ course }) {
         <p className="text-sm">{course.authorName}, {course.authorTitle}</p>
 
         <Link
-          className="inline-block bg-primary mt-4 text-white px-4 py-2 rounded-md hover:opacity-80 transition-opacity"
+          className="inline-block bg-primary mt-4 text-white px-4 py-3 rounded-xl hover:opacity-80 transition-opacity"
           href={`/course-details/${course.id}`}>
           View Details
         </Link>
