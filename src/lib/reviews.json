@@ -1,0 +1,56 @@
+[
+  {
+    "review_text": "This platform has helped me learn at my own pace. The content is well-structured, and I love the personalized learning paths!",
+    "userImage": "/assets/reviews_user/user1.avif",
+    "name": "John Doe",
+    "username": "john_doe123"
+  },
+  {
+    "review_text": "As an instructor, the course creation tools are so easy to use. I can update my content and track student progress effortlessly.",
+    "userImage": "/assets/reviews_user/user2.jpg",
+    "name": "Alice Johnson",
+    "username": "alice_teaches"
+  },
+  {
+    "review_text": "The AI chat feature is a game-changer! It makes finding the right courses so much easier and faster.",
+    "userImage": "/assets/reviews_user/user3.jpg",
+    "name": "Robert Smith",
+    "username": "robert_smith84"
+  },
+  {
+    "review_text": "I appreciate how smooth the payment process is. I was able to enroll in my course in just a few clicks.",
+    "userImage": "/assets/reviews_user/user4.webp",
+    "name": "Emily Davis",
+    "username": "emily_learner"
+  },
+  {
+    "review_text": "The variety of courses available is impressive. I can learn anything from coding to marketing in one place!",
+    "userImage": "/assets/reviews_user/user5.jpg",
+    "name": "Michael Lee",
+    "username": "mikelee_dev"
+  },
+  {
+    "review_text": "I just love the dark mode feature! It makes learning at night so much more comfortable for my eyes.",
+    "userImage": "/assets/reviews_user/user6.jpg",
+    "name": "Sarah Wilson",
+    "username": "sarah_nights"
+  },
+  {
+    "review_text": "The course progress tracker keeps me motivated to finish each lesson. It's a great feeling to see how far I've come.",
+    "userImage": "/assets/reviews_user/user7.jpeg",
+    "name": "David Brown",
+    "username": "david_b"
+  },
+  {
+    "review_text": "Receiving a certificate after completing the course feels so rewarding! The platform has boosted my career significantly.",
+    "userImage": "/assets/reviews_user/user8.avif",
+    "name": "Jessica Green",
+    "username": "jessica_greens"
+  },
+  {
+    "review_text": "The support team is fantastic! They responded to my queries quickly, and I always feel supported when I need help.",
+    "userImage": "/assets/reviews_user/user9.webp",
+    "name": "James Anderson",
+    "username": "james_anderson_support"
+  }
+]
