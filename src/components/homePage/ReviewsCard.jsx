@@ -4,7 +4,7 @@ import React from "react";
 const ReviewsCard = ({ first }) => {
   return (
     <div>
-      <div className="card bg-[#E4E7EB] shadow-xl">
+      <div className="card bg-card shadow-md border">
         <div className="card-body">
           <p className=" text-sm">{first.review_text}</p>
 
