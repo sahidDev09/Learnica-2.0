@@ -58,6 +58,7 @@ const Navbar = () => {
                   className="duration-150 hover:border-transparent p-1  text-center  ">
                   <li>About us</li>
                 </Link>
+                
                 <Link
                   href="/contact"
                   className="duration-150 hover:border-transparent p-1 text-center">

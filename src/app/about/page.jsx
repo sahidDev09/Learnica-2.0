@@ -1,12 +1,21 @@
-import React from "react";
+import Image from 'next/image';
+import React from 'react';
+import pic from "/public/assets/about-blur.jpg";
+import logo from "/public/assets/learnicaNavlogo.png";
+import me from "/public/assets/developers/numan.jpg";
+import Link from 'next/link';
+import { FiLinkedin } from "react-icons/fi";
+import { ImGithub } from "react-icons/im";
+import { FaFacebook } from "react-icons/fa";
+
 
 const page = () => {
   return (
-    <div className="about-us-container bg-blue-50">
-      {/* Hero Section */}
-      <section className="hero bg-blue-600 py-10">
+    <div className="w-full">
+        {/* Hero Section */}
+      <section className="hero bg-blue-600 py-4 rounded-b-[70px]">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl font-bold text-white pt-16">About Us</h1>
+          <h1 className="text-3xl font-bold text-white pt-24">About Us</h1>
           <p className="mt-4 text-lg text-blue-200">
             Welcome to <strong>Learnica</strong>, a next-generation platform
             designed to simplify and enhance the online learning experience for
@@ -14,97 +23,127 @@ const page = () => {
           </p>
         </div>
       </section>
-
-      {/* Why Learnica Section */}
-      <section className="why-learnica bg-white py-10 shadow-lg">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-semibold text-blue-600">
-            Why Learnica?
-          </h2>
-          <p className="mt-4 text-gray-700">
-            Learnica stands out by offering a personalized and user-friendly
-            course management system. We provide a comprehensive environment
-            where:
-          </p>
-          <ul className="list-disc list-inside mt-4 text-gray-700 space-y-2">
-            <li>
-              <strong>Teachers:</strong> Create, update, and manage courses with
-              ease, reaching a wide audience of eager learners.
-            </li>
-            <li>
-              <strong>Students:</strong> Explore, enroll, and complete courses,
-              with the convenience of secure payments and certifications.
-            </li>
-            <li>
-              <strong>Administrators:</strong> Manage users, courses, and
-              feedback to ensure a seamless experience.
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      {/* How to Use Section */}
-      <section className="how-to-use bg-blue-100 py-10">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-semibold text-blue-600">
-            How to Use Learnica
-          </h2>
-          <p className="mt-4 text-gray-700">
-            Whether you are a student, teacher, or admin, Learnica is designed
-            to provide a smooth and efficient experience:
-          </p>
-          <ul className="list-disc list-inside mt-4 text-gray-700 space-y-2">
-            <li>
-              <strong>For Students:</strong> Browse through a wide range of
-              courses, enroll with a click, and start learning. Receive
-              certificates upon completion.
-            </li>
-            <li>
-              <strong>For Teachers:</strong> Create and manage your courses
-              easily, while interacting with students through feedback and
-              reviews.
-            </li>
-            <li>
-              <strong>For Admins:</strong> Oversee the entire platform, managing
-              users, courses, and ratings.
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      {/* Our Vision Section */}
-      <section className="vision bg-white py-10 shadow-lg">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-semibold text-blue-600">Our Vision</h2>
-          <p className="mt-4 text-gray-700">
-            We aim to revolutionize online education by providing an
-            easy-to-use, community-driven platform where learning is
-            interactive, efficient, and accessible to all.
-          </p>
-          <p className="mt-4 text-gray-700">
-            Our goal is to create a thriving educational ecosystem where
-            students, teachers, and administrators collaborate to foster growth
-            and knowledge.
+      {/* Top section */}
+      <div className="flex flex-col lg:flex-row justify-between gap-8 lg:gap-12 px-6 lg:px-16 mt-16 mb-12">
+        <div className="p-6 border-2 w-full lg:w-[600px] h-auto lg:h-[600px] rounded-2xl bg-slate-400">
+          <h2 className="font-bold text-red-500">How it started</h2>
+          <h1 className="pt-8 text-3xl lg:text-6xl font-bold">Our Dream is <br /> Global Learning <br /> Platform</h1>
+          <p className="mt-8 lg:mt-24 mb-10 lg:mb-32 font-bold">
+            We aim to revolutionize online education by providing an easy-to-use, community-driven platform where learning is interactive, efficient, and accessible to all.
+            Our goal is to create a thriving educational ecosystem where students, teachers, and administrators collaborate to foster growth and knowledge.
           </p>
         </div>
-      </section>
 
-      {/* Our Achievements Section */}
-      <section className="achievements bg-blue-100 py-10">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-semibold text-blue-600">
-            Our Achievements
-          </h2>
-          <p className="mt-4 text-gray-700">
-            We’re proud of the positive impact Learnica has made since its
-            launch. Our platform has become a go-to for students and instructors
-            alike, offering a range of features designed to foster educational
-            growth and engagement.
-          </p>
+        <div className="flex flex-col gap-6 mt-4">
+          {/* Image 1 */}
+          <div
+            className="w-full h-[200px] lg:w-[600px] lg:h-[270px] bg-center bg-no-repeat bg-cover rounded-2xl"
+            style={{
+              backgroundImage: "url(/assets/about-blur.jpg)",
+              backgroundSize: 'cover',
+            }}
+          >
+            <Image className="pt-28 ml-20 pl-4" src={logo} alt='' />
+          </div>
+          {/* Image 2 */}
+          <div className="w-full h-[200px] lg:w-[600px] lg:h-[270px]">
+            <Image className="w-full h-full rounded-2xl object-cover" src={pic} alt='' />
+          </div>
         </div>
-      </section>
+      </div>
+    
 
-     
+      {/* Team Section */}
+      <h2 className="font-bold text-red-500 px-6 lg:px-16 mt-10 lg:mt-20 mb-6">How it started</h2>
+      <h1 className="px-6 lg:px-16 text-3xl lg:text-6xl font-bold">Meet Our Dedicated Team of <br /> Learnica and Innovators</h1>
+
+      {/* Developer Cards */}
+      <div className="container mx-auto py-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-6 lg:px-16">
+          {/* Developer Card 1 */}
+          <div className="relative group w-full h-[450px] lg:h-[550px] overflow-hidden shadow-lg bg-white flex items-end p-6 transition-transform transform hover:-translate-y-3 rounded-2xl">
+            <Image
+              alt="Numan Ahmod"
+              src={me}
+              layout="fill"
+              objectFit="cover"
+              className="absolute inset-0 z-0"
+            />
+            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
+            <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
+              <h1 className="text-2xl font-bold">Numan Ahmod</h1>
+              <p className="mt-2 text-green-500 font-bold">A junior web developer</p>
+              <div className="flex text-2xl mt-4 gap-6">
+                <Link href={`https://www.linkedin.com/in/numan-ahmod`}><FiLinkedin /></Link>
+                <Link href={`https://github.com/numanahmod`}><ImGithub /></Link>
+                <Link href={`https://www.facebook.com/numan12321`}><FaFacebook /></Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Developer Card 2 */}
+          <div className="relative group w-full h-[450px] lg:h-[550px] overflow-hidden shadow-lg bg-white flex items-end p-6 transition-transform transform hover:-translate-y-3 rounded-2xl">
+            <Image
+              alt="Numan Ahmod"
+              src={me}
+              layout="fill"
+              objectFit="cover"
+              className="absolute inset-0 z-0"
+            />
+            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
+            <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
+              <h1 className="text-2xl font-bold">Numan Ahmod</h1>
+              <p className="mt-2 text-green-500 font-bold">A junior web developer</p>
+              <div className="flex text-2xl mt-4 gap-6">
+                <Link href={`https://www.linkedin.com/in/numan-ahmod`}><FiLinkedin /></Link>
+                <Link href={`https://github.com/numanahmod`}><ImGithub /></Link>
+                <Link href={`https://www.facebook.com/numan12321`}><FaFacebook /></Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Developer Card 3 */}
+          <div className="relative group w-full h-[450px] lg:h-[550px] overflow-hidden shadow-lg bg-white flex items-end p-6 transition-transform transform hover:-translate-y-3 rounded-2xl">
+            <Image
+              alt="Numan Ahmod"
+              src={me}
+              layout="fill"
+              objectFit="cover"
+              className="absolute inset-0 z-0"
+            />
+            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
+            <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
+              <h1 className="text-2xl font-bold">Numan Ahmod</h1>
+              <p className="mt-2 text-green-500 font-bold">A junior web developer</p>
+              <div className="flex text-2xl mt-4 gap-6">
+                <Link href={`https://www.linkedin.com/in/numan-ahmod`}><FiLinkedin /></Link>
+                <Link href={`https://github.com/numanahmod`}><ImGithub /></Link>
+                <Link href={`https://www.facebook.com/numan12321`}><FaFacebook /></Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Our Goal Section */}
+      <div className="flex flex-col lg:flex-row justify-between gap-6 px-6 lg:px-16 py-10">
+        <div className="object-cover rounded-2xl w-full lg:w-[590px] h-[300px] bg-green-200 p-8">
+          <h3 className="text-red-400 text-xl font-bold">Our Goal</h3>
+          <h1 className="text-2xl lg:text-4xl font-bold mt-6">Empowering Lives <br /> Through Education</h1>
+          <p className="mt-6 font-bold">Our goal is to create a thriving educational ecosystem where students, teachers, and administrators collaborate to foster growth and knowledge.</p>
+        </div>
+        <div className="object-cover rounded-2xl w-full lg:w-[590px] lg:h-[300px] bg-green-200 p-8">
+          <h2 className="text-red-400 text-2xl font-bold">Why you choose us...</h2>
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <p className="bg-white font-bold p-[2px] rounded-sm pl-2 text-slate-400">Learning from home</p>
+            <p className="bg-white font-bold p-[2px] rounded-sm pl-2 text-slate-400">Professional certificate</p>
+            <p className="bg-white font-bold p-[2px] rounded-sm pl-2 text-slate-400">Financial aid support</p>
+            <p className="bg-white font-bold p-[2px] rounded-sm pl-2 text-slate-400">Affordable courses</p>
+            <p className="bg-white font-bold p-[2px] rounded-sm pl-2 text-slate-400">24/7 live supports</p>
+            <p className="bg-white font-bold p-[2px] rounded-sm pl-2 text-slate-400">200+ free courses</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
