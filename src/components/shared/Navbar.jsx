@@ -3,35 +3,21 @@
 import { IoMdMenu } from "react-icons/io";
 import { RxCross1 } from "react-icons/rx";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DarkModeLogo from "../../../public/assets/learnicaNavlogo.png";
 import Link from "next/link";
 import { Button } from "../ui/button";
 
 const Navbar = () => {
   const [openMenu, setOpenMenu] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
 
   const handleOpenMenu = () => setOpenMenu(true);
   const handleCloseMenu = () => setOpenMenu(false);
 
-  const handleScroll = () => setScrollY(window.scrollY);
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   return (
     <nav className="max-w-screen-xl">
       <div
-        className={`fixed z-20 top-0 w-full ${
-          scrollY > 1
-            ? "bg-[#3B8BFF] text-white shadow-lg"
-            : "bg-transparent text-white"
-        } dark:bg-black duration-500`}>
+        className={`fixed z-20 top-0 w-full bg-blue-500 text-white shadow-lg dark:bg-black`}>
         <div className="rounded-b-2xl flex mx-auto justify-between items-center py-3 md:py-5 px-10">
           <div>
             <Image
@@ -50,12 +36,12 @@ const Navbar = () => {
               <ul className="font-semibold flex gap-6">
                 <Link
                   href="/"
-                  className="duration-150 hover:border-transparent  text-center  p-1 ">
+                  className="duration-150 hover:border-transparent text-center p-1 ">
                   <li>Home</li>
                 </Link>
                 <Link
                   href="/about"
-                  className="duration-150 hover:border-transparent p-1  text-center  ">
+                  className="duration-150 hover:border-transparent p-1 text-center">
                   <li>About us</li>
                 </Link>
                 <Link
@@ -63,7 +49,7 @@ const Navbar = () => {
                   className="duration-150 hover:border-transparent p-1 text-center">
                   <li>Contact Us</li>
                 </Link>
-                <a href="#services" className="duration-150 p-1 ">
+                <a href="#services" className="duration-150 p-1">
                   <li>
                     <label className="swap swap-rotate">
                       <input
@@ -113,18 +99,16 @@ const Navbar = () => {
         <div
           className={`${!openMenu ? "hidden" : "block"} flex justify-center`}>
           <ul className="flex flex-col text-center gap-5 text-white">
-            <li className="cursor-pointer hover:text-[#D01D3F] duration-300">
+            <Link href="/" className="cursor-pointer">
               Home
-            </li>
-            <li className="cursor-pointer hover:text-[#D01D3F] duration-300">
-              All Courses
-            </li>
-            <li className="cursor-pointer hover:text-[#D01D3F] duration-300">
+            </Link>
+            <Link href="/about" className="cursor-pointer">
+              About us
+            </Link>
+            <Link href="/contact" className="cursor-pointer">
               Contact Us
-            </li>
-            <li className="cursor-pointer hover:text-[#D01D3F] duration-300">
-              Sign In
-            </li>
+            </Link>
+            <li className="cursor-pointer">Sign In</li>
           </ul>
         </div>
       </div>
