@@ -4,6 +4,7 @@ import CertificateSection from "@/components/homePage/CertificatesSection/Certif
 import Companies from "@/components/homePage/Companies";
 import Faq from "@/components/homePage/Faq";
 import LatestCourses from "@/components/homePage/LatestCourse";
+import Reviews from "@/components/homePage/Reviews";
 
 import React from "react";
 
@@ -22,6 +23,10 @@ const HomePage = () => {
       <LatestCourses />
       {/* certificates */}
       <CertificateSection></CertificateSection>
+      {/* Reviews */}
+
+      <Reviews />
+
       {/* faq */}
       <Faq />
     </div>

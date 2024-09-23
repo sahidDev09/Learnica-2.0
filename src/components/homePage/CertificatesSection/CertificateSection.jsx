@@ -11,7 +11,7 @@ const CertificateSection = () => {
 
     return (
         <div>
-            <div className="bg-blue-100 lg:h-[550px] container mx-auto rounded-2xl">
+            <div className="bg-card lg:h-[550px] container mx-auto rounded-2xl">
                 {/* 3part */}
                 <div className="lg:flex grid lg:gap-x-10 gap-y-5 py-20 px-10">
                     {/* 1st part */}
