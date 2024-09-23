@@ -15,10 +15,10 @@ const Navbar = () => {
   const handleCloseMenu = () => setOpenMenu(false);
 
   return (
-    <nav className="max-w-screen-xl">
+    <nav className="min-w-screen-xl">
       <div
-        className={`fixed z-20 top-0 w-full bg-blue-500 text-white shadow-lg dark:bg-black`}>
-        <div className="rounded-b-2xl flex mx-auto justify-between items-center py-3 md:py-5 px-10">
+        className={` sticky z-20 top-0 w-full bg-secondary text-white dark:bg-black`}>
+        <div className="rounded-b-2xl flex mx-auto justify-between items-center py-2 md:py-5 px-10">
           <div>
             <Image
               src={DarkModeLogo}
@@ -99,18 +99,16 @@ const Navbar = () => {
         <div
           className={`${!openMenu ? "hidden" : "block"} flex justify-center`}>
           <ul className="flex flex-col text-center gap-5 text-white">
-            <li className="cursor-pointer">
+            <Link href="/" className="cursor-pointer">
               Home
-            </li>
-            <li className="cursor-pointer">
-              All Courses
-            </li>
-            <li className="cursor-pointer">
+            </Link>
+            <Link href="/about" className="cursor-pointer">
+              About us
+            </Link>
+            <Link href="/contact" className="cursor-pointer">
               Contact Us
-            </li>
-            <li className="cursor-pointer">
-              Sign In
-            </li>
+            </Link>
+            <li className="cursor-pointer">Sign In</li>
           </ul>
         </div>
       </div>
