@@ -32,7 +32,7 @@ const Reviews = () => {
             translateY: "-50%",
           }}
           transition={{
-            duration: 10,
+            duration: 5,
             repeat: Infinity,
             ease: "linear",
             repeatType: "loop",
@@ -55,7 +55,7 @@ const Reviews = () => {
             translateY: "-50%",
           }}
           transition={{
-            duration: 19,
+            duration: 15,
             repeat: Infinity,
             ease: "linear",
             repeatType: "loop",
@@ -78,7 +78,7 @@ const Reviews = () => {
             translateY: "-50%",
           }}
           transition={{
-            duration: 17,
+            duration: 9,
             repeat: Infinity,
             ease: "linear",
             repeatType: "loop",
