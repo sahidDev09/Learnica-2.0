@@ -15,10 +15,10 @@ const Navbar = () => {
   const handleCloseMenu = () => setOpenMenu(false);
 
   return (
-    <nav className="max-w-screen-xl">
+    <nav className="min-w-screen-xl">
       <div
-        className={`fixed z-20 top-0 w-full bg-blue-500 text-white shadow-lg dark:bg-black`}>
-        <div className="rounded-b-2xl flex mx-auto justify-between items-center py-3 md:py-5 px-10">
+        className={` sticky z-20 top-0 w-full bg-secondary text-white dark:bg-black`}>
+        <div className="rounded-b-2xl flex mx-auto justify-between items-center py-2 md:py-5 px-10">
           <div>
             <Image
               src={DarkModeLogo}
