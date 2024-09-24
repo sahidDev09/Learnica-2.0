@@ -76,7 +76,7 @@ const Navbar = () => {
                   </li>
                 </a>
 
-                <Link href="/">
+                <Link href="/signup">
                   <Button variant="destructive" className="rounded-md">
                     SIGN IN
                   </Button>
