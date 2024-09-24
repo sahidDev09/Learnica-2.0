@@ -2,6 +2,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
+import { ReactLenis } from "/src/lib/lenis.jsx";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -22,14 +23,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Navbar></Navbar>
-        {children}
-
-        {/* footer */}
-        <Footer></Footer>
-      </body>
+      <ReactLenis root>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+          <Navbar></Navbar>
+          {children}
+          {/* footer */}
+          <Footer></Footer>
+        </body>
+      </ReactLenis>
     </html>
   );
 }
