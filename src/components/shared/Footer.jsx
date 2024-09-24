@@ -3,7 +3,7 @@ import logo from "/public/assets/learnicaNavlogo.png";
 
 const Footer = () => {
   return (
-    <footer className=" bg-secondary dark:bg-gray-900 text-white ">
+    <footer className=" bg-secondary dark:bg-gray-900 text-white rounded-t-3xl">
       <div className="container flex flex-col items-center justify-between p-6 mx-auto space-y-4 sm:space-y-0 sm:flex-row">
         <a href="#">
           <Image
