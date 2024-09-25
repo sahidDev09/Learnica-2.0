@@ -67,11 +67,13 @@ function LatestCourses() {
           ))}
         </div>
 
-        <Link
-          className="inline-block bg-primary mt-8 text-white px-6 py-3 rounded-full hover:opacity-80 transition-opacity"
-          href="/all-courses">
-          View all
-        </Link>
+        <div className="mt-8 flex justify-center">
+          <Link
+            className="inline-block bg-primary text-white px-8 py-3 rounded-full shadow-md hover:opacity-80 transition-opacity"
+            href="/all-courses">
+            View all
+          </Link>
+        </div>
       </div>
     </section>
   );
