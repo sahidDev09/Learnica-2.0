@@ -2,7 +2,11 @@ import Image from "next/image";
 import React from "react";
 import bandImage from "/public/assets/aboutBrandimage.png";
 import googleMap from "/public/assets/google.jpg.webp";
-import me from "/public/assets/developers/numan.jpg";
+import me from "/public/assets/team-members/numan.png";
+import sahid from "/public/assets/team-members/sahid.png";
+import rahat from "/public/assets/team-members/rahat.png";
+import farha from "/public/assets/team-members/farha.png";
+import mazed from "/public/assets/team-members/mazed.png";
 import Link from "next/link";
 import { FiLinkedin } from "react-icons/fi";
 import { ImGithub } from "react-icons/im";
@@ -62,10 +66,10 @@ const page = () => {
           <div className="relative group w-full h-[450px] lg:h-[550px] overflow-hidden shadow-lg bg-white flex items-end p-6 transition-transform transform hover:-translate-y-3 rounded-2xl">
             <Image
               alt="Numan Ahmod"
-              src={me}
+              src={sahid}
               layout="fill"
               objectFit="cover"
-              className="absolute inset-0 z-0"
+              className="absolute inset-0 z-0 bg-blue-400"
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
             <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
@@ -73,14 +77,18 @@ const page = () => {
               <p className="mt-2 text-green-500 font-bold">
                 A junior web developer
               </p>
+              <a href="tel:+8801601321799" className="text-orange-400 hover:text-orange-500"> +880 1601 321 799 </a>
+              <a className="  text-blue-500 font-bold hover:text-blue-600" href="mailto:iamsahidofficial99@gmail.com">iamsahidofficial99@gmail.com
+               </a>
+              <div className="flex text-2xl mt-4 gap-6"></div>
               <div className="flex text-2xl mt-4 gap-6">
-                <Link href={`https://www.linkedin.com/in/numan-ahmod`}>
+                <Link className="text-pink-500 hover:text-[#0A66C2]" href={`https://www.linkedin.com/in/numan-ahmod`}>
                   <FiLinkedin />
                 </Link>
-                <Link href={`https://github.com/numanahmod`}>
+                <Link className="text-white hover:text-gray-500 transition-colors duration-300" href={`https://github.com/numanahmod`}>
                   <ImGithub />
                 </Link>
-                <Link href={`https://www.facebook.com/Sm.sahid99`}>
+                <Link className="text-[#1877F2] hover:text-[#0E55A4] transition-colors duration-300" href={`https://www.facebook.com/Sm.sahid99`}>
                   <FaFacebook />
                 </Link>
               </div>
@@ -94,7 +102,7 @@ const page = () => {
               src={me}
               layout="fill"
               objectFit="cover"
-              className="absolute inset-0 z-0"
+              className="absolute inset-0 z-0 bg-blue-400"
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
             <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
@@ -102,14 +110,17 @@ const page = () => {
               <p className="mt-2 text-green-500 font-bold">
                 A junior web developer
               </p>
+              <a href="tel:+8801743888019" className="text-orange-400 hover:text-orange-500"> +880 1743 888 019 </a>
+
+              <a className="  text-blue-500 font-bold hover:text-blue-600" href="mailto:numanahmod96@gmail.com">numanahmod96@gmail.com</a>
               <div className="flex text-2xl mt-4 gap-6">
-                <Link href={`https://www.linkedin.com/in/numan-ahmod`}>
+                <Link className="text-pink-500 hover:text-[#0A66C2]" href={`https://www.linkedin.com/in/numan-ahmod`}>
                   <FiLinkedin />
                 </Link>
-                <Link href={`https://github.com/numanahmod`}>
+                <Link className="text-white hover:text-gray-500 transition-colors duration-300" href={`https://github.com/numanahmod`}>
                   <ImGithub />
                 </Link>
-                <Link href={`https://www.facebook.com/numan12321`}>
+                <Link className="text-[#1877F2] hover:text-[#0E55A4] transition-colors duration-300" href={`https://www.facebook.com/numan12321`}>
                   <FaFacebook />
                 </Link>
               </div>
@@ -120,10 +131,10 @@ const page = () => {
           <div className="relative group w-full h-[450px] lg:h-[550px] overflow-hidden shadow-lg bg-white flex items-end p-6 transition-transform transform hover:-translate-y-3 rounded-2xl">
             <Image
               alt="Numan Ahmod"
-              src={me}
+              src={rahat}
               layout="fill"
               objectFit="cover"
-              className="absolute inset-0 z-0"
+              className="absolute inset-0 z-0 bg-blue-400"
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
             <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
@@ -131,14 +142,18 @@ const page = () => {
               <p className="mt-2 text-green-500 font-bold">
                 A junior web developer
               </p>
+              <a href="tel:+8801874627950" className="text-orange-400 hover:text-orange-500"> +880 1874 627 950 </a>
+              <a className="  text-blue-500 font-bold hover:text-blue-600" href="mailto:rahatfaruk99@gmail.com">rahatfaruk99@gmail.com
+               </a>
+              <div className="flex text-2xl mt-4 gap-6"></div>
               <div className="flex text-2xl mt-4 gap-6">
-                <Link href={`https://www.linkedin.com/in/numan-ahmod`}>
+                <Link className="text-pink-500 hover:text-[#0A66C2]" href={`https://www.linkedin.com/in/numan-ahmod`}>
                   <FiLinkedin />
                 </Link>
-                <Link href={`https://github.com/numanahmod`}>
+                <Link className="text-white hover:text-gray-500 transition-colors duration-300" href={`https://github.com/numanahmod`}>
                   <ImGithub />
                 </Link>
-                <Link href={` https://www.facebook.com/rahatfaruk12/`}>
+                <Link className="text-[#1877F2] hover:text-[#0E55A4] transition-colors duration-300" href={` https://www.facebook.com/rahatfaruk12/`}>
                   <FaFacebook />
                 </Link>
               </div>
@@ -148,10 +163,10 @@ const page = () => {
           <div className="relative group w-full h-[450px] lg:h-[550px] overflow-hidden shadow-lg bg-white flex items-end p-6 transition-transform transform hover:-translate-y-3 rounded-2xl">
             <Image
               alt="Numan Ahmod"
-              src={me}
+              src={mazed}
               layout="fill"
               objectFit="cover"
-              className="absolute inset-0 z-0"
+              className="absolute inset-0 z-0 bg-blue-400"
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
             <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
@@ -159,14 +174,18 @@ const page = () => {
               <p className="mt-2 text-green-500 font-bold">
                 A junior web developer
               </p>
+              <a href="tel:+8801640403998" className="text-orange-400 hover:text-orange-500"> +880 1640 403 998 </a>
+              <a className="  text-blue-500 font-bold hover:text-blue-600" href="mailto:mamazed1314@gmail.com">mamazed1314@gmail.com
+              </a>
+              <div className="flex text-2xl mt-4 gap-6"></div>
               <div className="flex text-2xl mt-4 gap-6">
-                <Link href={`https://www.linkedin.com/in/numan-ahmod`}>
+                <Link className="text-pink-500 hover:text-[#0A66C2]" href={`https://www.linkedin.com/in/numan-ahmod`}>
                   <FiLinkedin />
                 </Link>
-                <Link href={`https://github.com/numanahmod`}>
+                <Link className="text-white hover:text-gray-500 transition-colors duration-300" href={`https://github.com/numanahmod`}>
                   <ImGithub />
                 </Link>
-                <Link href={`https://www.facebook.com/profile.php?id=100081633703122`}>
+                <Link className="text-[#1877F2] hover:text-[#0E55A4] transition-colors duration-300" href={`https://www.facebook.com/profile.php?id=100081633703122`}>
                   <FaFacebook />
                 </Link>
               </div>
@@ -176,10 +195,10 @@ const page = () => {
           <div className="relative group w-full h-[450px] lg:h-[550px] overflow-hidden shadow-lg bg-white flex items-end p-6 transition-transform transform hover:-translate-y-3 rounded-2xl">
             <Image
               alt="Numan Ahmod"
-              src={me}
+              src={farha}
               layout="fill"
               objectFit="cover"
-              className="absolute inset-0 z-0"
+              className="absolute inset-0 z-0 bg-blue-400"
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
             <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
@@ -187,47 +206,23 @@ const page = () => {
               <p className="mt-2 text-green-500 font-bold">
                 A junior web developer
               </p>
+              <a href="tel:+8801791237034" className="text-orange-400 hover:text-orange-500"> +880 1791 237 034 </a>
+              <a className="  text-blue-500 font-bold hover:text-blue-600" href="mailto:numanahmod96@gmail.com">sabikunnaharfarha01@gmail.com</a>
+              <div className="flex text-2xl mt-4 gap-6"></div>
               <div className="flex text-2xl mt-4 gap-6">
-                <Link href={`https://www.linkedin.com/in/numan-ahmod`}>
+                <Link className="text-pink-500 hover:text-[#0A66C2]" href={`https://www.linkedin.com/in/numan-ahmod`}>
                   <FiLinkedin />
                 </Link>
-                <Link href={`https://github.com/numanahmod`}>
+                <Link className="text-white hover:text-gray-500 transition-colors duration-300" href={`https://github.com/numanahmod`}>
                   <ImGithub />
                 </Link>
-                <Link href={`https://www.facebook.com/faiza.islam.79274089?mibextid=ZbWKwL`}>
+                <Link className="text-[#1877F2] hover:text-[#0E55A4] transition-colors duration-300" href={`https://www.facebook.com/faiza.islam.79274089?mibextid=ZbWKwL`}>
                   <FaFacebook />
                 </Link>
               </div>
             </div>
           </div>
-          {/* Developer Card 6 */}
-          <div className="relative group w-full h-[450px] lg:h-[550px] overflow-hidden shadow-lg bg-white flex items-end p-6 transition-transform transform hover:-translate-y-3 rounded-2xl">
-            <Image
-              alt="Numan Ahmod"
-              src={me}
-              layout="fill"
-              objectFit="cover"
-              className="absolute inset-0 z-0"
-            />
-            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
-            <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
-              <h1 className="text-2xl font-bold uppercase">Boni Amin Shawon</h1>
-              <p className="mt-2 text-green-500 font-bold">
-                A junior web developer
-              </p>
-              <div className="flex text-2xl mt-4 gap-6">
-                <Link href={`https://www.linkedin.com/in/numan-ahmod`}>
-                  <FiLinkedin />
-                </Link>
-                <Link href={`https://github.com/numanahmod`}>
-                  <ImGithub />
-                </Link>
-                <Link href={`https://www.facebook.com/mdboni.amin.71271`}>
-                  <FaFacebook />
-                </Link>
-              </div>
-            </div>
-          </div>
+          
         </div>
       </div>
 
