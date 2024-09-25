@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FaTags } from "react-icons/fa";
+import Courses from "./Courses";
 
 const page = () => {
   const categories = [
@@ -11,19 +12,20 @@ const page = () => {
     { id: "6", category: "UX/UI" },
     { id: "7", category: "development" },
   ];
+
   return (
-    <div className="bg-card">
-      <div className="container mx-auto ">
+    <div className="bg-card px-4">
+      <div className="max-w-screen-xl mx-auto">
+        <header className="text-center md:text-left py-6">
+          <h2 className="text-3xl md:text-4xl font-bold">All Courses</h2>
+        </header>
+
         {/* categories and search part */}
         <div className="lg:flex justify-between">
           {/* Categories */}
           <div>
-            <section className="px-4 p-8 md:py-8">
-              <div className="">
-                <header className="mb-6 text-center md:text-left">
-                  <h2 className="text-xl md:text-2xl font-bold">Categories:</h2>
-                </header>
-
+            <section>
+              <div>
                 <div className="flex gap-4 flex-wrap">
                   {categories.map((cat) => (
                     <Link
@@ -43,7 +45,7 @@ const page = () => {
             <label className="input rounded-3xl  border-transparent flex items-center gap-2">
               <input
                 type="text"
-                className="lg:w-80  text-gray-300"
+                className="lg:w-80  text-gray-300 flex-1"
                 placeholder="Search Something....."
               />
               <svg
@@ -61,6 +63,9 @@ const page = () => {
           </div>
         </div>
       </div>
+
+      {/* all courses */}
+      <Courses />
     </div>
   );
 };
