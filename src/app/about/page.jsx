@@ -69,7 +69,7 @@ const page = () => {
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
             <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
-              <h1 className="text-2xl font-bold">Numan Ahmod</h1>
+              <h1 className="text-2xl font-bold uppercase">MD ABU SAHID</h1>
               <p className="mt-2 text-green-500 font-bold">
                 A junior web developer
               </p>
@@ -80,7 +80,7 @@ const page = () => {
                 <Link href={`https://github.com/numanahmod`}>
                   <ImGithub />
                 </Link>
-                <Link href={`https://www.facebook.com/numan12321`}>
+                <Link href={`https://www.facebook.com/Sm.sahid99`}>
                   <FaFacebook />
                 </Link>
               </div>
@@ -98,7 +98,7 @@ const page = () => {
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
             <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
-              <h1 className="text-2xl font-bold">Numan Ahmod</h1>
+              <h1 className="text-2xl font-bold uppercase">Numan Ahmod</h1>
               <p className="mt-2 text-green-500 font-bold">
                 A junior web developer
               </p>
@@ -127,7 +127,7 @@ const page = () => {
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
             <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
-              <h1 className="text-2xl font-bold">Numan Ahmod</h1>
+              <h1 className="text-2xl font-bold uppercase">Rahat Faruk</h1>
               <p className="mt-2 text-green-500 font-bold">
                 A junior web developer
               </p>
@@ -138,7 +138,91 @@ const page = () => {
                 <Link href={`https://github.com/numanahmod`}>
                   <ImGithub />
                 </Link>
-                <Link href={`https://www.facebook.com/numan12321`}>
+                <Link href={` https://www.facebook.com/rahatfaruk12/`}>
+                  <FaFacebook />
+                </Link>
+              </div>
+            </div>
+          </div>
+          {/* Developer Card 4 */}
+          <div className="relative group w-full h-[450px] lg:h-[550px] overflow-hidden shadow-lg bg-white flex items-end p-6 transition-transform transform hover:-translate-y-3 rounded-2xl">
+            <Image
+              alt="Numan Ahmod"
+              src={me}
+              layout="fill"
+              objectFit="cover"
+              className="absolute inset-0 z-0"
+            />
+            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
+            <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
+              <h1 className="text-2xl font-bold uppercase">Mohammad Abdul Mazed</h1>
+              <p className="mt-2 text-green-500 font-bold">
+                A junior web developer
+              </p>
+              <div className="flex text-2xl mt-4 gap-6">
+                <Link href={`https://www.linkedin.com/in/numan-ahmod`}>
+                  <FiLinkedin />
+                </Link>
+                <Link href={`https://github.com/numanahmod`}>
+                  <ImGithub />
+                </Link>
+                <Link href={`https://www.facebook.com/profile.php?id=100081633703122`}>
+                  <FaFacebook />
+                </Link>
+              </div>
+            </div>
+          </div>
+          {/* Developer Card 5 */}
+          <div className="relative group w-full h-[450px] lg:h-[550px] overflow-hidden shadow-lg bg-white flex items-end p-6 transition-transform transform hover:-translate-y-3 rounded-2xl">
+            <Image
+              alt="Numan Ahmod"
+              src={me}
+              layout="fill"
+              objectFit="cover"
+              className="absolute inset-0 z-0"
+            />
+            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
+            <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
+              <h1 className="text-2xl font-bold uppercase"> Nahar Farha</h1>
+              <p className="mt-2 text-green-500 font-bold">
+                A junior web developer
+              </p>
+              <div className="flex text-2xl mt-4 gap-6">
+                <Link href={`https://www.linkedin.com/in/numan-ahmod`}>
+                  <FiLinkedin />
+                </Link>
+                <Link href={`https://github.com/numanahmod`}>
+                  <ImGithub />
+                </Link>
+                <Link href={`https://www.facebook.com/faiza.islam.79274089?mibextid=ZbWKwL`}>
+                  <FaFacebook />
+                </Link>
+              </div>
+            </div>
+          </div>
+          {/* Developer Card 6 */}
+          <div className="relative group w-full h-[450px] lg:h-[550px] overflow-hidden shadow-lg bg-white flex items-end p-6 transition-transform transform hover:-translate-y-3 rounded-2xl">
+            <Image
+              alt="Numan Ahmod"
+              src={me}
+              layout="fill"
+              objectFit="cover"
+              className="absolute inset-0 z-0"
+            />
+            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
+            <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
+              <h1 className="text-2xl font-bold uppercase">Boni Amin Shawon</h1>
+              <p className="mt-2 text-green-500 font-bold">
+                A junior web developer
+              </p>
+              <div className="flex text-2xl mt-4 gap-6">
+                <Link href={`https://www.linkedin.com/in/numan-ahmod`}>
+                  <FiLinkedin />
+                </Link>
+                <Link href={`https://github.com/numanahmod`}>
+                  <ImGithub />
+                </Link>
+                <Link href={`https://www.facebook.com/mdboni.amin.71271`}>
                   <FaFacebook />
                 </Link>
               </div>
@@ -160,7 +244,7 @@ const page = () => {
             and knowledge.
           </p>
         </div>
-        <div className="object-cover rounded-2xl w-full lg:w-[590px] lg:h-[300px]  p-8">
+        <div className="object-cover bg-orange-200 rounded-2xl w-full lg:w-[590px] lg:h-[300px]  p-8">
           <h2 className="text-red-400 text-2xl font-bold">
             Why you choose us...
           </h2>
