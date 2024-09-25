@@ -20,7 +20,7 @@ const page = () => {
             <div className="lg:flex justify-between">
                 {/* Categories */}
                 <div>
-                <section className="px-4 p-8 md:py-12">
+                <section className="px-4 p-8 md:py-8">
       <div className="">
         <header className="mb-6 text-center md:text-left">
           <h2 className="text-3xl md:text-3xl font-bold">Categories:</h2>
@@ -38,7 +38,7 @@ const page = () => {
     </section>
                 </div>
                 {/* search */}
-                <div className="px-4 p-8 md:mt-20">
+                <div className="px-4 p-8 md:mt-10">
                 <label className="input rounded-3xl  border-transparent flex items-center gap-2">
   <input type="text" className="lg:w-80  text-gray-300" placeholder="Search Something....." />
   <svg
