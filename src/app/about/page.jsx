@@ -11,6 +11,7 @@ import Link from "next/link";
 import { FiLinkedin } from "react-icons/fi";
 import { ImGithub } from "react-icons/im";
 import { FaFacebook } from "react-icons/fa";
+import Faq from "@/components/homePage/Faq";
 
 const page = () => {
   return (
@@ -73,9 +74,12 @@ const page = () => {
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
             <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
-              <h1 className="text-2xl font-bold uppercase">MD ABU SAHID</h1>
+              <h1 className="text-2xl font-bold uppercase">
+                MD ABU SAHID{" "}
+                <span className=" text-sm capitalize">(Team Leader)</span>
+              </h1>
               <p className="mt-2 text-green-500 font-bold">
-                A junior web developer
+                MERN Stack developer && UI/UX designer
               </p>
               <a
                 href="tel:+8801601321799"
@@ -116,7 +120,7 @@ const page = () => {
               src={me}
               layout="fill"
               objectFit="cover"
-              className="absolute inset-0 z-0 bg-blue-400"
+              className="absolute inset-0 z-0 bg-card"
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
             <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
@@ -163,7 +167,7 @@ const page = () => {
               src={rahat}
               layout="fill"
               objectFit="cover"
-              className="absolute inset-0 z-0 bg-blue-400"
+              className="absolute inset-0 z-0 bg-card"
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
             <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
@@ -209,7 +213,7 @@ const page = () => {
               src={mazed}
               layout="fill"
               objectFit="cover"
-              className="absolute inset-0 z-0 bg-blue-400"
+              className="absolute inset-0 z-0 bg-card"
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
             <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
@@ -257,7 +261,53 @@ const page = () => {
               src={farha}
               layout="fill"
               objectFit="cover"
-              className="absolute inset-0 z-0 bg-blue-400"
+              className="absolute inset-0 z-0 bg-card"
+            />
+            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
+            <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
+              <h1 className="text-2xl font-bold uppercase"> Farha</h1>
+              <p className="mt-2 text-green-500 font-bold">
+                A junior web developer
+              </p>
+              <a
+                href="tel:+8801791237034"
+                className="text-orange-400 hover:text-orange-500">
+                {" "}
+                +880 1791 237 034{" "}
+              </a>
+              <a
+                className="  text-blue-500 font-bold hover:text-blue-600"
+                href="mailto:numanahmod96@gmail.com">
+                sabikunnaharfarha01@gmail.com
+              </a>
+              <div className="flex text-2xl mt-4 gap-6"></div>
+              <div className="flex text-2xl mt-4 gap-6">
+                <Link
+                  className="text-pink-500 hover:text-[#0A66C2]"
+                  href={`https://www.linkedin.com/in/numan-ahmod`}>
+                  <FiLinkedin />
+                </Link>
+                <Link
+                  className="text-white hover:text-gray-500 transition-colors duration-300"
+                  href={`https://github.com/numanahmod`}>
+                  <ImGithub />
+                </Link>
+                <Link
+                  className="text-[#1877F2] hover:text-[#0E55A4] transition-colors duration-300"
+                  href={`https://www.facebook.com/faiza.islam.79274089?mibextid=ZbWKwL`}>
+                  <FaFacebook />
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative group w-full h-[450px] lg:h-[550px] overflow-hidden shadow-lg bg-white flex items-end p-6 transition-transform transform hover:-translate-y-3 rounded-2xl">
+            <Image
+              alt="Numan Ahmod"
+              src={farha}
+              layout="fill"
+              objectFit="cover"
+              className="absolute inset-0 z-0 bg-card object-cover"
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
             <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
@@ -300,8 +350,8 @@ const page = () => {
       </div>
 
       {/* Our Goal Section */}
-      <div className="flex flex-col lg:flex-row justify-between gap-6 px-6 lg:px-16 py-10">
-        <div className="object-cover rounded-2xl w-full lg:w-[590px] h-[300px] bg-card p-8">
+      <div className="flex flex-col lg:flex-row justify-between gap-6 py-10">
+        <div className="object-cover rounded-2xl w-full h-[300px] bg-card p-8">
           <h3 className="text-red-400 text-xl font-bold">Our Goal</h3>
           <h1 className="text-2xl lg:text-4xl font-bold mt-6">
             Empowering Lives <br /> Through Education
@@ -312,32 +362,34 @@ const page = () => {
             and knowledge.
           </p>
         </div>
-        <div className="object-cover bg-card rounded-2xl w-full lg:w-[590px] lg:h-[300px]  p-8">
+        <div className="object-cover bg-card rounded-2xl w-full lg:h-[300px]  p-8">
           <h2 className="text-red-400 text-2xl font-bold">
             Why you choose us...
           </h2>
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <p className="bg-white font-bold p-[2px] rounded-sm pl-2 text-slate-400">
+            <p className="bg-white font-bold p-2 rounded-md pl-2 text-slate-400">
               Learning from home
             </p>
-            <p className="bg-white font-bold p-[2px] rounded-sm pl-2 text-slate-400">
+            <p className="bg-white font-bold p-2 rounded-md pl-2 text-slate-400">
               Professional certificate
             </p>
-            <p className="bg-white font-bold p-[2px] rounded-sm pl-2 text-slate-400">
+            <p className="bg-white font-bold p-2 rounded-md pl-2 text-slate-400">
               Financial aid support
             </p>
-            <p className="bg-white font-bold p-[2px] rounded-sm pl-2 text-slate-400">
+            <p className="bg-white font-bold p-2 rounded-md pl-2 text-slate-400">
               Affordable courses
             </p>
-            <p className="bg-white font-bold p-[2px] rounded-sm pl-2 text-slate-400">
+            <p className="bg-white font-bold p-2 rounded-md pl-2 text-slate-400">
               24/7 live supports
             </p>
-            <p className="bg-white font-bold p-[2px] rounded-sm pl-2 text-slate-400">
+            <p className="bg-white font-bold p-2 rounded-md pl-2 text-slate-400">
               200+ free courses
             </p>
           </div>
         </div>
       </div>
+
+      <Faq />
     </div>
   );
 };

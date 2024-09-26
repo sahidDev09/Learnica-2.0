@@ -1,15 +1,14 @@
 import Link from "next/link";
 import Card from "../shared/Card";
 
-const getCourses = async() => {
-  const res = await fetch ("http://localhost:3000/api/courses")
-  const courses = res.json()
+const getCourses = async () => {
+  const res = await fetch("http://localhost:3000/api/courses");
+  const courses = res.json();
   return courses;
-}
+};
 
-
-const LatestCourses = async() => {
-  const courses = await getCourses()
+const LatestCourses = async () => {
+  const courses = await getCourses();
   console.log(courses);
   return (
     <section className="px-4 py-8 md:py-12">
@@ -19,8 +18,8 @@ const LatestCourses = async() => {
           <h2 className="text-3xl md:text-4xl font-bold">Latest courses</h2>
         </header>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {courses?.slice(0,3).map((course) => (
-            <Card key={course.id} course={course} />
+          {courses?.slice(0, 3).map((course, index) => (
+            <Card key={index} course={course} />
           ))}
         </div>
 
@@ -34,6 +33,6 @@ const LatestCourses = async() => {
       </div>
     </section>
   );
-}
+};
 
 export default LatestCourses;

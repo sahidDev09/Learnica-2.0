@@ -11,6 +11,7 @@ import {
   SignedOut,
   SignIn,
   SignInButton,
+  useAuth,
   UserButton,
 } from "@clerk/nextjs";
 import Link from "next/link";
@@ -30,6 +31,7 @@ const Navbar = () => {
 
   const search = useSearchParams();
   const router = useRouter();
+  const { userId } = useAuth();
 
   const handleOpenMenu = () => setOpenMenu(true);
   const handleCloseMenu = () => setOpenMenu(false);
@@ -77,8 +79,7 @@ const Navbar = () => {
                   className="duration-150 hover:border-transparent text-center p-1">
                   <li>Home</li>
                 </Link>
-               
-                
+
                 <Link
                   href="/all-courses"
                   className="duration-150 hover:border-transparent p-1 text-center">
@@ -89,7 +90,7 @@ const Navbar = () => {
                   className="duration-150 hover:border-transparent p-1 text-center">
                   <li>About Us</li>
                 </Link>
-                
+
                 <li className="p-1">
                   {/* Dark Mode Toggle */}
                   <label className="swap swap-rotate">
@@ -133,7 +134,7 @@ const Navbar = () => {
                         elements: {
                           avatarBox: " w-10 h-10",
                         },
-                      }}>
+                      }}>  
                       <UserButton.MenuItems>
                         <UserButton.Link
                           label="My Purchases"
@@ -177,7 +178,7 @@ const Navbar = () => {
               Home
             </Link>
             <Link href="/all-courses" className="cursor-pointer">
-             All Courses
+              All Courses
             </Link>
             <Link href="/about" className="cursor-pointer">
               About Us
