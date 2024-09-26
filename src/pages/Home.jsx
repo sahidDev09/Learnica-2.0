@@ -31,9 +31,6 @@ const HomePage = () => {
       {/* promotional */}
 
       <Promotional />
-
-      {/* faq */}
-      {/* <Faq /> */}
     </div>
   );
 };
