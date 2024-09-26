@@ -52,16 +52,16 @@ const page = () => {
       </div>
 
       {/* Team Section */}
-      <h2 className="font-bold text-red-500 px-6 lg:px-16 mt-10 lg:mt-20 mb-6">
+      <h2 className="font-bold text-red-500 mt-10 lg:mt-20 mb-6">
         How it started
       </h2>
-      <h1 className="px-6 lg:px-16 text-3xl lg:text-6xl font-bold">
+      <h1 className="text-3xl lg:text-6xl font-bold my-3">
         Meet Our Dedicated Team of <br /> Learnica and Innovators
       </h1>
 
       {/* Developer Cards */}
       <div className="container mx-auto py-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-6 lg:px-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Developer Card 1 */}
           <div className="relative group w-full h-[450px] lg:h-[550px] overflow-hidden shadow-lg bg-white flex items-end p-6 transition-transform transform hover:-translate-y-3 rounded-2xl">
             <Image
@@ -69,7 +69,7 @@ const page = () => {
               src={sahid}
               layout="fill"
               objectFit="cover"
-              className="absolute inset-0 z-0 bg-blue-400"
+              className="absolute inset-0 z-0 bg-card"
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
             <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
@@ -77,18 +77,32 @@ const page = () => {
               <p className="mt-2 text-green-500 font-bold">
                 A junior web developer
               </p>
-              <a href="tel:+8801601321799" className="text-orange-400 hover:text-orange-500"> +880 1601 321 799 </a>
-              <a className="  text-blue-500 font-bold hover:text-blue-600" href="mailto:iamsahidofficial99@gmail.com">iamsahidofficial99@gmail.com
-               </a>
+              <a
+                href="tel:+8801601321799"
+                className="text-orange-400 hover:text-orange-500">
+                {" "}
+                +880 1601 321 799{" "}
+              </a>
+              <a
+                className="  text-blue-500 font-bold hover:text-blue-600"
+                href="mailto:iamsahidofficial99@gmail.com">
+                iamsahidofficial99@gmail.com
+              </a>
               <div className="flex text-2xl mt-4 gap-6"></div>
               <div className="flex text-2xl mt-4 gap-6">
-                <Link className="text-pink-500 hover:text-[#0A66C2]" href={`https://www.linkedin.com/in/numan-ahmod`}>
+                <Link
+                  className="text-pink-500 hover:text-[#0A66C2]"
+                  href={`https://www.linkedin.com/in/numan-ahmod`}>
                   <FiLinkedin />
                 </Link>
-                <Link className="text-white hover:text-gray-500 transition-colors duration-300" href={`https://github.com/numanahmod`}>
+                <Link
+                  className="text-white hover:text-gray-500 transition-colors duration-300"
+                  href={`https://github.com/numanahmod`}>
                   <ImGithub />
                 </Link>
-                <Link className="text-[#1877F2] hover:text-[#0E55A4] transition-colors duration-300" href={`https://www.facebook.com/Sm.sahid99`}>
+                <Link
+                  className="text-[#1877F2] hover:text-[#0E55A4] transition-colors duration-300"
+                  href={`https://www.facebook.com/Sm.sahid99`}>
                   <FaFacebook />
                 </Link>
               </div>
@@ -110,17 +124,32 @@ const page = () => {
               <p className="mt-2 text-green-500 font-bold">
                 A junior web developer
               </p>
-              <a href="tel:+8801743888019" className="text-orange-400 hover:text-orange-500"> +880 1743 888 019 </a>
+              <a
+                href="tel:+8801743888019"
+                className="text-orange-400 hover:text-orange-500">
+                {" "}
+                +880 1743 888 019{" "}
+              </a>
 
-              <a className="  text-blue-500 font-bold hover:text-blue-600" href="mailto:numanahmod96@gmail.com">numanahmod96@gmail.com</a>
+              <a
+                className="  text-blue-500 font-bold hover:text-blue-600"
+                href="mailto:numanahmod96@gmail.com">
+                numanahmod96@gmail.com
+              </a>
               <div className="flex text-2xl mt-4 gap-6">
-                <Link className="text-pink-500 hover:text-[#0A66C2]" href={`https://www.linkedin.com/in/numan-ahmod`}>
+                <Link
+                  className="text-pink-500 hover:text-[#0A66C2]"
+                  href={`https://www.linkedin.com/in/numan-ahmod`}>
                   <FiLinkedin />
                 </Link>
-                <Link className="text-white hover:text-gray-500 transition-colors duration-300" href={`https://github.com/numanahmod`}>
+                <Link
+                  className="text-white hover:text-gray-500 transition-colors duration-300"
+                  href={`https://github.com/numanahmod`}>
                   <ImGithub />
                 </Link>
-                <Link className="text-[#1877F2] hover:text-[#0E55A4] transition-colors duration-300" href={`https://www.facebook.com/numan12321`}>
+                <Link
+                  className="text-[#1877F2] hover:text-[#0E55A4] transition-colors duration-300"
+                  href={`https://www.facebook.com/numan12321`}>
                   <FaFacebook />
                 </Link>
               </div>
@@ -142,18 +171,32 @@ const page = () => {
               <p className="mt-2 text-green-500 font-bold">
                 A junior web developer
               </p>
-              <a href="tel:+8801874627950" className="text-orange-400 hover:text-orange-500"> +880 1874 627 950 </a>
-              <a className="  text-blue-500 font-bold hover:text-blue-600" href="mailto:rahatfaruk99@gmail.com">rahatfaruk99@gmail.com
-               </a>
+              <a
+                href="tel:+8801874627950"
+                className="text-orange-400 hover:text-orange-500">
+                {" "}
+                +880 1874 627 950{" "}
+              </a>
+              <a
+                className="  text-blue-500 font-bold hover:text-blue-600"
+                href="mailto:rahatfaruk99@gmail.com">
+                rahatfaruk99@gmail.com
+              </a>
               <div className="flex text-2xl mt-4 gap-6"></div>
               <div className="flex text-2xl mt-4 gap-6">
-                <Link className="text-pink-500 hover:text-[#0A66C2]" href={`https://www.linkedin.com/in/numan-ahmod`}>
+                <Link
+                  className="text-pink-500 hover:text-[#0A66C2]"
+                  href={`https://www.linkedin.com/in/numan-ahmod`}>
                   <FiLinkedin />
                 </Link>
-                <Link className="text-white hover:text-gray-500 transition-colors duration-300" href={`https://github.com/numanahmod`}>
+                <Link
+                  className="text-white hover:text-gray-500 transition-colors duration-300"
+                  href={`https://github.com/numanahmod`}>
                   <ImGithub />
                 </Link>
-                <Link className="text-[#1877F2] hover:text-[#0E55A4] transition-colors duration-300" href={` https://www.facebook.com/rahatfaruk12/`}>
+                <Link
+                  className="text-[#1877F2] hover:text-[#0E55A4] transition-colors duration-300"
+                  href={` https://www.facebook.com/rahatfaruk12/`}>
                   <FaFacebook />
                 </Link>
               </div>
@@ -170,22 +213,38 @@ const page = () => {
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
             <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
-              <h1 className="text-2xl font-bold uppercase">Mohammad Abdul Mazed</h1>
+              <h1 className="text-2xl font-bold uppercase">
+                Mohammad Abdul Mazed
+              </h1>
               <p className="mt-2 text-green-500 font-bold">
                 A junior web developer
               </p>
-              <a href="tel:+8801640403998" className="text-orange-400 hover:text-orange-500"> +880 1640 403 998 </a>
-              <a className="  text-blue-500 font-bold hover:text-blue-600" href="mailto:mamazed1314@gmail.com">mamazed1314@gmail.com
+              <a
+                href="tel:+8801640403998"
+                className="text-orange-400 hover:text-orange-500">
+                {" "}
+                +880 1640 403 998{" "}
+              </a>
+              <a
+                className="  text-blue-500 font-bold hover:text-blue-600"
+                href="mailto:mamazed1314@gmail.com">
+                mamazed1314@gmail.com
               </a>
               <div className="flex text-2xl mt-4 gap-6"></div>
               <div className="flex text-2xl mt-4 gap-6">
-                <Link className="text-pink-500 hover:text-[#0A66C2]" href={`https://www.linkedin.com/in/numan-ahmod`}>
+                <Link
+                  className="text-pink-500 hover:text-[#0A66C2]"
+                  href={`https://www.linkedin.com/in/numan-ahmod`}>
                   <FiLinkedin />
                 </Link>
-                <Link className="text-white hover:text-gray-500 transition-colors duration-300" href={`https://github.com/numanahmod`}>
+                <Link
+                  className="text-white hover:text-gray-500 transition-colors duration-300"
+                  href={`https://github.com/numanahmod`}>
                   <ImGithub />
                 </Link>
-                <Link className="text-[#1877F2] hover:text-[#0E55A4] transition-colors duration-300" href={`https://www.facebook.com/profile.php?id=100081633703122`}>
+                <Link
+                  className="text-[#1877F2] hover:text-[#0E55A4] transition-colors duration-300"
+                  href={`https://www.facebook.com/profile.php?id=100081633703122`}>
                   <FaFacebook />
                 </Link>
               </div>
@@ -206,40 +265,54 @@ const page = () => {
               <p className="mt-2 text-green-500 font-bold">
                 A junior web developer
               </p>
-              <a href="tel:+8801791237034" className="text-orange-400 hover:text-orange-500"> +880 1791 237 034 </a>
-              <a className="  text-blue-500 font-bold hover:text-blue-600" href="mailto:numanahmod96@gmail.com">sabikunnaharfarha01@gmail.com</a>
+              <a
+                href="tel:+8801791237034"
+                className="text-orange-400 hover:text-orange-500">
+                {" "}
+                +880 1791 237 034{" "}
+              </a>
+              <a
+                className="  text-blue-500 font-bold hover:text-blue-600"
+                href="mailto:numanahmod96@gmail.com">
+                sabikunnaharfarha01@gmail.com
+              </a>
               <div className="flex text-2xl mt-4 gap-6"></div>
               <div className="flex text-2xl mt-4 gap-6">
-                <Link className="text-pink-500 hover:text-[#0A66C2]" href={`https://www.linkedin.com/in/numan-ahmod`}>
+                <Link
+                  className="text-pink-500 hover:text-[#0A66C2]"
+                  href={`https://www.linkedin.com/in/numan-ahmod`}>
                   <FiLinkedin />
                 </Link>
-                <Link className="text-white hover:text-gray-500 transition-colors duration-300" href={`https://github.com/numanahmod`}>
+                <Link
+                  className="text-white hover:text-gray-500 transition-colors duration-300"
+                  href={`https://github.com/numanahmod`}>
                   <ImGithub />
                 </Link>
-                <Link className="text-[#1877F2] hover:text-[#0E55A4] transition-colors duration-300" href={`https://www.facebook.com/faiza.islam.79274089?mibextid=ZbWKwL`}>
+                <Link
+                  className="text-[#1877F2] hover:text-[#0E55A4] transition-colors duration-300"
+                  href={`https://www.facebook.com/faiza.islam.79274089?mibextid=ZbWKwL`}>
                   <FaFacebook />
                 </Link>
               </div>
             </div>
           </div>
-          
         </div>
       </div>
 
       {/* Our Goal Section */}
       <div className="flex flex-col lg:flex-row justify-between gap-6 px-6 lg:px-16 py-10">
-        <div className="object-cover rounded-2xl w-full lg:w-[590px] h-[300px] bg-green-200 p-8">
+        <div className="object-cover rounded-2xl w-full lg:w-[590px] h-[300px] bg-card p-8">
           <h3 className="text-red-400 text-xl font-bold">Our Goal</h3>
           <h1 className="text-2xl lg:text-4xl font-bold mt-6">
             Empowering Lives <br /> Through Education
           </h1>
-          <p className="mt-6 font-bold">
+          <p className="mt-6 text-gray-500">
             Our goal is to create a thriving educational ecosystem where
             students, teachers, and administrators collaborate to foster growth
             and knowledge.
           </p>
         </div>
-        <div className="object-cover bg-orange-200 rounded-2xl w-full lg:w-[590px] lg:h-[300px]  p-8">
+        <div className="object-cover bg-card rounded-2xl w-full lg:w-[590px] lg:h-[300px]  p-8">
           <h2 className="text-red-400 text-2xl font-bold">
             Why you choose us...
           </h2>
