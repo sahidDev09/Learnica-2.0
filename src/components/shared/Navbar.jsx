@@ -89,11 +89,7 @@ const Navbar = () => {
                   className="duration-150 hover:border-transparent p-1 text-center">
                   <li>About Us</li>
                 </Link>
-                <Link
-                  href="/contact"
-                  className="duration-150 hover:border-transparent p-1 text-center">
-                  <li>Contact Us</li>
-                </Link>
+                
                 <li className="p-1">
                   {/* Dark Mode Toggle */}
                   <label className="swap swap-rotate">
@@ -180,11 +176,11 @@ const Navbar = () => {
             <Link href="/" className="cursor-pointer">
               Home
             </Link>
+            <Link href="/all-courses" className="cursor-pointer">
+             All Courses
+            </Link>
             <Link href="/about" className="cursor-pointer">
               About Us
-            </Link>
-            <Link href="/contact" className="cursor-pointer">
-              Contact Us
             </Link>
             <li className="cursor-pointer">Sign In</li>
           </ul>
