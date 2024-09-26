@@ -1,7 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-
-
 const Card = ({course}) => {
     return (
         <div>
