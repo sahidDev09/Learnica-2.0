@@ -36,7 +36,7 @@ const Navbar = () => {
               <ul className="font-semibold flex gap-6">
                 <Link
                   href="/"
-                  className="duration-150 hover:border-transparent text-center p-1 ">
+                  className="duration-150 hover:border-transparent text-center p-1">
                   <li>Home</li>
                 </Link>
                
