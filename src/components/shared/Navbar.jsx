@@ -77,6 +77,13 @@ const Navbar = () => {
                   className="duration-150 hover:border-transparent text-center p-1">
                   <li>Home</li>
                 </Link>
+               
+                
+                <Link
+                  href="/all-courses"
+                  className="duration-150 hover:border-transparent p-1 text-center">
+                  <li>All Courses</li>
+                </Link>
                 <Link
                   href="/about"
                   className="duration-150 hover:border-transparent p-1 text-center">

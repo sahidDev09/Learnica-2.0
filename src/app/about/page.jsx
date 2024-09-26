@@ -38,7 +38,7 @@ const page = () => {
               src={bandImage}
               alt="bandimage"
               width={1000}
-              className="w-full h-[300px] rounded-xl hidden md:inline"
+              className="w-full h-[300px] object-cover rounded-xl hidden md:inline"
               height={1000}></Image>
           </div>
           {/* Image 2 */}
@@ -46,7 +46,7 @@ const page = () => {
             src={googleMap}
             alt="bandimage"
             width={1000}
-            className="w-full h-[300px] rounded-xl hidden md:inline"
+            className="w-full h-[300px] object-cover rounded-xl hidden md:inline"
             height={1000}></Image>
         </div>
       </div>
@@ -202,7 +202,7 @@ const page = () => {
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
             <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
-              <h1 className="text-2xl font-bold uppercase"> Nahar Farha</h1>
+              <h1 className="text-2xl font-bold uppercase"> Farha</h1>
               <p className="mt-2 text-green-500 font-bold">
                 A junior web developer
               </p>
