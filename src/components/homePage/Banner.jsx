@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const Banner = () => {
   return (
-    <div className="mb-8 px-2">
+    <div className="mb-8">
       <div
         className="hero rounded-b-[60px] md:py-20 py-12"
         style={{
