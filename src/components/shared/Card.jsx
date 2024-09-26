@@ -1,22 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
 
-function CourseCard({ course }) {
-  return (
-    <div className="w-full max-w-md mx-auto md:mx-0 border rounded-xl bg-card text-gray-800 dark:bg-gray-800 dark:text-white shadow-md">
+
+const Card = ({course}) => {
+    return (
+        <div>
+            <div className="w-full max-w-md mx-auto md:mx-0 border rounded-xl bg-card text-gray-800 dark:bg-gray-800 dark:text-white shadow-md">
       <Image
         className="w-full h-[270px] rounded-xl object-cover"
-        src={course.courseImage}
-        alt={course.courseName}
+        src={course.thumbnail}
+        alt={course.title}
         width={400}
         height={270}
       />
 
       <div className="p-4">
         <p className="text-primary">{course.category}</p>
-        <h3 className="text-lg font-semibold mb-2">{course.courseName}</h3>
+        <h3 className="text-lg font-semibold mb-2">{course.description}</h3>
         <p className="text-sm">
-          {course.authorName}, {course.authorTitle}
+          {course.authorName}
         </p>
 
         <Link
@@ -26,7 +28,8 @@ function CourseCard({ course }) {
         </Link>
       </div>
     </div>
-  );
-}
+        </div>
+    );
+};
 
-export default CourseCard;
+export default Card;
