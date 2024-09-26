@@ -3,7 +3,7 @@
 import { IoMdMenu } from "react-icons/io";
 import { RxCross1 } from "react-icons/rx";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DarkModeLogo from "../../../public/assets/learnicaNavlogo.png";
 import { Button } from "../ui/button";
 import {
@@ -14,25 +14,44 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import Link from "next/link";
-import { PenBox } from "lucide-react";
+import {
+  BookAIcon,
+  BriefcaseBusiness,
+  Heart,
+  MessageCircleCodeIcon,
+  PenBox,
+} from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { FaCashRegister } from "react-icons/fa";
 
 const Navbar = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
 
+  const search = useSearchParams();
+  const router = useRouter();
+
   const handleOpenMenu = () => setOpenMenu(true);
   const handleCloseMenu = () => setOpenMenu(false);
+
+  useEffect(() => {
+    if (search.get("sign-in")) {
+      setShowSignIn(true);
+    }
+  }, [search]);
 
   const handleOverlayOut = (e) => {
     if (e.target === e.currentTarget) {
       setShowSignIn(false);
+      // Clear search params after closing modal
+      router.replace("/", { scroll: false });
     }
   };
 
   return (
-    <nav className="min-w-screen-xl">
-      <div className="sticky z-20 top-0 w-full bg-secondary text-white dark:bg-black">
-        <div className="rounded-b-2xl flex mx-auto justify-between items-center py-2 md:py-5 px-10">
+    <nav className="bg-secondary">
+      <div className="sticky z-20 top-0 w-full container mx-auto text-white dark:bg-black">
+        <div className="rounded-b-2xl flex mx-auto justify-between items-center py-2 md:py-5 px-3 md:px-0">
           <div>
             <Image
               src={DarkModeLogo}
@@ -106,7 +125,29 @@ const Navbar = () => {
                     </Button>
                   </Link>
                   <SignedIn>
-                    <UserButton />
+                    <UserButton
+                      appearance={{
+                        elements: {
+                          avatarBox: " w-10 h-10",
+                        },
+                      }}>
+                      <UserButton.MenuItems>
+                        <UserButton.Link
+                          label="My Purchases"
+                          labelIcon={<BriefcaseBusiness size={15} />}
+                          href="my-applications"></UserButton.Link>
+
+                        <UserButton.Link
+                          label="Payment History"
+                          labelIcon={<FaCashRegister size={15} />}
+                          href="saved-jobs"></UserButton.Link>
+
+                        <UserButton.Link
+                          label="Chat with Ai"
+                          labelIcon={<MessageCircleCodeIcon size={15} />}
+                          href="saved-jobs"></UserButton.Link>
+                      </UserButton.MenuItems>
+                    </UserButton>
                   </SignedIn>
                 </div>
               </ul>
@@ -150,8 +191,8 @@ const Navbar = () => {
           onClick={handleOverlayOut}>
           <SignIn
             routing="hash"
-            signUpForceRedirectUrl="/"
-            fallbackRedirectUrl="/"
+            signUpForceRedirectUrl="/onboarding"
+            fallbackRedirectUrl="/onboarding"
           />
         </div>
       )}
