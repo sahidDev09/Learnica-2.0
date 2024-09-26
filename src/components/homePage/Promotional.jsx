@@ -16,7 +16,7 @@ const Promotional = () => {
   return (
     <section
       ref={sectionRef}
-      className=" bg-gradient-to-b from-white to-blue-100 py-32">
+      className=" bg-gradient-to-b from-white to-blue-100 md:py-32 py-5">
       <div className="container mx-auto text-center p-5 md:p-0">
         <div className=" relative">
           <h1 className="md:text-5xl font-bold text-3xl my-5">
