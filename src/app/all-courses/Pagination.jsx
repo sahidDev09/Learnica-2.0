@@ -1,62 +1,44 @@
-"use client";
+// /components/Pagination.js
+import React from "react";
 
-import { useEffect, useState } from "react";
+const Pagination = ({ totalItems, itemsPerPage, currentPage, onPageChange }) => {
+  const numberOfPages = Math.ceil(totalItems > 0 ? totalItems / itemsPerPage : 0);
+  const pages = numberOfPages > 0 ? [...Array(numberOfPages).keys()].map((num) => num + 1) : [];
 
-const Pagination = () => {
-  const [countPerPage] = useState(6);
-  const [count, setCount] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  useEffect(() => {
-    fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/courses")
-      .then((res) => res.json())
-      .then((data) => setCount(data.length));
-  }, []);
-
-  // for pagination------------------------------------------------------
-  const numberOfPage = Math.ceil(count / countPerPage);
-  const pages = [...Array(numberOfPage).keys()];
-
-  const handlePageButton = (e) => {
-    setCurrentPage(e);
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= numberOfPages) {
+      onPageChange(page);
+    }
   };
 
   return (
-    <div>
-      {/* pagination */}
-      <div className=" w-3/5 mx-auto">
-        <div className="join flex justify-center mb-12">
-          <button
-            disabled={currentPage === 1}
-            onClick={() => handlePageButton(currentPage - 1)}
-            className="join-item btn rounded-lg text-red-400 border-red-400 bg-transparent text-xl"
-          >
-            «
-          </button>
-          {pages.map((page, index) => (
-            <>
-              <button
-                onClick={() => handlePageButton(index + 1)}
-                key={index}
-                className={`${
-                  currentPage === index + 1
-                    ? "bg-red-400 text-white"
-                    : "bg-base-100 border text-red-400 border-red-400"
-                } join-item btn mx-1`}
-              >
-                {index + 1}
-              </button>
-            </>
-          ))}
+    <div className="w-3/5 mx-auto">
+      <div className="flex justify-center mb-12">
+        <button
+          disabled={currentPage === 1}
+          onClick={() => handlePageChange(currentPage - 1)}
+          className="join-item btn rounded-lg text-red-400 border-red-400 bg-transparent text-xl"
+        >
+          «
+        </button>
 
+        {pages.map((page) => (
           <button
-            disabled={currentPage === numberOfPage}
-            onClick={() => handlePageButton(currentPage + 1)}
-            className="join-item btn rounded-lg text-red-400 border-red-400 bg-transparent text-xl"
+            onClick={() => handlePageChange(page)}
+            key={page}
+            className={`join-item btn mx-1 ${currentPage === page ? "bg-red-400 text-white" : "bg-base-100 border text-red-400 border-red-400"}`}
           >
-            »
+            {page}
           </button>
-        </div>
+        ))}
+
+        <button
+          disabled={currentPage === numberOfPages}
+          onClick={() => handlePageChange(currentPage + 1)}
+          className="join-item btn rounded-lg text-red-400 border-red-400 bg-transparent text-xl"
+        >
+          »
+        </button>
       </div>
     </div>
   );

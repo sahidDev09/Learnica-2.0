@@ -1,40 +1,101 @@
 "use client";
-import { useEffect, useState } from "react";
+
+import { useEffect, useState, useCallback } from "react";
 import { FaTags } from "react-icons/fa";
 import Courses from "./Courses";
 import Pagination from "./Pagination";
 import Loading from "../loading";
 import { FaPlus } from "react-icons/fa6";
 import Link from "next/link";
+import debounce from "lodash.debounce"; 
 
 const Page = () => {
+  const [page, setPage] = useState(1);
+  const [size] = useState(3); 
+  const [search, setSearch] = useState("");
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [products, setProducts] = useState([]);
 
+  
+  const fetchCourses = useCallback(async () => {
+    setLoading(true);
+    try {
+      const queryParams = new URLSearchParams({
+        page: page.toString(),
+        size: size.toString(),
+        category: selectedCategory,
+        search: search.trim(),
+      });
+
+      const res = await fetch(`/api/courses?${queryParams.toString()}`);
+      const data = await res.json();
+
+      if (res.ok) {
+        setProducts(Array.isArray(data.products) ? data.products : []);
+        setTotalProducts(data.totalProducts || 0);
+        if (data.categories) {
+          setCategories(data.categories);
+        }
+      } else {
+        console.error("API Error:", data);
+        setProducts([]);
+        setTotalProducts(0);
+      }
+    } catch (error) {
+      console.error("Error fetching courses:", error);
+      setProducts([]);
+      setTotalProducts(0);
+    } finally {
+      setLoading(false);
+    }
+  }, [page, size, selectedCategory, search]);
+
+  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedFetchCourses = useCallback(debounce(fetchCourses, 500), [fetchCourses]);
+
+  
   useEffect(() => {
-    const fetchCourses = async () => {
-      setLoading(true); 
+    debouncedFetchCourses();
+    return debouncedFetchCourses.cancel;
+  }, [debouncedFetchCourses]);
+  useEffect(() => {
+    const fetchInitialCategories = async () => {
+      setLoading(true);
       try {
-        const res = await fetch("http://localhost:3000/api/courses");
+        const res = await fetch(`/api/courses?page=1&size=1000`);
+         // fetch all categories
         const data = await res.json();
-        const uniqueCategories = [
-          ...new Set(data.map((course) => course.category)),
-        ];
-        setCategories(uniqueCategories);
+        if (res.ok && data.categories) {
+          setCategories(data.categories);
+        }
       } catch (error) {
-        console.error("Failed to fetch courses:", error);
+        console.error("Error fetching initial categories:", error);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
-    fetchCourses();
+    fetchInitialCategories();
   }, []);
 
-  if (loading) {
-    return <Loading />; 
+  // Handle search 
+  const handleSearchChange = (e) => {
+    setPage(1); 
+    setSearch(e.target.value);
+  };
+
+  // Handle category 
+  const handleCategorySelect = (category) => {
+    setPage(1); 
+    setSelectedCategory(category);
+  };
+
+  if (loading && products.length === 0) {
+    return <Loading />;
   }
 
   return (
@@ -48,8 +109,8 @@ const Page = () => {
                 type="text"
                 className="lg:w-80 text-black flex-1"
                 placeholder="Search Something....."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)} 
+                value={search}
+                onChange={handleSearchChange} // Update search state
               />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -66,58 +127,58 @@ const Page = () => {
             </label>
           </div>
         </header>
-        {/* Categories and search */}
-        <div className="lg:flex justify-between">
-          {/* Categories */}
+
+        {/* Category Filter */}
+        <div className="lg:flex justify-between mt-4">
           <div>
             <section>
-              <div>
-                <div className="flex gap-4 flex-wrap">
-                  {/* All Button */}
+              <div className="flex gap-4 flex-wrap">
+                <button
+                  onClick={() => handleCategorySelect("")}
+                  className={`flex text-sm items-center gap-2 p-2 px-4 text-white bg-primary rounded-full hover:scale-105 transition-transform md:text-lg ${
+                    selectedCategory === "" ? "bg-secondary" : ""
+                  }`}
+                >
+                  <FaTags />
+                  All
+                </button>
+                {categories.map((category, index) => (
                   <button
-                    onClick={() => setSelectedCategory("")}
+                    key={index}
+                    onClick={() => handleCategorySelect(category)}
                     className={`flex text-sm items-center gap-2 p-2 px-4 text-white bg-primary rounded-full hover:scale-105 transition-transform md:text-lg ${
-                      selectedCategory === "" ? "bg-secondary" : ""
+                      selectedCategory === category ? "bg-secondary" : ""
                     }`}
                   >
                     <FaTags />
-                    All
+                    {category}
                   </button>
-                  {/* Categories */}
-                  {categories.map((category, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setSelectedCategory(category)}
-                      className={`flex text-sm items-center gap-2 p-2 px-4 text-white bg-primary rounded-full hover:scale-105 transition-transform md:text-lg ${
-                        selectedCategory === category ? "bg-secondary" : ""
-                      }`}
-                    >
-                      <FaTags />
-                      {category}
-                    </button>
-                  ))}
-                </div>
+                ))}
               </div>
             </section>
           </div>
-          {/* Search */}
         </div>
 
-      {/* add courses */}
+        <div className="flex justify-end mt-4">
+          <Link href="add-course">
+            <button className="text-sm flex items-center gap-2 p-2 px-4 text-white bg-primary rounded-xl hover:scale-105 transition-transform md:text-lg">
+              <FaPlus />
+              Add Course
+            </button>
+          </Link>
+        </div>
+      </div>
 
-      <div className="flex justify-end">
-    
-        <Link href='add-course'>
-        <button  className="text-sm flex items-center gap-2 p-2 px-4 text-white bg-primary rounded-xl hover:scale-105 transition-transform md:text-lg">
-        <p>  <FaPlus /></p>
-         <p>Add Course</p>
-        </button>
-        </Link>
-      </div>
-      </div>
-      {/* Courses */}
-      <Courses selectedCategory={selectedCategory} searchQuery={searchQuery} />
-      <Pagination />
+      {/* Display Courses */}
+      <Courses products={products} loading={loading} />
+
+      {/* Pagination */}
+      <Pagination
+        totalItems={totalProducts}
+        itemsPerPage={size}
+        currentPage={page}
+        onPageChange={setPage}
+      />
     </div>
   );
 };
