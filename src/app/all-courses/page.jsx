@@ -4,7 +4,8 @@ import { FaTags } from "react-icons/fa";
 import Courses from "./Courses";
 import Pagination from "./Pagination";
 import Loading from "../loading";
-
+import { FaPlus } from "react-icons/fa6";
+import Link from "next/link";
 
 const Page = () => {
   const [categories, setCategories] = useState([]);
@@ -101,6 +102,18 @@ const Page = () => {
           </div>
           {/* Search */}
         </div>
+
+      {/* add courses */}
+
+      <div className="flex justify-end">
+    
+        <Link href='add-course'>
+        <button  className="text-sm flex items-center gap-2 p-2 px-4 text-white bg-primary rounded-xl hover:scale-105 transition-transform md:text-lg">
+        <p>  <FaPlus /></p>
+         <p>Add Course</p>
+        </button>
+        </Link>
+      </div>
       </div>
       {/* Courses */}
       <Courses selectedCategory={selectedCategory} searchQuery={searchQuery} />
