@@ -11,7 +11,7 @@ const Page = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/courses");
+        const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/courses");
         const data = await res.json();
         const uniqueCategories = [
           ...new Set(data.map((course) => course.category)),

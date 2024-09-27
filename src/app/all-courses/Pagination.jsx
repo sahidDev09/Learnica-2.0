@@ -8,7 +8,7 @@ const Pagination = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/courses")
+    fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/courses")
       .then((res) => res.json())
       .then((data) => setCount(data.length));
   }, []);
