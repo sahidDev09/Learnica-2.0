@@ -1,14 +1,14 @@
 import Card from "@/components/shared/Card";
 
 const getCourses = async () => {
-  const res = await fetch("http://localhost:3000/api/courses");
+  const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/courses");
   const courses = res.json();
   return courses;
 };
 
 const Courses = async () => {
   const courses = await getCourses();
-  console.log(courses);
+
   return (
     <section className="px-4 py-8 md:py-12">
       <div className="max-w-screen-xl mx-auto">
