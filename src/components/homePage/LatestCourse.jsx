@@ -2,7 +2,7 @@ import Link from "next/link";
 import Card from "../shared/Card";
 
 const getCourses = async () => {
-  const res = await fetch("http://localhost:3000/api/courses");
+  const res = await fetch("http://localhost:3000/api/courses"); 
   const courses = res.json();
   return courses;
 };

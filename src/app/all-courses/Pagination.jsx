@@ -3,12 +3,12 @@
 import { useEffect, useState } from "react";
 
 const Pagination = () => {
-  const [countPerPage] = useState(3);
+  const [countPerPage] = useState(6);
   const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/courses")
+    fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/courses")
       .then((res) => res.json())
       .then((data) => setCount(data.length));
   }, []);
