@@ -1,14 +1,13 @@
 import LiveClasses from "./LiveClasses";
 
-
 const page = () => {
-    return (
-        <div>
-            <div>
-     <LiveClasses/>
+  return (
+    <div>
+      <div>
+        <LiveClasses />
+      </div>
     </div>
-        </div>
-    );
+  );
 };
 
 export default page;

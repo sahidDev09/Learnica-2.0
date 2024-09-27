@@ -80,7 +80,7 @@ const LiveClasses = () => {
         {liveClasses.map((liveClass, index) => (
           <div 
             key={index} 
-            className="bg-teal-400  hover:bg-teal-600  text-white rounded-lg shadow-md p-4   transition-colors duration-300"
+            className="bg-card rounded-lg shadow-md p-4   transition-colors duration-300"
           >
             <Image
               src={liveClass.thumbnail}
