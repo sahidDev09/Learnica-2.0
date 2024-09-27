@@ -86,6 +86,11 @@ const Navbar = () => {
                   <li>All Courses</li>
                 </Link>
                 <Link
+                  href="/live_class"
+                  className="duration-150 hover:border-transparent p-1 text-center">
+                  <li>Live classes</li>
+                </Link>
+                <Link
                   href="/about"
                   className="duration-150 hover:border-transparent p-1 text-center">
                   <li>About Us</li>
@@ -179,6 +184,9 @@ const Navbar = () => {
             </Link>
             <Link href="/all-courses" className="cursor-pointer">
               All Courses
+            </Link>
+            <Link href="/live_class" className="cursor-pointer">
+              Live Classes
             </Link>
             <Link href="/about" className="cursor-pointer">
               About Us
