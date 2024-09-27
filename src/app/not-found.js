@@ -13,19 +13,19 @@ function NotFound() {
             src={not}
             width={700}
             height={900}
-            alt=""
+            alt="404 Not Found Image"
             className="object-contain h-72 sm:h-80 lg:h-96 xl:h-112 2xl:h-128"
           />
         </div>
-        <div className="wf-ull lg:w-1/2">
+        <div className="w-full lg:w-1/2">
           <p className="text-5xl font-bold leading-none sm:text-6xl text-violet-600 mt-6">
             Oops!{" "}
           </p>
-          <h1 className=" text-red-600 mt-3 text-3xl font-semibold  dark:text-white md:text-3xl">
+          <h1 className="text-red-600 dark:text-red-400 mt-3 text-3xl font-semibold md:text-3xl">
             Page not found
           </h1>
           <p className="mt-4 text-gray-500 dark:text-gray-400">
-            Sorry, the page you are looking for doesn`t exist. Go back Home
+            Sorry, the page you are looking for doesn’t exist. Go back Home
           </p>
 
           <div className="flex items-center mt-6 gap-x-3">

@@ -1,14 +1,11 @@
-import React from 'react'
+import React from "react";
 
-function Loading () {
+function Loading() {
   return (
-    <div className=' lg:ml-[660px] ml-50 justify-center mt-24 items-center'>
-        <span className="loading loading-spinner loading-xs"></span>
-        <span className="loading loading-spinner loading-sm"></span>
-        <span className="loading loading-spinner loading-md"></span>
-        <span className="loading loading-spinner loading-lg"></span>
+    <div className="h-screen flex items-center justify-center">
+      <span className="loading loading-spinner loading-xs"></span>
     </div>
-  )
+  );
 }
 
-export default Loading
+export default Loading;
