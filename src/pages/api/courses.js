@@ -8,36 +8,54 @@ export default async function handler(req, res) {
 
     switch (req.method) {
       case "GET":
+        const { category, page = 1, size = 3, search = "" } = req.query;
+        const parsedPage = parseInt(page, 10); // Explicitly set radix for parseInt
+        const parsedSize = parseInt(size, 10);
+        const skip = (parsedPage - 1) * parsedSize;
+        const limit = parsedSize;
+        let filter = {};
+
+        // Filter by category if provided
+        if (category) {
+          filter.category = category;
+        }
+
+        // Filter by search term in title or description
+        if (search) {
+          filter.$or = [
+            { title: { $regex: search, $options: "i" } }, // Case-insensitive regex
+            { description: { $regex: search, $options: "i" } },
+          ];
+        }
+
         try {
-          const posts = await courseCollection.find({}).toArray();
-          return res.status(200).json(posts); // Return 200 for successful GET
+          const totalCourses = await courseCollection.countDocuments(filter); // Total courses
+          const courses = await courseCollection
+            .find(filter)
+            .skip(skip)
+            .limit(limit)
+            .toArray(); // Get paginated courses
+
+          // Fetch unique categories
+          const uniqueCategories = await courseCollection.distinct("category");
+
+          res.status(200).json({
+            products: courses,
+            totalProducts: totalCourses,
+            categories: uniqueCategories,
+          });
         } catch (error) {
-          return res.status(500).json({ error: "Failed to fetch courses" }); // Handle errors in fetching
+          console.error("Error fetching courses:", error);
+          res.status(500).json({ message: "Internal Server Error" });
         }
-
-      case "POST":
-        const newPost = req.body;
-
-        // Basic validation for newPost (can be expanded based on requirements)
-        if (!newPost.title || !newPost.description) {
-          return res
-            .status(400)
-            .json({ error: "Title and Description are required" });
-        }
-
-        try {
-          await courseCollection.insertOne(newPost);
-          return res.status(201).json(newPost); // Return 201 for successful POST
-        } catch (error) {
-          return res
-            .status(500)
-            .json({ error: "Failed to create a new course" }); // Handle errors in insertion
-        }
+        break;
 
       default:
-        return res.status(405).json({ error: "Method Not Allowed" }); // Return 405 for unsupported methods
+        res.status(405).json({ message: "Method Not Allowed" }); // Handle unsupported methods
+        return; // Early return after response
     }
   } catch (error) {
-    return res.status(500).json({ error: "Database connection failed" }); // Handle DB connection issues
+    console.error("Connection or server error:", error);
+    res.status(500).json({ message: "Internal Server Error" }); // General error handler
   }
 }

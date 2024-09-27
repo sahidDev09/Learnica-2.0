@@ -13,7 +13,7 @@ const LatestCourses = async () => {
   
   return (
     <section className="px-4 py-8 md:py-12">
-      <div className="max-w-screen-xl mx-auto">
+      <div className="container mx-auto">
         <header className="mb-6 text-center md:text-left">
           <p className="text-lg text-primary">New</p>
           <h2 className="text-3xl md:text-4xl font-bold">Latest courses</h2>
