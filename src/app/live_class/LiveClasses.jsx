@@ -69,7 +69,7 @@ const LiveClasses = () => {
 
   const joinClass = (liveLink, authorId) => {
     window.location.href = liveLink; // Redirect to the live class link
-    console.log(`Joining class for author: ${authorId}`);
+    
   };
 
   return (
