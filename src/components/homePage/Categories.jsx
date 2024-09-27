@@ -1,16 +1,16 @@
-import { FaTags } from 'react-icons/fa';
+import { FaTags } from "react-icons/fa";
 
 import Link from "next/link";
 
 function Categories() {
   const categories = [
-    {id: '1', category: 'programming'},
-    {id: '2', category: 'marketing'},
-    {id: '3', category: 'data science'},
-    {id: '4', category: 'self development'},
-  ]
+    { id: "1", category: "programming" },
+    { id: "2", category: "marketing" },
+    { id: "3", category: "data science" },
+    { id: "4", category: "self development" },
+  ];
 
-  return (  
+  return (
     <section className="px-4 p-8 md:py-12">
       <div className="container mx-auto">
         <header className="mb-6 text-center md:text-left">
@@ -19,8 +19,11 @@ function Categories() {
         </header>
 
         <div className="flex gap-4 flex-wrap">
-          {categories.map(cat => (
-            <Link key={cat.id} href={"/all-courses"} className="flex items-center gap-2 text-white font-semibold bg-primary py-3 px-5 rounded-full hover:scale-105 transition-transform md:text-lg">
+          {categories.map((cat) => (
+            <Link
+              key={cat.id}
+              href={"/all-courses"}
+              className="flex items-center gap-2 text-white font-semibold bg-primary py-3 px-5 rounded-full hover:scale-105 transition-transform md:text-lg">
               <FaTags />
               {cat.category}
             </Link>
