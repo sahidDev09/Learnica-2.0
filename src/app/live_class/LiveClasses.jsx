@@ -95,7 +95,7 @@ const LiveClasses = () => {
             <p className="text-sm">Live Time: {liveClass.liveTime}</p>
             <button
               onClick={() => joinClass(liveClass.liveLink, liveClass.authorId)}
-              className="mt-4 bg-purple-500 text-white rounded-md px-3 py-2 hover:bg-purple-700 transition"
+              className="mt-4 bg-primary text-white rounded-md px-3 py-2 hover:bg-orange-700 transition"
             >
               Join Live Class
             </button>

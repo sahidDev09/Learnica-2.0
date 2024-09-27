@@ -12,7 +12,7 @@ function Categories() {
 
   return (  
     <section className="px-4 p-8 md:py-12">
-      <div className="max-w-screen-xl mx-auto">
+      <div className="container mx-auto">
         <header className="mb-6 text-center md:text-left">
           <p className="text-lg text-primary">All</p>
           <h2 className="text-3xl md:text-4xl font-bold">Categories</h2>
