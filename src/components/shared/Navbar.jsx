@@ -15,13 +15,7 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import Link from "next/link";
-import {
-  BookAIcon,
-  BriefcaseBusiness,
-  Heart,
-  MessageCircleCodeIcon,
-  PenBox,
-} from "lucide-react";
+import { BriefcaseBusiness, MessageCircleCodeIcon, PenBox } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaCashRegister } from "react-icons/fa";
 
@@ -45,7 +39,6 @@ const Navbar = () => {
   const handleOverlayOut = (e) => {
     if (e.target === e.currentTarget) {
       setShowSignIn(false);
-      // Clear search params after closing modal
       router.replace("/", { scroll: false });
     }
   };
@@ -139,7 +132,7 @@ const Navbar = () => {
                         elements: {
                           avatarBox: " w-10 h-10",
                         },
-                      }}>  
+                      }}>
                       <UserButton.MenuItems>
                         <UserButton.Link
                           label="My Purchases"
