@@ -2,6 +2,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
+import { ReactLenis } from "/src/lib/lenis.jsx";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -21,15 +23,20 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Navbar></Navbar>
-        {children}
+    <ClerkProvider>
+      <html lang="en">
+        <ReactLenis root>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+            <Navbar></Navbar>
+            
+            {children}
 
-        {/* footer */}
-        <Footer></Footer>
-      </body>
-    </html>
+            {/* footer */}
+            <Footer></Footer>
+          </body>
+        </ReactLenis>
+      </html>
+    </ClerkProvider>
   );
 }

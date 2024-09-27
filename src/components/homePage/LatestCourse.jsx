@@ -1,16 +1,15 @@
 import Link from "next/link";
-import CourseCard from "../shared/CourseCard";
+import Card from "../shared/Card";
 
-function LatestCourses() {
-  const latestCourses = [
-    {id: 1, courseName: '100 Days of Code: the Complete Python', category: 'programming', authorName: 'Dr. Angela Yu', authorTitle: 'Developer and Lead Instructor', courseImage: '/assets/upCard1.jpg'},
-    {id: 2, courseName: '100 Days of Code: the Complete Python', category: 'programming', authorName: 'Dr. Angela Yu', authorTitle: 'Developer and Lead Instructor', courseImage: '/assets/upCard2.jpg'},
-    {id: 3, courseName: '100 Days of Code: the Complete Python', category: 'programming', authorName: 'Dr. Angela Yu', authorTitle: 'Developer and Lead Instructor', courseImage: '/assets/upCard3.jpg'},
-    {id: 4, courseName: '100 Days of Code: the Complete Python', category: 'programming', authorName: 'Dr. Angela Yu', authorTitle: 'Developer and Lead Instructor', courseImage: '/assets/upCard1.jpg'},
-    {id: 5, courseName: '100 Days of Code: the Complete Python', category: 'programming', authorName: 'Dr. Angela Yu', authorTitle: 'Developer and Lead Instructor', courseImage: '/assets/upCard2.jpg'},
-    {id: 6, courseName: '100 Days of Code: the Complete Python', category: 'programming', authorName: 'Dr. Angela Yu', authorTitle: 'Developer and Lead Instructor', courseImage: '/assets/upCard3.jpg'},
-  ]
+const getCourses = async () => {
+  const res = await fetch("http://localhost:3000/api/courses"); 
+  const courses = res.json();
+  return courses;
+};
 
+const LatestCourses = async () => {
+  const courses = await getCourses();
+  console.log(courses);
   return (
     <section className="px-4 py-8 md:py-12">
       <div className="max-w-screen-xl mx-auto">
@@ -18,19 +17,22 @@ function LatestCourses() {
           <p className="text-lg text-primary">New</p>
           <h2 className="text-3xl md:text-4xl font-bold">Latest courses</h2>
         </header>
-
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {latestCourses.map(course => <CourseCard key={course.id} course={course} />)}
+          {courses?.slice(0, 3).map((course, index) => (
+            <Card key={index} course={course} />
+          ))}
         </div>
 
-        <Link
-          className="inline-block bg-secondary mt-8 text-white px-6 py-3 rounded-md hover:opacity-80 transition-opacity"
-          href={`/all-courses`}>
-          View all
-        </Link>
+        <div className="mt-8 flex justify-center">
+          <Link
+            className="inline-block bg-primary text-white px-8 py-3 rounded-full shadow-md hover:opacity-80 transition-opacity"
+            href="/all-courses">
+            View all
+          </Link>
+        </div>
       </div>
     </section>
   );
-}
+};
 
 export default LatestCourses;

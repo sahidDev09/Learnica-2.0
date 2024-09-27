@@ -4,6 +4,7 @@ import CertificateSection from "@/components/homePage/CertificatesSection/Certif
 import Companies from "@/components/homePage/Companies";
 import Faq from "@/components/homePage/Faq";
 import LatestCourses from "@/components/homePage/LatestCourse";
+import Promotional from "@/components/homePage/Promotional";
 import Reviews from "@/components/homePage/Reviews";
 
 import React from "react";
@@ -27,8 +28,9 @@ const HomePage = () => {
 
       <Reviews />
 
-      {/* faq */}
-      <Faq />
+      {/* promotional */}
+
+      <Promotional />
     </div>
   );
 };

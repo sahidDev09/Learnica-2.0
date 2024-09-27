@@ -33,7 +33,7 @@ const CertificateSection = () => {
                                 <Image
                                     src={img1}
                                     alt="Cybersecurity"
-                                    className="rounded-xl h-44 w-full object-cover"
+                                    className="rounded-xl h-44  w-full object-cover"
                                 />
                             </figure>
                             <div className="card-body">
