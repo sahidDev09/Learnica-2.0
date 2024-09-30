@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
       <html lang="en">
         <ReactLenis root>
           <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+            className={`${geistSans.variable} ${geistMono.variable} antialiased `}>
             <Navbar></Navbar>
             
             {children}
