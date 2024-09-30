@@ -1,7 +1,12 @@
 import React from "react";
+import OnboardingScreen from "./OnboardingScreen";
 
 const page = () => {
-  return <div className=" h-screen container mx-auto">this is On board screen</div>;
+  return (
+    <div className="h-screen bg-secondary">
+      <OnboardingScreen />
+    </div>
+  );
 };
 
 export default page;
