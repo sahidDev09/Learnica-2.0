@@ -301,51 +301,7 @@ const page = () => {
             </div>
           </div>
 
-          <div className="relative group w-full h-[450px] lg:h-[550px] overflow-hidden shadow-lg bg-white flex items-end p-6 transition-transform transform hover:-translate-y-3 rounded-2xl">
-            <Image
-              alt="Numan Ahmod"
-              src={farha}
-              layout="fill"
-              objectFit="cover"
-              className="absolute inset-0 z-0 bg-card object-cover"
-            />
-            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
-            <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
-              <h1 className="text-2xl font-bold uppercase"> Farha</h1>
-              <p className="mt-2 text-green-500 font-bold">
-                A junior web developer
-              </p>
-              <a
-                href="tel:+8801791237034"
-                className="text-orange-400 hover:text-orange-500">
-                {" "}
-                +880 1791 237 034{" "}
-              </a>
-              <a
-                className="  text-blue-500 font-bold hover:text-blue-600"
-                href="mailto:numanahmod96@gmail.com">
-                sabikunnaharfarha01@gmail.com
-              </a>
-              <div className="flex text-2xl mt-4 gap-6"></div>
-              <div className="flex text-2xl mt-4 gap-6">
-                <Link
-                  className="text-pink-500 hover:text-[#0A66C2]"
-                  href={`https://www.linkedin.com/in/numan-ahmod`}>
-                  <FiLinkedin />
-                </Link>
-                <Link
-                  className="text-white hover:text-gray-500 transition-colors duration-300"
-                  href={`https://github.com/numanahmod`}>
-                  <ImGithub />
-                </Link>
-                <Link
-                  className="text-[#1877F2] hover:text-[#0E55A4] transition-colors duration-300"
-                  href={`https://www.facebook.com/faiza.islam.79274089?mibextid=ZbWKwL`}>
-                  <FaFacebook />
-                </Link>
-              </div>
-            </div>
-          </div>
+         
         </div>
       </div>
 
