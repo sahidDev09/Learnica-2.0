@@ -3,9 +3,8 @@ import Card from "../shared/Card";
 
 const getCourses = async () => {
   const res = await fetch("http://localhost:3000/api/courses");
-  const data = await res.json();
-  console.log(data)
-  return data;
+  const data = await res.json(); // Fetch the entire response object
+  return data.products; // Return the products array
 };
 
 const LatestCourses = async () => {
