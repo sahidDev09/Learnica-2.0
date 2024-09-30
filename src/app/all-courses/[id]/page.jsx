@@ -1,19 +1,31 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import { MdDateRange } from "react-icons/md";
 
-const page = ({ params }) => {
-  console.log(params.id);
+const page = async ({ params }) => {
+  const res = await fetch(`http://localhost:3000/api/courses/${params.id}`);
+
+  if (!res.ok) {
+    return (
+      <div className="min-h-screen py-10">
+        <h2>Course not found</h2>
+      </div>
+    );
+  }
+
+  const data = await res.json();
+  console.log(data);
 
   return (
     <div className="min-h-screen py-10">
       <div className="container mx-auto px-2">
         {/* header */}
-        <h2 className="text-2xl md:text-3xl font-semibold text-center md:w-10/12 mx-auto my-4">
-          Capturing Moments: A Guide to Landscape Photography
+        <h2 className="text-2xl md:text-3xl font-semibold text-center md:w-10/12 mx-auto">
+          {data.title}
         </h2>
 
-        <div className="my-4 flex justify-between flex-col md:flex-row">
+        <div className="my-4 mt-6 flex justify-between flex-col md:flex-row">
           <div className="flex gap-2">
             <Image
               alt="owner"
@@ -32,19 +44,17 @@ const page = ({ params }) => {
                 category
               </span>
               |
-              <span className="flex">
+              <span className="flex text-gray-600 text-lg font-medium">
                 <MdDateRange className="mt-1" />
                 12.05.18
               </span>{" "}
             </div>
           </div>
 
-          <div className="flex flex-col">
-            <span className="text-gray-600 text-xl font-medium">
-              Duration : <span className="text-gray-800">45.15</span> h
-            </span>
-            <span className="flex text-lg font-medium">
-              <span className="text-gray-600">Price : </span>
+          <div className="flex flex-col text-gray-600 text-xl font-medium">
+            <span>Duration : 45.15 h</span>
+            <span>
+              <span>Price : </span>
               <span className="text-red-500"> 60</span> $
             </span>
           </div>
