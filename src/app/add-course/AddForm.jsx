@@ -1,6 +1,8 @@
 "use client"
+import Swal from 'sweetalert2'
+
 // dummy user
-const user = {  
+const user = {
   authorName: "ali",
   authorEmail: "ali@mail.com",
   authorPhotoUrl: "https://randomuser.me/api/portraits/men/22.jpg",
@@ -16,7 +18,6 @@ function AddForm() {
       title: e.target.title.value.trim(),
       price: +e.target.price.value.trim(),
       duration: e.target.duration.value.trim(),
-      thumbnail: e.target.thumbnail.value.trim(),
       description: e.target.description.value.trim(),
       authorName: user.authorName,
       authorEmail: user.authorEmail,
@@ -25,7 +26,19 @@ function AddForm() {
     }
 
     try {
-      // send post req
+      // host image into imagebb >>
+      const imgFormData = new FormData()
+      imgFormData.append("image", e.target.thumbnail.files[0])
+      
+      const resp = await fetch(`https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMAGEBB_API_KEY}`, {
+        method: "POST",
+        body: imgFormData
+      })
+      const result = await resp.json()
+      const thumbnail = result.data.display_url
+      formData.thumbnail = thumbnail
+
+      // req: add new course >>
       await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/add-course", {
         method: "POST",
         headers: {
@@ -34,10 +47,21 @@ function AddForm() {
         body: JSON.stringify(formData)
       })
 
+      // reset form and show alert
       e.target.reset()
-      alert('successfully added data')
+      Swal.fire({
+        title: "Successfully added the course!",
+        icon: "success",
+        confirmButtonColor: "#15803D"
+      })
     } catch (error) {
-      alert(error.message)
+      console.log(error.message)
+      Swal.fire({
+        title: "Error on adding the course!",
+        text: error.message,
+        icon: "success",
+        confirmButtonColor: "#15803D"
+      })
     }
   }
 
@@ -69,9 +93,9 @@ function AddForm() {
 
         <label className="form-control w-full mb-3">
           <div className="label">
-            <span className="label-text">Course thumbnail (url):</span>
+            <span className="label-text">Course thumbnail:</span>
           </div>
-          <input type="text" name="thumbnail" placeholder="e.g https://imagebb.com/flower.png" className="input input-bordered w-full min-w-0" required />
+          <input type="file" name="thumbnail" className="file-input file-input-bordered w-full min-w-0" />
         </label>
 
         <label className="form-control mb-3">
