@@ -11,7 +11,7 @@ const Courses = ({ products, loading }) => {
     return <Loading />;
   }
 
-  if (!products || products.length === 0) {
+  if (!products || products.length == 0) {
     return <NoDataFound />;
   }
 
