@@ -15,7 +15,7 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import Link from "next/link";
-import { BriefcaseBusiness, MessageCircleCodeIcon, PenBox } from "lucide-react";
+import { BriefcaseBusiness, HelpCircleIcon, MessageCircleCodeIcon, PenBox } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaCashRegister } from "react-icons/fa";
 
@@ -148,6 +148,11 @@ const Navbar = () => {
                           label="Chat with Ai"
                           labelIcon={<MessageCircleCodeIcon size={15} />}
                           href="saved-jobs"></UserButton.Link>
+
+                        <UserButton.Link
+                          label="Help Desk"
+                          labelIcon={<HelpCircleIcon size={15} />}
+                          href="helpdesk"></UserButton.Link>
                       </UserButton.MenuItems>
                     </UserButton>
                   </SignedIn>
