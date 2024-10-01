@@ -57,10 +57,10 @@ function AddForm() {
     } catch (error) {
       console.log(error.message)
       Swal.fire({
-        title: "Error on adding the course!",
+        title: "Error on adding course!",
         text: error.message,
-        icon: "success",
-        confirmButtonColor: "#15803D"
+        icon: "error",
+        confirmButtonColor: "#B91C1C"
       })
     }
   }
