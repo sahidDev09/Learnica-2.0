@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React from "react";
 import { MdDateRange } from "react-icons/md";
+import Comment from "../Comment";
 
 const page = async ({ params }) => {
   const res = await fetch(`http://localhost:3000/api/courses/${params.id}`);
@@ -15,7 +16,6 @@ const page = async ({ params }) => {
   }
 
   const data = await res.json();
-  console.log(data);
 
   return (
     <div className="min-h-screen py-10">
@@ -46,16 +46,16 @@ const page = async ({ params }) => {
               |
               <span className="flex text-gray-600 text-lg font-medium">
                 <MdDateRange className="mt-1" />
-                12.05.18
+                {data.publish_date}
               </span>{" "}
             </div>
           </div>
 
           <div className="flex flex-col text-gray-600 text-xl font-medium">
-            <span>Duration : 45.15 h</span>
+            <span>Duration : {data.duration} h</span>
             <span>
               <span>Price : </span>
-              <span className="text-red-500"> 60</span> $
+              <span className="text-red-500"> {data.price}</span> $
             </span>
           </div>
         </div>
@@ -63,22 +63,14 @@ const page = async ({ params }) => {
 
         <div className="">
           <p className="py-4 md:py-8 text-lg text-gray-500">
-            Exquisite floral watercolor painting adding natural elegance to any
-            space.Exquisite floral watercolor painting adding natural elegance
-            to any space.Exquisite floral watercolor painting adding natural
-            elegance to any space.Exquisite floral watercolor painting adding
-            natural elegance to any space.Exquisite floral watercolor painting
-            adding natural elegance to any space. space.Exquisite floral
-            watercolor painting adding natural elegance to any space.Exquisite
-            floral watercolor painting adding natural elegance to any
-            space.Exquisite floral watercolor painting adding natural elegance
-            to any space.Exquisite floral watercolor painting adding natural
-            elegance to any space.
+            {data.description}
           </p>
         </div>
         {/* rating */}
-        {/* comment/preview */}
       </div>
+      {/* comment/preview */}
+
+      <Comment></Comment>
     </div>
   );
 };
