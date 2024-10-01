@@ -31,17 +31,17 @@ const page = async ({ params }) => {
               alt="owner"
               width={100}
               height={100}
-              src={"/assets/developers/numan.jpg"}
+              src={data.thumbnail}
               className="w-16 h-16 border rounded-full"
             ></Image>
             <div className="flex gap-1 text-gray-600">
               <div className="flex flex-col">
-                <span className="font-medium text-xl">Owner name</span>
-                <span className="font-normal text-md">Owner title</span>
+                <span className="font-medium text-xl">{data.authorName}</span>
+                <span className="font-normal text-md">Backend Developer</span>
               </div>
               |
               <span className="text-gray-600 text-xl font-medium">
-                category
+                {data.category}
               </span>
               |
               <span className="flex text-gray-600 text-lg font-medium">

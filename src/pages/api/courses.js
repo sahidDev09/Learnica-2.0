@@ -9,25 +9,6 @@ export default async function handler(req, res) {
 
     switch (req.method) {
       case "GET":
-        // Get a specific course by ID
-        if (req.query.id) {
-          try {
-            const courseId = req.query.id;
-            const course = await courseCollection.findOne({
-              _id: new ObjectId(courseId),
-            });
-
-            if (!course) {
-              return res.status(404).json({ message: "Course not found" });
-            }
-
-            return res.status(200).json(course);
-          } catch (error) {
-            console.error("Error fetching course by ID:", error);
-            return res.status(500).json({ message: "Internal Server Error" });
-          }
-        }
-
         // For paginated listing and other cases
         const { category, page = 1, size = 3, search = "" } = req.query;
         const parsedPage = parseInt(page, 10);
