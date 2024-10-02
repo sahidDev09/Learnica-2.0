@@ -55,7 +55,7 @@ export default async function handler(req, res) {
 
       // Insert or update the user in MongoDB
       await usersCollection.updateOne(
-        { userId: user.id }, // Corrected this field to use `user.id`
+        { userId: user.id },
         { $set: userData },
         { upsert: true }
       );
@@ -72,6 +72,6 @@ export default async function handler(req, res) {
 
 export const config = {
   api: {
-    bodyParser: false, // Keep this false to handle raw body manually
+    bodyParser: false,
   },
 };
