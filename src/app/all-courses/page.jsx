@@ -51,7 +51,9 @@ const Page = () => {
   useEffect(() => {
     const fetchInitialCategories = async () => {
       setLoading(true);
-      const res = await fetch(`/api/courses?page=1&size=1000`);
+      const res = await fetch(
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/courses?page=1&size=1000"
+      );
       const data = await res.json();
       if (data.categories) {
         setCategories(data.categories);
@@ -96,8 +98,7 @@ const Page = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 16 16"
                 fill="currentColor"
-                className="h-6 w-6 text-primary"
-              >
+                className="h-6 w-6 text-primary">
                 <path
                   fillRule="evenodd"
                   d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
@@ -117,8 +118,7 @@ const Page = () => {
                   onClick={() => handleCategorySelect("")}
                   className={`flex text-sm items-center gap-2 p-2 px-4 text-white bg-primary rounded-full hover:scale-105 transition-transform md:text-lg ${
                     selectedCategory === "" ? "bg-secondary" : ""
-                  }`}
-                >
+                  }`}>
                   <FaTags />
                   All
                 </button>
@@ -128,8 +128,7 @@ const Page = () => {
                     onClick={() => handleCategorySelect(category)}
                     className={`flex text-sm items-center gap-2 p-2 px-4 text-white bg-primary rounded-full hover:scale-105 transition-transform md:text-lg ${
                       selectedCategory === category ? "bg-secondary" : ""
-                    }`}
-                  >
+                    }`}>
                     <FaTags />
                     {category}
                   </button>

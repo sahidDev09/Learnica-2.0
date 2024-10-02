@@ -5,7 +5,9 @@ import { MdDateRange } from "react-icons/md";
 import Comment from "../Comment";
 
 const page = async ({ params }) => {
-  const res = await fetch(`http://localhost:3000/api/courses/${params.id}`);
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/${params.id}`
+  );
 
   if (!res.ok) {
     return (
@@ -31,9 +33,9 @@ const page = async ({ params }) => {
               alt="owner"
               width={100}
               height={100}
-              src={data.thumbnail}
+              src={data.thumbnail || "/path/to/fallback-image.png"}
               className="w-16 h-16 border rounded-full"
-            ></Image>
+            />
             <div className="flex gap-1 text-gray-600">
               <div className="flex flex-col">
                 <span className="font-medium text-xl">{data.authorName}</span>
