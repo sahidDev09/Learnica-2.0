@@ -147,7 +147,7 @@ const Navbar = () => {
                         <UserButton.Link
                           label="Chat with Ai"
                           labelIcon={<MessageCircleCodeIcon size={15} />}
-                          href="saved-jobs"></UserButton.Link>
+                          href="chat-ai"></UserButton.Link>
                       </UserButton.MenuItems>
                     </UserButton>
                   </SignedIn>
