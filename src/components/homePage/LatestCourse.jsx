@@ -1,16 +1,43 @@
+"use client";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Card from "../shared/Card";
+import Loading from "../../app/loading";
+const LatestCourses = () => {
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-const getCourses = async () => {
-  const res = await fetch("http://localhost:3000/api/courses"); 
-  const courses = res.json();
-  return courses;
-};
+  useEffect(() => {
+    // Function to fetch courses
+    const fetchCourses = async () => {
+      try {
+        const res = await fetch(
+          process.env.NEXT_PUBLIC_BASE_URL + "/api/courses"
+        );
+        if (!res.ok) {
+          throw new Error("Failed to fetch courses");
+        }
+        const data = await res.json();
+        setCourses(data.products || []);
+        setLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
+    };
 
-const LatestCourses = async () => {
+    fetchCourses();
+  }, []);
 
-  const courses = await getCourses();
-  
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <section className="px-4 py-8 md:py-12">
       <div className="container mx-auto">
@@ -19,7 +46,7 @@ const LatestCourses = async () => {
           <h2 className="text-3xl md:text-4xl font-bold">Latest courses</h2>
         </header>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {courses?.slice(0, 3).map((course, index) => (
+          {courses.slice(0, 3).map((course, index) => (
             <Card key={index} course={course} />
           ))}
         </div>

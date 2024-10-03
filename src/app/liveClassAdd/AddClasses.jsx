@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+
 import { useUser } from "@clerk/clerk-react"; // Clerk hook for authentication
 
 export default function AddClasses() {
@@ -19,7 +19,7 @@ export default function AddClasses() {
     liveTime: "",
   });
 
-  const MySwal = withReactContent(Swal);
+
 
   // Fetch author data from the API and prefill the form fields
   useEffect(() => {
@@ -57,7 +57,7 @@ export default function AddClasses() {
       console.log("Course added successfully:", response.data);
 
       // Show success alert
-      MySwal.fire({
+      Swal.fire({
         title: "Success!",
         text: "Live class has been added successfully!",
         icon: "success",
@@ -79,7 +79,7 @@ export default function AddClasses() {
       console.error("Error adding course:", error);
 
       // Show error alert
-      MySwal.fire({
+      Swal.fire({
         title: "Error!",
         text: "Something went wrong while adding the live class.",
         icon: "error",
