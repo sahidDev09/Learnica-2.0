@@ -1,39 +1,41 @@
-"use client"
+"use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Card from "../shared/Card";
 import Loading from "../../app/loading";
 const LatestCourses = () => {
-  const [courses, setCourses] = useState([]); 
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(null); 
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     // Function to fetch courses
     const fetchCourses = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/courses");
+        const res = await fetch(
+          process.env.NEXT_PUBLIC_BASE_URL + "/api/courses"
+        );
         if (!res.ok) {
           throw new Error("Failed to fetch courses");
         }
         const data = await res.json();
-        setCourses(data.products || []); 
-        setLoading(false); 
+        setCourses(data.products || []);
+        setLoading(false);
       } catch (error) {
-        setError(error.message); 
-        setLoading(false); 
+        setError(error.message);
+        setLoading(false);
       }
     };
 
-    fetchCourses(); 
-  }, []); 
+    fetchCourses();
+  }, []);
 
   if (loading) {
-    return <Loading/>; 
+    return <Loading />;
   }
 
   if (error) {
-    return <div>Error: {error}</div>; 
+    return <div>Error: {error}</div>;
   }
 
   return (
@@ -52,8 +54,7 @@ const LatestCourses = () => {
         <div className="mt-8 flex justify-center">
           <Link
             className="inline-block bg-primary text-white px-8 py-3 rounded-full shadow-md hover:opacity-80 transition-opacity"
-            href="/all-courses"
-          >
+            href="/all-courses">
             View all
           </Link>
         </div>

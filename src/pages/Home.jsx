@@ -13,7 +13,6 @@ const HomePage = () => {
   return (
     <div>
       {/* navbar */}
-
       {/* Hero banner */}
       <Banner></Banner>
       {/* companies */}

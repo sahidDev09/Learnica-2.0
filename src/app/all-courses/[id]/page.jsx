@@ -1,10 +1,10 @@
 "use client";
 import Image from "next/image";
-import React from "react";
-import { MdDateRange } from "react-icons/md";
 
 const page = async ({ params }) => {
-  const res = await fetch(`http://localhost:3000/api/courses/${params.id}`);
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/${params.id}`
+  );
 
   if (!res.ok) {
     return (

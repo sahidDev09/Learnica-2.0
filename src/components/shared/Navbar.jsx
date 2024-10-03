@@ -15,7 +15,12 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import Link from "next/link";
-import { BriefcaseBusiness, MessageCircleCodeIcon, PenBox } from "lucide-react";
+import {
+  BriefcaseBusiness,
+  HelpCircleIcon,
+  MessageCircleCodeIcon,
+  PenBox,
+} from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaCashRegister } from "react-icons/fa";
 
@@ -147,7 +152,12 @@ const Navbar = () => {
                         <UserButton.Link
                           label="Chat with Ai"
                           labelIcon={<MessageCircleCodeIcon size={15} />}
-                          href="saved-jobs"></UserButton.Link>
+                          href="/chat-ai"></UserButton.Link>
+
+                        <UserButton.Link
+                          label="Help Desk"
+                          labelIcon={<HelpCircleIcon size={15} />}
+                          href="helpdesk"></UserButton.Link>
                       </UserButton.MenuItems>
                     </UserButton>
                   </SignedIn>
@@ -161,32 +171,75 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <div
         className={`${
-          openMenu ? "w-1/2 md:w-1/4" : "w-0"
-        } fixed duration-200 h-full top-0 z-20 left-0 bg-[#3B8BFF]`}>
-        <div className="w-full flex justify-end">
+          openMenu ? "w-3/4" : "w-0"
+        } fixed top-0 right-0 h-full bg-black transition-all overflow-hidden z-50`}>
+        <div className="flex justify-end px-4 py-5">
           <RxCross1
             onClick={handleCloseMenu}
-            className="text-right text-2xl mr-5 mt-5 text-white cursor-pointer"
+            className="text-white text-4xl cursor-pointer"
           />
         </div>
-        <div
-          className={`${!openMenu ? "hidden" : "block"} flex justify-center`}>
-          <ul className="flex flex-col text-center gap-5 text-white">
-            <Link href="/" className="cursor-pointer">
-              Home
-            </Link>
-            <Link href="/all-courses" className="cursor-pointer">
-              All Courses
-            </Link>
-            <Link href="/live_class" className="cursor-pointer">
-              Live Classes
-            </Link>
-            <Link href="/about" className="cursor-pointer">
-              About Us
-            </Link>
-            <li className="cursor-pointer">Sign In</li>
-          </ul>
-        </div>
+        <ul className="text-white font-semibold p-4 space-y-4">
+          <li>
+            {/* Show Sign-in button when signed out */}
+            <SignedOut>
+              <Button
+                onClick={() => setShowSignIn(true)}
+                variant="secondary"
+                className="rounded-full w-full">
+                Sign-in
+              </Button>
+            </SignedOut>
+
+            {/* Show UserButton when signed in */}
+            <SignedIn>
+              <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: " w-10 h-10",
+                  },
+                }}
+                className="mr-3">
+                <UserButton.MenuItems>
+                  <UserButton.Link
+                    label="My Purchases"
+                    labelIcon={<BriefcaseBusiness size={15} />}
+                    href="my-applications"></UserButton.Link>
+
+                  <UserButton.Link
+                    label="Payment History"
+                    labelIcon={<FaCashRegister size={15} />}
+                    href="saved-jobs"></UserButton.Link>
+
+                  <UserButton.Link
+                    label="Chat with Ai"
+                    labelIcon={<MessageCircleCodeIcon size={15} />}
+                    href="saved-jobs"></UserButton.Link>
+
+                  <UserButton.Link
+                    label="Help Desk"
+                    labelIcon={<HelpCircleIcon size={15} />}
+                    href="helpdesk"></UserButton.Link>
+                </UserButton.MenuItems>
+              </UserButton>
+            </SignedIn>
+          </li>
+          <li>
+            <Link href="/">Home</Link>
+          </li>
+          <li>
+            <Link href="/all-courses">All Courses</Link>
+          </li>
+          <li>
+            <Link href="/live_class">Live Classes</Link>
+          </li>
+          <li>
+            <Link href="/about">About Us</Link>
+          </li>
+          <li>
+            <Link href="/contact">Contact Us</Link>
+          </li>
+        </ul>
       </div>
 
       {/* Sign In Modal */}
