@@ -47,6 +47,7 @@ const Navbar = () => {
     <nav className="bg-secondary">
       <div className="sticky z-20 top-0 w-full container mx-auto text-white dark:bg-black">
         <div className="rounded-b-2xl flex mx-auto justify-between items-center py-2 md:py-5 px-3 md:px-0">
+          <Link href={'/'}>
           <div>
             <Image
               src={DarkModeLogo}
@@ -56,6 +57,7 @@ const Navbar = () => {
               className="w-40"
             />
           </div>
+          </Link>
           <div>
             {/* Mobile menu icon */}
             <div className="block md:hidden lg:hidden">
