@@ -1,6 +1,8 @@
 "use client";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
+import Reviews from "./Reviews";
+import AddReviewForm from "./AddReviewForm";
 
 const page = async ({ params }) => {
   const res = await fetch(
@@ -179,8 +181,9 @@ const page = async ({ params }) => {
               className="tab mx-2 px-2"
               aria-label="Reviews"
             />
-            <div role="tabpanel" className="tab-content p-10 bg-white">
-              Reviews
+            <div role="tabpanel" className="tab-content p-4 bg-white">
+              <AddReviewForm />
+              <Reviews />
             </div>
           </div>
         </div>
