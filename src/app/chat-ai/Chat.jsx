@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import image from "../../../public/assets/learnicaAi.png";
-import aibot from "../../../public/assets/aibot.jpeg";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SendHorizontalIcon } from "lucide-react";
@@ -24,8 +23,6 @@ const Chat = () => {
 
   const { user } = useUser();
   const ref = useRef();
-
-  console.log("user details", user);
 
   const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
   const modelName = "gemini-1.5-flash";
@@ -105,11 +102,11 @@ const Chat = () => {
       setUserInput("");
 
       if (chat) {
-        setTyping(true); // Start showing the typing indicator
+        setTyping(true);
         console.log("Sending message:", userInput);
 
         const result = await chat.sendMessage(userInput);
-        setTyping(false); // Hide typing indicator once response is received
+        setTyping(false);
 
         const botMessage = {
           text: await result.response.text(),
@@ -123,7 +120,7 @@ const Chat = () => {
       }
     } catch (error) {
       setError(`Failed to send message: ${error.message}`);
-      setTyping(false); // Hide typing indicator if error occurs
+      setTyping(false);
       console.error("Message send error:", error);
     }
   };
