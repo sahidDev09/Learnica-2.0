@@ -1,104 +1,66 @@
-"use client"; // This line makes the component a Client Component
+import Image from 'next/image'; 
+import Link from 'next/link';
+import { FaPlus } from 'react-icons/fa';
 
-import React from 'react';
-import Image from 'next/image'; // Import Next.js Image component
+const getClasses = async () => {
+  const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/live_classes"); 
+  const classes = await res.json();
+  return classes;
+};
 
-const LiveClasses = () => {
-  const liveClasses = [
-    {
-      thumbnail: 'https://img-c.udemycdn.com/course/240x135/1931752_1012_15.jpg',
-      courseName: 'Business Fundamentals: Marketing Strategy',
-      category: 'Marketing',
-      authorName: 'Brad',
-      authorId: 'abc',
-      authorEmail: 'brad@mail.com',
-      liveLink: 'https://meet.google.com/ucs-gbhd-zvg',
-      liveTime: '03:00 PM, 25 Sept'
-    },
-    {
-      thumbnail: 'https://img-b.udemycdn.com/course/240x135/1463348_52a4_4.jpg',
-      courseName: 'Modern JavaScript From The Beginning',
-      category: 'Programming',
-      authorName: 'Brad',
-      authorId: 'abc',
-      authorEmail: 'brad@mail.com',
-      liveLink: 'https://meet.google.com/ucs-gbhd-zvg',
-      liveTime: '03:30 PM, 25 Sept'
-    },
-    {
-      thumbnail: 'https://img-c.udemycdn.com/course/240x135/1565838_e54e_18.jpg',
-      courseName: 'The Complete 2024 Web Development Bootcamp',
-      category: 'Programming',
-      authorName: 'Angela',
-      authorId: 'abc',
-      authorEmail: 'angela@mail.com',
-      liveLink: 'https://meet.google.com/ted-xkcu-saa',
-      liveTime: '04:00 PM, 25 Sept'
-    },
-    {
-      thumbnail: 'https://img-c.udemycdn.com/course/240x135/1931752_1012_15.jpg',
-      courseName: 'Business Fundamentals: Marketing Strategy',
-      category: 'Marketing',
-      authorName: 'Brad',
-      authorId: 'abc',
-      authorEmail: 'brad@mail.com',
-      liveLink: 'https://meet.google.com/ted-xkcu-saa',
-      liveTime: '05:00 PM, 25 Sept'
-    },
-    {
-      thumbnail: 'https://img-c.udemycdn.com/course/240x135/1565838_e54e_18.jpg',
-      courseName: 'SEO Fundamentals',
-      category: 'marketing',
-      authorName: 'John Doe',
-      authorId: 'def',
-      authorEmail: 'john.doe@mail.com',
-      liveLink: 'https://meet.google.com/iva-qium-ocq',
-      liveTime: '03:00 PM, 25 Sept'
-    },
-    {
-      thumbnail: 'https://img-c.udemycdn.com/course/240x135/1931752_1012_15.jpg',
-      courseName: 'Mastering Digital Marketing',
-      category: 'Marketing',
-      authorName: 'Alice Lee',
-      authorId: 'ghi',
-      authorEmail: 'alice.lee@mail.com',
-      liveLink: 'https://meet.google.com/iva-qium-ocq',
-      liveTime: '03:30 PM, 25 Sept'
-    }
-  ];
-
-  const joinClass = (liveLink, authorId) => {
-    window.location.href = liveLink; // Redirect to the live class link
-    
-  };
+const LiveClasses = async () => {
+  const classes = await getClasses();
 
   return (
     <div className="p-4">
-      <h1 className="text-3xl font-bold mb-4 text-center ">Live Classes</h1>
+      <h1 className="text-3xl font-bold mb-4 text-center">Live Classes</h1>
+
+      {/* Add Courses Button */}
+      <div className="flex justify-end mt-4 mb-4">
+        <Link href="liveClassAdd">
+          <button className="text-sm flex items-center gap-2 p-2 px-4 text-white bg-primary rounded-xl hover:scale-105 transition-transform md:text-lg">
+            <FaPlus />
+            Add Live Class
+          </button>
+        </Link>
+      </div>
+
       {/* Responsive Grid Layout */}
-      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {liveClasses.map((liveClass, index) => (
+      <div className="grid lg:grid-cols-2 gap-6 ml-16 mr-16">
+        {classes.map((liveClass, index) => (
           <div 
             key={index} 
-            className="bg-card rounded-lg shadow-md p-4   transition-colors duration-300"
+            className="flex flex-col md:flex-row gap-6 bg-card rounded-lg shadow-md p-4  duration-300 hover:shadow-[0_30px_18px_-8px_rgba(0,0,0,0.1)] hover:scale-105 transition-transform h-full"
           >
-            <Image
-              src={liveClass.thumbnail}
-              alt="Course Thumbnail"
-              width={256}
-              height={144}
-              className="w-full rounded-lg"
-            />
-            <h3 className="text-lg font-semibold mt-2">{liveClass.courseName}</h3>
-            <p className="text-sm">Category: {liveClass.category}</p>
-            <p className="text-sm">Author: {liveClass.authorName}</p>
-            <p className="text-sm">Live Time: {liveClass.liveTime}</p>
-            <button
-              onClick={() => joinClass(liveClass.liveLink, liveClass.authorId)}
-              className="mt-4 bg-primary text-white rounded-md px-3 py-2 hover:bg-orange-700 transition"
-            >
-              Join Live Class
-            </button>
+            {/* Image */}
+            <div className="md:w-1/2 h-full">
+              <Image
+                src={liveClass.thumbnail}
+                alt="Course Thumbnail"
+                width={256}
+                height={144}
+                className="w-60 rounded-lg h-full object-cover"
+              />
+            </div>
+
+            {/* Information */}
+            <div className="md:w-1/2 flex flex-col justify-between h-full">
+              <div className="flex-1">
+                <h3 className="text-lg font-bold mt-2 md:mt-0 text-fuchsia-800">{liveClass.courseName}</h3>
+                <p className="text-sm font-bold"><span className=' text-red-600'>Category:</span> <span>{liveClass.category}</span></p>
+                <p className="text-sm font-bold"><span className=' text-rose-800'>Author:</span> <span>{liveClass.authorName}</span></p>
+                <p className="text-sm font-bold"><span className=' text-red-500'>Live Time:</span> <span>{liveClass.liveTime}</span></p>
+              </div>
+              
+              {/* Button, aligned right */}
+              <div className="mt-4 md:mt-0 md:flex md:justify-end flex justify-end">
+                <Link href={liveClass.liveLink}>
+                  <button className="bg-primary text-white rounded-md px-3 py-2 hover:bg-orange-700 transition">
+                    Join Live Class
+                  </button>
+                </Link>
+              </div>
+            </div>
           </div>
         ))}
       </div>
