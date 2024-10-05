@@ -26,7 +26,7 @@ const LiveClasses = async () => {
       </div>
 
       {/* Responsive Grid Layout */}
-      <div className="grid lg:grid-cols-2 gap-6 ml-16 mr-16">
+      <div className="grid lg:grid-cols-2 lg:gap-8 gap-6 lg:ml-16 lg:mr-16">
         {classes.map((liveClass, index) => (
           <div 
             key={index} 
@@ -39,7 +39,7 @@ const LiveClasses = async () => {
                 alt="Course Thumbnail"
                 width={256}
                 height={144}
-                className="w-60 rounded-lg h-full object-cover"
+                className="lg:w-60 w-full rounded-lg h-full object-cover"
               />
             </div>
 
