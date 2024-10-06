@@ -16,7 +16,7 @@ const OnboardingScreen = () => {
         unsafeMetadata: { role },
       })
       .then(() => {
-        router.push(role === "student" ? "/" : "all-courses");
+        router.push(role === "student" ? "/" : "dashboard");
       })
       .catch((err) => {
         console.log("Error updating role", err);
@@ -26,7 +26,7 @@ const OnboardingScreen = () => {
   useEffect(() => {
     if (user?.unsafeMetadata?.role) {
       router.push(
-        user?.unsafeMetadata?.role === "student" ? "/" : "all-courses"
+        user?.unsafeMetadata?.role === "student" ? "/" : "/dashboard"
       );
     }
   }, [router, user]);
