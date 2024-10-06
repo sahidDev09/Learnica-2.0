@@ -15,6 +15,7 @@ import {
 import Link from "next/link";
 import {
   BriefcaseBusiness,
+  FileStackIcon,
   HelpCircleIcon,
   MessageCircleCodeIcon,
   PenBox,
@@ -149,7 +150,12 @@ const Navbar = () => {
                         <UserButton.Link
                           label="Payment History"
                           labelIcon={<FaCashRegister size={15} />}
-                          href="saved-jobs"></UserButton.Link>
+                          href="paymentHistory"></UserButton.Link>
+
+                        <UserButton.Link
+                          label="Custom Course"
+                          labelIcon={<FileStackIcon size={15} />}
+                          href="/custom-course"></UserButton.Link>
 
                         <UserButton.Link
                           label="Chat with Ai"
