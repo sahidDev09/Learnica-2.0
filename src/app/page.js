@@ -1,10 +1,12 @@
 import HomePage from "@/pages/Home";
 import "./index.css";
 
-export default function Home() {
+const Home = async () => {
   return (
     <>
       <HomePage />
     </>
   );
-}
+};
+
+export default Home;
