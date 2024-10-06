@@ -44,42 +44,44 @@ const page = async ({ params }) => {
   return (
     <div className="min-h-screen py-10">
       <div className="container mx-auto flex flex-col-reverse lg:flex-row px-2">
-        <div className="lg:w-5/12 bg-card p-6 rounded-xl">
-          {/* title */}
-          <h2 className="text-2xl md:text-3xl font-semibold">{data.title}</h2>
-          {/* progress */}
-          <div className="flex gap-2 items-center my-4">
-            <progress
-              className="progress progress-error w-56"
-              value="10"
-              max="100"
-            ></progress>
-            <span className="font-semibold">10%</span>
-          </div>
-          {/* content */}
-          <div className="space-y-3">
-            {topic.map((item, index) => (
-              <>
-                <div className="flex gap-2 items-center p-2 bg-white w-full rounded-md">
-                  <Image
-                    width={60}
-                    height={60}
-                    src={"/assets/video_thumbnail.png"}
-                    alt="video_thumbnail"
-                    className="rounded"
-                  ></Image>
-                  <div className="text-start w-full">
-                    <h2 className="text-lg md:text-xl font-semibold">
-                      {index + 1}. {item.title}
-                    </h2>
-                    <h4 className="ml-5">Duration : {item.duration} min</h4>
+        <div className="lg:w-5/12">
+          <div className=" bg-card p-6 rounded-xl">
+            {/* title */}
+            <h2 className="text-2xl md:text-3xl font-semibold">{data.title}</h2>
+            {/* progress */}
+            <div className="flex gap-2 items-center my-4">
+              <progress
+                className="progress progress-error w-56"
+                value="10"
+                max="100"
+              ></progress>
+              <span className="font-semibold">10%</span>
+            </div>
+            {/* content */}
+            <div className="space-y-3">
+              {topic.map((item, index) => (
+                <>
+                  <div className="flex gap-2 items-center p-2 bg-white w-full rounded-md">
+                    <Image
+                      width={60}
+                      height={60}
+                      src={"/assets/video_thumbnail.png"}
+                      alt="video_thumbnail"
+                      className="rounded"
+                    ></Image>
+                    <div className="text-start w-full">
+                      <h2 className="text-lg md:text-xl font-semibold">
+                        {index + 1}. {item.title}
+                      </h2>
+                      <h4 className="ml-5">Duration : {item.duration} min</h4>
+                    </div>
+                    <button className="btn btn-sm bg-red-400 text-white">
+                      Play
+                    </button>
                   </div>
-                  <button className="btn btn-sm bg-red-400 text-white">
-                    Play
-                  </button>
-                </div>
-              </>
-            ))}
+                </>
+              ))}
+            </div>
           </div>
         </div>
         <div className="lg:w-7/12 lg:px-6 my-6 lg:my-0">
