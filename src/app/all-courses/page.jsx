@@ -7,6 +7,7 @@ import Pagination from "./Pagination";
 import Loading from "../loading";
 import Link from "next/link";
 import debounce from "lodash.debounce";
+import { useUser } from "@clerk/nextjs";
 
 const Page = () => {
   const [page, setPage] = useState(1);
@@ -17,6 +18,8 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [totalProducts, setTotalProducts] = useState(0);
+
+  const { user } = useUser();
 
   const fetchCourses = useCallback(async () => {
     setLoading(true);
@@ -140,12 +143,14 @@ const Page = () => {
 
         {/* Add Courses Button */}
         <div className="flex justify-end mt-4">
-          <Link href="add-course">
-            <button className="text-sm flex items-center gap-2 p-2 px-4 text-white bg-primary rounded-xl hover:scale-105 transition-transform md:text-lg">
-              <FaPlus />
-              Add Course
-            </button>
-          </Link>
+          {user?.unsafeMetadata?.role === "teacher" && (
+            <Link href="add-course">
+              <button className="text-sm flex items-center gap-2 p-2 px-4 text-white bg-primary rounded-xl hover:scale-105 transition-transform md:text-lg">
+                <FaPlus />
+                Add Course
+              </button>
+            </Link>
+          )}
         </div>
 
         {/* Courses and Pagination */}

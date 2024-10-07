@@ -181,6 +181,7 @@ const page = () => {
                 {" "}
                 +880 1874 627 950{" "}
               </a>
+              <br />
               <a
                 className="  text-blue-500 font-bold hover:text-blue-600"
                 href="mailto:rahatfaruk99@gmail.com">
@@ -229,6 +230,7 @@ const page = () => {
                 {" "}
                 +880 1640 403 998{" "}
               </a>
+              <br />
               <a
                 className="  text-blue-500 font-bold hover:text-blue-600"
                 href="mailto:mamazed1314@gmail.com">
@@ -275,6 +277,7 @@ const page = () => {
                 {" "}
                 +880 1791 237 034{" "}
               </a>
+              <br />
               <a
                 className="  text-blue-500 font-bold hover:text-blue-600"
                 href="mailto:numanahmod96@gmail.com">
@@ -307,7 +310,7 @@ const page = () => {
 
       {/* Our Goal Section */}
       <div className="flex flex-col lg:flex-row justify-between gap-6 py-10">
-        <div className="object-cover rounded-2xl w-full h-[300px] bg-card p-8">
+        <div className="object-cover rounded-2xl w-full h-[300px] bg-card hover:bg-green-200 p-8">
           <h3 className="text-red-400 text-xl font-bold">Our Goal</h3>
           <h1 className="text-2xl lg:text-4xl font-bold mt-6">
             Empowering Lives <br /> Through Education
@@ -318,7 +321,7 @@ const page = () => {
             and knowledge.
           </p>
         </div>
-        <div className="object-cover bg-card rounded-2xl w-full lg:h-[300px]  p-8">
+        <div className="object-cover bg-card hover:bg-green-200 rounded-2xl w-full lg:h-[300px]  p-8">
           <h2 className="text-red-400 text-2xl font-bold">
             Why you choose us...
           </h2>

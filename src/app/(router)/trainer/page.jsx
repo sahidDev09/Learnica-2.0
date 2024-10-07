@@ -1,10 +1,9 @@
 import React from "react";
-import Chat from "./Chat";
 
 const page = () => {
   return (
     <div>
-      <Chat/>
+      <h2>trainer dashboard</h2>
     </div>
   );
 };

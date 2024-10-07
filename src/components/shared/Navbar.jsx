@@ -1,5 +1,4 @@
 "use client";
-
 import { IoMdMenu } from "react-icons/io";
 import { RxCross1 } from "react-icons/rx";
 import Image from "next/image";
@@ -10,13 +9,13 @@ import {
   SignedIn,
   SignedOut,
   SignIn,
-  SignInButton,
-  useAuth,
   UserButton,
+  useUser,
 } from "@clerk/nextjs";
 import Link from "next/link";
 import {
   BriefcaseBusiness,
+  FileStackIcon,
   HelpCircleIcon,
   MessageCircleCodeIcon,
   PenBox,
@@ -30,7 +29,7 @@ const Navbar = () => {
 
   const search = useSearchParams();
   const router = useRouter();
-  const { userId } = useAuth();
+  const { user } = useUser();
 
   const handleOpenMenu = () => setOpenMenu(true);
   const handleCloseMenu = () => setOpenMenu(false);
@@ -52,15 +51,17 @@ const Navbar = () => {
     <nav className="bg-secondary">
       <div className="sticky z-20 top-0 w-full container mx-auto text-white dark:bg-black">
         <div className="rounded-b-2xl flex mx-auto justify-between items-center py-2 md:py-5 px-3 md:px-0">
-          <div>
-            <Image
-              src={DarkModeLogo}
-              alt="Logo"
-              width={100}
-              height={100}
-              className="w-40"
-            />
-          </div>
+          <Link href={"/"}>
+            <div>
+              <Image
+                src={DarkModeLogo}
+                alt="Logo"
+                width={100}
+                height={100}
+                className="w-40"
+              />
+            </div>
+          </Link>
           <div>
             {/* Mobile menu icon */}
             <div className="block md:hidden lg:hidden">
@@ -126,11 +127,13 @@ const Navbar = () => {
                       Sign-in
                     </Button>
                   </SignedOut>
-                  <Link href="">
-                    <Button variant="destructive" className="rounded-full">
-                      <PenBox size={20} className="mr-2" /> Author Dashboard
-                    </Button>
-                  </Link>
+                  {user?.unsafeMetadata?.role === "teacher" && (
+                    <Link href="/trainer">
+                      <Button variant="destructive" className="rounded-full">
+                        <PenBox size={20} className="mr-2" /> Author Dashboard
+                      </Button>
+                    </Link>
+                  )}
                   <SignedIn>
                     <UserButton
                       appearance={{
@@ -147,7 +150,12 @@ const Navbar = () => {
                         <UserButton.Link
                           label="Payment History"
                           labelIcon={<FaCashRegister size={15} />}
-                          href="saved-jobs"></UserButton.Link>
+                          href="paymentHistory"></UserButton.Link>
+
+                        <UserButton.Link
+                          label="Custom Course"
+                          labelIcon={<FileStackIcon size={15} />}
+                          href="/custom-course"></UserButton.Link>
 
                         <UserButton.Link
                           label="Chat with Ai"
@@ -249,7 +257,7 @@ const Navbar = () => {
           onClick={handleOverlayOut}>
           <SignIn
             routing="hash"
-            signUpForceRedirectUrl="/onboarding"
+            signUpForceRedirectUrl="/"
             fallbackRedirectUrl="/onboarding"
           />
         </div>
