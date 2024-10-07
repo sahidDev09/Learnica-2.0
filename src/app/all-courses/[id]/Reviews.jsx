@@ -1,10 +1,18 @@
+"use client"
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 
 async function Reviews() {
-  const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/get-reviews')
-  const reviews = await res.json()
+  const {data:reviews, isLoading} = useQuery({
+    queryKey: ['course-reviews'],
+    queryFn: async () => {
+      const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/get-reviews')
+      return res.json()
+    }
+  })
 
+  if (isLoading){ return "Loading.." }
   return (
     <section className="max-w-screen-lg mx-auto my-6">
       <header className="mb-6">
@@ -14,9 +22,9 @@ async function Reviews() {
       {/* cards */}
       {reviews.length > 0
         ? (
-          <div className="space-y-5">
+          <div className="space-y-5 max-h-[500px] border-2 p-4 rounded-md overflow-y-auto">
             {reviews.map(review => (
-              <div key={review._id} className="border p-4 rounded-md shadow-md bg-card">
+              <div key={review._id} className="border p-4 rounded-md shadow-md bg-card mb-3">
                 <div className="flex items-center gap-4 pb-3">
                   <figure>
                     <Image src={review.reviewerPhotoUrl} alt="reviewer photo" width={40} height={40} className="rounded-full border border-primary" />
