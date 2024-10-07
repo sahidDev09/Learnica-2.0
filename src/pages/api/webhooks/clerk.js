@@ -1,3 +1,5 @@
+import { PodcastIcon } from "lucide-react";
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });
@@ -25,7 +27,9 @@ export default async function handler(req, res) {
     if (event.type === "user.created" || event.type === "user.updated") {
       const user = event.data;
 
-      const userRole = user.public_metadata?.role || "student"; // Extract the role
+      // Extracting role from unsafe metadata
+      const role = user?.unsafe_metadata?.role || "student"; // Default to 'student' if no role is provided
+
       const userData = {
         userId: user.id,
         email: user.email_addresses[0].email_address,
@@ -34,7 +38,7 @@ export default async function handler(req, res) {
         photo: user.image_url,
         firstName: user.first_name,
         lastName: user.last_name,
-        role: userRole, // Use the extracted role
+        role, // Adding role to the user data
         updatedAt: new Date(),
       };
 

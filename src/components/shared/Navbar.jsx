@@ -128,7 +128,7 @@ const Navbar = () => {
                     </Button>
                   </SignedOut>
                   {user?.unsafeMetadata?.role === "teacher" && (
-                    <Link href="">
+                    <Link href="/trainer">
                       <Button variant="destructive" className="rounded-full">
                         <PenBox size={20} className="mr-2" /> Author Dashboard
                       </Button>

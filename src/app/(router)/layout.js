@@ -16,14 +16,13 @@ const layout = ({ children }) => {
               <label
                 htmlFor="my-drawer-2"
                 aria-label="close sidebar"
-                className="drawer-overlay"
-              ></label>
+                className="drawer-overlay"></label>
               <ul className="menu z-20 p-4 w-80 min-h-full bg-base-200 text-base-content">
                 {/* Sidebar content here */}
                 <li>
                   <Link href="/dashboard">Profile</Link>
                 </li>
-                {role == "user" && (
+                {role === "user" && (
                   <>
                     <li>
                       <Link href="/dashboard/user/courses">Courses</Link>
@@ -35,7 +34,7 @@ const layout = ({ children }) => {
                   </>
                 )}
 
-                {role == "trainer" && (
+                {role === "trainer" && (
                   <>
                     <li>
                       <Link href="/dashboard/trainer/courses">Courses</Link>
@@ -52,7 +51,7 @@ const layout = ({ children }) => {
                   </>
                 )}
 
-                {role == "admin" && (
+                {role === "admin" && (
                   <>
                     <li>
                       <Link href="/dashboard/admin/manage-users">
@@ -70,7 +69,7 @@ const layout = ({ children }) => {
                   </>
                 )}
 
-                {role == "owner" && (
+                {role === "owner" && (
                   <>
                     <li>
                       <Link href="/dashboard/admin/manage-users">
@@ -91,20 +90,20 @@ const layout = ({ children }) => {
                 <div className="divider"></div>
                 <li>
                   <Link href="/">
-                    <FaHome></FaHome>
+                    <FaHome />
                     Home
                   </Link>
                 </li>
                 <li>
                   <Link href="/all-courses">
-                    <FaSearch></FaSearch>
+                    <FaSearch />
                     All Courses
                   </Link>
                 </li>
-                {role == ("user" || "trainer") && (
+                {["user", "trainer"].includes(role) && (
                   <li>
                     <Link href="/contact">
-                      <FaEnvelope></FaEnvelope>
+                      <FaEnvelope />
                       Contact
                     </Link>
                   </li>
@@ -120,8 +119,7 @@ const layout = ({ children }) => {
             {/* Page content here */}
             <label
               htmlFor="my-drawer-2"
-              className="btn my-10 bg-primary text-white drawer-button lg:hidden"
-            >
+              className="btn my-10 bg-primary text-white drawer-button lg:hidden">
               Open Menu
             </label>
           </div>
