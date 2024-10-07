@@ -4,6 +4,7 @@ import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
 import { ReactLenis } from "/src/lib/lenis.jsx";
 import { ClerkProvider } from "@clerk/nextjs";
+import TanstackProvider from "./TanstackProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,14 +28,14 @@ export default function RootLayout({ children }) {
     <ClerkProvider>
       <html lang="en">
         <ReactLenis root>
-          <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased `}>
-            <Navbar></Navbar>
-            
-            {children}
+          <body className={`${geistSans.variable} ${geistMono.variable} antialiased `}>
+            <TanstackProvider>
 
-            {/* footer */}
-            <Footer></Footer>
+              <Navbar></Navbar>
+              {children}
+              <Footer></Footer>
+              
+            </TanstackProvider>
           </body>
         </ReactLenis>
       </html>
