@@ -1,12 +1,9 @@
-import Admin from "@/components/dashboard/admin";
-import Owner from "@/components/dashboard/Owner";
-import Trainer from "@/components/dashboard/Trainer";
-import User from "@/components/dashboard/User";
 import Link from "next/link";
 import { FaEnvelope, FaHome, FaSearch } from "react-icons/fa";
 
-const page = () => {
-  const role = "admin";
+const layout = ({ children }) => {
+  const role = "user";
+
   return (
     <div>
       <div className="min-h-screen md:flex">
@@ -24,7 +21,7 @@ const page = () => {
               <ul className="menu z-20 p-4 w-80 min-h-full bg-base-200 text-base-content">
                 {/* Sidebar content here */}
                 <li>
-                  <Link href="/dashboard/profile">Profile</Link>
+                  <Link href="/dashboard">Profile</Link>
                 </li>
                 {role == "user" && (
                   <>
@@ -131,37 +128,11 @@ const page = () => {
 
           {/* ----------------------------- Outlet ------------------------------- */}
 
-          {/* for owner */}
-          {role == "owner" && (
-            <div>
-              <Owner></Owner>
-            </div>
-          )}
-
-          {/* for admin */}
-          {role == "admin" && (
-            <div>
-              <Admin></Admin>
-            </div>
-          )}
-
-          {/* for trainer */}
-          {role == "trainer" && (
-            <div>
-              <Trainer></Trainer>
-            </div>
-          )}
-
-          {/* for user */}
-          {role == "user" && (
-            <div>
-              <User></User>
-            </div>
-          )}
+          {children}
         </div>
       </div>
     </div>
   );
 };
 
-export default page;
+export default layout;
