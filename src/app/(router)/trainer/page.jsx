@@ -1,6 +1,6 @@
 import React from "react";
 
-const Trainer = () => {
+const page = () => {
   return (
     <div>
       <h2>trainer dashboard</h2>
@@ -8,4 +8,4 @@ const Trainer = () => {
   );
 };
 
-export default Trainer;
+export default page;

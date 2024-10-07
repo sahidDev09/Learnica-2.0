@@ -1,4 +1,6 @@
-const Admin = () => {
+import React from "react";
+
+const page = () => {
   return (
     <div>
       <h2>admin content</h2>
@@ -6,4 +8,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default page;
