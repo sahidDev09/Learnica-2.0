@@ -134,7 +134,7 @@ const Chat = () => {
 
   return (
     <section className="grid md:grid-cols-2 h-screen items-center container mx-auto">
-      <div className="md:w-[500px] hidden md:inline">
+      <div className="w-[500px]">
         <Image src={image} alt="ai" className="" />
         <h1 className="text-5xl font-bold text-center text-secondary">
           Ask Learnica AI
@@ -144,14 +144,14 @@ const Chat = () => {
         </p>
       </div>
       {/* chat box */}
-      <div className=" m-2 md:m-0">
+      <div>
         <h1 className="text-2xl font-medium bg-primary text-white rounded-md py-2 max-w-lg text-center">
           Learnica AI Assistant
         </h1>
         <div className="mt-4 w-full max-w-lg">
           {/* responses */}
           <ScrollArea
-            className="mb-2 md:h-[500px] h-[450px] rounded-md border p-4 bg-card"
+            className="mb-2 h-[500px] rounded-md border p-4 bg-card"
             ref={ref}>
             {error && (
               <div className="text-sm text-red-400">{error.message}</div>
