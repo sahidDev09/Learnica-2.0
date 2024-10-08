@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 
-async function Reviews() {
+function Reviews() {
   const {data:reviews, isLoading} = useQuery({
     queryKey: ['course-reviews'],
     queryFn: async () => {
