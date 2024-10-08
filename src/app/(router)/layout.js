@@ -2,7 +2,7 @@ import Link from "next/link";
 import { FaEnvelope, FaHome, FaSearch } from "react-icons/fa";
 
 const layout = ({ children }) => {
-  const role = "user";
+  const role = "admin";
 
   return (
     <div>
@@ -16,73 +16,36 @@ const layout = ({ children }) => {
               <label
                 htmlFor="my-drawer-2"
                 aria-label="close sidebar"
-                className="drawer-overlay"></label>
+                className="drawer-overlay"
+              ></label>
               <ul className="menu z-20 p-4 w-80 min-h-full bg-base-200 text-base-content">
                 {/* Sidebar content here */}
-                <li>
-                  <Link href="/dashboard">Profile</Link>
-                </li>
-                {role === "user" && (
-                  <>
-                    <li>
-                      <Link href="/dashboard/user/courses">Courses</Link>
-                    </li>
-
-                    <li>
-                      <Link href="/dashboard/user/my-reports">My Reports</Link>
-                    </li>
-                  </>
-                )}
 
                 {role === "trainer" && (
                   <>
                     <li>
-                      <Link href="/dashboard/trainer/courses">Courses</Link>
+                      <Link href="/trainer/courses">Courses</Link>
                     </li>
 
                     <li>
-                      <Link href="/dashboard/trainer/my-reports">
-                        My Reports
-                      </Link>
+                      <Link href="/trainer/my-reports">My Reports</Link>
                     </li>
                     <li>
-                      <Link href="/dashboard/trainer/comments">Comments</Link>
+                      <Link href="/trainer/comments">Comments</Link>
                     </li>
                   </>
                 )}
 
-                {role === "admin" && (
+                {role == "admin" && (
                   <>
                     <li>
-                      <Link href="/dashboard/admin/manage-users">
-                        Manage Users
-                      </Link>
+                      <Link href="/admin/manage-users">Manage Users</Link>
                     </li>
                     <li>
-                      <Link href="/dashboard/admin/manage-courses">
-                        Manage Courses
-                      </Link>
+                      <Link href="/admin/manage-courses">Manage Courses</Link>
                     </li>
                     <li>
-                      <Link href="/dashboard/admin/payments">Payments</Link>
-                    </li>
-                  </>
-                )}
-
-                {role === "owner" && (
-                  <>
-                    <li>
-                      <Link href="/dashboard/admin/manage-users">
-                        Manage Users
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/dashboard/admin/manage-courses">
-                        Manage Courses
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/dashboard/admin/payments">Payments</Link>
+                      <Link href="/admin/payments">Payments</Link>
                     </li>
                   </>
                 )}
@@ -119,7 +82,8 @@ const layout = ({ children }) => {
             {/* Page content here */}
             <label
               htmlFor="my-drawer-2"
-              className="btn my-10 bg-primary text-white drawer-button lg:hidden">
+              className="btn my-10 bg-primary text-white drawer-button lg:hidden"
+            >
               Open Menu
             </label>
           </div>
