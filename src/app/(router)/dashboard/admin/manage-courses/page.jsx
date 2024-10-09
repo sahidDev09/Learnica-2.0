@@ -1,4 +1,5 @@
 "use client";
+import Loading from "@/app/loading";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
@@ -56,19 +57,15 @@ const CoursesPage = () => {
   };
 
   if (isLoading) {
-    return "Loading..";
+    return <Loading />;
   }
 
   return (
-    <div>
-      <div className="flex text-xl font-semibold justify-start my-4 p-4">
-        Total Courses:{courses.length}
-      </div>
-
+    <div className=" m-4 mt-10 md:mt-0">
       <div className="overflow-x-auto px-2 py-6">
         <table className="table shadow-xl">
           <thead>
-            <tr className="bg-card text-primary text-xl">
+            <tr className="bg-secondary text-white text-lg">
               <th className="">Sl</th>
               <th className="">Owner</th>
               <th className="">Title</th>
@@ -80,15 +77,14 @@ const CoursesPage = () => {
             {courses?.map((item, index) => (
               <tr
                 key={index}
-                className="hover:bg-primary hover:text-white text-lg"
-              >
+                className="hover:bg-secondary transition-all ease-in-out duration-300 hover:rounded-md hover:text-white text-lg">
                 <td className="">{index + 1}</td>
                 <td className="">
                   <div className="flex items-center gap-3">
                     <div className="avatar">
                       <div className="mask mask-squircle h-12 w-12 border-2">
                         <Image
-                          src={item.authorPhotoUrl || "/assets/profile2.jpg"}
+                          src={"/assets/profile.png"}
                           alt={item.title}
                           width={50}
                           height={80}
@@ -113,7 +109,7 @@ const CoursesPage = () => {
                       <BiSolidShow className="text-2xl" />
                     </Link>
                     <button onClick={() => handleDelete(item._id)}>
-                      <MdDelete className="text-2xl" />
+                      <MdDelete className="text-2xl text-primary" />
                     </button>
                   </div>
                 </td>

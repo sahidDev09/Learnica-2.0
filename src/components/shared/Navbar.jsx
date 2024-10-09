@@ -154,8 +154,8 @@ const Navbar = () => {
 
                   {/* author dashboard */}
 
-                  {mainRole === "admin" ? (
-                    <Link href="/">
+                  {user && mainRole === "admin" ? (
+                    <Link href="/dashboard/admin/manage-courses">
                       <Button
                         variant="destructive"
                         className="rounded-full"
@@ -164,7 +164,7 @@ const Navbar = () => {
                       </Button>
                     </Link>
                   ) : user?.unsafeMetadata?.role === "teacher" ? (
-                    <Link href="/dashboard/trainer">
+                    <Link href="/dashboard/teacher">
                       <Button
                         variant="destructive"
                         className="rounded-full"
