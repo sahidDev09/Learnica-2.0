@@ -61,7 +61,7 @@ const CoursesPage = () => {
 
   return (
     <div>
-      <div className="flex text-xl font-semibold justify-start my-4s">
+      <div className="flex text-xl font-semibold justify-start my-4 p-4">
         Total Courses:{courses.length}
       </div>
 
