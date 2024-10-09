@@ -1,12 +1,13 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
-import { FaTags, FaCheck } from "react-icons/fa"; 
+import { FaTags, FaCheck } from "react-icons/fa";
 import { FaSquarePlus } from "react-icons/fa6";
 import { useUser } from "@clerk/nextjs";
 import Loading from "../loading";
 import { PiShoppingCartSimpleLight } from "react-icons/pi";
 import Link from "next/link";
 import { MdOutlineCancel } from "react-icons/md";
+import { Plus } from "lucide-react";
 
 const Page = () => {
   const [categories, setCategories] = useState([]);
@@ -70,7 +71,10 @@ const Page = () => {
   }
 
   //Total Price
-  const total = cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0);
+  const total = cart.reduce(
+    (sum, item) => sum + (parseFloat(item.price) || 0),
+    0
+  );
 
   return (
     <div className="px-4">
@@ -89,10 +93,11 @@ const Page = () => {
                 <button
                   key={index}
                   onClick={() => handleCategorySelect(lang_tech)}
-                  className={`flex text-sm items-center gap-2 p-2 px-4 text-white bg-primary hover:scale-105 transition-transform md:text-lg ${
-                    selectedCategory === lang_tech ? "bg-secondary" : ""
-                  }`}
-                >
+                  className={`flex text-sm items-center gap-2 rounded-md p-2 px-4 text-white bg-primary hover:scale-105 transition-transform md:text-lg ${
+                    selectedCategory === lang_tech
+                      ? "bg-primary text-white"
+                      : "bg-secondary text-white"
+                  }`}>
                   <FaTags />
                   {lang_tech}
                 </button>
@@ -105,11 +110,10 @@ const Page = () => {
         <div className="flex justify-end mt-4 relative">
           <button
             onClick={toggleCart}
-            className="bg-primary text-2xl text-white font-extrabold p-4 rounded-2xl relative"
-          >
+            className="bg-primary text-2xl text-white font-extrabold p-4 rounded-2xl relative">
             <PiShoppingCartSimpleLight />
             {cart.length > 0 && (
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-secondary text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
                 {cart.length}
               </span>
             )}
@@ -124,39 +128,37 @@ const Page = () => {
               return (
                 <div
                   key={product._id}
-                  className={`bg-card w-full h-40 p-4 rounded-lg shadow-md flex flex-col justify-between relative ${
+                  className={`bg-secondary w-full h-40 p-4 rounded-lg shadow-md flex flex-col justify-between relative ${
                     isInCart ? "opacity-50" : ""
-                  }`}
-                >
+                  }`}>
                   {/* Button*/}
                   <div className="flex justify-between items-center">
-                    <button className="rounded-2xl px-4 py-1 bg-red-300 text-black">
+                    <button className="rounded-2xl px-4 py-1 bg-white text-black text-sm">
                       {product.lang_tech}
                     </button>
                     <button
                       onClick={() => (isInCart ? null : addToCart(product))}
                       className={`text-3xl ${
-                        isInCart ? "text-green-500" : "text-primary"
+                        isInCart ? "text-green-500" : ""
                       }`}
-                      disabled={isInCart} 
-                    >
-                      {isInCart ? <FaCheck /> : <FaSquarePlus />}
+                      disabled={isInCart}>
+                      {isInCart ? <FaCheck /> : <Plus className="text-white bg-primary rounded-md font-bold" />}
                     </button>
                   </div>
 
                   {/* Product Details */}
                   <div className="flex justify-between items-center mt-2">
-                    <h1 className="text-black font-semibold text-lg">
+                    <h1 className="text-white font-semibold text-lg">
                       {product.concept_title}
                     </h1>
-                    <p className="font-bold text-black text-xl">
+                    <p className="font-bold text-white text-xl">
                       ${product.price}
                     </p>
                   </div>
 
                   {/* Rating */}
                   <div className="flex justify-between items-center mt-2">
-                    <p className="text-yellow-500">{product.rating} ★</p>
+                    <p className="text-orange-400">{product.rating} ★</p>
                   </div>
                 </div>
               );
@@ -168,17 +170,15 @@ const Page = () => {
       {/* Cart Sidebar */}
       {isCartOpen && (
         <div className="fixed inset-0 z-50 flex">
-         <div
+          <div
             className="fixed inset-0 bg-black opacity-50"
-            onClick={toggleCart}
-          ></div>
+            onClick={toggleCart}></div>
 
           {/* Sidebar */}
           <div className="relative ml-auto w-80 bg-white h-full shadow-lg p-4 overflow-y-auto">
             <button
               onClick={toggleCart}
-              className="text-4xl bg-primary text-white rounded-full mb-4"
-            >
+              className="text-4xl bg-primary text-white rounded-full mb-4">
               <MdOutlineCancel />
             </button>
             <div className="flex justify-between">
@@ -194,18 +194,14 @@ const Page = () => {
               cart.map((item) => (
                 <div
                   key={item._id}
-                  className="flex justify-between items-center mb-4"
-                >
+                  className="flex justify-between items-center mb-4">
                   <div>
                     <h3 className="font-semibold">{item.concept_title}</h3>
-                    <p className="text-sm text-gray-600">
-                      ${item.price}
-                    </p>
+                    <p className="text-sm text-gray-600">${item.price}</p>
                   </div>
                   <button
                     onClick={() => removeFromCart(item._id)}
-                    className="text-red-500 hover:text-red-700"
-                  >
+                    className="text-red-500 hover:text-red-700">
                     Remove
                   </button>
                 </div>
@@ -218,15 +214,13 @@ const Page = () => {
                 <h1 className="text-white text-xl font-medium">
                   Total = ${total.toFixed(2)}
                 </h1>
-               
+
                 <Link href="/checkout">
                   <button className="bg-white text-primary p-1 rounded-xl">
                     Pay Now
                   </button>
                 </Link>
-               
               </div>
-              
             )}
           </div>
         </div>

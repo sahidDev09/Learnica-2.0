@@ -19,7 +19,7 @@ const Card = ({ course }) => {
         />
 
         <div className="p-4">
-          <p className="text-primary">{course.category}</p>
+          <p className="text-white text-sm bg-primary rounded-full px-2 py-1 w-fit">{course.category}</p>
           <h3 className="text-lg font-semibold my-1">
             {course.title.length > 35
               ? `${course.title.slice(0, 35)}...`
@@ -33,7 +33,7 @@ const Card = ({ course }) => {
           </p>
 
           <Link
-            className="inline-block bg-primary mt-4 text-white px-4 py-3 rounded-xl hover:opacity-80 transition-opacity"
+            className="inline-block bg-secondary mt-4 text-white px-4 py-3 rounded-xl hover:opacity-80 transition-opacity"
             href={`/all-courses/${course._id}`}
           >
             View Details
