@@ -4,9 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { BiSolidShow } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
+import Swal from "sweetalert2";
 
 const CoursesPage = () => {
-  const { data: courses, isLoading } = useQuery({
+  const {
+    data: courses,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["courses"],
     queryFn: async () => {
       const res = await fetch(
@@ -15,6 +20,40 @@ const CoursesPage = () => {
       return res.json();
     },
   });
+
+  const handleDelete = (id) => {
+    console.log(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`/api/all-courses?id=${id}`, {
+          // Use the correct API route
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            if (data.message) {
+              Swal.fire("Deleted!", "Successfully deleted.", "success");
+              refetch(); // If you have a refetch function, it will reload the data
+            } else {
+              Swal.fire("Error!", "Something went wrong.", "error");
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            Swal.fire("Error!", "Failed to delete the course.", "error");
+          });
+      }
+    });
+  };
 
   if (isLoading) {
     return "Loading..";
@@ -66,9 +105,9 @@ const CoursesPage = () => {
                 <Link href={`/all-courses/${item._id}`}>
                   <BiSolidShow className="text-2xl" />
                 </Link>
-                <Link href={"/"}>
+                <button onClick={() => handleDelete(item._id)}>
                   <MdDelete className="text-2xl" />
-                </Link>
+                </button>
               </td>
             </tr>
           ))}
