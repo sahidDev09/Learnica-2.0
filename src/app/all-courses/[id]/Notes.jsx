@@ -1,14 +1,57 @@
 "use client"
 import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
+import { FaTrashAlt } from "react-icons/fa";
 
 function Notes() {
-  const {data:notes, isLoading} = useQuery({
+  // get notes
+  const {data:notes, isLoading, refetch} = useQuery({
     queryKey: ['my-notes'],
     queryFn: async () => {
       const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/my-notes')
       return res.json()
     }
   })
+
+  // handle delete note
+  const handleNoteDelete = async (noteId) => {
+    try {
+      // confirmation alert
+      const {isConfirmed} = await Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#15803D",
+        cancelButtonColor: "#B91C1C",
+        confirmButtonText: "Yes, delete it!"
+      })
+      if (!isConfirmed) return;
+
+      const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/my-notes", {
+        method: "DELETE",
+        headers: {
+          "content-type": "application/json"
+        },
+        body: JSON.stringify({noteId})
+      })
+      await res.json()
+      Swal.fire({
+        title: "Successfully deleted the note!",
+        icon: "success",
+        confirmButtonColor: "#15803D"
+      })
+      // refetch notes  
+      await refetch()
+    } catch (error) {
+      Swal.fire({
+        title: "Error on deleting note!",
+        text: error.message,
+        icon: "error",
+        confirmButtonColor: "#B91C1C"
+      })
+    }
+  }
 
   if (isLoading){ return <span className="loading loading-spinner loading-lg"></span> }
   return (
@@ -25,6 +68,11 @@ function Notes() {
               <div key={note._id} className="border p-4 rounded-md shadow-md bg-card mb-3">
                 <h3 className="text-primary font-semibold text-lg mb-1">{note.title}</h3>
                 <p className="text-sm text-gray-500">{note.description}</p>
+                <div className="mt-1 flex justify-end gap-2">
+                  <button onClick={() => handleNoteDelete(note._id)} className="p-1 border border-transparent hover:border-red-600 text-red-600 hover:-translate-y-1 rounded transition-all"> 
+                    <FaTrashAlt /> 
+                  </button>
+                </div>
               </div>
             ))}
           </div>

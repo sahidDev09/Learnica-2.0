@@ -1,4 +1,5 @@
 import clientPromise from "@/lib/mongodb";
+import { ObjectId } from "mongodb";
 
 export default async function handler(req, res) {
   try {
@@ -11,12 +12,19 @@ export default async function handler(req, res) {
       const result = await notesCollection.find({}).toArray();
       return res.json(result);
     } 
+    // --------- POST -------------
     else if (req.method === "POST") {
       const newNote = req.body;
 
       // Insert new course into the database
       await notesCollection.insertOne(newNote);
       return res.json({ success: true, message: "Note successfully inserted!" });
+    } 
+    // ------- delete ------------ 
+    else if (req.method === "DELETE") {
+      const noteId = req.body.noteId;
+      await notesCollection.deleteOne({_id: new ObjectId(noteId)})
+      return res.json({ success: true, message: "Note deleted successfully!" });
     } 
     else {
       // Handle unsupported HTTP methods
