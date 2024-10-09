@@ -2,6 +2,8 @@ import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 import Reviews from "./Reviews";
 import AddReviewForm from "./AddReviewForm";
+import AddNoteForm from "./AddNoteForm";
+import Notes from "./Notes";
 
 const page = async ({ params }) => {
   const res = await fetch(
@@ -60,7 +62,7 @@ const page = async ({ params }) => {
             <div className="space-y-3">
               {topic.map((item, index) => (
                 <>
-                  <div className="flex gap-2 items-center p-2 bg-white w-full rounded-md">
+                  <div key={index} className="flex gap-2 items-center p-2 bg-white w-full rounded-md">
                     <Image
                       width={60}
                       height={60}
@@ -172,7 +174,8 @@ const page = async ({ params }) => {
               aria-label="Notes"
             />
             <div role="tabpanel" className="tab-content p-10 bg-white">
-              Notes
+              <AddNoteForm />
+              <Notes />
             </div>
             {/*------------------------------- Reviews --------------------------*/}
             <input
