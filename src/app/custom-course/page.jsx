@@ -1,12 +1,13 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
-import { FaTags, FaCheck } from "react-icons/fa"; 
+import { FaTags, FaCheck } from "react-icons/fa";
 import { FaSquarePlus } from "react-icons/fa6";
 import { useUser } from "@clerk/nextjs";
 import Loading from "../loading";
 import { PiShoppingCartSimpleLight } from "react-icons/pi";
-import Link from "next/link";
 import { MdOutlineCancel } from "react-icons/md";
+import { Plus } from "lucide-react";
+import Link from "next/link";
 
 const Page = () => {
   const [categories, setCategories] = useState([]);
@@ -16,6 +17,7 @@ const Page = () => {
   const { user } = useUser();
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+
   const fetchCourses = useCallback(async () => {
     setLoading(true);
     const queryParams = new URLSearchParams({
@@ -33,7 +35,8 @@ const Page = () => {
         setCategories(data.categories);
       }
     } catch (error) {
-      console.error(error);
+      console.error("Fetch Courses Error:", error);
+      Swal.fire("Error", "Failed to fetch courses", "error");
     } finally {
       setLoading(false);
     }
@@ -60,7 +63,7 @@ const Page = () => {
     setCart(cart.filter((item) => item._id !== productId));
   };
 
-  //Sidebar
+  // Sidebar
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
   };
@@ -69,8 +72,54 @@ const Page = () => {
     return <Loading />;
   }
 
-  //Total Price
-  const total = cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0);
+  // Total Price
+  const total = cart.reduce(
+    (sum, item) => sum + (parseFloat(item.price) || 0),
+    0
+  );
+
+  // payment
+  const handlePayment = async () => {
+    if (!user) {
+      Swal.fire(
+        "Error",
+        "You must be logged in to proceed with payment.",
+        "error"
+      );
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user.id,
+          email: user.emailAddresses[0]?.emailAddress,
+          totalAmount: total.toFixed(2),
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        Swal.fire("Successfully Paid!");
+        setCart([]);
+        setIsCartOpen(false);
+      } else {
+        Swal.fire(
+          "Error",
+          result.message || "Failed to process payment",
+          "error"
+        );
+      }
+    } catch (error) {
+      console.error("Payment Error:", error);
+      Swal.fire("Error", "Something went wrong during payment", "error");
+    }
+  };
 
   return (
     <div className="px-4">
@@ -89,10 +138,11 @@ const Page = () => {
                 <button
                   key={index}
                   onClick={() => handleCategorySelect(lang_tech)}
-                  className={`flex text-sm items-center gap-2 p-2 px-4 text-white bg-primary hover:scale-105 transition-transform md:text-lg ${
-                    selectedCategory === lang_tech ? "bg-secondary" : ""
-                  }`}
-                >
+                  className={`flex text-sm items-center gap-2 rounded-md p-2 px-4 text-white bg-primary hover:scale-105 transition-transform md:text-lg ${
+                    selectedCategory === lang_tech
+                      ? "bg-primary text-white"
+                      : "bg-secondary text-white"
+                  }`}>
                   <FaTags />
                   {lang_tech}
                 </button>
@@ -101,15 +151,14 @@ const Page = () => {
           </section>
         </div>
 
-        {/* Cart Button*/}
+        {/* Cart Button */}
         <div className="flex justify-end mt-4 relative">
           <button
             onClick={toggleCart}
-            className="bg-primary text-2xl text-white font-extrabold p-4 rounded-2xl relative"
-          >
+            className="bg-primary text-2xl text-white font-extrabold p-4 rounded-2xl relative">
             <PiShoppingCartSimpleLight />
             {cart.length > 0 && (
-              <span className="absolute -top-1 -right-1 bg-white text-primary rounded-full border border-primary text-xs w-5 h-5 flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-secondary text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
                 {cart.length}
               </span>
             )}
@@ -124,39 +173,39 @@ const Page = () => {
               return (
                 <div
                   key={product._id}
-                  className={`bg-card w-full h-40 p-4 rounded-lg shadow-md flex flex-col justify-between relative ${
+                  className={`bg-secondary w-full h-40 p-4 rounded-lg shadow-md flex flex-col justify-between relative ${
                     isInCart ? "opacity-50" : ""
-                  }`}
-                >
+                  }`}>
                   {/* Button*/}
                   <div className="flex justify-between items-center">
-                    <button className="rounded-2xl px-4 py-1 bg-red-300 text-black">
+                    <button className="rounded-2xl px-4 py-1 bg-white text-black text-sm">
                       {product.lang_tech}
                     </button>
                     <button
                       onClick={() => (isInCart ? null : addToCart(product))}
-                      className={`text-3xl ${
-                        isInCart ? "text-green-500" : "text-primary"
-                      }`}
-                      disabled={isInCart} 
-                    >
-                      {isInCart ? <FaCheck /> : <FaSquarePlus />}
+                      className={`text-3xl ${isInCart ? "text-green-500" : ""}`}
+                      disabled={isInCart}>
+                      {isInCart ? (
+                        <FaCheck />
+                      ) : (
+                        <Plus className="text-white bg-primary rounded-md font-bold" />
+                      )}
                     </button>
                   </div>
 
                   {/* Product Details */}
                   <div className="flex justify-between items-center mt-2">
-                    <h1 className="text-black font-semibold text-lg">
+                    <h1 className="text-white font-semibold text-lg">
                       {product.concept_title}
                     </h1>
-                    <p className="font-bold text-black text-xl">
+                    <p className="font-bold text-white text-xl">
                       ${product.price}
                     </p>
                   </div>
 
                   {/* Rating */}
                   <div className="flex justify-between items-center mt-2">
-                    <p className="text-yellow-500">{product.rating} ★</p>
+                    <p className="text-orange-400">{product.rating} ★</p>
                   </div>
                 </div>
               );
@@ -165,24 +214,22 @@ const Page = () => {
         </div>
       </div>
 
-      {/* Cart Sidebar */}
+      {/* Cart */}
       {isCartOpen && (
         <div className="fixed inset-0 z-50 flex">
-         <div
+          <div
             className="fixed inset-0 bg-black opacity-50"
-            onClick={toggleCart}
-          ></div>
+            onClick={toggleCart}></div>
 
           {/* Sidebar */}
           <div className="relative ml-auto w-80 bg-white h-full shadow-lg p-4 overflow-y-auto">
             <button
               onClick={toggleCart}
-              className="text-4xl bg-primary text-white rounded-full mb-4"
-            >
+              className="text-4xl bg-primary text-white rounded-full mb-4">
               <MdOutlineCancel />
             </button>
             <div className="flex justify-between">
-              <h2 className="text-2xl mb-4">Selected Concept</h2>
+              <h2 className="text-2xl mb-4">Selected Concepts</h2>
               <button className="text-3xl text-black">
                 <PiShoppingCartSimpleLight />
               </button>
@@ -194,39 +241,32 @@ const Page = () => {
               cart.map((item) => (
                 <div
                   key={item._id}
-                  className="flex justify-between items-center mb-4"
-                >
+                  className="flex justify-between items-center mb-4">
                   <div>
                     <h3 className="font-semibold">{item.concept_title}</h3>
-                    <p className="text-sm text-gray-600">
-                      ${item.price}
-                    </p>
+                    <p className="text-sm text-gray-600">${item.price}</p>
                   </div>
                   <button
                     onClick={() => removeFromCart(item._id)}
-                    className="text-red-500 hover:text-red-700"
-                  >
+                    className="text-red-500 hover:text-red-700">
                     Remove
                   </button>
                 </div>
               ))
             )}
-            {/* Checkout Button */}
-
+            {/* Checkout*/}
             {cart.length > 0 && (
               <div className="flex justify-between bg-primary p-4">
                 <h1 className="text-white text-xl font-medium">
                   Total = ${total.toFixed(2)}
                 </h1>
-               
+
                 <Link href="/checkout">
                   <button className="bg-white text-primary p-1 rounded-xl">
                     Pay Now
-                  </button>
+                  </button>cl
                 </Link>
-               
               </div>
-              
             )}
           </div>
         </div>

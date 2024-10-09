@@ -4,15 +4,13 @@ const Banner = () => {
   return (
     <div className="mb-8">
       <div
-        className="hero rounded-b-[60px] md:py-20 py-12"
-        style={{
-          backgroundImage: "url(/assets/banner-bg.jpg)",
-        }}>
-        <div className="md:flex items-center justify-between flex-row-reverse container mx-auto md:my-12 mb-5">
+        className="rounded-b-[60px] md:py-20 py-12 bg-secondary"
+        >
+        <div className="md:flex items-center justify-between flex-row-reverse container mx-auto mb-5">
           <div className="">
             <Image
-              width={600}
-              height={100}
+              width={1000}
+              height={1000}
               alt="banner logo"
               src={"/assets/courseui.png"}
               className="w-[1000px]"></Image>
@@ -49,7 +47,7 @@ const Banner = () => {
                   height={100}
                   src={src}
                   alt="icon"
-                  className="shadow-lg p-4 bg-blue-500 rounded-full"
+                  className="shadow-lg p-4 bg-[#3f92c251] rounded-full"
                 />
                 <div className="text-black font-semibold text-center pb-2 pt-4">
                   {idx === 0 && "FLEXIBILITY"}
