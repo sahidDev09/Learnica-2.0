@@ -5,17 +5,18 @@ import { FaSquarePlus } from "react-icons/fa6";
 import { useUser } from "@clerk/nextjs";
 import Loading from "../loading";
 import { PiShoppingCartSimpleLight } from "react-icons/pi";
-import Link from "next/link";
 import { MdOutlineCancel } from "react-icons/md";
+import Swal from "sweetalert2"; 
 
 const Page = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("JavaScript");
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
-  const { user } = useUser();
+  const { user } = useUser(); 
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  
   const fetchCourses = useCallback(async () => {
     setLoading(true);
     const queryParams = new URLSearchParams({
@@ -33,7 +34,8 @@ const Page = () => {
         setCategories(data.categories);
       }
     } catch (error) {
-      console.error(error);
+      console.error("Fetch Courses Error:", error);
+      Swal.fire("Error", "Failed to fetch courses", "error");
     } finally {
       setLoading(false);
     }
@@ -60,7 +62,7 @@ const Page = () => {
     setCart(cart.filter((item) => item._id !== productId));
   };
 
-  //Sidebar
+  // Sidebar
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
   };
@@ -69,8 +71,43 @@ const Page = () => {
     return <Loading />;
   }
 
-  //Total Price
+  // Total Price
   const total = cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0);
+
+  // payment
+  const handlePayment = async () => {
+    if (!user) {
+      Swal.fire("Error", "You must be logged in to proceed with payment.", "error");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: user.id, 
+          email: user.emailAddresses[0]?.emailAddress,
+          totalAmount: total.toFixed(2), 
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        Swal.fire("Successfully Paid!");
+        setCart([]); 
+        setIsCartOpen(false); 
+      } else {
+        Swal.fire("Error", result.message || "Failed to process payment", "error");
+      }
+    } catch (error) {
+      console.error("Payment Error:", error);
+      Swal.fire("Error", "Something went wrong during payment", "error");
+    }
+  };
 
   return (
     <div className="px-4">
@@ -101,7 +138,7 @@ const Page = () => {
           </section>
         </div>
 
-        {/* Cart Button*/}
+        {/* Cart Button */}
         <div className="flex justify-end mt-4 relative">
           <button
             onClick={toggleCart}
@@ -128,7 +165,7 @@ const Page = () => {
                     isInCart ? "opacity-50" : ""
                   }`}
                 >
-                  {/* Button*/}
+                  {/* Button */}
                   <div className="flex justify-between items-center">
                     <button className="rounded-2xl px-4 py-1 bg-red-300 text-black">
                       {product.lang_tech}
@@ -138,7 +175,7 @@ const Page = () => {
                       className={`text-3xl ${
                         isInCart ? "text-green-500" : "text-primary"
                       }`}
-                      disabled={isInCart} 
+                      disabled={isInCart}
                     >
                       {isInCart ? <FaCheck /> : <FaSquarePlus />}
                     </button>
@@ -165,10 +202,10 @@ const Page = () => {
         </div>
       </div>
 
-      {/* Cart Sidebar */}
+      {/* Cart */}
       {isCartOpen && (
         <div className="fixed inset-0 z-50 flex">
-         <div
+          <div
             className="fixed inset-0 bg-black opacity-50"
             onClick={toggleCart}
           ></div>
@@ -182,7 +219,7 @@ const Page = () => {
               <MdOutlineCancel />
             </button>
             <div className="flex justify-between">
-              <h2 className="text-2xl mb-4">Selected Concept</h2>
+              <h2 className="text-2xl mb-4">Selected Concepts</h2>
               <button className="text-3xl text-black">
                 <PiShoppingCartSimpleLight />
               </button>
@@ -211,22 +248,19 @@ const Page = () => {
                 </div>
               ))
             )}
-            {/* Checkout Button */}
-
+            {/* Checkout*/}
             {cart.length > 0 && (
               <div className="flex justify-between bg-primary p-4">
                 <h1 className="text-white text-xl font-medium">
                   Total = ${total.toFixed(2)}
                 </h1>
-               
-                <Link href="/checkout">
-                  <button className="bg-white text-primary p-1 rounded-xl">
-                    Pay Now
-                  </button>
-                </Link>
-               
+                <button
+                  onClick={handlePayment}
+                  className="bg-white text-primary p-1 rounded-xl"
+                >
+                  Pay Now
+                </button>
               </div>
-              
             )}
           </div>
         </div>
