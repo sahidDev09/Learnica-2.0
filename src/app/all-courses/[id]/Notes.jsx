@@ -86,7 +86,7 @@ function Notes() {
             ))}
           </div>
         ) : (
-          <p className="text-lg text-gray-500">You haven't added any notes!</p>
+          <p className="text-lg text-gray-500">You have not added any notes!</p>
         )
       }
     </section>
