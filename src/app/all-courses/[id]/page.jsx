@@ -4,6 +4,7 @@ import Reviews from "./Reviews";
 import AddReviewForm from "./AddReviewForm";
 import AddNoteForm from "./AddNoteForm";
 import Notes from "./Notes";
+import Resources from "./Resources";
 
 const page = async ({ params }) => {
   const res = await fetch(
@@ -54,22 +55,22 @@ const page = async ({ params }) => {
               <progress
                 className="progress progress-error w-56"
                 value="10"
-                max="100"
-              ></progress>
+                max="100"></progress>
               <span className="font-semibold">10%</span>
             </div>
             {/* content */}
             <div className="space-y-3">
               {topic.map((item, index) => (
                 <>
-                  <div key={index} className="flex gap-2 items-center p-2 bg-white w-full rounded-md">
+                  <div
+                    key={index}
+                    className="flex gap-2 items-center p-2 bg-white w-full rounded-md">
                     <Image
                       width={60}
                       height={60}
                       src={"/assets/video_thumbnail.png"}
                       alt="video_thumbnail"
-                      className="rounded"
-                    ></Image>
+                      className="rounded"></Image>
                     <div className="text-start w-full">
                       <h2 className="text-lg md:text-xl font-semibold">
                         {index + 1}. {item.title}
@@ -100,13 +101,11 @@ const page = async ({ params }) => {
             src="https://www.youtube.com/embed/kmZz0v4COpw?start=314"
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
+            allowFullScreen></iframe>
           {/* tab */}
           <div
             role="tablist"
-            className="tabs tabs-bordered border-primary my-4 bg-card"
-          >
+            className="tabs tabs-bordered border-primary my-4 bg-card">
             {/*--------------------------------- Overview --------------------------------*/}
             <input
               type="radio"
@@ -147,8 +146,7 @@ const page = async ({ params }) => {
                   height={30}
                   src={"/assets/developers/numan.jpg"}
                   alt="video_thumbnail"
-                  className="rounded w-16 h-16"
-                ></Image>
+                  className="rounded w-16 h-16"></Image>
                 <div className="text-start">
                   <h2 className="text-lg md:text-xl font-semibold">Jhon doe</h2>
                   <h4 className="text-gray-500">Web Developer </h4>
@@ -188,6 +186,19 @@ const page = async ({ params }) => {
             <div role="tabpanel" className="tab-content p-4 bg-white">
               <AddReviewForm />
               <Reviews />
+            </div>
+
+            {/*------------------------------- Attachment --------------------------*/}
+
+            <input
+              type="radio"
+              name="my_tabs_1"
+              role="tab"
+              className="tab mx-2 px-2"
+              aria-label="Resources"
+            />
+            <div role="tabpanel" className="tab-content p-4 bg-white">
+              <Resources />
             </div>
           </div>
         </div>
