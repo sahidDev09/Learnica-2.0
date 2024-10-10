@@ -31,10 +31,13 @@ const Navbar = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSupportModal, setShowSupportModal] = useState(false); // State for Support modal
+  const [mainRole, setMainRole] = useState(null);
 
   const search = useSearchParams();
   const router = useRouter();
   const { user } = useUser();
+
+  const currUser = user?.primaryEmailAddress?.emailAddress;
 
   const handleOpenMenu = () => setOpenMenu(true);
   const handleCloseMenu = () => setOpenMenu(false);
@@ -158,6 +161,26 @@ const Navbar = () => {
   
   };
 
+  // Fetch user data from your API using Clerk email
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (currUser) {
+        try {
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/user?email=${currUser}`
+          );
+          const data = await response.json();
+          const currData = data;
+          setMainRole(currData.mainRole);
+          console.log("current data", currData);
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [currUser]);
 
   return (
     <nav className="bg-secondary">
@@ -245,13 +268,29 @@ const Navbar = () => {
                       Sign-in
                     </Button>
                   </SignedOut>
-                  {user?.unsafeMetadata?.role === "teacher" && (
-                    <Link href="/trainer">
-                      <Button variant="destructive" className="rounded-full">
+
+                  {/* author dashboard */}
+
+                  {user && mainRole === "admin" ? (
+                    <Link href="/dashboard/admin/manage-courses">
+                      <Button
+                        variant="destructive"
+                        className="rounded-full"
+                        aria-label="Author Dashboard">
+                        <PenBox size={20} className="mr-2" /> Admin Dashboard
+                      </Button>
+                    </Link>
+                  ) : user?.unsafeMetadata?.role === "teacher" ? (
+                    <Link href="/dashboard/teacher">
+                      <Button
+                        variant="destructive"
+                        className="rounded-full"
+                        aria-label="Author Dashboard">
                         <PenBox size={20} className="mr-2" /> Author Dashboard
                       </Button>
                     </Link>
-                  )}
+                  ) : null}
+
                   <SignedIn>
                     <UserButton
                       appearance={{

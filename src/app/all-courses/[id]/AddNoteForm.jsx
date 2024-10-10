@@ -1,0 +1,95 @@
+"use client"
+import Swal from 'sweetalert2'
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+// dummy user
+const user = {
+  email: "ali@mail.com",
+}
+
+// req: add new note >>
+const addNote = async (formData) => {
+  const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/my-notes", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json"
+    },
+    body: JSON.stringify(formData)
+  })
+  return res.json()
+}
+
+function AddNoteForm() {
+  const queryClient = useQueryClient()
+
+  const mutation = useMutation({
+    mutationFn: addNote,
+  })
+
+  // handler: add course
+  const handleAddCourse = async (e) => {
+    e.preventDefault()
+
+    const formData = {
+      title: e.target.title.value.trim(),
+      description: e.target.description.value.trim(),
+      email: user.email,
+      created_at: Date.now()
+    }
+
+    mutation.mutate(formData, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['my-notes'])
+        // reset form and show alert
+        e.target.reset()
+        Swal.fire({
+          title: "Successfully added the note!",
+          icon: "success",
+          confirmButtonColor: "#15803D"
+        })
+      },
+      onError: (error) => {
+        Swal.fire({
+          title: "Error on adding note!",
+          text: error.message,
+          icon: "error",
+          confirmButtonColor: "#B91C1C"
+        })
+      }
+    })
+  }
+
+  return (
+    <div>
+      <header className="mb-3">
+        <h2 className="text-xl md:text-2xl font-semibold">Add your note:</h2>
+      </header>
+
+      <form onSubmit={handleAddCourse} className="mx-auto">
+        <label className="form-control mb-3 border-2 rounded-md bg-card">
+          <input
+            type="text"
+            name="title"
+            placeholder="Title"
+            className="w-full min-w-0 text-lg font-semibold bg-transparent px-4 py-2 outline-none border-b border-gray-300"
+            required
+          />
+          <textarea 
+            name="description" 
+            className="w-full min-w-0 h-48 bg-transparent px-4 py-2 outline-none resize-none" 
+            placeholder="your note description" 
+            required
+          ></textarea>
+          
+          <div className='p-2'>
+            <button type='submit' className="btn btn-sm btn-outline btn-primary">Add note</button>
+          </div>
+        </label>
+
+      </form>
+    </div>
+
+  );
+}
+
+export default AddNoteForm;

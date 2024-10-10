@@ -16,15 +16,20 @@ module.exports = {
           light: "#3B82F6",
           dark: "#1E40AF",
         },
+        btn: {
+          DEFAULT: "#ED626A",
+          light: "#3B82F6",
+          dark: "#1E40AF",
+        },
         secondary: {
-          DEFAULT: "#0171F9",
+          DEFAULT: "#135276",
           light: "#3B82F6",
           dark: "#1E40AF",
         },
 
         card: {
-          DEFAULT: "#E3EEFE",
-          light: "#3B82F6",
+          DEFAULT: "#EEF8FF",
+          light: "#E3EEFE",
           dark: "#1E40AF",
         },
       },
