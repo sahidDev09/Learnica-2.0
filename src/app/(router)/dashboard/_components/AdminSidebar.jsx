@@ -1,28 +1,38 @@
-import { BookAIcon, BookCopy, Database } from "lucide-react";
+import { BookA, Store, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 
-const Sidebar = () => {
+const AdminSidebar = () => {
   const [activeItem, setActiveItem] = useState(1);
 
   const sideNavMenu = [
     {
       id: 1,
-      name: "Course Management",
-      icons: BookCopy,
-      path: "/course",
+      name: "Manage Courses",
+      icons: BookA,
+      path: "/dashboard/admin/manage-courses",
     },
     {
       id: 2,
-      name: "My Analytics",
-      icons: Database,
-      path: "/analysis",
+      name: "All Users",
+      icons: User,
+      path: "/users",
+    },
+    {
+      id: 3,
+      name: "Statistics",
+      icons: Store,
+      path: "/manage-courses",
     },
   ];
 
+  const handleItemClick = (id) => {
+    setActiveItem(id);
+  };
+
   return (
-    <div className="bg-card shadow-sm border h-screen mt-10 md:mt-0">
+    <div className="bg-card shadow-sm border h-screen">
       <div className="bg-secondary">
         <Image
           src="/assets/learnicaNavlogo.png"
@@ -57,4 +67,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default AdminSidebar;
