@@ -1,7 +1,7 @@
 import AddForm from "./AddForm";
 
 function AddCourse() {
-  return (  
+  return (
     <section className="px-4 py-10 min-h-screen">
       <div className="max-w-screen-xl mx-auto">
         <header className="mb-6 text-center">
