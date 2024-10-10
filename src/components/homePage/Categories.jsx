@@ -23,7 +23,7 @@ function Categories() {
             <Link
               key={cat.id}
               href={"/all-courses"}
-              className="flex items-center gap-2 text-white font-semibold bg-primary py-3 px-5 rounded-full hover:scale-105 transition-transform md:text-lg">
+              className="flex items-center gap-2 text-white font-semibold bg-secondary py-3 px-5 rounded-full hover:scale-105 transition-transform md:text-lg">
               <FaTags />
               {cat.category}
             </Link>

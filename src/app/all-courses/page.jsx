@@ -119,8 +119,10 @@ const Page = () => {
               <div className="flex gap-4 flex-wrap">
                 <button
                   onClick={() => handleCategorySelect("")}
-                  className={`flex text-sm items-center gap-2 p-2 px-4 text-white bg-primary rounded-full hover:scale-105 transition-transform md:text-lg ${
-                    selectedCategory === "" ? "bg-secondary" : ""
+                  className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full transition-transform md:text-lg ${
+                    selectedCategory === ""
+                      ? "bg-primary text-white"
+                      : "bg-secondary text-white"
                   }`}>
                   <FaTags />
                   All
@@ -129,8 +131,10 @@ const Page = () => {
                   <button
                     key={index}
                     onClick={() => handleCategorySelect(category)}
-                    className={`flex text-sm items-center gap-2 p-2 px-4 text-white bg-primary rounded-full hover:scale-105 transition-transform md:text-lg ${
-                      selectedCategory === category ? "bg-secondary" : ""
+                    className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full transition-transform md:text-lg ${
+                      selectedCategory === category
+                        ? "bg-primary text-white"
+                        : "bg-secondary text-white"
                     }`}>
                     <FaTags />
                     {category}
