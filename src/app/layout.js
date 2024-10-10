@@ -6,6 +6,7 @@ import { ReactLenis } from "/src/lib/lenis.jsx";
 import { ClerkProvider } from "@clerk/nextjs";
 import TanstackProvider from "./TanstackProvider";
 import { usePathname } from "next/navigation";
+import { Suspense } from "react";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -13,18 +14,22 @@ export default function RootLayout({ children }) {
     pathname === "/error" || pathname.startsWith("/dashboard");
 
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <ReactLenis root>
-          <body>
+    <html lang="en">
+      <ReactLenis root>
+        <body>
+          <ClerkProvider>
             <TanstackProvider>
-              {!hideNavFoot && <Navbar />}
+              {!hideNavFoot && (
+                <Suspense fallback={<div>Loading...</div>}>
+                  <Navbar />
+                </Suspense>
+              )}
               {children}
               {!hideNavFoot && <Footer />}
             </TanstackProvider>
-          </body>
-        </ReactLenis>
-      </html>
-    </ClerkProvider>
+          </ClerkProvider>
+        </body>
+      </ReactLenis>
+    </html>
   );
 }
