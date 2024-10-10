@@ -20,6 +20,17 @@ export default async function handler(req, res) {
       await notesCollection.insertOne(newNote);
       return res.json({ success: true, message: "Note successfully inserted!" });
     } 
+    // --------- PATCH -------------
+    else if (req.method === "PATCH") {
+      const {data, _id} = req.body;
+      
+      // udpate edited course into the database
+      const filter = {_id: new ObjectId(_id)}
+      const updateDoc = { $set: data}
+      await notesCollection.updateOne(filter, updateDoc);
+      
+      return res.json({ success: true, message: "Note successfully edited!" });
+    } 
     // ------- delete ------------ 
     else if (req.method === "DELETE") {
       const noteId = req.body.noteId;
