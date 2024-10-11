@@ -1,5 +1,4 @@
 "use client";
-import { useUser } from "@clerk/nextjs";
 import Swal from "sweetalert2";
 
 // // dummy user

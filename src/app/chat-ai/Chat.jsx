@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import Image from "next/image";
 import image from "../../../public/assets/learnicaAi.png";
@@ -88,7 +89,7 @@ const Chat = () => {
     };
 
     initChat();
-  }, []);
+  }, [genAI, generationConfig, messages, safetySettings]);
 
   const handleSendMessage = async () => {
     try {

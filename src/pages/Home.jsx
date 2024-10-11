@@ -12,25 +12,25 @@ import Reviews from "@/components/homePage/Reviews";
 import Loading from "@/app/loading";
 
 const HomePage = () => {
-  const [loading, setLoading] = useState(true);
-  const { user } = useUser();
-  const router = useRouter();
+  // const [loading, setLoading] = useState(true);
+  // const { user } = useUser();
+  // const router = useRouter();
 
-  useEffect(() => {
-    const checkUserRole = async () => {
-      if (user && !user?.unsafeMetadata?.role) {
-        router.push("/onboarding");
-      } else {
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const checkUserRole = async () => {
+  //     if (user && !user?.unsafeMetadata?.role) {
+  //       router.push("/onboarding");
+  //     } else {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    checkUserRole();
-  }, [user, router]);
+  //   checkUserRole();
+  // }, [user, router]);
 
-  if (loading) {
-    return <Loading />;
-  }
+  // if (loading) {
+  //   return <Loading />;
+  // }
 
   return (
     <div>
