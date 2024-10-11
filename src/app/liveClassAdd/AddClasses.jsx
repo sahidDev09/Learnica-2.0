@@ -4,24 +4,22 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-import { useUser } from "@clerk/clerk-react"; // Clerk hook for authentication
+import { useUser } from "@clerk/clerk-react";
 
 export default function AddClasses() {
-  const { user } = useUser(); // Get Clerk user details
+  const { user } = useUser(); 
   const [formData, setFormData] = useState({
     thumbnail: "",
     courseName: "",
     category: "",
-    authorName: "", // This will be filled from the API or Clerk
-    authorId: user?.id || "", // Use user ID from Clerk
-    authorEmail: user?.primaryEmailAddress?.emailAddress || "", // Use email from Clerk
+    authorName: "", 
+    authorId: user?.id || "", 
+    authorEmail: user?.primaryEmailAddress?.emailAddress || "",
     liveLink: "",
     liveTime: "",
   });
 
 
-
-  // Fetch author data from the API and prefill the form fields
   useEffect(() => {
     const fetchAuthorData = async () => {
       try {

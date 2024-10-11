@@ -1,17 +1,24 @@
+"use client";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
+import Loading from "../loading";
 
-const getClasses = async () => {
-  const res = await fetch(
-    process.env.NEXT_PUBLIC_BASE_URL + "/api/live_classes"
-  );
-  const classes = await res.json();
-  return classes;
-};
+const LiveClasses = () => {
+  const { data: liveClasses, isLoading } = useQuery({
+    queryKey: ["live-class"],
+    queryFn: async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/live_classes`
+      );
+      return res.json();
+    },
+  });
 
-const LiveClasses = async () => {
-  const classes = await getClasses();
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="p-4">
@@ -29,14 +36,19 @@ const LiveClasses = async () => {
 
       {/* Responsive Grid Layout */}
       <div className="grid md:grid-cols-2 gap-5">
-        {classes.map((liveClass, index) => (
+        {liveClasses?.map((liveClass, index) => (
           <div
             key={index}
-            className="flex flex-col md:flex-row gap-6 bg-card rounded-lg shadow-md p-4  duration-300 hover:shadow-[0_30px_18px_-8px_rgba(0,0,0,0.1)] hover:scale-105 transition-transform h-full">
+            className="flex flex-col md:flex-row gap-6 bg-card rounded-lg shadow-md p-4 duration-300 hover:shadow-[0_30px_18px_-8px_rgba(0,0,0,0.1)] hover:scale-105 transition-transform h-full">
             {/* Image */}
             <div className="md:w-1/2 h-full">
               <Image
-                src={liveClass.thumbnail}
+                src={
+                  liveClass.thumbnail?.startsWith("http") ||
+                  liveClass.thumbnail?.startsWith("/")
+                    ? liveClass.thumbnail
+                    : "/fallback-image.jpg"
+                }
                 alt="Course Thumbnail"
                 width={256}
                 height={144}
@@ -51,21 +63,21 @@ const LiveClasses = async () => {
                   {liveClass.courseName}
                 </h3>
                 <p className="text-sm font-bold">
-                  <span className=" text-red-600">Category:</span>{" "}
-                  <span>{liveClass.category}</span>
+                  <span className="text-red-600">Category:</span>{" "}
+                  {liveClass.category}
                 </p>
                 <p className="text-sm font-bold">
-                  <span className=" text-rose-800">Author:</span>{" "}
-                  <span>{liveClass.authorName}</span>
+                  <span className="text-rose-800">Author:</span>{" "}
+                  {liveClass.authorName}
                 </p>
                 <p className="text-sm font-bold">
-                  <span className=" text-red-500">Live Time:</span>{" "}
-                  <span>{liveClass.liveTime}</span>
+                  <span className="text-red-500">Live Time:</span>{" "}
+                  {liveClass.liveTime}
                 </p>
               </div>
 
               {/* Button, aligned right */}
-              <div className="mt-4 md:mt-0 md:flex md:justify-end flex justify-end">
+              <div className="mt-4 md:mt-0 flex justify-end">
                 <Link href={liveClass.liveLink}>
                   <button className="bg-primary text-white rounded-md px-3 py-2 hover:bg-orange-700 transition">
                     Join Live Class
