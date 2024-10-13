@@ -39,7 +39,7 @@ const InstructorSupportIssues = () => {
       }
 
       // Remove the deleted issue from the state
-      setIssues(issues.filter((issue) => issue._id !== id));
+      setIssues((prevIssues) => prevIssues.filter((issue) => issue._id !== id));
 
       Swal.fire('Deleted!', 'Issue has been deleted.', 'success');
     } catch (err) {
@@ -48,7 +48,6 @@ const InstructorSupportIssues = () => {
     }
   };
 
-  // Show confirmation popup using SweetAlert
   const confirmDelete = (id) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -60,13 +59,13 @@ const InstructorSupportIssues = () => {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        deleteIssue(id); // Call the delete function if confirmed
+        deleteIssue(id);
       }
     });
   };
 
   useEffect(() => {
-    fetchIssues(); // Fetch issues on component mount
+    fetchIssues();
   }, []);
 
   if (loading) {
@@ -77,11 +76,14 @@ const InstructorSupportIssues = () => {
     return <div className="text-center py-10 text-lg text-red-500">{error}</div>;
   }
 
+  // Sort issues by createdAt in ascending order (oldest first)
+  const sortedIssues = [...issues].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 min-h-screen">
       <h1 className="text-4xl font-bold text-center text-gray-800 mb-10">Support Issues</h1>
 
-      {issues.length === 0 ? (
+      {sortedIssues.length === 0 ? (
         <p className="text-center text-lg text-gray-600">No support issues found.</p>
       ) : (
         <div className="overflow-x-auto mb-8">
@@ -98,7 +100,7 @@ const InstructorSupportIssues = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {issues.map((issue, index) => (
+              {sortedIssues.map((issue, index) => (
                 <tr key={issue._id} className="hover:bg-gray-50 transition">
                   <td className="py-3 px-4">{index + 1}</td>
                   <td className="py-3 px-4">{issue.selectedOption}</td>
@@ -111,7 +113,7 @@ const InstructorSupportIssues = () => {
                   <td className="py-3 px-4">
                     <button
                       onClick={() => confirmDelete(issue._id)}
-                      className=" px-3 py-1 rounded hover:text-red-600"
+                      className="px-3 py-1 rounded hover:text-red-600"
                     >
                       <MdDeleteForever />
                     </button>
