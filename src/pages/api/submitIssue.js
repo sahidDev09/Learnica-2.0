@@ -6,7 +6,7 @@ let cachedDb = null;
 export default async function handler(req, res) {
   // Check if we have a cached MongoClient
   if (!cachedClient || !cachedDb) {
-    cachedClient = new MongoClient(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    cachedClient = new MongoClient(process.env.MONGODB_URI);
     await cachedClient.connect();
     cachedDb = cachedClient.db('learnica');
   }
