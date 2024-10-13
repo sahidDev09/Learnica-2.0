@@ -215,10 +215,14 @@ const Navbar = () => {
                           labelIcon={<MessageCircleCodeIcon size={15} />}
                           href="/chat-ai"></UserButton.Link>
 
-                        <UserButton.Link
-                          label="Help Desk"
-                          labelIcon={<HelpCircleIcon size={15} />}
-                          href="helpdesk"></UserButton.Link>
+                        <UserButton>
+                          <button
+                            className="flex items-center"
+                            onClick={() => setShowSupportModal(true)}>
+                            <HelpCircleIcon size={15} />
+                            <span>Help Line</span>
+                          </button>
+                        </UserButton>
                       </UserButton.MenuItems>
                     </UserButton>
                   </SignedIn>
@@ -270,17 +274,26 @@ const Navbar = () => {
                   <UserButton.Link
                     label="Payment History"
                     labelIcon={<FaCashRegister size={15} />}
-                    href="saved-jobs"></UserButton.Link>
+                    href="paymentHistory"></UserButton.Link>
+
+                  <UserButton.Link
+                    label="Custom Course"
+                    labelIcon={<FileStackIcon size={15} />}
+                    href="/custom-course"></UserButton.Link>
 
                   <UserButton.Link
                     label="Chat with Ai"
                     labelIcon={<MessageCircleCodeIcon size={15} />}
-                    href="saved-jobs"></UserButton.Link>
+                    href="/chat-ai"></UserButton.Link>
 
-                  <UserButton.Link
-                    label="Help Desk"
-                    labelIcon={<HelpCircleIcon size={15} />}
-                    href="helpdesk"></UserButton.Link>
+                  <UserButton>
+                    <button
+                      className="flex items-center"
+                      onClick={() => setShowSupportModal(true)}>
+                      <HelpCircleIcon size={15} />
+                      <span>Help Line</span>
+                    </button>
+                  </UserButton>
                 </UserButton.MenuItems>
               </UserButton>
             </SignedIn>
