@@ -96,8 +96,6 @@ const Navbar = () => {
     return <Loading />;
   }
 
-  //clerk
-
   return (
     <nav className="bg-secondary">
       <div className="sticky z-20 top-0 w-full container mx-auto text-white dark:bg-black">
@@ -313,7 +311,7 @@ const Navbar = () => {
       {/* Sign In Modal */}
       {showSignIn && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop:blur-3xl"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop:blur-3xl overflow-y-auto max-h-screen"
           onClick={handleOverlayOut}>
           <SignIn
             routing="hash"
@@ -327,7 +325,8 @@ const Navbar = () => {
       <Support
         user={user}
         showSupportModal={showSupportModal}
-        setShowSupportModal={setShowSupportModal}></Support>
+        setShowSupportModal={setShowSupportModal}
+        className="overflow-y-auto max-h-screen"></Support>
     </nav>
   );
 };

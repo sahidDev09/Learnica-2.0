@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 function NotFound() {
   return (
     <section className="bg-secondary h-screen flex">
-      <div className="md:flex items-center container mx-auto">
+      <div className="md:flex items-center container mx-auto md:*:-mt-32">
         <div>
           <Image src={not} width={600} height={600} alt="error-page" />
         </div>
