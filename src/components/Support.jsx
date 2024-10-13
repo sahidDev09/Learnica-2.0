@@ -166,7 +166,11 @@ const fetchLink = async () => {
         Swal.fire("Left!", "You have exited the help-line.", "success");
 
         setShowSupportModal(false);
-        setFormSubmitted(false); // Redirect or close the modal, for example, redirect to the home page
+        setFormSubmitted(false);
+         // Redirect or close the modal, for example, redirect to the home page
+
+         // Reload the page after deletion
+        window.location.reload(); // Reload the page
       }
     });
   };
