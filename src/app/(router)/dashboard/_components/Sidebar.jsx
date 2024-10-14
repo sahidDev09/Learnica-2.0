@@ -24,13 +24,15 @@ const Sidebar = () => {
   return (
     <div className="bg-card shadow-sm border h-screen mt-10 md:mt-0">
       <div className="bg-secondary">
-        <Image
-          src="/assets/learnicaNavlogo.png"
-          className="w-40 p-5 flex mx-auto"
-          alt="logo"
-          width={100}
-          height={100}
-        />
+        <Link href="/">
+          <Image
+            src="/assets/learnicaNavlogo.png"
+            className="w-40 p-5 flex mx-auto"
+            alt="logo"
+            width={100}
+            height={100}
+          />
+        </Link>
       </div>
 
       {/* menu list */}
@@ -39,14 +41,16 @@ const Sidebar = () => {
           <Link
             key={item.id}
             href={item.path}
-            onClick={() => handleItemClick(item.id)}>
+            onClick={() => handleItemClick(item.id)}
+          >
             <div
               className={`group flex gap-3 mt-1 p-3 text-[18px] items-center rounded-md transition-all ease-in-out duration-200 
                 ${
                   activeItem === item.id
                     ? "bg-secondary text-white"
                     : "hover:bg-secondary hover:text-white"
-                }`}>
+                }`}
+            >
               <item.icons className="group-hover:animate-bounce" />
               <h2>{item.name}</h2>
             </div>
