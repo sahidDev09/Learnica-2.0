@@ -30,7 +30,7 @@ const MoveToTop = () => {
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center"
+          className="bg-gray-500 opacity-80 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center"
         >
            
           Move to Top 
