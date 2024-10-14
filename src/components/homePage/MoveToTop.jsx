@@ -32,8 +32,9 @@ const MoveToTop = () => {
           onClick={scrollToTop}
           className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center"
         >
-          <FaArrowUp className="mr-2" /> {/* This is the upward arrow icon */}
-          Move to Top
+           
+          Move to Top 
+           <FaArrowUp className="ml-2 " />
         </button>
       )}
     </div>
