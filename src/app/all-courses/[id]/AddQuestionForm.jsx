@@ -21,7 +21,7 @@ const addQuestion = async (formData) => {
   return res.json()
 }
 
-function AddQuestionForm() {
+function AddQuestionForm({refetch}) {
   const queryClient = useQueryClient()
   const mutation = useMutation({ mutationFn: addQuestion })
 
@@ -37,7 +37,6 @@ function AddQuestionForm() {
       createdAt: Date.now()
     }
 
-    console.log({formData});
     mutation.mutate(formData, {
       onSuccess: () => {
         queryClient.invalidateQueries(['qna-ques'])

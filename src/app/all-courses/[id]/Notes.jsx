@@ -69,7 +69,6 @@ function Notes() {
             {notes.map(note => (
               <div key={note._id} className="relative border p-4 rounded-md shadow-md bg-card mb-3">
                 <h3 className="text-primary font-semibold text-lg mb-1">{note.title}</h3>
-                {/* <p className="text-sm text-gray-500">{note.description}</p> */}
                 <p className="text-sm text-gray-500">
                   {note.description.length > 300 ? note.description.slice(0, 300) + '...' : note.description}
                   {" "}
