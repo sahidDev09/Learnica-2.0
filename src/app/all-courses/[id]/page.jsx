@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 import Reviews from "./Reviews";
@@ -6,21 +7,28 @@ import AddNoteForm from "./AddNoteForm";
 import Notes from "./Notes";
 import Resources from "./Resources";
 import Questions from "./Questions";
+import { useQuery } from "@tanstack/react-query";
 
-const page = async ({ params }) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/${params.id}`
-  );
+const page = ({ params }) => {
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ["courses"],
+    queryFn: async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/${params.id}`
+      );
+      return res.json();
+    },
+  });
 
-  if (!res.ok) {
+  if (isLoading) {
     return (
       <div className="min-h-screen py-10">
-        <h2>Course not found</h2>
+        <h2 className="text-center my-8">Loading...</h2>
       </div>
     );
   }
   // const { user } = useUser();
-  const data = await res.json();
+
   const topic = [
     {
       title: "Introduction to JavaScript",
@@ -46,6 +54,26 @@ const page = async ({ params }) => {
 
   return (
     <div className="min-h-screen py-10">
+      {/* approve button */}
+
+      {data?.status == "pending" && (
+        <div className="w-7/12 mx-auto ">
+          <div className="my-6 bg-yellow-400 rounded-xl p-8">
+            <h2 className="text-xl font-medium text-center my-3">
+              This is a pending course
+            </h2>
+            <h2 className="text-lg font-semibold text-center my-3">
+              Do you approve it..?
+            </h2>
+            <div className="flex justify-center mt-5">
+              <button className="btn btn-2xl bg-green-600 text-white border-0">
+                Approve
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="container mx-auto flex flex-col-reverse lg:flex-row px-2">
         <div className="lg:w-5/12">
           <div className=" bg-card p-6 rounded-xl">
@@ -56,7 +84,8 @@ const page = async ({ params }) => {
               <progress
                 className="progress progress-error w-56"
                 value="10"
-                max="100"></progress>
+                max="100"
+              ></progress>
               <span className="font-semibold">10%</span>
             </div>
             {/* content */}
@@ -65,13 +94,15 @@ const page = async ({ params }) => {
                 <>
                   <div
                     key={index}
-                    className="flex gap-2 items-center p-2 bg-white w-full rounded-md">
+                    className="flex gap-2 items-center p-2 bg-white w-full rounded-md"
+                  >
                     <Image
                       width={60}
                       height={60}
                       src={"/assets/video_thumbnail.png"}
                       alt="video_thumbnail"
-                      className="rounded"></Image>
+                      className="rounded"
+                    ></Image>
                     <div className="text-start w-full">
                       <h2 className="text-lg md:text-xl font-semibold">
                         {index + 1}. {item.title}
@@ -102,11 +133,13 @@ const page = async ({ params }) => {
             src="https://www.youtube.com/embed/kmZz0v4COpw?start=314"
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen></iframe>
+            allowFullScreen
+          ></iframe>
           {/* tab */}
           <div
             role="tablist"
-            className="tabs tabs-bordered border-primary my-4 bg-card">
+            className="tabs tabs-bordered border-primary my-4 bg-card"
+          >
             {/*--------------------------------- Overview --------------------------------*/}
             <input
               type="radio"
@@ -147,7 +180,8 @@ const page = async ({ params }) => {
                   height={30}
                   src={"/assets/developers/numan.jpg"}
                   alt="video_thumbnail"
-                  className="rounded w-16 h-16"></Image>
+                  className="rounded w-16 h-16"
+                ></Image>
                 <div className="text-start">
                   <h2 className="text-lg md:text-xl font-semibold">Jhon doe</h2>
                   <h4 className="text-gray-500">Web Developer </h4>
