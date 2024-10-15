@@ -6,6 +6,7 @@ import AddReviewForm from "./AddReviewForm";
 import AddNoteForm from "./AddNoteForm";
 import Notes from "./Notes";
 import Resources from "./Resources";
+import Questions from "./Questions";
 import { useQuery } from "@tanstack/react-query";
 
 const page = ({ params }) => {
@@ -194,8 +195,8 @@ const page = ({ params }) => {
               className="tab mx-2 px-2"
               aria-label="Q&A"
             />
-            <div role="tabpanel" className="tab-content p-10 bg-white">
-              Question and answer
+            <div role="tabpanel" className="tab-content py-4 bg-white">
+              <Questions />
             </div>
             {/*------------------------------- Notes ----------------------------*/}
             <input
