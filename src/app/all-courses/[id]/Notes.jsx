@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { FaTrashAlt } from "react-icons/fa";
 import NoteModal from "./NoteModal";
+import Loader from "@/components/shared/Loader";
 
 function Notes() {
   // get notes
@@ -54,7 +55,7 @@ function Notes() {
     }
   }
 
-  if (isLoading) { return <span className="loading loading-spinner loading-lg"></span> }
+  if (isLoading) { return <Loader /> }
   return (
     <section className="max-w-screen-lg mx-auto my-6">
       <header className="mb-4">

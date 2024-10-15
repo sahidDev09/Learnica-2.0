@@ -2,6 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
+import Loader from "@/components/shared/Loader";
 
 function Reviews() {
   const {data:reviews, isLoading} = useQuery({
@@ -12,7 +13,7 @@ function Reviews() {
     }
   })
 
-  if (isLoading){ return "Loading.." }
+  if (isLoading){ return <Loader /> }
   return (
     <section className="max-w-screen-lg mx-auto my-6">
       <header className="mb-6">
