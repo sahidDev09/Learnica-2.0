@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { FaTrashAlt } from "react-icons/fa";
 import NoteModal from "./NoteModal";
+import Loader from "@/components/shared/Loader";
 
 function Notes() {
   // get notes
@@ -54,7 +55,7 @@ function Notes() {
     }
   }
 
-  if (isLoading) { return <span className="loading loading-spinner loading-lg"></span> }
+  if (isLoading) { return <Loader /> }
   return (
     <section className="max-w-screen-lg mx-auto my-6">
       <header className="mb-4">
@@ -68,7 +69,6 @@ function Notes() {
             {notes.map(note => (
               <div key={note._id} className="relative border p-4 rounded-md shadow-md bg-card mb-3">
                 <h3 className="text-primary font-semibold text-lg mb-1">{note.title}</h3>
-                {/* <p className="text-sm text-gray-500">{note.description}</p> */}
                 <p className="text-sm text-gray-500">
                   {note.description.length > 300 ? note.description.slice(0, 300) + '...' : note.description}
                   {" "}

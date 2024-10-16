@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 import Reviews from "./Reviews";
@@ -5,22 +6,30 @@ import AddReviewForm from "./AddReviewForm";
 import AddNoteForm from "./AddNoteForm";
 import Notes from "./Notes";
 import Resources from "./Resources";
-import { PlayIcon, PlaySquare } from "lucide-react";
+import { PlaySquare } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import Questions from "./Questions";
 
-const page = async ({ params }) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/${params.id}`
-  );
+const Page = ({ params }) => {
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ["courses"],
+    queryFn: async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/${params.id}`
+      );
+      return res.json();
+    },
+  });
 
-  if (!res.ok) {
+  if (isLoading) {
     return (
       <div className="min-h-screen py-10">
-        <h2>Course not found</h2>
+        <h2 className="text-center my-8">Loading...</h2>
       </div>
     );
   }
   // const { user } = useUser();
-  const data = await res.json();
+
   const topic = [
     {
       title: "Introduction to JavaScript",
@@ -46,6 +55,26 @@ const page = async ({ params }) => {
 
   return (
     <div className="min-h-screen py-10">
+      {/* approve button */}
+
+      {data?.status == "pending" && (
+        <div className="w-7/12 mx-auto ">
+          <div className="my-6 bg-yellow-400 rounded-xl p-8">
+            <h2 className="text-xl font-medium text-center my-3">
+              This is a pending course
+            </h2>
+            <h2 className="text-lg font-semibold text-center my-3">
+              Do you approve it..?
+            </h2>
+            <div className="flex justify-center mt-5">
+              <button className="btn btn-2xl bg-green-600 text-white border-0">
+                Approve
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="container mx-auto flex flex-col-reverse lg:flex-row px-2">
         <div className="lg:w-5/12">
           <div className=" bg-card p-6 h-full rounded-xl">
@@ -151,8 +180,8 @@ const page = async ({ params }) => {
               className="tab mx-2 px-2 text-white"
               aria-label="Q&A"
             />
-            <div role="tabpanel" className="tab-content p-10 bg-white">
-              Question and answer
+            <div role="tabpanel" className="tab-content py-4 bg-white">
+              <Questions />
             </div>
             {/*------------------------------- Notes ----------------------------*/}
             <input
@@ -198,4 +227,4 @@ const page = async ({ params }) => {
   );
 };
 
-export default page;
+export default Page;

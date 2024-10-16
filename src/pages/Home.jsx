@@ -10,6 +10,7 @@ import LatestCourses from "@/components/homePage/LatestCourse";
 import Promotional from "@/components/homePage/Promotional";
 import Reviews from "@/components/homePage/Reviews";
 import Loading from "@/app/loading";
+import MoveToTop from "@/components/homePage/MoveToTop";
 
 const HomePage = () => {
   // const [loading, setLoading] = useState(true);
@@ -48,6 +49,8 @@ const HomePage = () => {
       <Reviews />
       {/* Promotional section */}
       <Promotional />
+      {/* move to top button */}
+      <MoveToTop/>
     </div>
   );
 };

@@ -140,8 +140,9 @@ const Navbar = () => {
                 </Link>
                 <li
                   className="duration-150 hover:border-transparent p-1 text-center cursor-pointer"
-                  onClick={() => setShowSupportModal(true)}>
-                  Support
+                  onClick={() => setShowSupportModal(true)} 
+                >
+                  Help-line
                 </li>
 
                 <Link
@@ -291,8 +292,10 @@ const Navbar = () => {
           </li>
           <li
             className="duration-150 hover:border-transparent p-1 cursor-pointer"
-            onClick={() => setShowSupportModal(true)}>
-            Support
+            onClick={() => setShowSupportModal(true)} 
+
+          >
+            Help-line
           </li>
           <li>
             <Link href="/about">About Us</Link>

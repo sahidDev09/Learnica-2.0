@@ -4,7 +4,7 @@ import { CldUploadWidget } from "next-cloudinary";
 import { Button } from "@/components/ui/button";
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
-import { DownloadCloudIcon } from "lucide-react";
+import { Delete, DownloadCloudIcon } from "lucide-react";
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
 
@@ -153,7 +153,7 @@ const Resources = ({ courseId, userid }) => {
               />
               <div>
                 <h1 className="md:text-lg font-semibold text-secondary">
-                  {resource.file_name}
+                  {resource.file_name.slice(0, 30)}...
                 </h1>
                 <p className="text-gray-400 text-sm hidden md:inline-block">
                   You can download this resource for offline reading.
@@ -167,6 +167,11 @@ const Resources = ({ courseId, userid }) => {
                   <span className="hidden md:inline-block">Download</span>
                 </Button>
               </a>
+              {user?.id === userid && (
+                <Button className="bg-red-400">
+                  <Delete />
+                </Button>
+              )}
             </div>
           </div>
         ))

@@ -47,7 +47,7 @@ const LiveClasses = () => {
                   liveClass.thumbnail?.startsWith("http") ||
                   liveClass.thumbnail?.startsWith("/")
                     ? liveClass.thumbnail
-                    : "/fallback-image.jpg"
+                    : ""
                 }
                 alt="Course Thumbnail"
                 width={256}
