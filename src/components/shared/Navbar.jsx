@@ -16,7 +16,6 @@ import {
 } from "@clerk/nextjs";
 import Link from "next/link";
 import {
-  BellDot,
   BriefcaseBusiness,
   FileStackIcon,
   HelpCircleIcon,
@@ -27,6 +26,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { FaCashRegister } from "react-icons/fa";
 import Loading from "@/app/loading";
 import Support from "../Support";
+import Notification from "../homePage/notification/Notification";
 
 const Navbar = () => {
   const [showSupportModal, setShowSupportModal] = useState(false);
@@ -124,36 +124,41 @@ const Navbar = () => {
               <ul className="font-semibold flex gap-6">
                 <Link
                   href="/"
-                  className="duration-150 hover:border-transparent text-center p-1">
+                  className="duration-150 hover:border-transparent text-center p-1"
+                >
                   <li>Home</li>
                 </Link>
 
                 <Link
                   href="/all-courses"
-                  className="duration-150 hover:border-transparent p-1 text-center">
+                  className="duration-150 hover:border-transparent p-1 text-center"
+                >
                   <li>All Courses</li>
                 </Link>
                 <Link
                   href="/live_class"
-                  className="duration-150 hover:border-transparent p-1 text-center">
+                  className="duration-150 hover:border-transparent p-1 text-center"
+                >
                   <li>Live classes</li>
                 </Link>
                 <li
                   className="duration-150 hover:border-transparent p-1 text-center cursor-pointer"
-                  onClick={() => setShowSupportModal(true)} 
+                  onClick={() => setShowSupportModal(true)}
                 >
                   Help-line
                 </li>
 
                 <Link
                   href="/about"
-                  className="duration-150 hover:border-transparent p-1 text-center">
+                  className="duration-150 hover:border-transparent p-1 text-center"
+                >
                   <li>About Us</li>
                 </Link>
 
                 <li className="p-1">
                   {/* Dark Mode Toggle */}
-                  <BellDot />
+                  {/* <BellDot /> */}
+                  <Notification></Notification>
                 </li>
                 {/* Authentication Buttons */}
                 <div className="flex gap-5">
@@ -161,7 +166,8 @@ const Navbar = () => {
                     <Button
                       onClick={() => setShowSignIn(true)}
                       variant="secondary"
-                      className="rounded-full">
+                      className="rounded-full"
+                    >
                       Sign-in
                     </Button>
                   </SignedOut>
@@ -173,7 +179,8 @@ const Navbar = () => {
                       <Button
                         variant="destructive"
                         className="rounded-full"
-                        aria-label="Author Dashboard">
+                        aria-label="Author Dashboard"
+                      >
                         <PenBox size={20} className="mr-2" /> Admin Dashboard
                       </Button>
                     </Link>
@@ -182,7 +189,8 @@ const Navbar = () => {
                       <Button
                         variant="destructive"
                         className="rounded-full"
-                        aria-label="Author Dashboard">
+                        aria-label="Author Dashboard"
+                      >
                         <PenBox size={20} className="mr-2" /> Author Dashboard
                       </Button>
                     </Link>
@@ -194,32 +202,38 @@ const Navbar = () => {
                         elements: {
                           avatarBox: " w-10 h-10",
                         },
-                      }}>
+                      }}
+                    >
                       <UserButton.MenuItems>
                         <UserButton.Link
                           label="My Purchases"
                           labelIcon={<BriefcaseBusiness size={15} />}
-                          href="my-applications"></UserButton.Link>
+                          href="my-applications"
+                        ></UserButton.Link>
 
                         <UserButton.Link
                           label="Payment History"
                           labelIcon={<FaCashRegister size={15} />}
-                          href="paymentHistory"></UserButton.Link>
+                          href="paymentHistory"
+                        ></UserButton.Link>
 
                         <UserButton.Link
                           label="Custom Course"
                           labelIcon={<FileStackIcon size={15} />}
-                          href="/custom-course"></UserButton.Link>
+                          href="/custom-course"
+                        ></UserButton.Link>
 
                         <UserButton.Link
                           label="Chat with Ai"
                           labelIcon={<MessageCircleCodeIcon size={15} />}
-                          href="/chat-ai"></UserButton.Link>
+                          href="/chat-ai"
+                        ></UserButton.Link>
 
                         <UserButton>
                           <button
                             className="flex items-center"
-                            onClick={() => setShowSupportModal(true)}>
+                            onClick={() => setShowSupportModal(true)}
+                          >
                             <HelpCircleIcon size={15} />
                             <span>Help Line</span>
                           </button>
@@ -238,7 +252,8 @@ const Navbar = () => {
       <div
         className={`${
           openMenu ? "w-3/4" : "w-0"
-        } fixed top-0 right-0 h-full bg-black transition-all overflow-hidden z-50`}>
+        } fixed top-0 right-0 h-full bg-black transition-all overflow-hidden z-50`}
+      >
         <div className="flex justify-end px-4 py-5">
           <RxCross1
             onClick={handleCloseMenu}
@@ -252,7 +267,8 @@ const Navbar = () => {
               <Button
                 onClick={() => setShowSignIn(true)}
                 variant="secondary"
-                className="rounded-full w-full">
+                className="rounded-full w-full"
+              >
                 Sign-in
               </Button>
             </SignedOut>
@@ -265,32 +281,38 @@ const Navbar = () => {
                     avatarBox: " w-10 h-10",
                   },
                 }}
-                className="mr-3">
+                className="mr-3"
+              >
                 <UserButton.MenuItems>
                   <UserButton.Link
                     label="My Purchases"
                     labelIcon={<BriefcaseBusiness size={15} />}
-                    href="my-applications"></UserButton.Link>
+                    href="my-applications"
+                  ></UserButton.Link>
 
                   <UserButton.Link
                     label="Payment History"
                     labelIcon={<FaCashRegister size={15} />}
-                    href="paymentHistory"></UserButton.Link>
+                    href="paymentHistory"
+                  ></UserButton.Link>
 
                   <UserButton.Link
                     label="Custom Course"
                     labelIcon={<FileStackIcon size={15} />}
-                    href="/custom-course"></UserButton.Link>
+                    href="/custom-course"
+                  ></UserButton.Link>
 
                   <UserButton.Link
                     label="Chat with Ai"
                     labelIcon={<MessageCircleCodeIcon size={15} />}
-                    href="/chat-ai"></UserButton.Link>
+                    href="/chat-ai"
+                  ></UserButton.Link>
 
                   <UserButton>
                     <button
                       className="flex items-center"
-                      onClick={() => setShowSupportModal(true)}>
+                      onClick={() => setShowSupportModal(true)}
+                    >
                       <HelpCircleIcon size={15} />
                       <span>Help Line</span>
                     </button>
@@ -310,8 +332,7 @@ const Navbar = () => {
           </li>
           <li
             className="duration-150 hover:border-transparent p-1 cursor-pointer"
-            onClick={() => setShowSupportModal(true)} 
-
+            onClick={() => setShowSupportModal(true)}
           >
             Help-line
           </li>
@@ -328,7 +349,8 @@ const Navbar = () => {
       {showSignIn && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop:blur-3xl overflow-y-auto max-h-screen"
-          onClick={handleOverlayOut}>
+          onClick={handleOverlayOut}
+        >
           <SignIn
             routing="hash"
             signUpForceRedirectUrl="/"
@@ -342,7 +364,8 @@ const Navbar = () => {
         user={user}
         showSupportModal={showSupportModal}
         setShowSupportModal={setShowSupportModal}
-        className="overflow-y-auto max-h-screen"></Support>
+        className="overflow-y-auto max-h-screen"
+      ></Support>
     </nav>
   );
 };
