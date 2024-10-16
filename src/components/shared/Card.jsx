@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "../ui/button";
 
 const Card = ({ course }) => {
   const validThumbnail =
@@ -9,9 +10,9 @@ const Card = ({ course }) => {
 
   return (
     <div>
-      <div className="w-full mx-auto md:mx-0 border rounded-xl bg-card text-gray-800 dark:bg-gray-800 dark:text-white shadow-md">
+      <div className="w-full mx-auto md:mx-0 border rounded-xl text-gray-800 dark:bg-gray-800 dark:text-white shadow-md">
         <Image
-          className="w-full h-[270px] rounded-xl object-cover"
+          className="w-full h-[260px] rounded-xl object-fit"
           src={validThumbnail}
           alt={course.title}
           width={1000}
@@ -19,8 +20,10 @@ const Card = ({ course }) => {
         />
 
         <div className="p-4">
-          <p className="text-white text-sm bg-primary rounded-full px-2 py-1 w-fit">{course.category}</p>
-          <h3 className="text-lg font-semibold my-1">
+          <p className="text-white text-sm bg-primary rounded-full px-2 py-1 w-fit">
+            {course.category}
+          </p>
+          <h3 className="text-lg font-semibold my-1 e">
             {course.title.length > 35
               ? `${course.title.slice(0, 35)}...`
               : course.title}
@@ -28,15 +31,14 @@ const Card = ({ course }) => {
           <p>
             <span className="text-gray-500">Release Date 12-05-2024</span>
           </p>
-          <p className="text-sm">
+          <p className="text-sm text-primary">
             Author: <span className="font-semibold">{course.authorName}</span>
           </p>
 
-          <Link
-            className="inline-block bg-secondary mt-4 text-white px-4 py-3 rounded-xl hover:opacity-80 transition-opacity"
-            href={`/all-courses/${course._id}`}
-          >
-            View Details
+          <Link href={`/all-courses/${course._id}`}>
+            <Button className="my-2 bg-secondary">
+              View Details
+            </Button>
           </Link>
         </div>
       </div>

@@ -59,7 +59,7 @@ function Notes() {
   return (
     <section className="max-w-screen-lg mx-auto my-6">
       <header className="mb-4">
-        <h2 className="text-xl md:text-2xl font-semibold">My Notes</h2>
+        <h2 className="text-xl md:text-xl font-semibold">My Notes</h2>
       </header>
 
       {/* cards */}

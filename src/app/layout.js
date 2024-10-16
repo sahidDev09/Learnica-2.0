@@ -15,21 +15,19 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <ReactLenis root>
-        <body>
-          <ClerkProvider>
-            <TanstackProvider>
-              {!hideNavFoot && (
-                <Suspense fallback={<div>Loading...</div>}>
-                  <Navbar />
-                </Suspense>
-              )}
-              {children}
-              {!hideNavFoot && <Footer />}
-            </TanstackProvider>
-          </ClerkProvider>
-        </body>
-      </ReactLenis>
+      <body>
+        <ClerkProvider>
+          <TanstackProvider>
+            {!hideNavFoot && (
+              <Suspense fallback={<div>Loading...</div>}>
+                <Navbar />
+              </Suspense>
+            )}
+            {children}
+            {!hideNavFoot && <Footer />}
+          </TanstackProvider>
+        </ClerkProvider>
+      </body>
     </html>
   );
 }
