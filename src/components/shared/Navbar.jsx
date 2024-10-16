@@ -82,7 +82,7 @@ const Navbar = () => {
           const data = await response.json();
           const currData = data;
           setMainRole(currData.mainRole);
-          console.log("current data", currData);
+         
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
@@ -214,15 +214,6 @@ const Navbar = () => {
                           label="Chat with Ai"
                           labelIcon={<MessageCircleCodeIcon size={15} />}
                           href="/chat-ai"></UserButton.Link>
-
-                        <UserButton>
-                          <button
-                            className="flex items-center"
-                            onClick={() => setShowSupportModal(true)}>
-                            <HelpCircleIcon size={15} />
-                            <span>Help Line</span>
-                          </button>
-                        </UserButton>
                       </UserButton.MenuItems>
                     </UserButton>
                   </SignedIn>
@@ -285,15 +276,6 @@ const Navbar = () => {
                     label="Chat with Ai"
                     labelIcon={<MessageCircleCodeIcon size={15} />}
                     href="/chat-ai"></UserButton.Link>
-
-                  <UserButton>
-                    <button
-                      className="flex items-center"
-                      onClick={() => setShowSupportModal(true)}>
-                      <HelpCircleIcon size={15} />
-                      <span>Help Line</span>
-                    </button>
-                  </UserButton>
                 </UserButton.MenuItems>
               </UserButton>
             </SignedIn>

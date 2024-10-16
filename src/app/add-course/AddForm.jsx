@@ -1,14 +1,16 @@
 "use client";
+import { useUser } from "@clerk/nextjs";
 import Swal from "sweetalert2";
 
 // // dummy user
-const user = {
+const userinfo = {
   authorName: "ali",
   authorEmail: "ali@mail.com",
   authorPhotoUrl: "https://randomuser.me/api/portraits/men/22.jpg",
-}
+};
 
 function AddForm() {
+  const { user } = useUser();
 
   // handler: add course
   const handleAddCourse = async (e) => {
@@ -17,11 +19,12 @@ function AddForm() {
     const formData = {
       title: e.target.title.value.trim(),
       price: +e.target.price.value.trim(),
+      userId: user.id,
       duration: e.target.duration.value.trim(),
       description: e.target.description.value.trim(),
-      authorName: user.authorName,
-      authorEmail: user.authorEmail,
-      authorPhotoUrl: user.authorPhotoUrl,
+      authorName: userinfo.authorName,
+      authorEmail: userinfo.authorEmail,
+      authorPhotoUrl: userinfo.authorPhotoUrl,
       publish_date: Date.now(),
     };
 
@@ -78,7 +81,6 @@ function AddForm() {
           <input
             type="text"
             name="title"
-            
             placeholder="e.g Javascript 101"
             className="input input-bordered w-full min-w-0"
             required
