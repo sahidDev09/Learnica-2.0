@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Delete, DownloadCloudIcon } from "lucide-react";
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
+import Loading from "@/app/loading";
 
 const Resources = ({ courseId, userid }) => {
   const [loading, setLoading] = useState(false);
@@ -97,8 +98,51 @@ const Resources = ({ courseId, userid }) => {
     }
   };
 
+  //delete resources
+
+  const handleResDelete = async (resourceId) => {
+    try {
+      const { isConfirmed } = await Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#15803D",
+        cancelButtonColor: "#B91C1C",
+        confirmButtonText: "Yes, delete it!",
+      });
+      if (!isConfirmed) return;
+
+      const res = await fetch(
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/resources",
+        {
+          method: "DELETE",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({ resourceId }),
+        }
+      );
+      await res.json();
+      Swal.fire({
+        title: "Successfully deleted the resources!",
+        icon: "success",
+        confirmButtonColor: "#15803D",
+      });
+      // refetch notes
+      await refetch();
+    } catch (error) {
+      Swal.fire({
+        title: "Error on deleting recources!",
+        text: error.message,
+        icon: "error",
+        confirmButtonColor: "#B91C1C",
+      });
+    }
+  };
+
   if (isLoading) {
-    return <div>Loading..</div>;
+    return <Loading />;
   }
 
   return (
@@ -168,7 +212,9 @@ const Resources = ({ courseId, userid }) => {
                 </Button>
               </a>
               {user?.id === userid && (
-                <Button className="bg-red-400">
+                <Button
+                  onClick={() => handleResDelete(resource._id)}
+                  className="bg-red-400">
                   <Delete />
                 </Button>
               )}

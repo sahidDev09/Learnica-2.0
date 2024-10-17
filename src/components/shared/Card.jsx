@@ -9,7 +9,7 @@ const Card = ({ course }) => {
       : "/default-thumbnail.jpg";
 
   return (
-    <div>
+    <div className=" bg-card">
       <div className="w-full mx-auto md:mx-0 border rounded-xl text-gray-800 dark:bg-gray-800 dark:text-white shadow-md">
         <Image
           className="w-full h-[260px] rounded-xl object-fit"

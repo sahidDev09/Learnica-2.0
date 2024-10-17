@@ -9,6 +9,7 @@ import Resources from "./Resources";
 import { PlaySquare } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import Questions from "./Questions";
+import Loading from "@/app/loading";
 
 const Page = ({ params }) => {
   const { data, isLoading, refetch } = useQuery({
@@ -22,11 +23,7 @@ const Page = ({ params }) => {
   });
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen py-10">
-        <h2 className="text-center my-8">Loading...</h2>
-      </div>
-    );
+    return <Loading />;
   }
   // const { user } = useUser();
 
