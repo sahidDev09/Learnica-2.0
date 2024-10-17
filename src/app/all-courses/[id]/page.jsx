@@ -120,7 +120,7 @@ const Page = ({ params }) => {
           {/* tab */}
           <div
             role="tablist"
-            className="tabs tabs-bordered border-primary mt-4 bg-secondary pt-4 rounded-md w-full">
+            className="tabs tabs-bordered mt-4 bg-secondary pt-4 rounded-md w-full sm:max-w-none md:max-w-none lg:max-w-full flex flex-col md:inline-grid">
             {/*--------------------------------- Overview --------------------------------*/}
             <input
               type="radio"
@@ -131,9 +131,9 @@ const Page = ({ params }) => {
             />
             <div
               role="tabpanel"
-              className="tab-content py-4 min-h-full bg-white">
+              className="tab-content py-4 min-h-full bg-white w-full">
               <h2 className="text-lg md:text-xl font-semibold">{data.title}</h2>
-              <div className="flex gap-5 my-4">
+              <div className="flex gap-5 my-4 w-full">
                 <div className="text-center">
                   <div className="flex gap-2">
                     <span className="font-semibold text-xl">4.6</span>{" "}
@@ -177,7 +177,7 @@ const Page = ({ params }) => {
               className="tab mx-2 px-2 text-white"
               aria-label="Q&A"
             />
-            <div role="tabpanel" className="tab-content py-4 bg-white">
+            <div role="tabpanel" className="tab-content py-4 bg-white w-full">
               <Questions />
             </div>
             {/*------------------------------- Notes ----------------------------*/}
@@ -188,7 +188,7 @@ const Page = ({ params }) => {
               className="tab mx-2 px-2 text-white"
               aria-label="Notes"
             />
-            <div role="tabpanel" className="tab-content py-2 bg-white">
+            <div role="tabpanel" className="tab-content py-2 bg-white w-full">
               <AddNoteForm />
               <Notes />
             </div>
@@ -200,7 +200,7 @@ const Page = ({ params }) => {
               className="tab mx-2 px-2 text-white"
               aria-label="Reviews"
             />
-            <div role="tabpanel" className="tab-content pt-4 bg-white">
+            <div role="tabpanel" className="tab-content pt-4 bg-white w-full">
               <AddReviewForm />
               <Reviews />
             </div>
@@ -214,7 +214,7 @@ const Page = ({ params }) => {
               className="tab mx-2 px-2 text-white"
               aria-label="Resources"
             />
-            <div role="tabpanel" className="tab-content bg-white pt-2">
+            <div role="tabpanel" className="tab-content bg-white pt-2 w-full">
               <Resources courseId={data._id} userid={data.userId} />
             </div>
           </div>
