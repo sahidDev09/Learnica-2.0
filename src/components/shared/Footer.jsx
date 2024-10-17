@@ -6,7 +6,7 @@ const Footer = () => {
     <section className="bg-secondary">
       <footer className="footer bg-transparent container mx-auto text-white p-10">
         <aside className=" my-auto">
-          <Image src={logo} alt="logo" width={120} height={120} />
+          <Image src={logo} alt="logo" width={130} height={130} />
           <p>Providing reliable tech since 2024</p>
         </aside>
         <nav>
