@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import AddAnswerForm from "./AddAnswerForm";
-import Loader from "@/components/shared/Loader";
+import Loading from "@/app/loading";
 
 // dummy user
 const user = {
@@ -27,8 +27,34 @@ function QnaModal({ question }) {
     },
   });
 
+  // handle delete answer
+  const handleAnswerDelete = async (ansId) => {
+    try {
+      const res = await fetch(
+        process.env.NEXT_PUBLIC_BASE_URL + `/api/qna-ans?id=${ansId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({ ansId }),
+        }
+      );
+      await res.json();
+      // refetch notes
+      await refetch();
+    } catch (error) {
+      Swal.fire({
+        title: "Error on deleting note!",
+        text: error.message,
+        icon: "error",
+        confirmButtonColor: "#B91C1C",
+      });
+    }
+  };
+
   if (isLoading) {
-    return <Loader />;
+    return <Loading />;
   }
   return (
     <div className="">
@@ -37,7 +63,7 @@ function QnaModal({ question }) {
           {/* ------ modal content -------- */}
           <div>
             {/* question */}
-            <div className="mb-4 my-4 bg-card p-2 rounded-md">
+            <div className="mb-4 my-4 bg-card p-3 rounded-md">
               <h3 className="text-secondary font-semibold text-lg">
                 <span className=" text-primary">Q:</span> {question.question}
               </h3>
@@ -57,13 +83,17 @@ function QnaModal({ question }) {
             <div>
               {answers.length > 0 ? (
                 <div className="max-h-[600px] overflow-y-auto">
+                  <h3 className="mb-2 font-semibold text-secondary">Answers:</h3>
                   {answers.map((ans) => (
                     <div key={ans._id} className="text-sm">
                       <p className="text-gray-500 mb-0.5">
-                        Answer • {ans.userEmail}
+                        <span>{ans.userEmail} • </span>
+                        <span>{new Date(ans.createdAt).toLocaleDateString()} • </span>
+
+                        <button onClick={() => handleAnswerDelete(ans._id)} className="underline text-red-600">delete</button>
                       </p>
                       <p>{ans.answer}</p>
-                      <hr className="my-2" />
+                      <hr className="my-3" />
                     </div>
                   ))}
                 </div>

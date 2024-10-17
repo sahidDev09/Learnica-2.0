@@ -19,6 +19,12 @@ export default async function handler(req, res) {
       await answersCollection.insertOne(newAnswer);
       return res.json({ success: true, message: "question successfully inserted!" });
     }  
+    // ------- delete ------------ 
+    else if (req.method === "DELETE") {
+      const ansId = req.body.ansId;
+      await answersCollection.deleteOne({_id: new ObjectId(ansId)})
+      return res.json({ success: true, message: "Answer deleted successfully!" });
+    } 
     else {
       // Handle unsupported HTTP methods
       return res
