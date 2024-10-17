@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import sup from '/public/assets/support.png'
 import Swal from 'sweetalert2';
 
@@ -17,6 +17,8 @@ const Support = ({showSupportModal, setShowSupportModal, user}) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [formSubmitted, setFormSubmitted] = useState(false);
+    const [issues, setIssues] = useState([]);
+    const [supportLinks, setSupportLinks] = useState([]);
   
 
 
@@ -96,6 +98,58 @@ const Support = ({showSupportModal, setShowSupportModal, user}) => {
       setLoading(false);
     }
   };
+  // data fetch for serial 
+ 
+  
+
+  const fetchIssues = async () => {
+    try {
+      const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/submitIssue", {
+        method: 'GET',
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to fetch issues');
+      }
+
+      const data = await res.json();
+      setIssues(data.data); // Store fetched issues
+    } catch (err) {
+      console.error(err);
+      setError('Error fetching issues. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchIssues(); // Fetch issues on component mount
+  }, []);
+
+
+
+// data fetch for meet link
+const fetchLink = async () => {
+    try {
+      const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/addSupportLink", {
+        method: 'GET',
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to fetch links');
+      }
+
+      const data = await res.json();
+      setSupportLinks(data.data); // Store fetched links
+    } catch (err) {
+      console.error(err);
+      setError('Error fetching links. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchLink(); // Fetch Link on component mount
+  }, []);
 
   const handleLeave = () => {
     Swal.fire({
@@ -109,31 +163,33 @@ const Support = ({showSupportModal, setShowSupportModal, user}) => {
       cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire("Left!", "You have exited the modal.", "success");
+        Swal.fire("Left!", "You have exited the help-line.", "success");
 
         setShowSupportModal(false);
-        setFormSubmitted(false); // Redirect or close the modal, for example, redirect to the home page
+        setFormSubmitted(false);
+         // Redirect or close the modal, for example, redirect to the home page
+
+         // Reload the page after deletion
+        window.location.reload(); // Reload the page
       }
     });
   };
 
-  const handleJoinNow = () => {
-    const meetLink = "https://meet.google.com/wou-cmvs-qsa"; // Replace with your meet link
-  };
+  
 
     return (
         <div>
            {/* Support Modal */}
       {showSupportModal && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop:blur-3xl "
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop:blur-3xl"
           onClick={handleSupportModalClose} // Close modal when clicked outside
         >
-          <div className="relative p-6 rounded-lg w-96 lg:w-[600px] border-2 bg-white">
+          <div className="relative p-6 rounded-lg w-96 lg:w-[600px]   bg-secondary ">
             {/* Close Button */}
             <div className="flex justify-between">
               <div>
-                <h2 className="text-xl font-bold mb-4">Support Session</h2>
+                <h2 className="text-xl font-bold mb-4 text-white">Help-Line</h2>
               </div>
               <div>
                 {" "}
@@ -147,34 +203,34 @@ const Support = ({showSupportModal, setShowSupportModal, user}) => {
             </div>
             <hr />
             {/* when there is support session available */}
-            <div>
+            {supportLinks.length > 0 ? ( <div>
               <div>
                 {/* Show form if not submitted */}
                 {!formSubmitted && (
                   <form
                     onSubmit={handleSubmit}
-                    className="max-w-lg mx-auto bg-white pt-2 ">
-                    <div className=" lg:flex justify-between pb-3 font-bold">
+                    className="max-w-lg mx-auto  bg-secondary pt-2 ">
+                    <div className=" text-white lg:flex justify-between pb-3 font-bold">
                       <p className="font-bold">Ongoing Support Session</p>
                       <p>
                         Session Time :{" "}
-                        <span className="text-purple-800">9:00 PM</span> to{" "}
-                        <span className="text-purple-800">11:00 PM</span>
+                        <span className=" text-yellow-500">9:00 PM</span> to{" "}
+                        <span className=" text-yellow-500">11:00 PM</span>
                       </p>
                     </div>
                     <hr className=" pt-3" />
-                    <h2 className="text-2xl font-bold mb-4 text-center">
-                      <span className=" text-green-500">To get support,</span>{" "}
-                      <span className=" text-orange-500">
-                        Submit Your Issue first
+                    <h2 className="text-xl text-white font-bold mb-4 text-center">
+                      <span className=" "></span>{" "}
+                      <span className=" ">
+                        
                       </span>
                     </h2>
 
                     {/* Dropdown for selecting option */}
-                    <div className="mb-4">
+                    <div className="mb-4 mt-12">
                       <label
                         htmlFor="issue-type"
-                        className="block text-gray-700 mb-2">
+                        className="block text-white font-bold mb-2">
                         Select Issue Type
                         <span className="text-orange-500">*</span>
                       </label>
@@ -182,7 +238,7 @@ const Support = ({showSupportModal, setShowSupportModal, user}) => {
                         id="issue-type"
                         value={selectedOption}
                         onChange={handleOptionChange}
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-indigo-500">
+                        className="w-full p-2 bg-cyan-800  rounded focus:outline-none focus:ring focus:ring-indigo-500 text-white">
                         <option value="">Select an option</option>
                         <option value="technical">Technical Issue</option>
                         <option value="billing">Billing Issue</option>
@@ -194,7 +250,7 @@ const Support = ({showSupportModal, setShowSupportModal, user}) => {
                     <div className="mb-4">
                       <label
                         htmlFor="issue-description"
-                        className="block text-gray-700 mb-2">
+                        className="block text-white mb-2 font-bold">
                         Describe Your Issue (1-250 characters)
                         <span className="text-orange-500">*</span>
                       </label>
@@ -204,8 +260,9 @@ const Support = ({showSupportModal, setShowSupportModal, user}) => {
                         onChange={handleIssueChange}
                         maxLength={250}
                         rows={4}
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-indigo-500"></textarea>
-                      <p className="text-right text-sm text-gray-600 mt-1">
+                        placeholder='Write your issue in details'
+                        className="w-full p-2 bg-cyan-800  rounded focus:outline-none focus:ring focus:ring-indigo-500 text-white"></textarea>
+                      <p className="text-right text-sm text-white mt-1">
                         {issueText.length}/250 characters
                       </p>
                       {showWarning && (
@@ -222,10 +279,10 @@ const Support = ({showSupportModal, setShowSupportModal, user}) => {
                       <button
                         type="submit"
                         disabled={!isButtonActive || loading}
-                        className={`w-1/2 p-3 mt-4 text-white font-bold rounded-md mr-2 
+                        className={`w-1/2 p-3 mt-4 text-gray-600 font-bold rounded-md mr-2 
               ${
                 isButtonActive
-                  ? "bg-indigo-500 hover:bg-indigo-600"
+                  ? "bg-indigo-500  hover:bg-indigo-600"
                   : "bg-gray-300 cursor-not-allowed"
               }`}>
                         {loading ? "Submitting..." : "Submit"}
@@ -243,6 +300,13 @@ const Support = ({showSupportModal, setShowSupportModal, user}) => {
                 {/* Show buttons after form submission */}
                 {formSubmitted && (
                   <div>
+                    {supportLinks.map((links) => (
+                    <div key={links._id}>
+                    <p className="text-center p-2 text-white">
+                      <span className=' text-orange-400'>
+                        Instructor name: <span className=' text-amber-500 font-bold'>{links.instructorName}</span>{" "}
+                      </span>
+                    </p>
                     <div className=" flex justify-center">
                       <Image
                         src={sup}
@@ -252,47 +316,48 @@ const Support = ({showSupportModal, setShowSupportModal, user}) => {
                         className="w-48 h-60"
                       />
                     </div>
-                    <p className="text-center p-2">
-                      <span>
-                        Instructor name: <span>Numan</span>{" "}
-                      </span>
-                    </p>
+                    
                     <hr />
                     <p className="text-center p-2">
-                      <span>
-                        Your Serial No: <span>10</span>{" "}
+                      <span className='text-yellow-500 text-2xl'>
+                        Your Serial No: <span className=' text-yellow-500 font-bold'>{issues.length}</span>{" "}
                       </span>
                     </p>
+                    <p className=' text-center'><span className=' text-gray-300 font-bold'>Your turn will come about <span className=' '>{issues.length * 5}</span> minutes later. Please stay connected</span></p>
                     <hr />
-                    <h1 className="text-center p-2">
-                      To get support join quickly
+                    <h1 className="text-center p-2 text-white">
+                      To solve your issue, join quickly
                     </h1>
                     <div className="flex justify-center mt-8">
                       <div>
                         <button
                           onClick={handleLeave}
-                          className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 mx-2">
+                          className="px-4 py-1 pl-8 font-bold pr-8 bg-red-500 text-white rounded-md hover:bg-red-600 mx-2">
                           Leave
                         </button>
                       </div>
                       <div>
-                        <Link href="https://meet.google.com/wou-cmvs-qsa">
-                          {" "}
+                        <Link href={links.meetLink}>
+                      
                           <button
-                            onClick={handleJoinNow}
-                            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 mx-2">
+                      
+                            className="px-4 py-1 bg-white font-bold text-black rounded-md hover:bg-gray-300 mx-2">
                             Join Now
                           </button>
                         </Link>
+                        
                       </div>
                     </div>
+
+                  </div>
+                  ))}
                   </div>
                 )}
               </div>
             </div>
-
-            {/* if there has no support session */}
-            <div className="hidden">
+            ):
+           
+            (<div className="">
               <p className="mt-4 text-orange-600  text-center font-bold text-2xl">
                 No Support Session is Ongoing Now!!!
               </p>
@@ -321,6 +386,7 @@ const Support = ({showSupportModal, setShowSupportModal, user}) => {
                 <strong>Note:</strong> There is no morning session on Fridays.
               </p>
             </div>
+            )}
           </div>
         </div>
       )} 

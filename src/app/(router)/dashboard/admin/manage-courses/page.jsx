@@ -68,8 +68,9 @@ const CoursesPage = () => {
             <tr className="bg-secondary text-white text-lg">
               <th className="">Sl</th>
               <th className="">Owner</th>
-              <th className="">Title</th>
-              <th className="">Category</th>
+              <th className="">Buyer</th>
+              <th className="">Price</th>
+              <th className="">Status</th>
               <th className="">Action</th>
             </tr>
           </thead>
@@ -77,14 +78,15 @@ const CoursesPage = () => {
             {courses?.map((item, index) => (
               <tr
                 key={index}
-                className="hover:bg-secondary transition-all ease-in-out duration-300 hover:rounded-md hover:text-white text-lg">
+                className="hover:bg-secondary transition-all ease-in-out duration-300 hover:rounded-md hover:text-white text-lg"
+              >
                 <td className="">{index + 1}</td>
                 <td className="">
                   <div className="flex items-center gap-3">
                     <div className="avatar">
                       <div className="mask mask-squircle h-12 w-12 border-2">
                         <Image
-                          src={"/assets/profile.png"}
+                          src={item.thumbnail}
                           alt={item.title}
                           width={50}
                           height={80}
@@ -92,16 +94,17 @@ const CoursesPage = () => {
                       </div>
                     </div>
                     <div>
-                      <div className="font-bold">{item.authorName}</div>
+                      <div className="font-bold">{item.title}</div>
                       <div className="text-sm opacity-50">
-                        {item.authorEmail}
+                        by {item.authorName}
                       </div>
                     </div>
                   </div>
                 </td>
 
-                <td className="">{item.title?.slice(0, 80)}..</td>
-                <td className="">{item.category || "Unknown"}</td>
+                <td className="">376</td>
+                <td className="">{item.price} $</td>
+                <td className="">{item.status || "Published"}</td>
 
                 <td className="">
                   <div className="flex gap-4">

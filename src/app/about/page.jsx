@@ -15,15 +15,15 @@ import Faq from "@/components/homePage/Faq";
 
 const page = () => {
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto p-4 md:p-0">
       {/* Top section */}
       <div className=" grid md:grid-cols-2 gap-10 mt-10">
-        <div className="bg-card p-10 rounded-xl">
+        <div className="bg-secondary text-white p-10 rounded-xl">
           <h2 className="font-bold text-red-500">How it started</h2>
           <h1 className="pt-8 text-3xl lg:text-6xl font-bold">
             Our Dream is <br /> Global Learning <br /> Platform
           </h1>
-          <p className="mt-8 lg:mt-10 mb-10 lg:mb-10 text-gray-500">
+          <p className="mt-8 lg:mt-10 mb-10 lg:mb-10 text-gray-300">
             We aim to revolutionize online education by providing an
             easy-to-use, community-driven platform where learning is
             interactive, efficient, and accessible to all. Our goal is to create
@@ -70,7 +70,7 @@ const page = () => {
               src={sahid}
               layout="fill"
               objectFit="cover"
-              className="absolute inset-0 z-0 bg-card"
+              className="absolute inset-0 z-0 bg-secondary"
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
             <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
@@ -120,7 +120,7 @@ const page = () => {
               src={me}
               layout="fill"
               objectFit="cover"
-              className="absolute inset-0 z-0 bg-card"
+              className="absolute inset-0 z-0 bg-secondary"
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
             <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
@@ -167,7 +167,7 @@ const page = () => {
               src={rahat}
               layout="fill"
               objectFit="cover"
-              className="absolute inset-0 z-0 bg-card"
+              className="absolute inset-0 z-0 bg-secondary"
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
             <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
@@ -214,7 +214,7 @@ const page = () => {
               src={mazed}
               layout="fill"
               objectFit="cover"
-              className="absolute inset-0 z-0 bg-card"
+              className="absolute inset-0 z-0 bg-secondary"
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
             <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
@@ -263,7 +263,7 @@ const page = () => {
               src={farha}
               layout="fill"
               objectFit="cover"
-              className="absolute inset-0 z-0 bg-card"
+              className="absolute inset-0 z-0 bg-secondary"
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-60 transition-opacity"></div>
             <div className="relative z-10 text-white opacity-0 group-hover:opacity-100 transform translate-y-10 group-hover:translate-y-0 transition-all">
@@ -303,14 +303,12 @@ const page = () => {
               </div>
             </div>
           </div>
-
-         
         </div>
       </div>
 
       {/* Our Goal Section */}
       <div className="flex flex-col lg:flex-row justify-between gap-6 py-10">
-        <div className="object-cover rounded-2xl w-full h-[300px] bg-card hover:bg-green-200 p-8">
+        <div className="object-cover rounded-2xl w-full h-[300px] bg-card p-8">
           <h3 className="text-red-400 text-xl font-bold">Our Goal</h3>
           <h1 className="text-2xl lg:text-4xl font-bold mt-6">
             Empowering Lives <br /> Through Education
@@ -321,7 +319,7 @@ const page = () => {
             and knowledge.
           </p>
         </div>
-        <div className="object-cover bg-card hover:bg-green-200 rounded-2xl w-full lg:h-[300px]  p-8">
+        <div className="object-cover bg-card  rounded-2xl w-full lg:h-[300px]  p-8">
           <h2 className="text-red-400 text-2xl font-bold">
             Why you choose us...
           </h2>

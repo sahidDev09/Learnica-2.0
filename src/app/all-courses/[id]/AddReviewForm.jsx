@@ -1,36 +1,40 @@
-"use client"
-import Swal from 'sweetalert2'
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+"use client";
+import Swal from "sweetalert2";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
 
 // dummy user
 const user = {
   authorName: "ali",
   authorEmail: "ali@mail.com",
   authorPhotoUrl: "https://randomuser.me/api/portraits/men/22.jpg",
-}
+};
 
 // req: add new review >>
 const addComment = async (formData) => {
-  const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/add-review", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json"
-    },
-    body: JSON.stringify(formData)
-  })
-  return res.json()
-}
+  const res = await fetch(
+    process.env.NEXT_PUBLIC_BASE_URL + "/api/add-review",
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    }
+  );
+  return res.json();
+};
 
 function AddReviewForm() {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: addComment,
-  })
+  });
 
   // handler: add course
   const handleAddCourse = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const formData = {
       rating: +e.target.rating.value,
@@ -38,30 +42,30 @@ function AddReviewForm() {
       reviewerName: user.authorName,
       reviewerEmail: user.authorEmail,
       reviewerPhotoUrl: user.authorPhotoUrl,
-      created_at: Date.now()
-    }
+      created_at: Date.now(),
+    };
 
     mutation.mutate(formData, {
       onSuccess: () => {
-        queryClient.invalidateQueries(['course-reviews'])
+        queryClient.invalidateQueries(["course-reviews"]);
         // reset form and show alert
-        e.target.reset()
+        e.target.reset();
         Swal.fire({
           title: "Successfully added the review!",
           icon: "success",
-          confirmButtonColor: "#15803D"
-        })
+          confirmButtonColor: "#15803D",
+        });
       },
       onError: (error) => {
         Swal.fire({
           title: "Error on adding review!",
           text: error.message,
           icon: "error",
-          confirmButtonColor: "#B91C1C"
-        })
-      }
-    })
-  }
+          confirmButtonColor: "#B91C1C",
+        });
+      },
+    });
+  };
 
   return (
     <div>
@@ -74,35 +78,88 @@ function AddReviewForm() {
           <div className="label">
             <span className="label-text">Review text:</span>
           </div>
-          <textarea name="review_text" className="textarea textarea-bordered h-24" placeholder="your course description" required></textarea>
+          <textarea
+            name="review_text"
+            className="textarea textarea-bordered h-24"
+            placeholder="your course description"
+            required></textarea>
         </label>
 
         <div className="flex items-end gap-4 justify-between">
           {/* ------ star rating ---------- */}
-          <div className="mb-3 text-2xl" >
+          <div className="mb-3 text-2xl">
             <div className="label">
               <span className="label-text">Your Rating:</span>
             </div>
             <div className="rating rating-lg rating-half">
-              <input type="radio" name="rating" value={0.5} className="mask mask-star-2 mask-half-1 bg-yellow-500" />
-              <input type="radio" name="rating" value={1} className="mask mask-star-2 mask-half-2 bg-yellow-500" />
-              <input type="radio" name="rating" value={1.5} className="mask mask-star-2 mask-half-1 bg-yellow-500" />
-              <input type="radio" name="rating" value={2} className="mask mask-star-2 mask-half-2 bg-yellow-500" />
-              <input type="radio" name="rating" value={2.5} className="mask mask-star-2 mask-half-1 bg-yellow-500" />
-              <input type="radio" name="rating" value={3} className="mask mask-star-2 mask-half-2 bg-yellow-500" />
-              <input type="radio" name="rating" value={3.5} className="mask mask-star-2 mask-half-1 bg-yellow-500" defaultChecked />
-              <input type="radio" name="rating" value={4} className="mask mask-star-2 mask-half-2 bg-yellow-500" />
-              <input type="radio" name="rating" value={4.5} className="mask mask-star-2 mask-half-1 bg-yellow-500" />
-              <input type="radio" name="rating" value={5} className="mask mask-star-2 mask-half-2 bg-yellow-500" />
+              <input
+                type="radio"
+                name="rating"
+                value={0.5}
+                className="mask mask-star-2 mask-half-1 bg-yellow-500"
+              />
+              <input
+                type="radio"
+                name="rating"
+                value={1}
+                className="mask mask-star-2 mask-half-2 bg-yellow-500"
+              />
+              <input
+                type="radio"
+                name="rating"
+                value={1.5}
+                className="mask mask-star-2 mask-half-1 bg-yellow-500"
+              />
+              <input
+                type="radio"
+                name="rating"
+                value={2}
+                className="mask mask-star-2 mask-half-2 bg-yellow-500"
+              />
+              <input
+                type="radio"
+                name="rating"
+                value={2.5}
+                className="mask mask-star-2 mask-half-1 bg-yellow-500"
+              />
+              <input
+                type="radio"
+                name="rating"
+                value={3}
+                className="mask mask-star-2 mask-half-2 bg-yellow-500"
+              />
+              <input
+                type="radio"
+                name="rating"
+                value={3.5}
+                className="mask mask-star-2 mask-half-1 bg-yellow-500"
+                defaultChecked
+              />
+              <input
+                type="radio"
+                name="rating"
+                value={4}
+                className="mask mask-star-2 mask-half-2 bg-yellow-500"
+              />
+              <input
+                type="radio"
+                name="rating"
+                value={4.5}
+                className="mask mask-star-2 mask-half-1 bg-yellow-500"
+              />
+              <input
+                type="radio"
+                name="rating"
+                value={5}
+                className="mask mask-star-2 mask-half-2 bg-yellow-500"
+              />
             </div>
           </div>
 
-          <button className="btn btn-primary mt-4">Add Review</button>
-
+          <Button className="bg-secondary mt-4">Add Review</Button>
         </div>
       </form>
     </div>
-
   );
 }
 
