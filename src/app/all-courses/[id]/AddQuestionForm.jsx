@@ -22,7 +22,7 @@ const addQuestion = async (formData) => {
   return res.json();
 };
 
-function AddQuestionForm({ refetch }) {
+function AddQuestionForm() {
   const queryClient = useQueryClient();
   const mutation = useMutation({ mutationFn: addQuestion });
 
@@ -65,8 +65,8 @@ function AddQuestionForm({ refetch }) {
       <form onSubmit={handleAddQuestion} className="mx-auto relative">
         <label className="form-control">
           <div className="label">
-            <span className="label-text">
-              Feel free to ask if you have any queries:
+            <span className="label-text text-gray-500">
+              Feel free to ask your queries:
             </span>
           </div>
           <textarea

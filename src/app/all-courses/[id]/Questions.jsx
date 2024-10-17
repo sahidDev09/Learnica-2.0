@@ -1,10 +1,11 @@
 "use client";
-import { FaReplyAll } from "react-icons/fa";
+import { FaReplyAll, FaTrashAlt } from "react-icons/fa";
 import AddQuestionForm from "./AddQuestionForm";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "@/components/shared/Loader";
 import QnaModal from "./QnaModal";
 import Image from "next/image";
+import Swal from "sweetalert2";
 
 function Questions() {
   // get quesions
@@ -22,13 +23,56 @@ function Questions() {
     },
   });
 
+  // handle delete note
+  const handleQuestionDelete = async (questionId) => {
+    try {
+      // confirmation alert
+      const { isConfirmed } = await Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#15803D",
+        cancelButtonColor: "#B91C1C",
+        confirmButtonText: "Yes, delete it!",
+      });
+      if (!isConfirmed) return;
+
+      const res = await fetch(
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/qna-ques",
+        {
+          method: "DELETE",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({ questionId }),
+        }
+      );
+      await res.json();
+      Swal.fire({
+        title: "Successfully deleted the question!",
+        icon: "success",
+        confirmButtonColor: "#15803D",
+      });
+      // refetch notes
+      await refetch();
+    } catch (error) {
+      Swal.fire({
+        title: "Error on deleting question!",
+        text: error.message,
+        icon: "error",
+        confirmButtonColor: "#B91C1C",
+      });
+    }
+  };
+
   if (isLoading) {
     return <Loader />;
   }
   return (
     <section className="max-w-screen-lg mx-auto">
       <header className="mb-4">
-        <h2 className="text-xl md:text-2xl font-semibold">QnA</h2>
+        <h2 className="text-xl md:text-3xl font-semibold text-secondary">QnA</h2>
       </header>
 
       {/* -------- ask quesion form ---------- */}
@@ -50,8 +94,13 @@ function Questions() {
                 </button>
               </h3>
               <p className="text-sm text-gray-500">
-                {ques.userEmail} •{" "}
-                {new Date(ques.createdAt).toLocaleDateString()}
+                <span>{ques.userEmail} • </span>
+                <span>{new Date(ques.createdAt).toLocaleDateString()} • </span>
+                <button
+                  onClick={() => handleQuestionDelete(ques._id)}
+                  className="p-1 border border-transparent hover:border-red-600 text-red-600 rounded hover:-translate-y-1 transition-all">
+                  <FaTrashAlt />
+                </button>
               </p>
 
               <QnaModal question={ques} />
