@@ -19,7 +19,6 @@ import {
   BellDot,
   BriefcaseBusiness,
   FileStackIcon,
-  HelpCircleIcon,
   MessageCircleCodeIcon,
   PenBox,
 } from "lucide-react";
@@ -82,7 +81,6 @@ const Navbar = () => {
           const data = await response.json();
           const currData = data;
           setMainRole(currData.mainRole);
-         
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
@@ -121,7 +119,7 @@ const Navbar = () => {
             </div>
             {/* Desktop Menu */}
             <div className="hidden md:block lg:block">
-              <ul className="font-semibold flex gap-6">
+              <ul className="flex gap-6">
                 <Link
                   href="/"
                   className="duration-150 hover:border-transparent text-center p-1">
@@ -140,8 +138,7 @@ const Navbar = () => {
                 </Link>
                 <li
                   className="duration-150 hover:border-transparent p-1 text-center cursor-pointer"
-                  onClick={() => setShowSupportModal(true)} 
-                >
+                  onClick={() => setShowSupportModal(true)}>
                   Help-line
                 </li>
 
@@ -292,16 +289,11 @@ const Navbar = () => {
           </li>
           <li
             className="duration-150 hover:border-transparent p-1 cursor-pointer"
-            onClick={() => setShowSupportModal(true)} 
-
-          >
+            onClick={() => setShowSupportModal(true)}>
             Help-line
           </li>
           <li>
             <Link href="/about">About Us</Link>
-          </li>
-          <li>
-            <Link href="/contact">Contact Us</Link>
           </li>
         </ul>
       </div>
