@@ -1,29 +1,30 @@
 "use client";
+import { FaReplyAll, FaTrashAlt } from "react-icons/fa";
+import AddQuestionForm from "./AddQuestionForm";
 import { useQuery } from "@tanstack/react-query";
-import Swal from "sweetalert2";
-import { FaTrashAlt } from "react-icons/fa";
-import NoteModal from "./NoteModal";
+import Loader from "@/components/shared/Loader";
+import QnaModal from "./QnaModal";
 import Image from "next/image";
-import Loading from "@/app/loading";
+import Swal from "sweetalert2";
 
-function Notes() {
-  // get notes
+function Questions() {
+  // get quesions
   const {
-    data: notes,
+    data: questions,
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["my-notes"],
+    queryKey: ["qna-ques"],
     queryFn: async () => {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + "/api/my-notes"
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/qna-ques"
       );
       return res.json();
     },
   });
 
   // handle delete note
-  const handleNoteDelete = async (noteId) => {
+  const handleQuestionDelete = async (questionId) => {
     try {
       // confirmation alert
       const { isConfirmed } = await Swal.fire({
@@ -38,18 +39,18 @@ function Notes() {
       if (!isConfirmed) return;
 
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + "/api/my-notes",
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/qna-ques",
         {
           method: "DELETE",
           headers: {
             "content-type": "application/json",
           },
-          body: JSON.stringify({ noteId }),
+          body: JSON.stringify({ questionId }),
         }
       );
       await res.json();
       Swal.fire({
-        title: "Successfully deleted the note!",
+        title: "Successfully deleted the question!",
         icon: "success",
         confirmButtonColor: "#15803D",
       });
@@ -57,7 +58,7 @@ function Notes() {
       await refetch();
     } catch (error) {
       Swal.fire({
-        title: "Error on deleting note!",
+        title: "Error on deleting question!",
         text: error.message,
         icon: "error",
         confirmButtonColor: "#B91C1C",
@@ -66,49 +67,43 @@ function Notes() {
   };
 
   if (isLoading) {
-    return <Loading/>;
+    return <Loader />;
   }
   return (
-    <section className="max-w-screen-lg mx-auto my-6">
+    <section className="max-w-screen-lg mx-auto">
       <header className="mb-4">
-        <h2 className="text-xl md:text-xl font-semibold">My Notes</h2>
+        <h2 className="text-xl md:text-3xl font-semibold text-secondary">QnA</h2>
       </header>
 
-      {/* cards */}
-      {notes.length > 0 ? (
-        <div className="space-y-5 max-h-[600px] border p-3 rounded-md overflow-y-auto">
-          {notes.map((note) => (
+      {/* -------- ask quesion form ---------- */}
+      <AddQuestionForm refetch={refetch} />
+
+      {/* -------- all quesions ---------- */}
+      {questions.length > 0 ? (
+        <div className="space-y-4 max-h-[600px] border p-3 mt-6 rounded-md overflow-y-auto">
+          {questions.map((ques) => (
             <div
-              key={note._id}
-              className="relative border p-4 rounded-md shadow-md bg-card mb-3">
+              key={ques._id}
+              className="border p-3 rounded-md shadow-md bg-card mb-3">
               <h3 className="text-secondary font-semibold text-lg mb-1">
-                {note.title}
+                <button
+                  onClick={() =>
+                    document.getElementById(`modal_qna_${ques._id}`).showModal()
+                  }>
+                  <span className=" text-primary">Q:</span> {ques.question}
+                </button>
               </h3>
               <p className="text-sm text-gray-500">
-                {note.description.length > 300
-                  ? note.description.slice(0, 200) + "..."
-                  : note.description}{" "}
-              </p>
-              {/* ------- action btns --------- */}
-              <div className="flex items-center gap-3 mt-2">
+                <span>{ques.userEmail} • </span>
+                <span>{new Date(ques.createdAt).toLocaleDateString()} • </span>
                 <button
-                  className="link text-secondary text-sm hover:text-cyan-600 transition-colors"
-                  onClick={() =>
-                    document
-                      .getElementById(`modal_note_${note._id}`)
-                      .showModal()
-                  }>
-                  view details
-                </button>
-                <p className="text-sm text-gray-500">• {new Date(note.created_at).toLocaleDateString()} •</p>
-                <button
-                  onClick={() => handleNoteDelete(note._id)}
+                  onClick={() => handleQuestionDelete(ques._id)}
                   className="p-1 border border-transparent hover:border-red-600 text-red-600 rounded hover:-translate-y-1 transition-all">
                   <FaTrashAlt />
                 </button>
-              </div>
+              </p>
 
-              <NoteModal note={note} />
+              <QnaModal question={ques} />
             </div>
           ))}
         </div>
@@ -121,11 +116,11 @@ function Notes() {
             width={100}
             height={100}
           />
-          <p className="text-center">No notes currently available.</p>
+          <p>No queries currently available.</p>
         </div>
       )}
     </section>
   );
 }
 
-export default Notes;
+export default Questions;
