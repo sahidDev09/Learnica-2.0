@@ -5,6 +5,7 @@ import Navbar from "@/components/shared/Navbar";
 import { ClerkProvider } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import { Suspense } from "react";
+import TanstackProvider from "./TanstackProvider";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -20,13 +21,15 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <ClerkProvider>
-          {!hideNavFoot && (
-            <Suspense fallback={<div>...</div>}>
-              <Navbar />
-            </Suspense>
-          )}
-          {children}
-          {!hideNavFoot && <Footer />}
+          <TanstackProvider>
+            {!hideNavFoot && (
+              <Suspense fallback={<div>...</div>}>
+                <Navbar />
+              </Suspense>
+            )}
+            {children}
+            {!hideNavFoot && <Footer />}
+          </TanstackProvider>
         </ClerkProvider>
       </body>
     </html>
