@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { FaTrashAlt } from "react-icons/fa";
 import NoteModal from "./NoteModal";
-import Loader from "@/components/shared/Loader";
 import Image from "next/image";
 import Loading from "@/app/loading";
 
@@ -82,15 +81,18 @@ function Notes() {
             <div
               key={note._id}
               className="relative border p-4 rounded-md shadow-md bg-card mb-3">
-              <h3 className="text-primary font-semibold text-lg mb-1">
+              <h3 className="text-secondary font-semibold text-lg mb-1">
                 {note.title}
               </h3>
               <p className="text-sm text-gray-500">
                 {note.description.length > 300
-                  ? note.description.slice(0, 300) + "..."
+                  ? note.description.slice(0, 200) + "..."
                   : note.description}{" "}
+              </p>
+              {/* ------- action btns --------- */}
+              <div className="flex items-center gap-3 mt-2">
                 <button
-                  className="link link-primary ml-3"
+                  className="link text-secondary text-sm hover:text-cyan-600 transition-colors"
                   onClick={() =>
                     document
                       .getElementById(`modal_note_${note._id}`)
@@ -98,12 +100,10 @@ function Notes() {
                   }>
                   view details
                 </button>
-              </p>
-              {/* ------- action btns --------- */}
-              <div>
+                <p className="text-sm text-gray-500">• {new Date(note.created_at).toLocaleDateString()} •</p>
                 <button
                   onClick={() => handleNoteDelete(note._id)}
-                  className="p-1 border border-transparent hover:border-red-600 text-red-600 hover:-translate-y-1 rounded transition-all absolute bottom-2 right-2">
+                  className="p-1 border border-transparent hover:border-red-600 text-red-600 rounded hover:-translate-y-1 transition-all">
                   <FaTrashAlt />
                 </button>
               </div>
