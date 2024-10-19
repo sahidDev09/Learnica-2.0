@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image";
 import React from "react";
 import bandImage from "/public/assets/aboutBrandimage.png";
@@ -12,6 +13,7 @@ import { FiLinkedin } from "react-icons/fi";
 import { ImGithub } from "react-icons/im";
 import { FaFacebook } from "react-icons/fa";
 import Faq from "@/components/homePage/Faq";
+import MoveToTop from "@/components/homePage/MoveToTop";
 
 const page = () => {
   return (
@@ -347,6 +349,7 @@ const page = () => {
       </div>
 
       <Faq />
+      <MoveToTop/>
     </div>
   );
 };
