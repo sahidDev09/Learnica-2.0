@@ -8,7 +8,7 @@ import Notes from "./Notes";
 import Resources from "./Resources";
 import { useQuery } from "@tanstack/react-query";
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["courses"],
     queryFn: async () => {
@@ -241,4 +241,4 @@ const page = ({ params }) => {
   );
 };
 
-export default page;
+export default Page;

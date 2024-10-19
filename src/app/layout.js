@@ -1,4 +1,7 @@
+// src/app/layout.js
+
 "use client";
+
 import "./globals.css";
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
@@ -7,6 +10,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import TanstackProvider from "./TanstackProvider";
 import { usePathname } from "next/navigation";
 import { Suspense } from "react";
+
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -18,15 +22,15 @@ export default function RootLayout({ children }) {
       <ReactLenis root>
         <body>
           <ClerkProvider>
-            <TanstackProvider>
-              {!hideNavFoot && (
-                <Suspense fallback={<div>Loading...</div>}>
-                  <Navbar />
-                </Suspense>
-              )}
-              {children}
-              {!hideNavFoot && <Footer />}
-            </TanstackProvider>
+              <TanstackProvider>
+                {!hideNavFoot && (
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <Navbar />
+                  </Suspense>
+                )}
+                {children}
+                {!hideNavFoot && <Footer />}
+              </TanstackProvider>
           </ClerkProvider>
         </body>
       </ReactLenis>
