@@ -23,6 +23,7 @@ const Header = () => {
 
   const count = pending?.length;
   if (isLoading) {
+    <div>Loading...</div>;
     refetch();
   }
   return (
@@ -53,14 +54,12 @@ const Header = () => {
 
           <ul
             tabIndex={0}
-            className="space-y-1 py-1 dropdown-content bg-base-300 rounded-lg z-[1] w-64 shadow"
-          >
+            className="space-y-1 py-1 dropdown-content bg-base-300 rounded-lg z-[1] w-64 shadow">
             {pending?.map((item) => (
               <>
                 <Link
                   href={`/all-courses/${item._id}`}
-                  className="px-1 font-medium hover:underline flex gap-1"
-                >
+                  className="px-1 font-medium hover:underline flex gap-1">
                   <TbBellFilled className="mt-1" />
                   <span>{item?.title}</span>
                 </Link>
