@@ -5,9 +5,9 @@ import clientPromise from "@/lib/mongodb";
 
 export async function POST(request) {
   try {
-    const { userId, email, totalAmount, items, duration } = await request.json();
+    const { userId, email, totalAmount, items} = await request.json();
 
-    console.log('Received checkout data:', { userId, email, totalAmount, items, duration });
+    console.log('Received checkout data:', { userId, email, totalAmount, items});
 
     // Validate required fields
     if (!userId || !email || !totalAmount || !items) {
@@ -23,8 +23,7 @@ export async function POST(request) {
 
     const client = await clientPromise;
     const db = client.db('learnica');
-    const ordersCollection = db.collection('orders'); // Ensure this collection exists
-
+    const ordersCollection = db.collection('orders');
     const order = {
       userId,
       email,
@@ -38,7 +37,6 @@ export async function POST(request) {
         rating: item.rating,
         quantity: item.quantity,
       })),
-      duration,
       createdAt: new Date(),
     };
 
