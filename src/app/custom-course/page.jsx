@@ -180,7 +180,9 @@ const CustomCoursePage = () => {
                 <button
                   key={index}
                   onClick={() => handleCategorySelect(lang_tech)}
-                  className={`flex text-sm items-center gap-2 p-2 px-4 text-white bg-secondary hover:scale-105 transition-transform md:text-lg ${selectedCategory === lang_tech ? "bg-primary" : ""
+                  className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full  hover:scale-105 transition-transform md:text-lg ${ selectedCategory === ""
+                    ? "bg-primary text-white"
+                    : "bg-secondary text-white"
                     }`}
                 >
                   <FaTags />
