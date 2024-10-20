@@ -12,7 +12,6 @@ const Checkout = ({ clientSecret, handlePaymentSuccess, setIsModalOpen, cart }) 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-
     if (!stripe || !elements) {
       return;
     }
@@ -20,7 +19,7 @@ const Checkout = ({ clientSecret, handlePaymentSuccess, setIsModalOpen, cart }) 
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url:"http://localhost:3000/custom-course"
+        return_url: "http://localhost:3000/custom-course"
       },
       redirect: "if_required",
     });
@@ -30,7 +29,7 @@ const Checkout = ({ clientSecret, handlePaymentSuccess, setIsModalOpen, cart }) 
       setIsLoading(false);
       Swal.fire("Error", error.message || "An unexpected error occurred.", "error");
     } else if (paymentIntent && paymentIntent.status === "succeeded") {
-     setIsModalOpen(false);
+      setIsModalOpen(false);
       await handlePaymentSuccess();
     }
   };
@@ -40,9 +39,8 @@ const Checkout = ({ clientSecret, handlePaymentSuccess, setIsModalOpen, cart }) 
       <PaymentElement />
       {errorMessage && <div className="text-red-500 mt-4">{errorMessage}</div>}
       <button
-        className={`bg-primary text-white mt-4 p-3 rounded-lg w-full ${
-          isLoading ? "opacity-50" : ""
-        }`}
+        className={`bg-primary text-white mt-4 p-3 rounded-lg w-full ${isLoading ? "opacity-50" : ""
+          }`}
         disabled={isLoading || !stripe || !clientSecret}
         type="submit"
       >
