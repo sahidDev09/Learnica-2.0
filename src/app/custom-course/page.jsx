@@ -17,7 +17,9 @@ if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
   throw new Error("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is not defined");
 }
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
 
 const CustomCoursePage = () => {
   const [categories, setCategories] = useState([]);
@@ -59,17 +61,17 @@ const CustomCoursePage = () => {
   const handleCategorySelect = (lang_tech) => {
     setSelectedCategory(lang_tech);
   };
-// -------------------cart----------------------
+  // -------------------cart----------------------
   const addToCart = (product) => {
     if (!cart.find((item) => item._id === product._id)) {
       setCart([...cart, product]);
     }
   };
-// ---------------remove from cart----------------
+  // ---------------remove from cart----------------
   const removeFromCart = (productId) => {
     setCart(cart.filter((item) => item._id !== productId));
   };
-// ----------------toggle--------------------
+  // ----------------toggle--------------------
   const toggleCart = () => {
     setIsCartOpen(!isCartOpen);
   };
@@ -121,7 +123,11 @@ const CustomCoursePage = () => {
       }
     } catch (error) {
       console.error("Error fetching clientSecret:", error);
-      Swal.fire("Error", "Failed to initialize payment. Please try again.", "error");
+      Swal.fire(
+        "Error",
+        "Failed to initialize payment. Please try again.",
+        "error"
+      );
     }
   };
 
@@ -136,7 +142,10 @@ const CustomCoursePage = () => {
         body: JSON.stringify({
           userId: user.id,
           email: user.primaryEmailAddress?.emailAddress || "",
-          totalAmount: cart.reduce((sum, item) => sum + parseFloat(item.price), 0),
+          totalAmount: cart.reduce(
+            (sum, item) => sum + parseFloat(item.price),
+            0
+          ),
           items: cart.map((item) => ({
             concept_title: item.concept_title,
             concept_url: item.concept_url,
@@ -150,12 +159,21 @@ const CustomCoursePage = () => {
 
       const data = await res.json();
 
-      if (!res.ok) throw new Error(data.error || "Failed to store order in the database.");
-      Swal.fire("Success", "Payment was successful and your order has been placed.", "success");
+      if (!res.ok)
+        throw new Error(data.error || "Failed to store order in the database.");
+      Swal.fire(
+        "Success",
+        "Payment was successful and your order has been placed.",
+        "success"
+      );
       setCart([]);
     } catch (error) {
       console.error("Error saving order to database:", error);
-      Swal.fire("Error", "Failed to store order. Please contact support.", "error");
+      Swal.fire(
+        "Error",
+        "Failed to store order. Please contact support.",
+        "error"
+      );
     }
   };
 
@@ -180,11 +198,11 @@ const CustomCoursePage = () => {
                 <button
                   key={index}
                   onClick={() => handleCategorySelect(lang_tech)}
-                  className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full  hover:scale-105 transition-transform md:text-lg ${ selectedCategory === ""
-                    ? "bg-primary text-white"
-                    : "bg-secondary text-white"
-                    }`}
-                >
+                  className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full  hover:scale-105 transition-transform md:text-lg ${
+                    selectedCategory === ""
+                      ? "bg-primary text-white"
+                      : "bg-secondary text-white"
+                  }`}>
                   <FaTags />
                   {lang_tech}
                 </button>
@@ -197,8 +215,7 @@ const CustomCoursePage = () => {
         <div className="flex justify-end mt-4 relative">
           <button
             onClick={toggleCart}
-            className="bg-primary text-2xl text-white font-extrabold p-4 rounded-2xl relative"
-          >
+            className="bg-primary text-2xl text-white font-extrabold p-4 rounded-2xl relative">
             <PiShoppingCartSimpleLight />
             {cart.length > 0 && (
               <span className="absolute -top-1 -right-1 bg-secondary text-white rounded-full border text-xs w-5 h-5 flex items-center justify-center">
@@ -216,19 +233,19 @@ const CustomCoursePage = () => {
               return (
                 <div
                   key={product._id}
-                  className={`bg-secondary w-full h-40 p-4 rounded-lg shadow-md flex flex-col justify-between relative ${isInCart ? "opacity-50" : ""
-                    }`}
-                >
+                  className={`bg-secondary w-full h-40 p-4 rounded-lg shadow-md flex flex-col justify-between relative ${
+                    isInCart ? "opacity-50" : ""
+                  }`}>
                   <div className="flex justify-between items-center">
                     <button className="rounded-2xl px-4 py-1 bg-white text-black">
                       {product.lang_tech}
                     </button>
                     <button
                       onClick={() => (isInCart ? null : addToCart(product))}
-                      className={`text-3xl ${isInCart ? "text-green-500" : "text-primary"
-                        }`}
-                      disabled={isInCart}
-                    >
+                      className={`text-3xl ${
+                        isInCart ? "text-green-500" : "text-primary"
+                      }`}
+                      disabled={isInCart}>
                       {isInCart ? <FaCheck /> : <FaSquarePlus />}
                     </button>
                   </div>
@@ -257,13 +274,11 @@ const CustomCoursePage = () => {
         <div className="fixed inset-0 z-50 flex">
           <div
             className="fixed inset-0 bg-black opacity-50"
-            onClick={toggleCart}
-          ></div>
+            onClick={toggleCart}></div>
           <div className="relative ml-auto w-80 bg-white h-full shadow-lg p-4 overflow-y-auto">
             <button
               onClick={toggleCart}
-              className="text-4xl bg-primary text-white rounded-full mb-4"
-            >
+              className="text-4xl bg-primary text-white rounded-full mb-4">
               <MdOutlineCancel />
             </button>
             <div className="flex justify-between">
@@ -280,10 +295,11 @@ const CustomCoursePage = () => {
                 {cart.map((item) => (
                   <div
                     key={item._id}
-                    className="my-4 flex justify-between items-center"
-                  >
+                    className="my-4 flex justify-between items-center">
                     <div className="flex-1">
-                      <p className="text-lg font-semibold">{item.concept_title}</p>
+                      <p className="text-lg font-semibold">
+                        {item.concept_title}
+                      </p>
                       <p className="text-gray-500">{item.lang_tech}</p>
                     </div>
 
@@ -293,8 +309,7 @@ const CustomCoursePage = () => {
 
                     <button
                       onClick={() => removeFromCart(item._id)}
-                      className="text-red-600"
-                    >
+                      className="text-red-600">
                       <IoIosRemoveCircleOutline />
                     </button>
                   </div>
@@ -312,8 +327,7 @@ const CustomCoursePage = () => {
                 </div>
                 <button
                   onClick={handlePayNow}
-                  className="bg-primary text-white mt-4 p-3 rounded-lg w-full"
-                >
+                  className="bg-primary text-white mt-4 p-3 rounded-lg w-full">
                   Pay Now
                 </button>
               </>
@@ -329,8 +343,7 @@ const CustomCoursePage = () => {
           <div className="relative w-full md:w-2/3 lg:w-1/3 bg-white  p-4 rounded-lg shadow-lg">
             <button
               onClick={() => setIsModalOpen(false)}
-              className="text-4xl bg-primary text-white rounded-full mb-4"
-            >
+              className="text-4xl bg-primary text-white rounded-full mb-4">
               <MdOutlineCancel />
             </button>
             {clientSecret && (

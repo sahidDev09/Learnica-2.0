@@ -26,6 +26,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { FaCashRegister } from "react-icons/fa";
 import Loading from "@/app/loading";
 import Support from "../Support";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet";
+import Chat from "../Chat";
 
 const Navbar = () => {
   const [showSupportModal, setShowSupportModal] = useState(false);
@@ -152,6 +161,29 @@ const Navbar = () => {
                   {/* Dark Mode Toggle */}
                   <BellDot />
                 </li>
+                <li>
+                  <Sheet>
+                    <SheetTrigger>
+                      <Image
+                        src={"/assets/aibot 2.jpeg"}
+                        alt=""
+                        width={35}
+                        height={100}
+                        className=" rounded-full"
+                      />
+                    </SheetTrigger>
+                    <SheetContent className="w-[510px] sm:max-w-none">
+                      <SheetHeader>
+                        <SheetTitle>
+                          Here is some suggestions for you
+                        </SheetTitle>
+                        <SheetDescription>
+                          <Chat />
+                        </SheetDescription>
+                      </SheetHeader>
+                    </SheetContent>
+                  </Sheet>
+                </li>
                 {/* Authentication Buttons */}
                 <div className="flex gap-5">
                   <SignedOut>
@@ -207,11 +239,6 @@ const Navbar = () => {
                           label="Custom Course"
                           labelIcon={<FileStackIcon size={15} />}
                           href="/custom-course"></UserButton.Link>
-
-                        <UserButton.Link
-                          label="Chat with Ai"
-                          labelIcon={<MessageCircleCodeIcon size={15} />}
-                          href="/chat-ai"></UserButton.Link>
                       </UserButton.MenuItems>
                     </UserButton>
                   </SignedIn>
@@ -269,14 +296,31 @@ const Navbar = () => {
                     label="Custom Course"
                     labelIcon={<FileStackIcon size={15} />}
                     href="/custom-course"></UserButton.Link>
-
-                  <UserButton.Link
-                    label="Chat with Ai"
-                    labelIcon={<MessageCircleCodeIcon size={15} />}
-                    href="/chat-ai"></UserButton.Link>
                 </UserButton.MenuItems>
               </UserButton>
             </SignedIn>
+          </li>
+          <li>
+            <Sheet>
+              <SheetTrigger className="flex items-center gap-4">
+                <h1>Learnica AI</h1>
+                <Image
+                  src={"/assets/aibot 2.jpeg"}
+                  alt=""
+                  width={25}
+                  height={100}
+                  className=" rounded-full"
+                />
+              </SheetTrigger>
+              <SheetContent className="md:w-[510px] w-screen">
+                <SheetHeader>
+                  <SheetTitle>Here is some suggestions for you</SheetTitle>
+                  <SheetDescription>
+                    <Chat />
+                  </SheetDescription>
+                </SheetHeader>
+              </SheetContent>
+            </Sheet>
           </li>
           <li>
             <Link href="/">Home</Link>
