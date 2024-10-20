@@ -1,11 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const Banner = () => {
   return (
     <div className="mb-8">
-      <div
-        className="rounded-b-[60px] md:py-20 py-12 bg-secondary"
-        >
+      <div className="rounded-b-[60px] md:py-20 py-12 bg-secondary">
         <div className="md:flex items-center justify-between flex-row-reverse container mx-auto mb-5">
           <div className="">
             <Image
@@ -22,13 +21,15 @@ const Banner = () => {
             </h1>
 
             <p className="py-6 text-white md:w-[80%]">
-              Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-              excepturi exercitationem quasi. In deleniti eaque aut repudiandae
-              et a id nisi.
+              Join thousands of learners on their journey to mastering new
+              skills and achieving their goals. Explore courses designed by
+              experts and start learning today!
             </p>
-            <button className="btn bg-red-400 text-white border-0">
-              Explore Courses
-            </button>
+            <Link href="/all-courses">
+              <button className="btn bg-red-400 text-white border-0">
+                Explore Courses
+              </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -41,13 +42,13 @@ const Banner = () => {
             "/assets/freebook.png",
           ].map((src, idx) => (
             <div key={idx} className="flex-1 h-full">
-              <div className="p-4 bg-white rounded-xl shadow-lg flex flex-col items-center justify-center h-[200px]">
+              <div className="p-4 bg-card rounded-xl shadow-lg flex flex-col items-center justify-center h-[200px]">
                 <Image
                   width={100}
                   height={100}
                   src={src}
                   alt="icon"
-                  className="shadow-lg p-4 bg-[#3f92c251] rounded-full"
+                  className="shadow-lg p-4 bg-[#3f92c262] rounded-full"
                 />
                 <div className="text-black font-semibold text-center pb-2 pt-4">
                   {idx === 0 && "FLEXIBILITY"}
