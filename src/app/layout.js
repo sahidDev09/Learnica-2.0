@@ -1,16 +1,11 @@
-// src/app/layout.js
-
 "use client";
-
 import "./globals.css";
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
-import { ReactLenis } from "/src/lib/lenis.jsx";
 import { ClerkProvider } from "@clerk/nextjs";
-import TanstackProvider from "./TanstackProvider";
 import { usePathname } from "next/navigation";
 import { Suspense } from "react";
-
+import TanstackProvider from "./TanstackProvider";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -19,21 +14,24 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <ReactLenis root>
-        <body>
-          <ClerkProvider>
-              <TanstackProvider>
-                {!hideNavFoot && (
-                  <Suspense fallback={<div>Loading...</div>}>
-                    <Navbar />
-                  </Suspense>
-                )}
-                {children}
-                {!hideNavFoot && <Footer />}
-              </TanstackProvider>
-          </ClerkProvider>
-        </body>
-      </ReactLenis>
+      <head>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Learnica</title>
+      </head>
+      <body>
+        <ClerkProvider>
+          <TanstackProvider>
+            {!hideNavFoot && (
+              <Suspense fallback={<div>...</div>}>
+                <Navbar />
+              </Suspense>
+            )}
+            {children}
+            {!hideNavFoot && <Footer />}
+          </TanstackProvider>
+        </ClerkProvider>
+      </body>
     </html>
   );
 }
