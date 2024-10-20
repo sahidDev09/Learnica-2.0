@@ -180,13 +180,12 @@ const CustomCoursePage = () => {
                 <button
                 key={index}
                 onClick={() => handleCategorySelect(lang_tech)}
-                  className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full transition-transform md:text-lg ${
-                    selectedCategory === ""
-                      ? "bg-primary text-white"
-                      : "bg-secondary text-white"
-                  }`}
-                 
-                >
+                className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full transition-transform md:text-lg ${
+                  selectedCategory === lang_tech
+                    ? "bg-primary text-white"
+                    : "bg-secondary text-white"
+                }`}
+              >
                   <FaTags />
                   {lang_tech}
                 </button>
@@ -239,8 +238,8 @@ const CustomCoursePage = () => {
                     <h1 className="text-white font-semibold text-lg">
                       {product.concept_title}
                     </h1>
-                    <p className="font-bold text-white text-xl">
-                      $ {parseFloat(product.price).toFixed(2)}
+                    <p className="font-bold ml-2 text-white text-xl">
+                      ${parseFloat(product.price).toFixed(2)}
                     </p>
                   </div>
 
