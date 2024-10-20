@@ -1,9 +1,17 @@
-
-import { useStripe, useElements, PaymentElement } from "@stripe/react-stripe-js";
+import {
+  useStripe,
+  useElements,
+  PaymentElement,
+} from "@stripe/react-stripe-js";
 import { useState } from "react";
 import Swal from "sweetalert2";
 
-const Checkout = ({ clientSecret, handlePaymentSuccess, setIsModalOpen, cart }) => {
+const Checkout = ({
+  clientSecret,
+  handlePaymentSuccess,
+  setIsModalOpen,
+  cart,
+}) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState("");
@@ -19,7 +27,7 @@ const Checkout = ({ clientSecret, handlePaymentSuccess, setIsModalOpen, cart }) 
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:3000/custom-course"
+        return_url: "http://localhost:3000/custom-course",
       },
       redirect: "if_required",
     });
@@ -27,7 +35,11 @@ const Checkout = ({ clientSecret, handlePaymentSuccess, setIsModalOpen, cart }) 
     if (error) {
       setErrorMessage(error.message || "An unexpected error occurred.");
       setIsLoading(false);
-      Swal.fire("Error", error.message || "An unexpected error occurred.", "error");
+      Swal.fire(
+        "Error",
+        error.message || "An unexpected error occurred.",
+        "error"
+      );
     } else if (paymentIntent && paymentIntent.status === "succeeded") {
       setIsModalOpen(false);
       await handlePaymentSuccess();
@@ -39,11 +51,11 @@ const Checkout = ({ clientSecret, handlePaymentSuccess, setIsModalOpen, cart }) 
       <PaymentElement />
       {errorMessage && <div className="text-red-500 mt-4">{errorMessage}</div>}
       <button
-        className={`bg-primary text-white mt-4 p-3 rounded-lg w-full ${isLoading ? "opacity-50" : ""
-          }`}
+        className={`bg-primary text-white mt-4 p-3 rounded-lg w-full ${
+          isLoading ? "opacity-50" : ""
+        }`}
         disabled={isLoading || !stripe || !clientSecret}
-        type="submit"
-      >
+        type="submit">
         {isLoading ? "Processing..." : "Pay Now"}
       </button>
     </form>

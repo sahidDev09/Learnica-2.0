@@ -1,4 +1,6 @@
-import { PodcastIcon } from "lucide-react";
+import clientPromise from "@/lib/mongodb";
+
+const webhookSecret = process.env.SVIX_WEBHOOK_SECRET;
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {

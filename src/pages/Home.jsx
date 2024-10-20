@@ -11,26 +11,24 @@ import { ReactLenis } from "/src/lib/lenis.jsx";
 
 const HomePage = () => {
   return (
-    <ReactLenis root>
-      <div>
-        {/* Hero banner */}
-        <Banner />
-        {/* Companies */}
-        <Companies />
-        {/* Categories */}
-        <Categories />
-        {/* Latest courses */}
-        <LatestCourses />
-        {/* Certificates */}
-        <CertificateSection />
-        {/* Reviews */}
-        <Reviews />
-        {/* Promotional section */}
-        <Promotional />
-        {/* move to top button */}
-        <MoveToTop />
-      </div>
-    </ReactLenis>
+    <div>
+      {/* Hero banner */}
+      <Banner />
+      {/* Companies */}
+      <Companies />
+      {/* Categories */}
+      <Categories />
+      {/* Latest courses */}
+      <LatestCourses />
+      {/* Certificates */}
+      <CertificateSection />
+      {/* Reviews */}
+      <Reviews />
+      {/* Promotional section */}
+      <Promotional />
+      {/* move to top button */}
+      <MoveToTop />
+    </div>
   );
 };
 
