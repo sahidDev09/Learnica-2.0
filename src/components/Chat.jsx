@@ -1,7 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import Image from "next/image";
-import image from "../../../public/assets/learnicaAi.png";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SendHorizontalIcon } from "lucide-react";
@@ -9,11 +7,14 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useState, useEffect, useRef } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUser } from "@clerk/nextjs";
+import suggestion from "/src/lib/chataisuggestion.json";
+
 import {
   GoogleGenerativeAI,
   HarmCategory,
   HarmBlockThreshold,
 } from "@google/generative-ai";
+import Image from "next/image";
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
@@ -133,93 +134,103 @@ const Chat = () => {
     }
   };
 
+  //suggestion ai chat message
+
   return (
-    <section className="grid md:grid-cols-2 h-screen items-center container mx-auto">
-      <div className="md:w-[500px] hidden md:inline">
-        <Image src={image} alt="ai" className="" />
-        <h1 className="text-5xl font-bold text-center text-secondary">
-          Ask Learnica AI
-        </h1>
-        <p className=" text-center">
-          Learnica can assists you in every situation
-        </p>
-      </div>
-      {/* chat box */}
-      <div className=" m-2 md:m-0">
-        <h1 className="text-2xl font-medium bg-primary text-white rounded-md py-2 max-w-lg text-center">
-          Learnica AI Assistant
-        </h1>
-        <div className="mt-4 w-full max-w-lg">
-          {/* responses */}
-          <ScrollArea
-            className="mb-2 md:h-[500px] h-[450px] rounded-md border p-4 bg-card"
-            ref={ref}>
-            {error && (
-              <div className="text-sm text-red-400">{error.message}</div>
-            )}
-            {messages.map((m, index) => (
-              <div key={index} className="mr-6 whitespace-pre-wrap md:mr-12">
-                {m.role === "user" && (
-                  <div className="mb-6 flex gap-6">
-                    <Avatar>
-                      <AvatarImage src={user?.imageUrl} />
-                      <AvatarFallback></AvatarFallback>
-                    </Avatar>
-                    <div className="mt-1.5">
-                      <p className="font-semibold">You</p>
-                      <div className="mt-1.5 text-sm text-zinc-500">
-                        {m.text}
+    <section className="flex flex-col h-screen md:h-[100vh] pb-20 container mx-auto">
+      <div className="m-2 md:m-0 flex flex-col gap-4 flex-grow">
+        <div className="flex gap-1 flex-wrap rounded-md mb-4">
+          {suggestion.map((sug) => (
+            <button
+              className="bg-secondary text-white p-2 border rounded-md"
+              key={sug.id}>
+              {sug.suggestion}
+            </button>
+          ))}
+        </div>
+        {/* responses & chatbox */}
+        <div className="flex-grow mb-2 rounded-md border p-4 bg-card">
+          <ScrollArea className="h-full">
+            <div className="h-[calc(100vh-450px)] md:h-[calc(100vh-400px)] overflow-y-auto">
+              {" "}
+              {/* Set a fixed height */}
+              {error && (
+                <div className="text-sm text-red-400">{error.message}</div>
+              )}
+              {messages.map((m, index) => (
+                <div key={index} className="mr-6 whitespace-pre-wrap md:mr-12">
+                  {m.role === "user" && (
+                    <div className="mb-6 flex gap-6">
+                      <Avatar>
+                        <AvatarImage src={user?.imageUrl} />
+                        <AvatarFallback></AvatarFallback>
+                      </Avatar>
+                      <div className="mt-1.5">
+                        <p className="font-semibold text-start">You</p>
+                        <div className="mt-1.5 text-sm text-zinc-700 text-start">
+                          {m.text}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {m.role === "bot" && (
-                  <div className="mb-6 flex gap-6">
-                    <Avatar>
-                      <AvatarImage src="/assets/aibot.jpeg" />
-                      <AvatarFallback></AvatarFallback>
-                    </Avatar>
-                    <div className="mt-1.5">
-                      <p className="font-semibold">Learnica</p>
-                      <p>{m.text}</p>
+                  {m.role === "bot" && (
+                    <div className="mb-6 flex gap-6">
+                      <Avatar>
+                        <AvatarImage src="/assets/aibot.jpeg" />
+                        <AvatarFallback></AvatarFallback>
+                      </Avatar>
+                      <div className="mt-1.5">
+                        <p className="font-semibold text-zinc-700 text-start">
+                          Learnica
+                        </p>
+                        <p className="text-secondary text-start">{m.text}</p>
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            ))}
-
-            {/* Typing indicator */}
-            {typing && (
-              <div className="flex items-center gap-2">
-                <Avatar>
-                  <AvatarImage src="/assets/aibot.jpeg" />
-                  <AvatarFallback></AvatarFallback>
-                </Avatar>
-                <div className="text-sm text-gray-500">
-                  Learnica is typing...
+                  )}
                 </div>
-              </div>
-            )}
+              ))}
+              {/* Typing indicator */}
+              {typing && (
+                <div className="flex items-center gap-2">
+                  <Avatar>
+                    <AvatarImage src="/assets/aibot.jpeg" />
+                    <AvatarFallback></AvatarFallback>
+                  </Avatar>
+                  <div className="text-sm text-gray-700">
+                    Learnica is typing...
+                  </div>
+                </div>
+              )}
+            </div>
           </ScrollArea>
-
-          <form onSubmit={handleSendMessage} className="relative">
-            <Input
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-              onKeyDown={handleKeyPress}
-              placeholder="Ask me anything..."
-              className="pr-12 placeholder:italic placeholder:text-zinc-600"
-            />
-            <Button
-              size="icon"
-              type="submit"
-              variant="destructive"
-              className="absolute right-1 top-1 h-8 w-10">
-              <SendHorizontalIcon className="h-5 w-5 text-white" />
-            </Button>
-          </form>
         </div>
+        <form
+          onSubmit={handleSendMessage}
+          className="relative focus:outline-none h-[10vh]">
+          <div className="absolute left-2 top-3 flex items-center">
+            <Image
+              src={"/assets/sparkelai.webp"}
+              alt=""
+              width={20}
+              height={20}
+            />
+          </div>
+          <Input
+            value={userInput}
+            onChange={(e) => setUserInput(e.target.value)}
+            onKeyDown={handleKeyPress}
+            placeholder="Ask me anything..."
+            className="pr-12 pl-10 placeholder:italic placeholder:text-zinc-600 text-gray-700 focus:outline-none"
+          />
+          <Button
+            size="icon"
+            type="submit"
+            variant="destructive"
+            className="absolute right-1 top-1 h-8 w-10">
+            <SendHorizontalIcon className="h-5 w-5 text-white" />
+          </Button>
+        </form>
       </div>
     </section>
   );

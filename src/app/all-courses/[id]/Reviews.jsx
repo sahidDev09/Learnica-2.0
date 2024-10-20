@@ -17,7 +17,7 @@ function Reviews() {
   });
 
   if (isLoading) {
-    return <Loading/>;
+    return <Loading />;
   }
   return (
     <section className="max-w-screen-lg mx-auto">
