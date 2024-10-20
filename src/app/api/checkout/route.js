@@ -5,13 +5,9 @@ import clientPromise from "@/lib/mongodb";
 
 export async function POST(request) {
   try {
-    const { userId, email, totalAmount, items, duration } = await request.json();
+    const { userId, email, totalAmount, items } = await request.json();
 
-    console.log('Received checkout data:', { userId, email, totalAmount, items, duration });
-
-    // Validate required fields
     if (!userId || !email || !totalAmount || !items) {
-      console.error('Missing required fields: userId, email, totalAmount, or items');
       return NextResponse.json(
         {
           success: false,
@@ -23,8 +19,9 @@ export async function POST(request) {
 
     const client = await clientPromise;
     const db = client.db('learnica');
-    const ordersCollection = db.collection('orders'); // Ensure this collection exists
-
+    const ordersCollection = db.collection('orders');
+    
+    // Prepare the order object
     const order = {
       userId,
       email,
@@ -32,21 +29,16 @@ export async function POST(request) {
       items: items.map((item) => ({
         concept_title: item.concept_title,
         concept_url: item.concept_url,
-        amount: parseFloat(item.price),
+        price: parseFloat(item.price),  // Using price from the frontend
         duration: item.duration,
         lang_tech: item.lang_tech,
         rating: item.rating,
-        quantity: item.quantity,
+        quantity: item.quantity || 1,  // Default quantity if missing
       })),
-      duration,
       createdAt: new Date(),
     };
 
-    console.log('Creating order:', order);
-
     const result = await ordersCollection.insertOne(order);
-
-    console.log(`Order inserted with ID: ${result.insertedId}`);
 
     return NextResponse.json(
       {

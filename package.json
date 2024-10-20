@@ -39,6 +39,7 @@
     "glob": "^9.3.5",
     "google-fonts": "^1.0.0",
     "lenis": "^1.1.13",
+    "locomotive-scroll": "^4.1.4",
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.441.0",
     "micro": "^10.0.1",

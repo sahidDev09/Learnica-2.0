@@ -1,34 +1,32 @@
-
 import { NextResponse } from "next/server";
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+import Stripe from "stripe";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(request) {
   try {
-    const { amount, userId, email, items} = await request.json();
-if (!amount || !userId || !email || !items) {
-      return NextResponse.json(
-        { error: "Missing required fields: amount, userId, email, items" },
-        { status: 400 }
-      );
+    const { amount, userId, email, items } = await request.json();
+
+    if (!amount || amount <= 0) {
+      return NextResponse.json({ success: false, message: "Invalid amount" }, { status: 400 });
     }
 
+    const simplifiedItems = items.map(item => item.concept_title).join(', ');
+
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: amount,
+      amount: Math.round(amount), 
       currency: "usd",
       automatic_payment_methods: { enabled: true },
       metadata: {
         userId: userId,
         email: email,
-        items: JSON.stringify(items),
+        items: simplifiedItems, 
       },
     });
 
-    return NextResponse.json({ clientSecret: paymentIntent.client_secret });
+    return NextResponse.json({ success: true, clientSecret: paymentIntent.client_secret }, { status: 200 });
   } catch (error) {
-    console.error("Internal Error:", error);
-    return NextResponse.json(
-      { error: `Internal Server Error: ${error.message}` },
-      { status: 500 }
-    );
+    console.error("Error creating payment intent:", error);
+    return NextResponse.json({ success: false, message: "Server error" }, { status: 500 });
   }
 }
