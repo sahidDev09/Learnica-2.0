@@ -178,12 +178,14 @@ const CustomCoursePage = () => {
             <div className="flex gap-4 flex-wrap">
               {categories.map((lang_tech, index) => (
                 <button
-                  key={index}
-                  onClick={() => handleCategorySelect(lang_tech)}
-                  className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full  hover:scale-105 transition-transform md:text-lg ${ selectedCategory === ""
-                    ? "bg-primary text-white"
-                    : "bg-secondary text-white"
-                    }`}
+                key={index}
+                onClick={() => handleCategorySelect(lang_tech)}
+                  className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full transition-transform md:text-lg ${
+                    selectedCategory === ""
+                      ? "bg-primary text-white"
+                      : "bg-secondary text-white"
+                  }`}
+                 
                 >
                   <FaTags />
                   {lang_tech}
