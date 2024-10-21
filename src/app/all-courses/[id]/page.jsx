@@ -1,4 +1,5 @@
 "use client";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 import Reviews from "./Reviews";
@@ -7,10 +8,10 @@ import AddNoteForm from "./AddNoteForm";
 import Notes from "./Notes";
 import Resources from "./Resources";
 import Questions from "./Questions";
-import { useQuery } from "@tanstack/react-query";
+import CourseApproveBtn from "@/components/CourseApproveBtn";
 
 const page = ({ params }) => {
-  const { data, isLoading, refetch } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["courses"],
     queryFn: async () => {
       const res = await fetch(
@@ -27,7 +28,6 @@ const page = ({ params }) => {
       </div>
     );
   }
-  // const { user } = useUser();
 
   const topic = [
     {
@@ -57,21 +57,10 @@ const page = ({ params }) => {
       {/* approve button */}
 
       {data?.status == "pending" && (
-        <div className="w-7/12 mx-auto ">
-          <div className="my-6 bg-yellow-400 rounded-xl p-8">
-            <h2 className="text-xl font-medium text-center my-3">
-              This is a pending course
-            </h2>
-            <h2 className="text-lg font-semibold text-center my-3">
-              Do you approve it..?
-            </h2>
-            <div className="flex justify-center mt-5">
-              <button className="btn btn-2xl bg-green-600 text-white border-0">
-                Approve
-              </button>
-            </div>
-          </div>
-        </div>
+        <CourseApproveBtn
+          c_id={data._id}
+          c_title={data.title}
+        ></CourseApproveBtn>
       )}
 
       <div className="container mx-auto flex flex-col-reverse lg:flex-row px-2">
