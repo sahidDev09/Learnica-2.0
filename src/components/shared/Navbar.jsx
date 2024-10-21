@@ -37,6 +37,7 @@ import {
 import Chat from "../Chat";
 
 const Navbar = () => {
+  
   const [showSupportModal, setShowSupportModal] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
