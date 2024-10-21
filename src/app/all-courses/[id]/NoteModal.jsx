@@ -66,7 +66,7 @@ function NoteModal({note}) {
           <form onSubmit={handleEditNote}>
             {!isEditing ? (
               <div className="flex flex-col gap-4">
-                <h3 className="font-bold text-lg">{note.title}</h3>
+                <h3 className="font-bold text-lg text-secondary">{note.title}</h3>
                 <p>{note.description}</p>
               </div>
             ) : (

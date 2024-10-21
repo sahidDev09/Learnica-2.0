@@ -1,26 +1,27 @@
-"use client"
-import Swal from 'sweetalert2'
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+"use client";
+import Swal from "sweetalert2";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
 
 // req: add new answer >>
 const addAnswer = async (formData) => {
   const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/qna-ans", {
     method: "POST",
     headers: {
-      "content-type": "application/json"
+      "content-type": "application/json",
     },
-    body: JSON.stringify(formData)
-  })
-  return res.json()
-}
+    body: JSON.stringify(formData),
+  });
+  return res.json();
+};
 
-function AddAnswerForm({question, user, refetch}) {
-  const queryClient = useQueryClient()
-  const mutation = useMutation({ mutationFn: addAnswer })
+function AddAnswerForm({ question, user, refetch }) {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({ mutationFn: addAnswer });
 
   // handler: add question
   const handleWriteAnswer = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const formData = {
       qid: question._id,
@@ -28,48 +29,54 @@ function AddAnswerForm({question, user, refetch}) {
       userName: user.userName,
       userEmail: user.userEmail,
       userPhotoUrl: user.userPhotoUrl,
-      createdAt: Date.now()
-    }
+      createdAt: Date.now(),
+    };
 
     mutation.mutate(formData, {
       onSuccess: () => {
-        queryClient.invalidateQueries(['qna-ans'])
+        queryClient.invalidateQueries(["qna-ans"]);
 
         // refetch ans, reset form and show alert
-        refetch()
-        e.target.reset()
+        refetch();
+        e.target.reset();
         Swal.fire({
           title: "Successfully added the answer!",
           icon: "success",
-          position: 'top',
-          confirmButtonColor: "#15803D"
-        })
+          position: "top",
+          timer: 2000,
+          confirmButtonColor: "#15803D",
+        });
       },
       onError: (error) => {
         Swal.fire({
           title: "Error on adding answer!",
           text: error.message,
           icon: "error",
-          position: 'top',
-          confirmButtonColor: "#B91C1C"
-        })
-      }
-    })
-  }
+          position: "top",
+          confirmButtonColor: "#B91C1C",
+        });
+      },
+    });
+  };
 
   return (
     <div>
       <form onSubmit={handleWriteAnswer} className="relative">
         <label className="form-control">
-          <textarea name="answer" className="textarea textarea-bordered h-20 shadow" placeholder="Write your answer" required></textarea>
+          <textarea
+            name="answer"
+            className="textarea focus:outline-none textarea-bordered h-20 shadow"
+            placeholder="Write your answer"
+            required></textarea>
         </label>
 
-        <div className='absolute bottom-2 right-4'>
-          <button type='submit' className="btn btn-sm btn-outline btn-primary">Answer</button>
+        <div className="absolute bottom-2 right-4">
+          <Button type="submit" className="bg-secondary">
+            Answer
+          </Button>
         </div>
       </form>
     </div>
-
   );
 }
 

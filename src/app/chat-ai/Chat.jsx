@@ -134,19 +134,10 @@ const Chat = () => {
   };
 
   return (
-    <section className="grid md:grid-cols-2 h-screen items-center container mx-auto">
-      <div className="md:w-[500px] hidden md:inline">
-        <Image src={image} alt="ai" className="" />
-        <h1 className="text-5xl font-bold text-center text-secondary">
-          Ask Learnica AI
-        </h1>
-        <p className=" text-center">
-          Learnica can assists you in every situation
-        </p>
-      </div>
+    <section className="min-h-screen items-center container mx-auto">
       {/* chat box */}
       <div className=" m-2 md:m-0">
-        <h1 className="text-2xl font-medium bg-primary text-white rounded-md py-2 max-w-lg text-center">
+        <h1 className="text-2xl font-medium bg-secondary text-white rounded-md py-2 max-w-lg text-center">
           Learnica AI Assistant
         </h1>
         <div className="mt-4 w-full max-w-lg">
@@ -167,7 +158,7 @@ const Chat = () => {
                     </Avatar>
                     <div className="mt-1.5">
                       <p className="font-semibold">You</p>
-                      <div className="mt-1.5 text-sm text-zinc-500">
+                      <div className="mt-1.5 text-sm text-zinc-700">
                         {m.text}
                       </div>
                     </div>
@@ -181,8 +172,8 @@ const Chat = () => {
                       <AvatarFallback></AvatarFallback>
                     </Avatar>
                     <div className="mt-1.5">
-                      <p className="font-semibold">Learnica</p>
-                      <p>{m.text}</p>
+                      <p className="font-semibold text-zinc-700">Learnica</p>
+                      <p className=" text-secondary">{m.text}</p>
                     </div>
                   </div>
                 )}
@@ -196,7 +187,7 @@ const Chat = () => {
                   <AvatarImage src="/assets/aibot.jpeg" />
                   <AvatarFallback></AvatarFallback>
                 </Avatar>
-                <div className="text-sm text-gray-500">
+                <div className="text-sm text-gray-700">
                   Learnica is typing...
                 </div>
               </div>
@@ -209,7 +200,7 @@ const Chat = () => {
               onChange={(e) => setUserInput(e.target.value)}
               onKeyDown={handleKeyPress}
               placeholder="Ask me anything..."
-              className="pr-12 placeholder:italic placeholder:text-zinc-600"
+              className="pr-12 placeholder:italic placeholder:text-zinc-600 text-gray-700"
             />
             <Button
               size="icon"

@@ -18,7 +18,6 @@ import Link from "next/link";
 import {
   BriefcaseBusiness,
   FileStackIcon,
-  HelpCircleIcon,
   MessageCircleCodeIcon,
   PenBox,
 } from "lucide-react";
@@ -26,16 +25,29 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { FaCashRegister } from "react-icons/fa";
 import Loading from "@/app/loading";
 import Support from "../Support";
+<<<<<<< HEAD
 import Notification from "../homePage/notification/Notification";
+=======
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet";
+import Chat from "../Chat";
+>>>>>>> c93e1b628608e5cf258767e4ce41d1dd6dfb122d
 
 const Navbar = () => {
+  
   const [showSupportModal, setShowSupportModal] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
 
   const [mainRole, setMainRole] = useState(null);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const search = useSearchParams();
   const router = useRouter();
@@ -82,7 +94,6 @@ const Navbar = () => {
           const data = await response.json();
           const currData = data;
           setMainRole(currData.mainRole);
-          console.log("current data", currData);
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
@@ -121,7 +132,7 @@ const Navbar = () => {
             </div>
             {/* Desktop Menu */}
             <div className="hidden md:block lg:block">
-              <ul className="font-semibold flex gap-6">
+              <ul className="flex gap-6">
                 <Link
                   href="/"
                   className="duration-150 hover:border-transparent text-center p-1"
@@ -143,8 +154,12 @@ const Navbar = () => {
                 </Link>
                 <li
                   className="duration-150 hover:border-transparent p-1 text-center cursor-pointer"
+<<<<<<< HEAD
                   onClick={() => setShowSupportModal(true)}
                 >
+=======
+                  onClick={() => setShowSupportModal(true)}>
+>>>>>>> c93e1b628608e5cf258767e4ce41d1dd6dfb122d
                   Help-line
                 </li>
 
@@ -159,6 +174,29 @@ const Navbar = () => {
                   {/* Dark Mode Toggle */}
                   {/* <BellDot /> */}
                   <Notification></Notification>
+                </li>
+                <li>
+                  <Sheet>
+                    <SheetTrigger>
+                      <Image
+                        src={"/assets/aibot 2.jpeg"}
+                        alt=""
+                        width={35}
+                        height={100}
+                        className=" rounded-full"
+                      />
+                    </SheetTrigger>
+                    <SheetContent className="w-[510px] sm:max-w-none">
+                      <SheetHeader>
+                        <SheetTitle>
+                          Here is some suggestions for you
+                        </SheetTitle>
+                        <SheetDescription>
+                          <Chat />
+                        </SheetDescription>
+                      </SheetHeader>
+                    </SheetContent>
+                  </Sheet>
                 </li>
                 {/* Authentication Buttons */}
                 <div className="flex gap-5">
@@ -220,6 +258,7 @@ const Navbar = () => {
                         <UserButton.Link
                           label="Custom Course"
                           labelIcon={<FileStackIcon size={15} />}
+<<<<<<< HEAD
                           href="/custom-course"
                         ></UserButton.Link>
 
@@ -238,6 +277,9 @@ const Navbar = () => {
                             <span>Help Line</span>
                           </button>
                         </UserButton>
+=======
+                          href="/custom-course"></UserButton.Link>
+>>>>>>> c93e1b628608e5cf258767e4ce41d1dd6dfb122d
                       </UserButton.MenuItems>
                     </UserButton>
                   </SignedIn>
@@ -299,6 +341,7 @@ const Navbar = () => {
                   <UserButton.Link
                     label="Custom Course"
                     labelIcon={<FileStackIcon size={15} />}
+<<<<<<< HEAD
                     href="/custom-course"
                   ></UserButton.Link>
 
@@ -317,9 +360,34 @@ const Navbar = () => {
                       <span>Help Line</span>
                     </button>
                   </UserButton>
+=======
+                    href="/custom-course"></UserButton.Link>
+>>>>>>> c93e1b628608e5cf258767e4ce41d1dd6dfb122d
                 </UserButton.MenuItems>
               </UserButton>
             </SignedIn>
+          </li>
+          <li>
+            <Sheet>
+              <SheetTrigger className="flex items-center gap-4">
+                <h1>Learnica AI</h1>
+                <Image
+                  src={"/assets/aibot 2.jpeg"}
+                  alt=""
+                  width={25}
+                  height={100}
+                  className=" rounded-full"
+                />
+              </SheetTrigger>
+              <SheetContent className="md:w-[510px] w-screen">
+                <SheetHeader>
+                  <SheetTitle>Here is some suggestions for you</SheetTitle>
+                  <SheetDescription>
+                    <Chat />
+                  </SheetDescription>
+                </SheetHeader>
+              </SheetContent>
+            </Sheet>
           </li>
           <li>
             <Link href="/">Home</Link>
@@ -332,15 +400,16 @@ const Navbar = () => {
           </li>
           <li
             className="duration-150 hover:border-transparent p-1 cursor-pointer"
+<<<<<<< HEAD
             onClick={() => setShowSupportModal(true)}
           >
+=======
+            onClick={() => setShowSupportModal(true)}>
+>>>>>>> c93e1b628608e5cf258767e4ce41d1dd6dfb122d
             Help-line
           </li>
           <li>
             <Link href="/about">About Us</Link>
-          </li>
-          <li>
-            <Link href="/contact">Contact Us</Link>
           </li>
         </ul>
       </div>
