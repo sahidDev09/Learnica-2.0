@@ -1,4 +1,5 @@
 import StatCards from "./StatCards";
+import TopCoursesChart from "./TopCoursesChart";
 
 function Statistics() {
   return (  
@@ -8,6 +9,7 @@ function Statistics() {
       </header>
       
       <StatCards />
+      <TopCoursesChart />
     </div>
   );
 }
