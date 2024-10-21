@@ -40,6 +40,9 @@ export default async function handler(req, res) {
   const usersCollection = db.collection("users");
 
   try {
+    // Ensure unique index on userId
+    await usersCollection.createIndex({ userId: 1 }, { unique: true });
+
     if (event.type === "user.created" || event.type === "user.updated") {
       const user = event.data;
       console.log("User Data:", user);
@@ -59,7 +62,7 @@ export default async function handler(req, res) {
         updatedAt: new Date(),
       };
 
-      // Insert or update the user in MongoDB
+      // Insert or update the user in MongoDB (upsert)
       await usersCollection.updateOne(
         { userId: user.id },
         { $set: userData },
