@@ -43,7 +43,7 @@ const Navbar = () => {
 
   const [mainRole, setMainRole] = useState(null);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const search = useSearchParams();
   const router = useRouter();
