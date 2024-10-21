@@ -1,5 +1,5 @@
+import clientPromise from "@/lib/mongodb";
 import { Server } from "socket.io";
-import clientPromise from "../../lib/mongodb";
 
 export default async function handler(req, res) {
   if (!res.socket.server.io) {
@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     res.socket.server.io = io;
 
     const client = await clientPromise;
-    const db = client.db("your-database-name");
+    const db = client.db("learnica");
     const coursesCollection = db.collection("courses");
 
     // Listen to MongoDB changes using Change Streams

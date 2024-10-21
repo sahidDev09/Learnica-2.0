@@ -7,21 +7,21 @@ import AddReviewForm from "./AddReviewForm";
 import AddNoteForm from "./AddNoteForm";
 import Notes from "./Notes";
 import Resources from "./Resources";
-<<<<<<< HEAD
-import Questions from "./Questions";
-import CourseApproveBtn from "@/components/CourseApproveBtn";
-
-const page = ({ params }) => {
-  const { data, isLoading } = useQuery({
-=======
 import { PlaySquare } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
 import Questions from "./Questions";
 import Loading from "@/app/loading";
+import { redirect } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
+import CourseApproveBtn from "@/components/CourseApproveBtn";
 
 const Page = ({ params }) => {
+  const { user } = useUser();
+
+  if (!user) {
+    redirect("/?sign-in=true");
+  }
+
   const { data, isLoading, refetch } = useQuery({
->>>>>>> c93e1b628608e5cf258767e4ce41d1dd6dfb122d
     queryKey: ["courses"],
     queryFn: async () => {
       const res = await fetch(
@@ -65,8 +65,7 @@ const Page = ({ params }) => {
       {data?.status == "pending" && (
         <CourseApproveBtn
           c_id={data._id}
-          c_title={data.title}
-        ></CourseApproveBtn>
+          c_title={data.title}></CourseApproveBtn>
       )}
 
       <div className="container mx-auto flex flex-col-reverse lg:flex-row px-2">
