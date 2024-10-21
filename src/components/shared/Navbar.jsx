@@ -19,7 +19,6 @@ import {
   BellDot,
   BriefcaseBusiness,
   FileStackIcon,
-  MessageCircleCodeIcon,
   PenBox,
 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -37,7 +36,6 @@ import {
 import Chat from "../Chat";
 
 const Navbar = () => {
-  
   const [showSupportModal, setShowSupportModal] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
@@ -141,16 +139,21 @@ const Navbar = () => {
                   className="duration-150 hover:border-transparent p-1 text-center">
                   <li>All Courses</li>
                 </Link>
-                <Link
-                  href="/live_class"
-                  className="duration-150 hover:border-transparent p-1 text-center">
-                  <li>Live classes</li>
-                </Link>
-                <li
-                  className="duration-150 hover:border-transparent p-1 text-center cursor-pointer"
-                  onClick={() => setShowSupportModal(true)}>
-                  Help-line
-                </li>
+
+                {user && (
+                  <>
+                    <Link
+                      href="/live_class"
+                      className="duration-150 hover:border-transparent p-1 text-center">
+                      <li>Live classes</li>
+                    </Link>
+                    <li
+                      className="duration-150 hover:border-transparent p-1 text-center cursor-pointer"
+                      onClick={() => setShowSupportModal(true)}>
+                      Help-line
+                    </li>
+                  </>
+                )}
 
                 <Link
                   href="/about"
@@ -162,29 +165,31 @@ const Navbar = () => {
                   {/* Dark Mode Toggle */}
                   <BellDot />
                 </li>
-                <li>
-                  <Sheet>
-                    <SheetTrigger>
-                      <Image
-                        src={"/assets/aibot 2.jpeg"}
-                        alt=""
-                        width={35}
-                        height={100}
-                        className=" rounded-full"
-                      />
-                    </SheetTrigger>
-                    <SheetContent className="w-[510px] sm:max-w-none">
-                      <SheetHeader>
-                        <SheetTitle>
-                          Here is some suggestions for you
-                        </SheetTitle>
-                        <SheetDescription>
-                          <Chat />
-                        </SheetDescription>
-                      </SheetHeader>
-                    </SheetContent>
-                  </Sheet>
-                </li>
+                {user && (
+                  <li>
+                    <Sheet>
+                      <SheetTrigger>
+                        <Image
+                          src={"/assets/aibot 2.jpeg"}
+                          alt=""
+                          width={35}
+                          height={100}
+                          className=" rounded-full"
+                        />
+                      </SheetTrigger>
+                      <SheetContent className="w-[510px] sm:max-w-none">
+                        <SheetHeader>
+                          <SheetTitle>
+                            Here is some suggestions for you
+                          </SheetTitle>
+                          <SheetDescription>
+                            <Chat />
+                          </SheetDescription>
+                        </SheetHeader>
+                      </SheetContent>
+                    </Sheet>
+                  </li>
+                )}
                 {/* Authentication Buttons */}
                 <div className="flex gap-5">
                   <SignedOut>

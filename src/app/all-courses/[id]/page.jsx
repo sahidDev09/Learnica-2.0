@@ -10,8 +10,16 @@ import { PlaySquare } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import Questions from "./Questions";
 import Loading from "@/app/loading";
+import { redirect } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 
 const Page = ({ params }) => {
+  const { user } = useUser();
+
+  if (!user) {
+    redirect("/?sign-in=true");
+  }
+
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["courses"],
     queryFn: async () => {
