@@ -93,7 +93,7 @@ const CustomCoursePage = () => {
     );
 
     try {
-      const res = await fetch("/api/create-payment-intent", {
+      const res = await fetch("/pay-api/create-payment-intent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -134,7 +134,7 @@ const CustomCoursePage = () => {
   // ----------------------backend-----------------------
   const handlePaymentSuccess = async () => {
     try {
-      const res = await fetch("/api/checkout", {
+      const res = await fetch("/pay-api/checkout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -196,14 +196,13 @@ const CustomCoursePage = () => {
             <div className="flex gap-4 flex-wrap">
               {categories.map((lang_tech, index) => (
                 <button
-                key={index}
-                onClick={() => handleCategorySelect(lang_tech)}
-                className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full transition-transform md:text-lg ${
-                  selectedCategory === lang_tech
-                    ? "bg-primary text-white"
-                    : "bg-secondary text-white"
-                }`}
-              >
+                  key={index}
+                  onClick={() => handleCategorySelect(lang_tech)}
+                  className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full transition-transform md:text-lg ${
+                    selectedCategory === lang_tech
+                      ? "bg-primary text-white"
+                      : "bg-secondary text-white"
+                  }`}>
                   <FaTags />
                   {lang_tech}
                 </button>
