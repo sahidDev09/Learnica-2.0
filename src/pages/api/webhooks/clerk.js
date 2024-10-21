@@ -1,7 +1,5 @@
 import clientPromise from "@/lib/mongodb";
 
-const webhookSecret = process.env.SVIX_WEBHOOK_SECRET;
-
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });
@@ -29,9 +27,6 @@ export default async function handler(req, res) {
     if (event.type === "user.created" || event.type === "user.updated") {
       const user = event.data;
 
-      // Extracting role from unsafe metadata
-      const role = user?.unsafe_metadata?.role || "student"; // Default to 'student' if no role is provided
-
       const userData = {
         userId: user.id,
         email: user.email_addresses[0].email_address,
@@ -40,8 +35,8 @@ export default async function handler(req, res) {
         photo: user.image_url,
         firstName: user.first_name,
         lastName: user.last_name,
-        role, // Adding role to the user data
         updatedAt: new Date(),
+        userRole: "admin", // Add the userRole field here
       };
 
       await usersCollection.updateOne(
