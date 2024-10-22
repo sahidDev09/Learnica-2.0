@@ -16,18 +16,15 @@ import {
 } from "@clerk/nextjs";
 import Link from "next/link";
 import {
+  BellDot,
   BriefcaseBusiness,
   FileStackIcon,
-  MessageCircleCodeIcon,
   PenBox,
 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaCashRegister } from "react-icons/fa";
 import Loading from "@/app/loading";
 import Support from "../Support";
-<<<<<<< HEAD
-import Notification from "../homePage/notification/Notification";
-=======
 import {
   Sheet,
   SheetContent,
@@ -37,10 +34,9 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 import Chat from "../Chat";
->>>>>>> c93e1b628608e5cf258767e4ce41d1dd6dfb122d
+import Notification from "../homePage/notification/Notification";
 
 const Navbar = () => {
-  
   const [showSupportModal, setShowSupportModal] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
@@ -146,22 +142,23 @@ const Navbar = () => {
                 >
                   <li>All Courses</li>
                 </Link>
-                <Link
-                  href="/live_class"
-                  className="duration-150 hover:border-transparent p-1 text-center"
-                >
-                  <li>Live classes</li>
-                </Link>
-                <li
-                  className="duration-150 hover:border-transparent p-1 text-center cursor-pointer"
-<<<<<<< HEAD
-                  onClick={() => setShowSupportModal(true)}
-                >
-=======
-                  onClick={() => setShowSupportModal(true)}>
->>>>>>> c93e1b628608e5cf258767e4ce41d1dd6dfb122d
-                  Help-line
-                </li>
+
+                {user && (
+                  <>
+                    <Link
+                      href="/live_class"
+                      className="duration-150 hover:border-transparent p-1 text-center"
+                    >
+                      <li>Live classes</li>
+                    </Link>
+                    <li
+                      className="duration-150 hover:border-transparent p-1 text-center cursor-pointer"
+                      onClick={() => setShowSupportModal(true)}
+                    >
+                      Help-line
+                    </li>
+                  </>
+                )}
 
                 <Link
                   href="/about"
@@ -175,29 +172,31 @@ const Navbar = () => {
                   {/* <BellDot /> */}
                   <Notification></Notification>
                 </li>
-                <li>
-                  <Sheet>
-                    <SheetTrigger>
-                      <Image
-                        src={"/assets/aibot 2.jpeg"}
-                        alt=""
-                        width={35}
-                        height={100}
-                        className=" rounded-full"
-                      />
-                    </SheetTrigger>
-                    <SheetContent className="w-[510px] sm:max-w-none">
-                      <SheetHeader>
-                        <SheetTitle>
-                          Here is some suggestions for you
-                        </SheetTitle>
-                        <SheetDescription>
-                          <Chat />
-                        </SheetDescription>
-                      </SheetHeader>
-                    </SheetContent>
-                  </Sheet>
-                </li>
+                {user && (
+                  <li>
+                    <Sheet>
+                      <SheetTrigger>
+                        <Image
+                          src={"/assets/aibot 2.jpeg"}
+                          alt=""
+                          width={35}
+                          height={100}
+                          className=" rounded-full"
+                        />
+                      </SheetTrigger>
+                      <SheetContent className="w-[510px] sm:max-w-none">
+                        <SheetHeader>
+                          <SheetTitle>
+                            Here is some suggestions for you
+                          </SheetTitle>
+                          <SheetDescription>
+                            <Chat />
+                          </SheetDescription>
+                        </SheetHeader>
+                      </SheetContent>
+                    </Sheet>
+                  </li>
+                )}
                 {/* Authentication Buttons */}
                 <div className="flex gap-5">
                   <SignedOut>
@@ -258,28 +257,8 @@ const Navbar = () => {
                         <UserButton.Link
                           label="Custom Course"
                           labelIcon={<FileStackIcon size={15} />}
-<<<<<<< HEAD
                           href="/custom-course"
                         ></UserButton.Link>
-
-                        <UserButton.Link
-                          label="Chat with Ai"
-                          labelIcon={<MessageCircleCodeIcon size={15} />}
-                          href="/chat-ai"
-                        ></UserButton.Link>
-
-                        <UserButton>
-                          <button
-                            className="flex items-center"
-                            onClick={() => setShowSupportModal(true)}
-                          >
-                            <HelpCircleIcon size={15} />
-                            <span>Help Line</span>
-                          </button>
-                        </UserButton>
-=======
-                          href="/custom-course"></UserButton.Link>
->>>>>>> c93e1b628608e5cf258767e4ce41d1dd6dfb122d
                       </UserButton.MenuItems>
                     </UserButton>
                   </SignedIn>
@@ -341,28 +320,8 @@ const Navbar = () => {
                   <UserButton.Link
                     label="Custom Course"
                     labelIcon={<FileStackIcon size={15} />}
-<<<<<<< HEAD
                     href="/custom-course"
                   ></UserButton.Link>
-
-                  <UserButton.Link
-                    label="Chat with Ai"
-                    labelIcon={<MessageCircleCodeIcon size={15} />}
-                    href="/chat-ai"
-                  ></UserButton.Link>
-
-                  <UserButton>
-                    <button
-                      className="flex items-center"
-                      onClick={() => setShowSupportModal(true)}
-                    >
-                      <HelpCircleIcon size={15} />
-                      <span>Help Line</span>
-                    </button>
-                  </UserButton>
-=======
-                    href="/custom-course"></UserButton.Link>
->>>>>>> c93e1b628608e5cf258767e4ce41d1dd6dfb122d
                 </UserButton.MenuItems>
               </UserButton>
             </SignedIn>
@@ -400,12 +359,8 @@ const Navbar = () => {
           </li>
           <li
             className="duration-150 hover:border-transparent p-1 cursor-pointer"
-<<<<<<< HEAD
             onClick={() => setShowSupportModal(true)}
           >
-=======
-            onClick={() => setShowSupportModal(true)}>
->>>>>>> c93e1b628608e5cf258767e4ce41d1dd6dfb122d
             Help-line
           </li>
           <li>

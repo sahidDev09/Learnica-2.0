@@ -1,30 +1,34 @@
-"use client";
 import { useEffect, useState } from "react";
 import { FaRegBell } from "react-icons/fa6";
 import { TbBellFilled } from "react-icons/tb";
 import Link from "next/link";
-import useSocket from "./socket";
+import io from "socket.io-client";
+
+let socket;
 
 const Notification = () => {
   const [notifications, setNotifications] = useState([]);
-  const socket = useSocket();
 
   useEffect(() => {
-    if (socket) {
-      // Listen for the 'courseApproved' event from the server
-      socket.on("courseApproved", (data) => {
-        setNotifications((prev) => [...prev, data]);
-      });
-    }
-  }, [socket]);
+    socket = io(process.env.NEXT_PUBLIC_BASE_URL);
 
-  console.log(notifications);
+    socket.on("courseApproved", (data) => {
+      console.log("New notification received:", data);
+      setNotifications((prev) => [...prev, data]);
+    });
+
+    return () => {
+      socket.off("courseApproved");
+      socket.disconnect();
+    };
+  }, []);
 
   const read = (id) => {
     console.log("Notification read:", id);
   };
 
   const count = notifications.length;
+  // console.log(notifications);
 
   return (
     <span className="relative dropdown dropdown-end">
