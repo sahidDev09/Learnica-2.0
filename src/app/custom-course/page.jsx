@@ -167,6 +167,7 @@ const CustomCoursePage = () => {
         "success"
       );
       setCart([]);
+      setCourseTitle("");
     } catch (error) {
       console.error("Error saving order to database:", error);
       Swal.fire(
@@ -326,11 +327,20 @@ const CustomCoursePage = () => {
                       .toFixed(2)}
                   </p>
                 </div>
-                <button
-                  onClick={handlePayNow}
-                  className="bg-primary text-white mt-4 p-3 rounded-lg w-full">
-                  Pay Now
-                </button>
+                <div className="flex flex-col mt-4">
+                    <input
+                      type="text"
+                      placeholder="Enter Course Title"
+                      value={courseTitle}
+                      onChange={(e) => setCourseTitle(e.target.value)}
+                      className="border p-2 rounded mb-2"
+                    />
+                    <button
+                      onClick={handlePayNow}
+                      className="bg-primary text-white rounded-2xl px-4 py-2">
+                      Pay Now
+                    </button>
+                  </div>
               </>
             )}
           </div>
