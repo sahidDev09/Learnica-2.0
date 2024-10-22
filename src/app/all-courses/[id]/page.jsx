@@ -12,6 +12,7 @@ import Questions from "./Questions";
 import Loading from "@/app/loading";
 import { redirect } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
+import CourseApproveBtn from "../../../components/CourseApproveBtn";
 
 const Page = ({ params }) => {
   const { user } = useUser();
@@ -63,21 +64,10 @@ const Page = ({ params }) => {
       {/* approve button */}
 
       {data?.status == "pending" && (
-        <div className="w-7/12 mx-auto ">
-          <div className="my-6 bg-yellow-400 rounded-xl p-8">
-            <h2 className="text-xl font-medium text-center my-3">
-              This is a pending course
-            </h2>
-            <h2 className="text-lg font-semibold text-center my-3">
-              Do you approve it..?
-            </h2>
-            <div className="flex justify-center mt-5">
-              <button className="btn btn-2xl bg-green-600 text-white border-0">
-                Approve
-              </button>
-            </div>
-          </div>
-        </div>
+        <CourseApproveBtn
+          c_id={data._id}
+          c_title={data.title}
+        ></CourseApproveBtn>
       )}
 
       <div className="container mx-auto flex flex-col-reverse lg:flex-row px-2">
@@ -90,7 +80,8 @@ const Page = ({ params }) => {
               <progress
                 className="progress progress-error w-56"
                 value="10"
-                max="100"></progress>
+                max="100"
+              ></progress>
               <span className="font-semibold">10%</span>
             </div>
             {/* content */}
@@ -98,7 +89,8 @@ const Page = ({ params }) => {
               {topic.map((item, index) => (
                 <div
                   key={index}
-                  className="flex gap-2 items-center p-2 bg-white w-full rounded-md">
+                  className="flex gap-2 items-center p-2 bg-white w-full rounded-md"
+                >
                   <div className=" bg-secondary p-2 rounded-md">
                     <PlaySquare className=" size-8 text-white" />
                   </div>
@@ -124,11 +116,13 @@ const Page = ({ params }) => {
             src="https://www.youtube.com/embed/kmZz0v4COpw?start=314"
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen></iframe>
+            allowFullScreen
+          ></iframe>
           {/* tab */}
           <div
             role="tablist"
-            className="tabs tabs-bordered mt-4 bg-secondary pt-4 rounded-md w-full sm:max-w-none md:max-w-none lg:max-w-full flex flex-col md:inline-grid">
+            className="tabs tabs-bordered mt-4 bg-secondary pt-4 rounded-md w-full sm:max-w-none md:max-w-none lg:max-w-full flex flex-col md:inline-grid"
+          >
             {/*--------------------------------- Overview --------------------------------*/}
             <input
               type="radio"
@@ -139,7 +133,8 @@ const Page = ({ params }) => {
             />
             <div
               role="tabpanel"
-              className="tab-content py-4 min-h-full bg-white w-full">
+              className="tab-content py-4 min-h-full bg-white w-full"
+            >
               <h2 className="text-lg md:text-xl font-semibold">{data.title}</h2>
               <div className="flex gap-5 my-4 w-full">
                 <div className="text-center">
@@ -171,7 +166,8 @@ const Page = ({ params }) => {
                   height={30}
                   src={"/assets/developers/numan.jpg"}
                   alt="video_thumbnail"
-                  className="rounded w-16 h-16"></Image>
+                  className="rounded w-16 h-16"
+                ></Image>
                 <div className="text-start">
                   <h2 className="text-lg md:text-xl font-semibold">Jhon doe</h2>
                   <h4 className="text-gray-500">Web Developer </h4>
