@@ -4,20 +4,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@radix-ui/react-label";
+import { CldUploadWidget } from "next-cloudinary";
 import React, { useState } from "react";
 
-const Concepts = () => {
-  const initialLecture = {
-    title: "",
-    videoUrl: "",
-    freePreview: false,
-    public_id: "",
-  };
-
-  const [lecture, setLecture] = useState([initialLecture]);
-
+const Concepts = ({ lecture, setLecture }) => {
   const handleAddLecture = () => {
-    setLecture((prevLecture) => [...prevLecture, { ...initialLecture }]);
+    setLecture((prevLecture) => [
+      ...prevLecture,
+      { title: "", videoUrl: "", freePreview: false, public_id: "" },
+    ]);
   };
 
   const handleTitleChange = (event, index) => {
@@ -34,7 +29,21 @@ const Concepts = () => {
     setLecture(updatedLectures);
   };
 
-  console.log(lecture, "my lecture class");
+  const handleVideoUploadSuccess = (info, index) => {
+    const updatedLectures = lecture.map((lec, i) =>
+      i === index
+        ? {
+            ...lec,
+            videoUrl: info.url,
+            public_id: info.public_id,
+            title: info.original_filename || lec.title,
+          }
+        : lec
+    );
+    setLecture(updatedLectures);
+  };
+
+  console.log(lecture);
 
   return (
     <div>
@@ -71,9 +80,31 @@ const Concepts = () => {
                     </Label>
                   </div>
                 </div>
-                <div className="mt-5">
-                  <Input type="file" accept="video/*" className=" mb-4" />
-                </div>
+                <CldUploadWidget
+                  uploadPreset="ml_default"
+                  onSuccess={({ event, info }) => {
+                    if (event === "success") {
+                      handleVideoUploadSuccess(info, index);
+                    }
+                  }}>
+                  {({ open }) => (
+                    <div className="flex items-center gap-3 border rounded-md mt-4">
+                      <Button variant="secondary" onClick={() => open()}>
+                        Upload video file
+                      </Button>
+                      {lec.videoUrl ? (
+                        <a
+                          href={lec.videoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer">
+                          {lec.videoUrl}
+                        </a>
+                      ) : (
+                        <h1>No chosen file yet</h1>
+                      )}
+                    </div>
+                  )}
+                </CldUploadWidget>
               </div>
             ))}
           </div>
