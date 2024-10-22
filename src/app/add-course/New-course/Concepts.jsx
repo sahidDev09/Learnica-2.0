@@ -19,14 +19,17 @@ const Concepts = () => {
   const [lecture, setLecture] = useState(courseLectureFormData);
 
   const handleAddLecture = () => {
-    setLecture([...lecture, { ...courseLectureFormData[0] }]);
+    setLecture((prevLecture) => {
+      const updatedLecture = [...prevLecture, { ...courseLectureFormData[0] }];
+      return updatedLecture;
+    });
   };
 
   return (
     <div>
       <Card>
         <CardHeader>
-          <CardTitle>Add Course Lectures</CardTitle>
+          <CardTitle>Add Course Lectures {lecture.length}</CardTitle>
         </CardHeader>
         <CardContent>
           <Button
