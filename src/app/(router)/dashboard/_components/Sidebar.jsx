@@ -11,7 +11,7 @@ const Sidebar = () => {
       id: 1,
       name: "Course Management",
       icons: BookCopy,
-      path: "/course",
+      path: "/dashboard/teacher/course-management",
     },
     {
       id: 2,
