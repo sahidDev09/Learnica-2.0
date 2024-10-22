@@ -142,6 +142,7 @@ const CustomCoursePage = () => {
         body: JSON.stringify({
           userId: user.id,
           email: user.primaryEmailAddress?.emailAddress || "",
+          setCourseTitle("");
           totalAmount: cart.reduce(
             (sum, item) => sum + parseFloat(item.price),
             0
