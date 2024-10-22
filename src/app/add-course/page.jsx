@@ -3,7 +3,7 @@ import NewCourse from "./New-course/NewCourse";
 
 function AddCourse() {
   return (
-    <section>
+    <section className="min-h-screen">
       <NewCourse />
       {/* <div className="max-w-screen-xl mx-auto">
         <header className="mb-6 text-center">

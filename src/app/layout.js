@@ -6,7 +6,6 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import { Suspense } from "react";
 import TanstackProvider from "./TanstackProvider";
-import AuthorProvider from "@/context/Author-context";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -21,19 +20,17 @@ export default function RootLayout({ children }) {
         <title>Learnica</title>
       </head>
       <body>
-        <AuthorProvider>
-          <ClerkProvider>
-            <TanstackProvider>
-              {!hideNavFoot && (
-                <Suspense fallback={<div>...</div>}>
-                  <Navbar />
-                </Suspense>
-              )}
-              {children}
-              {!hideNavFoot && <Footer />}
-            </TanstackProvider>
-          </ClerkProvider>
-        </AuthorProvider>
+        <ClerkProvider>
+          <TanstackProvider>
+            {!hideNavFoot && (
+              <Suspense fallback={<div>...</div>}>
+                <Navbar />
+              </Suspense>
+            )}
+            {children}
+            {!hideNavFoot && <Footer />}
+          </TanstackProvider>
+        </ClerkProvider>
       </body>
     </html>
   );

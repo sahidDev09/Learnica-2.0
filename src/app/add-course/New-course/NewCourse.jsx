@@ -11,7 +11,7 @@ const NewCourse = () => {
   return (
     <div className=" container mx-auto py-4">
       <div className=" flex items-center justify-between">
-        <h1 className=" text-3xl font-extrabold">Add a new courses</h1>
+        <h1 className="md:text-3xl text-xl font-extrabold">Add a new courses</h1>
         <Button className="bg-secondary">SUBMIT</Button>
       </div>
       <Card className="my-4">
@@ -22,7 +22,7 @@ const NewCourse = () => {
                 <TabsTrigger value="concepts">Concepts</TabsTrigger>
                 <TabsTrigger value="course-info">Course Info</TabsTrigger>
                 <TabsTrigger value="additional-settings">
-                  Additional Settings
+                  Additional info
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="concepts">
