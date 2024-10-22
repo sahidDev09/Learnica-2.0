@@ -34,35 +34,42 @@ export default async function handler(req, res) {
     return res.status(400).json({ message: "Webhook verification failed" });
   }
 
-  // Process the event (user created or updated)
   const client = await clientPromise;
   const db = client.db("learnica");
   const usersCollection = db.collection("users");
 
   try {
-    // Ensure unique index on userId
-    await usersCollection.createIndex({ userId: 1 }, { unique: true });
+    await usersCollection.createIndex({ email: 1 }, { unique: true });
 
     if (event.type === "user.created" || event.type === "user.updated") {
       const user = event.data;
       console.log("User Data:", user);
 
-      // Check if the user has metadata and extract the role
-      const userRole = user.public_metadata?.role || "student"; // Default to "student" if role is not provided
+      const userRole = user.public_metadata?.role || "student";
 
       const userData = {
         userId: user.id,
-        email: user.email_addresses[0].email_address, // Main email address
+        email: user.email_addresses[0].email_address,
         username: user.username,
         createdAt: user.created_at,
         photo: user.image_url,
         firstName: user.first_name,
         lastName: user.last_name,
-        role: userRole, // Add the role to the user data
+        role: userRole,
         updatedAt: new Date(),
       };
 
-      // Insert or update the user in MongoDB (upsert)
+      const existingUser = await usersCollection.findOne({
+        email: userData.email,
+      });
+
+      if (existingUser && existingUser.userId !== userData.userId) {
+        return res.status(400).json({
+          message: "A user with this email already exists.",
+        });
+      }
+
+      // Insert MongoDB
       await usersCollection.updateOne(
         { userId: user.id },
         { $set: userData },
@@ -75,7 +82,15 @@ export default async function handler(req, res) {
     }
   } catch (error) {
     console.error("Failed to save user data:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+
+    if (error.code === 11000) {
+      // Handle unique constraint violation for email
+      res
+        .status(400)
+        .json({ message: "A user with this email already exists." });
+    } else {
+      res.status(500).json({ message: "Internal Server Error" });
+    }
   }
 }
 

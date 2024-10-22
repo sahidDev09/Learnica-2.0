@@ -28,7 +28,7 @@ const Notification = () => {
   };
 
   const count = notifications.length;
-  // console.log(notifications);
+  console.log(notifications);
 
   return (
     <span className="relative dropdown dropdown-end">
