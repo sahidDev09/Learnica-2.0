@@ -31,6 +31,7 @@ const CustomCoursePage = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
+  const [courseTitle, setCourseTitle] = useState(""); 
 
   // ---------fetch course-----------------
   const fetchCourses = useCallback(async () => {
@@ -142,7 +143,7 @@ const CustomCoursePage = () => {
         body: JSON.stringify({
           userId: user.id,
           email: user.primaryEmailAddress?.emailAddress || "",
-          setCourseTitle("");
+          title: courseTitle,
           totalAmount: cart.reduce(
             (sum, item) => sum + parseFloat(item.price),
             0
