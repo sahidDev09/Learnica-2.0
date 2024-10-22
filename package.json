@@ -42,7 +42,7 @@
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.441.0",
     "micro": "^10.0.1",
-    "mongodb": "^6.10.0",
+    "mongodb": "^6.9.0",
     "motion": "^10.18.0",
     "next": "^14.2.12",
     "next-cloudinary": "^6.15.0",
