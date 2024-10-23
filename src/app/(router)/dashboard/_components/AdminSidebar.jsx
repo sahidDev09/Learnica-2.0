@@ -17,13 +17,13 @@ const AdminSidebar = () => {
       id: 2,
       name: "All Users",
       icons: User,
-      path: "/users",
+      path: "/dashboard/admin/all-users",
     },
     {
       id: 3,
       name: "Statistics",
       icons: Store,
-      path: "/manage-courses",
+      path: "/dashboard/admin/statistics",
     },
   ];
 

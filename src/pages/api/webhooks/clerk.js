@@ -1,10 +1,24 @@
-import { PodcastIcon } from "lucide-react";
+import { buffer } from "micro";
+import clientPromise from "@/lib/mongodb";
+import { Webhook } from "svix";
+
+const webhookSecret = process.env.SVIX_WEBHOOK_SECRET;
+
+// Svix headers must be lowercased
+const svixHeaders = (headers) => {
+  return {
+    "svix-id": headers["svix-id"],
+    "svix-timestamp": headers["svix-timestamp"],
+    "svix-signature": headers["svix-signature"],
+  };
+};
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
 
+  // Parse the raw body for webhook verification
   const buf = await buffer(req);
   const payload = buf.toString("utf-8");
   const headers = svixHeaders(req.headers);
@@ -13,6 +27,7 @@ export default async function handler(req, res) {
   let event;
 
   try {
+    // Verify the webhook signature
     event = wh.verify(payload, headers);
   } catch (err) {
     console.error("Webhook verification failed:", err);
@@ -24,11 +39,13 @@ export default async function handler(req, res) {
   const usersCollection = db.collection("users");
 
   try {
+    await usersCollection.createIndex({ email: 1 }, { unique: true });
+
     if (event.type === "user.created" || event.type === "user.updated") {
       const user = event.data;
+      console.log("User Data:", user);
 
-      // Extracting role from unsafe metadata
-      const role = user?.unsafe_metadata?.role || "student"; // Default to 'student' if no role is provided
+      const userRole = user.public_metadata?.role || "student";
 
       const userData = {
         userId: user.id,
@@ -38,10 +55,21 @@ export default async function handler(req, res) {
         photo: user.image_url,
         firstName: user.first_name,
         lastName: user.last_name,
-        role, // Adding role to the user data
+        role: userRole,
         updatedAt: new Date(),
       };
 
+      const existingUser = await usersCollection.findOne({
+        email: userData.email,
+      });
+
+      if (existingUser && existingUser.userId !== userData.userId) {
+        return res.status(400).json({
+          message: "A user with this email already exists.",
+        });
+      }
+
+      // Insert MongoDB
       await usersCollection.updateOne(
         { userId: user.id },
         { $set: userData },
@@ -54,6 +82,20 @@ export default async function handler(req, res) {
     }
   } catch (error) {
     console.error("Failed to save user data:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+
+    if (error.code === 11000) {
+      // Handle unique constraint violation for email
+      res
+        .status(400)
+        .json({ message: "A user with this email already exists." });
+    } else {
+      res.status(500).json({ message: "Internal Server Error" });
+    }
   }
 }
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};

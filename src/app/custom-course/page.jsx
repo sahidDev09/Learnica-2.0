@@ -99,7 +99,7 @@ const CustomCoursePage = () => {
     );
 
     try {
-      const res = await fetch("/api/create-payment-intent", {
+      const res = await fetch("/pay-api/create-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -138,7 +138,7 @@ const CustomCoursePage = () => {
      // Initialize useRouter
   
     try {
-      const res = await fetch("/api/checkout", {
+      const res = await fetch("/pay-api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

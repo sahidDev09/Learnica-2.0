@@ -2,7 +2,12 @@ import { useStripe, useElements, PaymentElement } from "@stripe/react-stripe-js"
 import { useState } from "react";
 import Swal from "sweetalert2";
 
-const Checkout = ({ clientSecret, handlePaymentSuccess, setIsModalOpen, cart }) => {
+const Checkout = ({
+  clientSecret,
+  handlePaymentSuccess,
+  setIsModalOpen,
+  cart,
+}) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState("");
@@ -58,8 +63,7 @@ const Checkout = ({ clientSecret, handlePaymentSuccess, setIsModalOpen, cart }) 
       <button
         className={`bg-secondary text-white mt-4 p-3 rounded-lg w-full ${isLoading ? "opacity-50" : ""}`}
         disabled={isLoading || !stripe || !clientSecret}
-        type="submit"
-      >
+        type="submit">
         {isLoading ? "Processing..." : "Pay Now"}
       </button>
     </form>
