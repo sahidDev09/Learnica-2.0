@@ -135,6 +135,8 @@ const CustomCoursePage = () => {
   // ----------------------backend-----------------------
   const handlePaymentSuccess = async () => {
     try {
+      const paymentStatus = paymentIntent.status;  
+      const cardType = paymentIntent.charges.data[0].payment_method_details.card.brand;
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: {
@@ -156,6 +158,8 @@ const CustomCoursePage = () => {
             lang_tech: item.lang_tech,
             rating: item.rating,
           })),
+          payment_status: paymentStatus,   // Send payment status
+        card_type: cardType,             // Send card type
         }),
       });
 
