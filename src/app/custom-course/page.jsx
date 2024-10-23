@@ -9,10 +9,11 @@ import Swal from "sweetalert2";
 import convertToSubCurrency from "@/lib/convertToSubCurrency";
 import { loadStripe } from "@stripe/stripe-js";
 import Loading from "../loading";
-import Checkout from "@/components/payment/Checkout"; // Assuming this is a custom component for payment
+import Checkout from "@/components/payment/Checkout"; 
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { Elements } from "@stripe/react-stripe-js";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useRouter } from "next/navigation"; 
+
 
 if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
   throw new Error("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is not defined");
@@ -21,6 +22,7 @@ if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 const CustomCoursePage = () => {
+  const router = useRouter();
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("JavaScript");
   const [loading, setLoading] = useState(false);
@@ -32,7 +34,7 @@ const CustomCoursePage = () => {
   const [clientSecret, setClientSecret] = useState("");
   const [courseTitle, setCourseTitle] = useState("");
   
-
+  
   const showError = (message) => {
     Swal.fire("Error", message, "error");
   };
@@ -131,46 +133,48 @@ const CustomCoursePage = () => {
 
   
 
-const handlePaymentSuccess = async () => {
-  const navigate = useNavigate(); // Initialize useNavigate
-
-  try {
-    const res = await fetch("/api/checkout", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userId: user.id,
-        email: user.primaryEmailAddress?.emailAddress || "",
-        title: courseTitle,
-        status: 'success',
-        totalAmount: cart.reduce((sum, item) => sum + parseFloat(item.price), 0),
-        items: cart.map((item) => ({
-          concept_title: item.concept_title,
-          concept_url: item.concept_url,
-          price: item.price,
-          duration: item.duration,
-          lang_tech: item.lang_tech,
-          rating: item.rating,
-        })),
-      }),
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) throw new Error(data.error || "Failed to store order in the database.");
-
-    Swal.fire("Success", "Payment was successful and your order has been placed.", "success");
-    
-    setCart([]); // Clear the cart
-    setCourseTitle(""); // Reset the course title input
-
-    // Redirect the user to the payment history page
-    navigate("/payment-history");
-  } catch (error) {
-    console.error("Error saving order to database:", error);
-    showError("Failed to store order. Please contact support.");
-  }
-};
+  
+  const handlePaymentSuccess = async () => {
+     // Initialize useRouter
+  
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          email: user.primaryEmailAddress?.emailAddress || "",
+          title: courseTitle,
+          status: 'success',
+          totalAmount: cart.reduce((sum, item) => sum + parseFloat(item.price), 0),
+          items: cart.map((item) => ({
+            concept_title: item.concept_title,
+            concept_url: item.concept_url,
+            price: item.price,
+            duration: item.duration,
+            lang_tech: item.lang_tech,
+            rating: item.rating,
+          })),
+        }),
+      });
+  
+      const data = await res.json();
+  
+      if (!res.ok) throw new Error(data.error || "Failed to store order in the database.");
+  
+      Swal.fire("Success", "Payment was successful and your order has been placed.", "success");
+      
+      setCart([]); // Clear the cart
+      setCourseTitle(""); // Reset the course title input
+  
+      // Redirect the user to the payment history page
+      router.push("/payment-history"); // Use router.push to navigate
+    } catch (error) {
+      console.error("Error saving order to database:", error);
+      showError("Failed to store order. Please contact support.");
+    }
+  };
+  
 
 
   // Loader
