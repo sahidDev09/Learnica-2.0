@@ -88,7 +88,7 @@ export default function AddClasses() {
 
   return (
     <div className="max-w-full mx-auto mt-10 p-6 rounded-lg mb-6">
-      <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">Add your live class</h2>
+      <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">Add live class</h2>
       <form onSubmit={handleSubmit} className="space-y-4 grid sm:grid-cols-1 md:grid-cols-2 gap-6">
         <div className="mt-4 lg:ml-32">
           <div>

@@ -1,5 +1,6 @@
-import AddClasses from '@/app/liveClassAdd/AddClasses';
+
 import React from 'react';
+import AddClasses from './AddClasses';
 
 
 const page = () => {
