@@ -1,5 +1,3 @@
-// src/app/api/checkout/route.js
-
 import { NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
 
@@ -19,9 +17,7 @@ export async function POST(request) {
 
     const client = await clientPromise;
     const db = client.db('learnica');
-    const ordersCollection = db.collection('orders');
-    
-    // Prepare the order object
+    const ordersCollection = db.collection('orders')
     const order = {
       userId,
       email,
