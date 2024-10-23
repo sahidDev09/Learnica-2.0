@@ -236,7 +236,7 @@ const Navbar = () => {
                         <UserButton.Link
                           label="Payment History"
                           labelIcon={<FaCashRegister size={15} />}
-                          href="paymentHistory"></UserButton.Link>
+                          href="/payment-history"></UserButton.Link>
 
                         <UserButton.Link
                           label="Custom Course"
@@ -293,7 +293,7 @@ const Navbar = () => {
                   <UserButton.Link
                     label="Payment History"
                     labelIcon={<FaCashRegister size={15} />}
-                    href="paymentHistory"></UserButton.Link>
+                    href="/payment-history"></UserButton.Link>
 
                   <UserButton.Link
                     label="Custom Course"
