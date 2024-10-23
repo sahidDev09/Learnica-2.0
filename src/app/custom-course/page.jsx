@@ -319,10 +319,10 @@ const CustomCoursePage = () => {
                   />
                   <button
                     onClick={handlePayNow}
-                    className={`rounded-2xl px-4 py-2 ${courseTitle.replace(/\s+/g, '').length >= 10 ? 'bg-primary text-white' : 'bg-gray-400 cursor-not-allowed text-gray-700'}`}
-                    disabled={courseTitle.replace(/\s+/g, '').length < 10} // Disable if less than 10 letters
+                    className={`rounded-2xl px-4 py-2 ${courseTitle.replace(/\s+/g, '').length >= 10 ? 'bg-secondary text-white' : 'bg-gray-400 cursor-not-allowed text-gray-700'}`}
+                    disabled={courseTitle.replace(/\s+/g, '').length < 10} 
                   >
-                    Pay Now
+                   Proceed to your payment
                   </button>
                 </div>
 
