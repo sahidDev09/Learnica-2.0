@@ -3,17 +3,12 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 
 const Card = ({ course }) => {
-  const validThumbnail =
-    course.thumbnail.startsWith("/") || course.thumbnail.startsWith("http")
-      ? course.thumbnail
-      : "/default-thumbnail.jpg";
-
   return (
     <div className=" bg-card">
       <div className="w-full mx-auto md:mx-0 border rounded-xl text-gray-800 dark:bg-gray-800 dark:text-white shadow-md">
         <Image
           className="w-full h-[260px] rounded-xl object-fit"
-          src={validThumbnail}
+          src=""
           alt={course.title}
           width={1000}
           height={1000}
@@ -36,9 +31,7 @@ const Card = ({ course }) => {
           </p>
 
           <Link href={`/all-courses/${course._id}`}>
-            <Button className="my-2 bg-secondary">
-              View Details
-            </Button>
+            <Button className="my-2 bg-secondary">View Details</Button>
           </Link>
         </div>
       </div>

@@ -2,14 +2,18 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TabsContent } from "@radix-ui/react-tabs";
-import React, { useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+import React, { useEffect, useState } from "react";
 import Concepts from "./Concepts";
 import CourseInfo from "./CourseInfo";
 import AdditionalSettings from "./AdditonalSettings";
+import { useUser } from "@clerk/nextjs";
+import Swal from "sweetalert2";
 
 const NewCourse = () => {
+  const { user, isLoaded } = useUser();
+
   const courseInfoInitialData = {
     title: "",
     category: "",
@@ -17,6 +21,12 @@ const NewCourse = () => {
     description: "",
     pricing: "",
     objectives: "",
+    status: "pending",
+    authorId: user?.id || "",
+    authorEmail: user?.primaryEmailAddress?.emailAddress || "",
+    authorName: user?.fullName || "",
+    authorProfile: user?.imageUrl || "",
+    publish_date: Date.now(),
   };
 
   const initialLecture = {
@@ -36,9 +46,79 @@ const NewCourse = () => {
   const [courseInfo, setCourseInfo] = useState(courseInfoInitialData);
   const [additionalInfo, setAdditionalInfo] = useState([initialAdditional]);
 
-  const handleSubmit = () => {
-    alert("hello");
-    console.log(additionalInfo, "additional information");
+  useEffect(() => {
+    if (isLoaded && user) {
+      setCourseInfo((prevInfo) => ({
+        ...prevInfo,
+        authorId: user.id,
+        authorEmail: user.primaryEmailAddress?.emailAddress,
+        authorName: user.fullName,
+        authorProfile: user.imageUrl,
+      }));
+    }
+  }, [isLoaded, user]);
+
+  const handleSubmit = async () => {
+    const courseInfoData = {
+      name: courseInfo.title,
+      category: courseInfo.category,
+      subtitle: courseInfo.subtitle,
+      description: courseInfo.description,
+      pricing: courseInfo.pricing,
+      objectives: courseInfo.objectives,
+      status: courseInfo.status,
+      author: {
+        id: courseInfo.authorId,
+        name: courseInfo.authorName,
+        email: courseInfo.authorEmail,
+        profile: courseInfo.authorProfile,
+      },
+      publish_date: courseInfo.publish_date,
+
+      lectures: lecture.map((lec) => ({
+        title: lec.title,
+        videoUrl: lec.videoUrl,
+        freePreview: lec.freePreview,
+        public_id: lec.public_id,
+      })),
+      additionalInfo: {
+        image: additionalInfo.image,
+        coupon_code: additionalInfo.coupon_code,
+        discount_amount: additionalInfo.discount_amount,
+      },
+    };
+
+    try {
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/add-course",
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(courseInfoData),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        Swal.fire({
+          title: "Successfully added the course!",
+          icon: "success",
+          confirmButtonColor: "#15803D",
+        });
+      } else {
+        throw new Error(data.message || "Failed to add course.");
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "Error on adding course!",
+        text: error.message,
+        icon: "error",
+        confirmButtonColor: "#B91C1C",
+      });
+    }
   };
 
   return (
