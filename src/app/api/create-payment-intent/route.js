@@ -10,11 +10,11 @@ export async function POST(request) {
     if (!amount || amount <= 0) {
       return NextResponse.json({ success: false, message: "Invalid amount" }, { status: 400 });
     }
-
     const simplifiedItems = items.map(item => item.concept_title).join(', ');
 
+  
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(amount * 100),  // Convert amount to cents
+      amount: Math.round(amount * 100), 
       currency: "usd",
       automatic_payment_methods: { enabled: true },
       metadata: {
@@ -23,12 +23,12 @@ export async function POST(request) {
         items: simplifiedItems,
       },
     });
-
-    return NextResponse.json({ 
-      success: true, 
-      clientSecret: paymentIntent.client_secret, 
-      status: paymentIntent.status,  // Sending status of the payment
-    }, { status: 200 });
+   
+    return NextResponse.json({
+      success: true,
+      clientSecret: paymentIntent.client_secret,
+      paymentIntent, 
+    }, { status: 201 });
 
   } catch (error) {
     console.error("Error creating payment intent:", error);

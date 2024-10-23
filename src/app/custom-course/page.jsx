@@ -7,19 +7,17 @@ import { PiShoppingCartSimpleLight } from "react-icons/pi";
 import { MdOutlineCancel } from "react-icons/md";
 import Swal from "sweetalert2";
 import convertToSubCurrency from "@/lib/convertToSubCurrency";
-import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Loading from "../loading";
-import Checkout from "@/components/payment/Checkout";
+import Checkout from "@/components/payment/Checkout"; // Assuming this is a custom component for payment
 import { IoIosRemoveCircleOutline } from "react-icons/io";
+import { Elements } from "@stripe/react-stripe-js";
 
 if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
   throw new Error("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is not defined");
 }
 
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 const CustomCoursePage = () => {
   const [categories, setCategories] = useState([]);
@@ -33,7 +31,11 @@ const CustomCoursePage = () => {
   const [clientSecret, setClientSecret] = useState("");
   const [courseTitle, setCourseTitle] = useState("");
 
-  // ---------fetch course-----------------
+  const showError = (message) => {
+    Swal.fire("Error", message, "error");
+  };
+
+  // Fetch Courses
   const fetchCourses = useCallback(async () => {
     setLoading(true);
     const queryParams = new URLSearchParams({ lang_tech: selectedCategory });
@@ -48,7 +50,7 @@ const CustomCoursePage = () => {
       }
     } catch (error) {
       console.error("Fetch Courses Error:", error);
-      Swal.fire("Error", "Failed to fetch courses", "error");
+      showError("Failed to fetch courses");
     } finally {
       setLoading(false);
     }
@@ -58,34 +60,33 @@ const CustomCoursePage = () => {
     if (isLoaded && isSignedIn) fetchCourses();
   }, [fetchCourses, isLoaded, isSignedIn]);
 
-  // ----------------handle category------------------
   const handleCategorySelect = (lang_tech) => {
     setSelectedCategory(lang_tech);
   };
-  // -------------------cart----------------------
+
   const addToCart = (product) => {
-    if (!cart.find((item) => item._id === product._id)) {
-      setCart([...cart, product]);
+    if (!cart.some((item) => item._id === product._id)) {
+      setCart((prevCart) => [...prevCart, product]);
     }
   };
-  // ---------------remove from cart----------------
+
   const removeFromCart = (productId) => {
-    setCart(cart.filter((item) => item._id !== productId));
-  };
-  // ----------------toggle--------------------
-  const toggleCart = () => {
-    setIsCartOpen(!isCartOpen);
+    setCart((prevCart) => prevCart.filter((item) => item._id !== productId));
   };
 
-  // --------------------stripe payment------------------------
+  const toggleCart = () => {
+    setIsCartOpen((prev) => !prev);
+  };
+
+  // Stripe Payment
   const handlePayNow = async () => {
     if (!isLoaded || !isSignedIn || !user) {
-      Swal.fire("Error", "Please sign in to proceed with payment.", "error");
+      showError("Please sign in to proceed with payment.");
       return;
     }
 
     if (cart.length === 0) {
-      Swal.fire("Error", "Your cart is empty.", "error");
+      showError("Your cart is empty.");
       return;
     }
 
@@ -96,9 +97,7 @@ const CustomCoursePage = () => {
     try {
       const res = await fetch("/api/create-payment-intent", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           amount: totalAmount,
           userId: user.id,
@@ -124,32 +123,21 @@ const CustomCoursePage = () => {
       }
     } catch (error) {
       console.error("Error fetching clientSecret:", error);
-      Swal.fire(
-        "Error",
-        "Failed to initialize payment. Please try again.",
-        "error"
-      );
+      showError("Failed to initialize payment. Please try again.");
     }
   };
 
-  // ----------------------backend-----------------------
-  const handlePaymentSuccess = async () => {
+  const handlePaymentSuccess = async (paymentIntent, cardType) => {
     try {
-      const paymentStatus = paymentIntent.status;  
-      const cardType = paymentIntent.charges.data[0].payment_method_details.card.brand;
+      const paymentStatus = paymentIntent.status; // Payment status from the paymentIntent
       const res = await fetch("/api/checkout", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userId: user.id,
           email: user.primaryEmailAddress?.emailAddress || "",
           title: courseTitle,
-          totalAmount: cart.reduce(
-            (sum, item) => sum + parseFloat(item.price),
-            0
-          ),
+          totalAmount: cart.reduce((sum, item) => sum + parseFloat(item.price), 0),
           items: cart.map((item) => ({
             concept_title: item.concept_title,
             concept_url: item.concept_url,
@@ -158,35 +146,28 @@ const CustomCoursePage = () => {
             lang_tech: item.lang_tech,
             rating: item.rating,
           })),
-          payment_status: paymentStatus,   // Send payment status
-        card_type: cardType,             // Send card type
+          payment_status: paymentStatus, // Add payment status
+          card_type: cardType, // Send card type to the backend
         }),
       });
 
       const data = await res.json();
 
-      if (!res.ok)
-        throw new Error(data.error || "Failed to store order in the database.");
-      Swal.fire(
-        "Success",
-        "Payment was successful and your order has been placed.",
-        "success"
-      );
+      if (!res.ok) throw new Error(data.error || "Failed to store order in the database.");
+
+      Swal.fire("Success", "Payment was successful and your order has been placed.", "success");
       setCart([]);
       setCourseTitle("");
     } catch (error) {
       console.error("Error saving order to database:", error);
-      Swal.fire(
-        "Error",
-        "Failed to store order. Please contact support.",
-        "error"
-      );
+      showError("Failed to store order. Please contact support.");
     }
   };
 
-  // --------------------loader----------------------
-
+  // Loader
   if (loading && products.length === 0) return <Loading />;
+
+ 
 
   return (
     <div className="px-4">

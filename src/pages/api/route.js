@@ -10,7 +10,7 @@ export async function POST(request) {
     // Step 2: Validate the input data
     if (!amount || !userId || !email || !title || !items || items.length === 0) {
       return NextResponse.json(
-        { error: "Missing required fields: amount, userId, email, title or items" },
+        { error: "Missing required fields: amount, userId, email, title, or items" },
         { status: 400 }
       );
     }
@@ -46,6 +46,8 @@ export async function POST(request) {
       userId,
       email,
       title,
+      cardType: paymentIntent.payment_method_details?.card?.brand || "unknown",  // Get card type from payment intent
+      paymentStatus: paymentIntent.status,  // Get payment status from payment intent
       totalAmount: parseFloat(amount),
       items: formattedItems,
       createdAt: new Date(),
@@ -54,18 +56,14 @@ export async function POST(request) {
     // Insert the new order into the orders collection
     const result = await ordersCollection.insertOne(newOrder);
 
-    // Step 5: Retrieve card type information
-    const paymentIntentRetrieved = await stripe.paymentIntents.retrieve(paymentIntent.id);
-    const cardType = paymentIntentRetrieved.payment_method_details?.card?.brand || 'unknown';
-
     // Step 6: Return the client secret, orderId, status, and card type to the frontend
     return NextResponse.json({
       success: true,
       message: "Order successfully placed!",
       clientSecret: paymentIntent.client_secret,
       orderId: result.insertedId,
-      status: paymentIntent.status,  // Payment status
-      cardType,  // Card type
+      status: paymentIntent.status,  // Payment status from the payment intent
+      cardType: newOrder.cardType,  // Card type from the newOrder object
     }, { status: 201 });
 
   } catch (error) {
