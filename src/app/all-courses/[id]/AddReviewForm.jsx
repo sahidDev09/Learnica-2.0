@@ -41,7 +41,6 @@ function AddReviewForm() {
       review_text: e.target.review_text.value.trim(),
       reviewerName: user.authorName,
       reviewerEmail: user.authorEmail,
-      reviewerPhotoUrl: user.authorPhotoUrl,
       created_at: Date.now(),
     };
 
@@ -53,7 +52,7 @@ function AddReviewForm() {
 
     mutation.mutate(formData, {
       onSuccess: () => {
-        queryClient.invalidateQueries(["course-reviews"]);
+        queryClient.invalidateQueries(["my-review"]);
         // reset form and show alert
         e.target.reset();
         Swal.fire({
@@ -76,7 +75,7 @@ function AddReviewForm() {
   return (
     <div>
       <header className="mb-2">
-        <h2 className="text-xl md:text-2xl font-semibold">Give your review:</h2>
+        <h2 className="text-xl md:text-2xl font-semibold text-secondary">Give your review:</h2>
       </header>
 
       <form onSubmit={handleAddCourse} className="mx-auto">
