@@ -10,7 +10,16 @@ export default async function handler(req, res) {
     // Handle the POST request
     if (req.method === "GET") {
       const email = req.query.email
-      const query = {reviewerEmail: {$ne: email}}
+      const onlyMe = req.query.onlyMe
+      console.log({onlyMe});
+      let query;
+      
+      if (onlyMe) {
+        query = {reviewerEmail: email}
+      } else {
+        query = {reviewerEmail: {$ne: email}}
+      }
+
       const result = await reviewsCollection.find(query).toArray();
       return res
         // .status(201)
