@@ -202,8 +202,8 @@ const CustomCoursePage = () => {
                   key={index}
                   onClick={() => handleCategorySelect(lang_tech)}
                   className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full transition-transform md:text-lg ${selectedCategory === lang_tech
-                      ? "bg-primary text-white"
-                      : "bg-secondary text-white"
+                    ? "bg-primary text-white"
+                    : "bg-secondary text-white"
                     }`}
                 >
                   <FaTags />
@@ -272,7 +272,7 @@ const CustomCoursePage = () => {
 
       {/*--------------------Cart Sidebar----------------- */}
       {isCartOpen && (
-        <div className="fixed inset-0 z-50 flex">
+        <div className="fixed inset-0 z-50 flex overflow-y-auto">
           <div
             className="fixed inset-0 bg-black opacity-50"
             onClick={toggleCart}></div>
@@ -336,12 +336,14 @@ const CustomCoursePage = () => {
                   />
                   <button
                     onClick={handlePayNow}
-                    className="bg-primary text-white rounded-2xl px-4 py-2"
-                    disabled={courseTitle.trim().split(/\s+/).length < 10} // Disable if less than 10 words
+                    className={`rounded-2xl px-4 py-2 ${courseTitle.replace(/\s+/g, '').length >= 10 ? 'bg-primary text-white' : 'bg-gray-400 cursor-not-allowed text-gray-700'}`}
+                    disabled={courseTitle.replace(/\s+/g, '').length < 10} // Disable if less than 10 letters
                   >
                     Pay Now
                   </button>
                 </div>
+
+
 
               </>
             )}
