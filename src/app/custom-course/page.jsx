@@ -136,6 +136,7 @@ const CustomCoursePage = () => {
           userId: user.id,
           email: user.primaryEmailAddress?.emailAddress || "",
           title: courseTitle,
+          status:'success',
           totalAmount: cart.reduce((sum, item) => sum + parseFloat(item.price), 0),
           items: cart.map((item) => ({
             concept_title: item.concept_title,
