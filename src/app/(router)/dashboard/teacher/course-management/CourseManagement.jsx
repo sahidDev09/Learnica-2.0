@@ -137,7 +137,7 @@ const CourseManagement = () => {
 
                 <td className="">
                   <div className="flex gap-4">
-                    <Link href={`/manage-courses/${item._id}`}>
+                    <Link href={`/all-courses/${item._id}`}>
                       <BiSolidShow className="text-2xl" />
                     </Link>
                     <button onClick={() => handleDelete(item._id)}>

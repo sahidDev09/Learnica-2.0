@@ -19,6 +19,12 @@ const Sidebar = () => {
       icons: Database,
       path: "/analysis",
     },
+    {
+      id: 2,
+      name: "Add Live Class",
+      icons: Database,
+      path: "/liveClassAdd",
+    },
   ];
 
   return (
