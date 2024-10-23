@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useUser } from '@clerk/nextjs'; // Clerk hook to get the current user
 import Loading from '../loading';
 import { format } from 'date-fns'; // For date formatting
+import { TiTickOutline } from "react-icons/ti";
 
 const Page = () => {
   const { user, isLoaded } = useUser(); // Get the current user and loading status from Clerk
@@ -63,6 +64,7 @@ const Page = () => {
               <th>Course Title</th>
               <th>Total Amount</th>
               <th>Created Date</th>
+              <th>Payment Status</th>
             </tr>
           </thead>
           <tbody className="text-white text-center">
@@ -77,6 +79,7 @@ const Page = () => {
                   <td className="py-3 px-4">
                     {format(new Date(order.createdAt), 'PPpp')} {/* Format the date */}
                   </td>
+                  <td>{order.status} <TiTickOutline /></td>
                 </tr>
               ))
             ) : (
