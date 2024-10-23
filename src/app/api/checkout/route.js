@@ -5,9 +5,9 @@ import clientPromise from "@/lib/mongodb";
 
 export async function POST(request) {
   try {
-    const { userId, email,title, totalAmount, items } = await request.json();
+    const { userId, email,title, totalAmount, status, items } = await request.json();
 
-    if (!userId || !email || !title || !totalAmount || !items) {
+    if (!userId || !email || !title || !totalAmount ||!status|| !items) {
       return NextResponse.json(
         {
           success: false,
@@ -26,15 +26,16 @@ export async function POST(request) {
       userId,
       email,
       title,
+      status,
       totalAmount: parseFloat(totalAmount),
       items: items.map((item) => ({
         concept_title: item.concept_title,
         concept_url: item.concept_url,
-        price: parseFloat(item.price),  // Using price from the frontend
+        price: parseFloat(item.price), 
         duration: item.duration,
         lang_tech: item.lang_tech,
         rating: item.rating,
-        quantity: item.quantity || 1,  // Default quantity if missing
+        quantity: item.quantity || 1, 
       })),
       createdAt: new Date(),
     };
