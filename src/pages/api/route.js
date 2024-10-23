@@ -8,7 +8,7 @@ export async function POST(request) {
     const { amount, userId, email, title, items } = await request.json();
 
     // Step 2: Validate the input data
-    if (!amount || !userId || !email || !title|| !items || items.length === 0) {
+    if (!amount || !userId || !email || !title || !items || items.length === 0) {
       return NextResponse.json(
         { error: "Missing required fields: amount, userId, email, title or items" },
         { status: 400 }
@@ -17,12 +17,12 @@ export async function POST(request) {
 
     // Step 3: Create a Stripe Payment Intent
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(amount * 100), // Convert amount to cents
+      amount: Math.round(amount * 100),  // Convert amount to cents
       currency: "usd",
       automatic_payment_methods: { enabled: true },
       metadata: {
-        userId: userId,
-        email: email,
+        userId,
+        email,
         items: JSON.stringify(items), // Store items in metadata for reference
       },
     });
@@ -54,12 +54,18 @@ export async function POST(request) {
     // Insert the new order into the orders collection
     const result = await ordersCollection.insertOne(newOrder);
 
-    // Step 5: Return the client secret and orderId to the frontend
+    // Step 5: Retrieve card type information
+    const paymentIntentRetrieved = await stripe.paymentIntents.retrieve(paymentIntent.id);
+    const cardType = paymentIntentRetrieved.payment_method_details?.card?.brand || 'unknown';
+
+    // Step 6: Return the client secret, orderId, status, and card type to the frontend
     return NextResponse.json({
       success: true,
       message: "Order successfully placed!",
       clientSecret: paymentIntent.client_secret,
       orderId: result.insertedId,
+      status: paymentIntent.status,  // Payment status
+      cardType,  // Card type
     }, { status: 201 });
 
   } catch (error) {
