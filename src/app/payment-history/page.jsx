@@ -1,23 +1,22 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { useUser } from '@clerk/nextjs'; // Clerk hook to get the current user
+import { useUser } from '@clerk/nextjs'; 
 import Loading from '../loading';
-import { format } from 'date-fns'; // For date formatting
+import { format } from 'date-fns'; 
 import { TiTickOutline } from "react-icons/ti";
 
 const Page = () => {
-  const { user, isLoaded } = useUser(); // Get the current user and loading status from Clerk
+  const { user, isLoaded } = useUser(); 
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Function to fetch orders from the API
+  
   async function fetchOrders(userEmail) {
     try {
       const response = await fetch('/api/get-orders');
       if (response.ok) {
         const data = await response.json();
-        // Filter orders by current user's email
         const filteredOrders = data.filter(order => order.email === userEmail);
         setOrders(filteredOrders);
         setLoading(false);
@@ -31,10 +30,8 @@ const Page = () => {
     }
   }
 
-  // Call fetchOrders when the user is loaded and has an email
   useEffect(() => {
     if (isLoaded && user) {
-      // Use primaryEmailAddress if available
       const userEmail = user.email || user.primaryEmailAddress?.emailAddress;
       if (userEmail) {
         fetchOrders(userEmail);
@@ -56,8 +53,7 @@ const Page = () => {
   return (
     <div className="container mx-auto text-center">
       <div className="overflow-x-auto bg-secondary my-20">
-        <table className="table">
-          {/* head */}
+        <table className="table w-full text-left">
           <thead>
             <tr className="text-white text-center">
               <th>Serial</th>
@@ -72,19 +68,22 @@ const Page = () => {
               orders.map((order, index) => (
                 <tr key={order._id}>
                   <td className="py-3 px-4">{index + 1}</td>
-                  <td className="py-3 px-4">
-                     {order.title}
-                  </td>
+                  <td className="py-3 px-4">{order.title}</td>
                   <td className="py-3 px-4">{order.totalAmount}</td>
                   <td className="py-3 px-4">
-                    {format(new Date(order.createdAt), 'PPpp')} {/* Format the date */}
+                    {format(new Date(order.createdAt), 'PPpp')} 
                   </td>
-                  <div className="flex gap-x-2 "><td>{order.status}<TiTickOutline /></td></div>
+                  <td className="py-3 px-4">
+                    <div className="flex items-center gap-x-2 justify-center">
+                      <span>{order.status}</span>
+                      <TiTickOutline />
+                    </div>
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="4" className="text-center py-3 px-4">
+                <td colSpan="5" className="text-center py-3 px-4">
                   No orders found
                 </td>
               </tr>
