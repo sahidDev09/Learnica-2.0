@@ -30,11 +30,13 @@ const Concepts = ({ lecture, setLecture }) => {
   };
 
   const handleVideoUploadSuccess = (info, index) => {
+    console.log("hi sahid i am from leacture", info);
+
     const updatedLectures = lecture.map((lec, i) =>
       i === index
         ? {
             ...lec,
-            videoUrl: info.url,
+            videoUrl: info.secure_url,
             public_id: info.public_id,
             title: info.original_filename || lec.title,
           }
@@ -89,16 +91,19 @@ const Concepts = ({ lecture, setLecture }) => {
                   }}>
                   {({ open }) => (
                     <div className="flex items-center gap-3 border rounded-md mt-4">
-                      <Button variant="secondary" onClick={() => open()}>
-                        Upload video file
-                      </Button>
                       {lec.videoUrl ? (
-                        <a
-                          href={lec.videoUrl}
-                          target="_blank"
-                          rel="noopener noreferrer">
-                          {lec.videoUrl}
-                        </a>
+                        <Button
+                          className="bg-primary text-white"
+                          onClick={() => open()}>
+                          Replace video file
+                        </Button>
+                      ) : (
+                        <Button variant="secondary" onClick={() => open()}>
+                          Upload video file
+                        </Button>
+                      )}
+                      {lec.videoUrl ? (
+                        <a>{lec.title}</a>
                       ) : (
                         <h1>No chosen file yet</h1>
                       )}
