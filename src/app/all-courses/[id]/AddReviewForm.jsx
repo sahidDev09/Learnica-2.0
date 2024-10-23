@@ -79,7 +79,7 @@ function AddReviewForm() {
         <h2 className="text-xl md:text-2xl font-semibold">Give your review:</h2>
       </header>
 
-      <form onSubmit={handleAddCourse} className="max-w-lg. mx-auto">
+      <form onSubmit={handleAddCourse} className="mx-auto">
         <label className="form-control mb-3">
           <div className="label">
             <span className="label-text">Review text:</span>
@@ -91,7 +91,7 @@ function AddReviewForm() {
             required></textarea>
         </label>
 
-        <div className="flex items-end gap-4 justify-between">
+        <div className="flex md:items-end gap-2 justify-between flex-col md:flex-row md:gap-4">
           {/* ------ star rating ---------- */}
           <div className="mb-3 text-2xl">
             <div className="label">
@@ -162,7 +162,7 @@ function AddReviewForm() {
             </div>
           </div>
 
-          <Button className="bg-secondary mt-4">Add Review</Button>
+          <Button className="bg-secondary">Add Review</Button>
         </div>
       </form>
     </div>
