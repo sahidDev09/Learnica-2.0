@@ -79,7 +79,7 @@ const Page = () => {
                   <td className="py-3 px-4">
                     {format(new Date(order.createdAt), 'PPpp')} {/* Format the date */}
                   </td>
-                  <td>{order.status} <span><TiTickOutline /></span></td>
+                  <div className="flex gap-x-2 "><td>{order.status}<TiTickOutline /></td></div>
                 </tr>
               ))
             ) : (
