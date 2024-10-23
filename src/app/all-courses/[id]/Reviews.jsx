@@ -2,15 +2,18 @@
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
-import Loader from "@/components/shared/Loader";
 import Loading from "@/app/loading";
+import { useUser } from "@clerk/nextjs";
 
 function Reviews() {
+  const user = useUser()
+  const userEmail = user?.user.emailAddresses[0].emailAddress
+
   const { data: reviews, isLoading } = useQuery({
     queryKey: ["course-reviews"],
     queryFn: async () => {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + "/api/get-reviews"
+        process.env.NEXT_PUBLIC_BASE_URL + `/api/get-reviews?email=${userEmail}`
       );
       return res.json();
     },
