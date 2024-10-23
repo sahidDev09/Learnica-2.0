@@ -45,6 +45,7 @@ const NewCourse = () => {
   const [lecture, setLecture] = useState([initialLecture]);
   const [courseInfo, setCourseInfo] = useState(courseInfoInitialData);
   const [additionalInfo, setAdditionalInfo] = useState([initialAdditional]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (isLoaded && user) {
@@ -59,6 +60,7 @@ const NewCourse = () => {
   }, [isLoaded, user]);
 
   const handleSubmit = async () => {
+    setLoading(true);
     const courseInfoData = {
       name: courseInfo.title,
       category: courseInfo.category,
@@ -108,6 +110,13 @@ const NewCourse = () => {
           icon: "success",
           confirmButtonColor: "#15803D",
         });
+
+        //make all state empty
+
+        setLecture([initialLecture]);
+        setCourseInfo(courseInfoInitialData);
+        setAdditionalInfo(initialAdditional);
+        
       } else {
         throw new Error(data.message || "Failed to add course.");
       }
@@ -118,6 +127,8 @@ const NewCourse = () => {
         icon: "error",
         confirmButtonColor: "#B91C1C",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -127,9 +138,15 @@ const NewCourse = () => {
         <h1 className="md:text-3xl text-xl font-extrabold">
           Add a new courses
         </h1>
-        <Button className="bg-secondary" onClick={handleSubmit}>
-          SUBMIT
-        </Button>
+        {loading ? (
+          <Button className="bg-secondary" onClick={handleSubmit}>
+            Uploading...
+          </Button>
+        ) : (
+          <Button className="bg-secondary" onClick={handleSubmit}>
+            Upload Course
+          </Button>
+        )}
       </div>
       <Card className="my-4">
         <CardContent>
