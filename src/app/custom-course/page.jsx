@@ -31,7 +31,7 @@ const CustomCoursePage = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
-  const [courseTitle, setCourseTitle] = useState(""); 
+  const [courseTitle, setCourseTitle] = useState("");
 
   // ---------fetch course-----------------
   const fetchCourses = useCallback(async () => {
@@ -199,14 +199,13 @@ const CustomCoursePage = () => {
             <div className="flex gap-4 flex-wrap">
               {categories.map((lang_tech, index) => (
                 <button
-                key={index}
-                onClick={() => handleCategorySelect(lang_tech)}
-                className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full transition-transform md:text-lg ${
-                  selectedCategory === lang_tech
-                    ? "bg-primary text-white"
-                    : "bg-secondary text-white"
-                }`}
-              >
+                  key={index}
+                  onClick={() => handleCategorySelect(lang_tech)}
+                  className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full transition-transform md:text-lg ${selectedCategory === lang_tech
+                      ? "bg-primary text-white"
+                      : "bg-secondary text-white"
+                    }`}
+                >
                   <FaTags />
                   {lang_tech}
                 </button>
@@ -237,18 +236,16 @@ const CustomCoursePage = () => {
               return (
                 <div
                   key={product._id}
-                  className={`bg-secondary w-full h-40 p-4 rounded-lg shadow-md flex flex-col justify-between relative ${
-                    isInCart ? "opacity-50" : ""
-                  }`}>
+                  className={`bg-secondary w-full h-40 p-4 rounded-lg shadow-md flex flex-col justify-between relative ${isInCart ? "opacity-50" : ""
+                    }`}>
                   <div className="flex justify-between items-center">
                     <button className="rounded-2xl px-4 py-1 bg-white text-black">
                       {product.lang_tech}
                     </button>
                     <button
                       onClick={() => (isInCart ? null : addToCart(product))}
-                      className={`text-3xl ${
-                        isInCart ? "text-green-500" : "text-primary"
-                      }`}
+                      className={`text-3xl ${isInCart ? "text-green-500" : "text-primary"
+                        }`}
                       disabled={isInCart}>
                       {isInCart ? <FaCheck /> : <FaSquarePlus />}
                     </button>
@@ -330,19 +327,22 @@ const CustomCoursePage = () => {
                   </p>
                 </div>
                 <div className="flex flex-col mt-4">
-                    <input
-                      type="text"
-                      placeholder="Enter Course Title"
-                      value={courseTitle}
-                      onChange={(e) => setCourseTitle(e.target.value)}
-                      className="border p-2 rounded mb-2"
-                    />
-                    <button
-                      onClick={handlePayNow}
-                      className="bg-primary text-white rounded-2xl px-4 py-2">
-                      Pay Now
-                    </button>
-                  </div>
+                  <input
+                    type="text"
+                    placeholder="Enter Course Title"
+                    value={courseTitle}
+                    onChange={(e) => setCourseTitle(e.target.value)}
+                    className="border p-2 rounded mb-2"
+                  />
+                  <button
+                    onClick={handlePayNow}
+                    className="bg-primary text-white rounded-2xl px-4 py-2"
+                    disabled={courseTitle.trim().split(/\s+/).length < 10} // Disable if less than 10 words
+                  >
+                    Pay Now
+                  </button>
+                </div>
+
               </>
             )}
           </div>

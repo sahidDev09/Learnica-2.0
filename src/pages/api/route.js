@@ -5,12 +5,12 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 export async function POST(request) {
   try {
     // Step 1: Parse the request JSON
-    const { amount, userId, email, items } = await request.json();
+    const { amount, userId, email, title, items } = await request.json();
 
     // Step 2: Validate the input data
-    if (!amount || !userId || !email || !items || items.length === 0) {
+    if (!amount || !userId || !email || !title|| !items || items.length === 0) {
       return NextResponse.json(
-        { error: "Missing required fields: amount, userId, email, or items" },
+        { error: "Missing required fields: amount, userId, email, title or items" },
         { status: 400 }
       );
     }
@@ -45,6 +45,7 @@ export async function POST(request) {
     const newOrder = {
       userId,
       email,
+      title,
       totalAmount: parseFloat(amount),
       items: formattedItems,
       createdAt: new Date(),

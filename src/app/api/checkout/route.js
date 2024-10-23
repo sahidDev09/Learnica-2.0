@@ -5,13 +5,13 @@ import clientPromise from "@/lib/mongodb";
 
 export async function POST(request) {
   try {
-    const { userId, email, totalAmount, items } = await request.json();
+    const { userId, email,title, totalAmount, items } = await request.json();
 
-    if (!userId || !email || !totalAmount || !items) {
+    if (!userId || !email || !title || !totalAmount || !items) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Missing required fields: userId, email, totalAmount, items',
+          message: 'Missing required fields: userId, email, title, totalAmount, items',
         },
         { status: 400 }
       );
@@ -25,6 +25,7 @@ export async function POST(request) {
     const order = {
       userId,
       email,
+      title,
       totalAmount: parseFloat(totalAmount),
       items: items.map((item) => ({
         concept_title: item.concept_title,
