@@ -8,7 +8,6 @@ export default async function handler(req, res) {
 
   const { courseId, courseTitle } = req.body;
 
-  // Validate that courseId and courseTitle are provided
   if (!courseId || !courseTitle) {
     return res
       .status(400)
@@ -20,14 +19,12 @@ export default async function handler(req, res) {
     const db = client.db("learnica");
     const coursesCollection = db.collection("courses");
 
-    // Approve the course in MongoDB
     const result = await coursesCollection.updateOne(
       { _id: new ObjectId(courseId) },
       { $set: { approved: true } }
     );
 
     if (result.modifiedCount > 0) {
-      // Emit notification using Socket.io
       if (res.socket.server.io) {
         res.socket.server.io.emit("courseApproved", {
           title: courseTitle,

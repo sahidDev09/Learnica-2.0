@@ -1,12 +1,10 @@
-import axios from "axios";
-
 const CourseApproveBtn = ({ c_id, c_title }) => {
   const handleApprove = async (id, title) => {
     try {
       const courseId = id;
       const courseTitle = title;
 
-      console.log("--------", courseId, courseTitle, "--------");
+      console.log("--------", courseId, "<--/->", courseTitle, "--------");
 
       // Send the course approval request to the backend API using fetch
       const response = await fetch(

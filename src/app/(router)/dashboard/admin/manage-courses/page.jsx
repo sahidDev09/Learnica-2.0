@@ -8,11 +8,7 @@ import { MdDelete } from "react-icons/md";
 import Swal from "sweetalert2";
 
 const CoursesPage = () => {
-  const {
-    data: courses,
-    isLoading,
-    refetch,
-  } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["courses"],
     queryFn: async () => {
       const res = await fetch(
@@ -75,7 +71,7 @@ const CoursesPage = () => {
             </tr>
           </thead>
           <tbody>
-            {courses?.map((item, index) => (
+            {data?.map((item, index) => (
               <tr
                 key={index}
                 className="hover:bg-secondary transition-all ease-in-out duration-300 hover:rounded-md hover:text-white text-lg"
@@ -104,7 +100,7 @@ const CoursesPage = () => {
 
                 <td className="">376</td>
                 <td className="">{item.price} $</td>
-                <td className="">{item.status || "Published"}</td>
+                <td className="">{item.status}</td>
 
                 <td className="">
                   <div className="flex gap-4">

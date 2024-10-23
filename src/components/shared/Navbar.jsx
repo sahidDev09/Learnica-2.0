@@ -15,7 +15,11 @@ import {
   useUser,
 } from "@clerk/nextjs";
 import Link from "next/link";
-import { BriefcaseBusiness, FileStackIcon, PenBox } from "lucide-react";
+import {
+  BriefcaseBusiness,
+  FileStackIcon,
+  PenBox,
+} from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaCashRegister } from "react-icons/fa";
 import Loading from "@/app/loading";
@@ -140,12 +144,14 @@ const Navbar = () => {
                   <>
                     <Link
                       href="/live_class"
-                      className="duration-150 hover:border-transparent p-1 text-center">
+                      className="duration-150 hover:border-transparent p-1 text-center"
+                    >
                       <li>Live classes</li>
                     </Link>
                     <li
                       className="duration-150 hover:border-transparent p-1 text-center cursor-pointer"
-                      onClick={() => setShowSupportModal(true)}>
+                      onClick={() => setShowSupportModal(true)}
+                    >
                       Help-line
                     </li>
                   </>
