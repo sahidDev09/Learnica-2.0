@@ -2,13 +2,7 @@
 import Swal from "sweetalert2";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-
-// dummy user
-const user = {
-  authorName: "ali",
-  authorEmail: "ali@mail.com",
-  authorPhotoUrl: "https://randomuser.me/api/portraits/men/22.jpg",
-};
+import { useUser } from "@clerk/nextjs";
 
 // req: add new review >>
 const addComment = async (formData) => {
@@ -27,6 +21,12 @@ const addComment = async (formData) => {
 
 function AddReviewForm() {
   const queryClient = useQueryClient();
+  const userData = useUser()
+  const user = {
+    authorEmail: userData?.user.emailAddresses[0].emailAddress,
+    authorName: userData?.user.fullName,
+    authorPhotoUrl: userData?.user.imageUrl
+  } 
 
   const mutation = useMutation({
     mutationFn: addComment,
@@ -44,6 +44,12 @@ function AddReviewForm() {
       reviewerPhotoUrl: user.authorPhotoUrl,
       created_at: Date.now(),
     };
+
+    // check user info
+    if (!(user.authorEmail && user.authorName)) {
+      alert('you must login!')
+      return;
+    }
 
     mutation.mutate(formData, {
       onSuccess: () => {
