@@ -1,4 +1,4 @@
-import { BookAIcon, BookCopy, Database } from "lucide-react";
+import { BookCopy, Database, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -11,7 +11,7 @@ const Sidebar = () => {
       id: 1,
       name: "Course Management",
       icons: BookCopy,
-      path: "/dashboard/teacher/course-management",
+      path: "/dashboard/teacher",
     },
     {
       id: 2,
@@ -22,8 +22,8 @@ const Sidebar = () => {
     {
       id: 2,
       name: "Add Live Class",
-      icons: Database,
-      path: "/liveClassAdd",
+      icons: Plus,
+      path: "/dashboard/teacher/liveClassAdd",
     },
   ];
 
