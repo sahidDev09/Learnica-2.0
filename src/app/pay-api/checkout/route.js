@@ -27,19 +27,11 @@ export async function POST(request) {
       items: items.map((item) => ({
         concept_title: item.concept_title,
         concept_url: item.concept_url,
-<<<<<<< HEAD:src/app/api/checkout/route.js
         price: parseFloat(item.price), 
         duration: item.duration,
         lang_tech: item.lang_tech,
         rating: item.rating,
         quantity: item.quantity || 1, 
-=======
-        price: parseFloat(item.price),  
-        duration: item.duration,
-        lang_tech: item.lang_tech,
-        rating: item.rating,
-        quantity: item.quantity || 1,  
->>>>>>> 08bb4427f9d230f2ed89d7e4f0d78e0b9741d1aa:src/app/pay-api/checkout/route.js
       })),
       createdAt: new Date(),
     };
