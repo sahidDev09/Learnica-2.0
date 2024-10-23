@@ -19,7 +19,6 @@ const Checkout = ({ clientSecret, handlePaymentSuccess, setIsModalOpen, cart }) 
     }
 
     try {
-      // Confirm payment
       const { error, paymentIntent, paymentMethod } = await stripe.confirmPayment({
         elements,
         confirmParams: {
@@ -32,19 +31,13 @@ const Checkout = ({ clientSecret, handlePaymentSuccess, setIsModalOpen, cart }) 
         setErrorMessage(error.message || "An unexpected error occurred.");
         Swal.fire("Error", error.message || "An unexpected error occurred.", "error");
       } else if (paymentIntent) {
-        // Get card details (if available)
         const cardType = paymentMethod?.card?.brand || "unknown";
-        const paymentStatus = paymentIntent.status; // Payment status from the paymentIntent
-
-        // Check if the payment was successful
+        const paymentStatus = paymentIntent.status; 
         if (paymentStatus === "succeeded") {
-          // Send the card type and payment status to handlePaymentSuccess
           await handlePaymentSuccess(paymentIntent, cardType, paymentStatus);
-          
-          // Close the modal after successful payment
+         
           setIsModalOpen(false);
         } else {
-          // Handle unsuccessful payment
           setErrorMessage("Payment was not successful. Please try again.");
           Swal.fire("Payment Failed", "Your payment could not be processed. Please check your details and try again.", "error");
         }
@@ -54,7 +47,7 @@ const Checkout = ({ clientSecret, handlePaymentSuccess, setIsModalOpen, cart }) 
       console.error("Payment Error:", err);
       Swal.fire("Error", "An unexpected error occurred. Please try again later.", "error");
     } finally {
-      setIsLoading(false); // Always reset loading state
+      setIsLoading(false); 
     }
   };
 
