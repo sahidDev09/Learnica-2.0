@@ -8,7 +8,6 @@ import Concepts from "./Concepts";
 import CourseInfo from "./CourseInfo";
 import AdditionalSettings from "./AdditonalSettings";
 
-
 const NewCourse = () => {
   const courseInfoInitialData = {
     title: "",
@@ -27,11 +26,18 @@ const NewCourse = () => {
     public_id: "",
   };
 
+  const initialAdditional = {
+    image: "",
+    coupon_code: "",
+    discount_amount: "",
+  };
+
   const [lecture, setLecture] = useState([initialLecture]);
   const [courseInfo, setCourseInfo] = useState(courseInfoInitialData);
+  const [additionalInfo, setAdditionalInfo] = useState([initialAdditional]);
 
-  console.log(lecture, "from parent lecture");
-  console.log(courseInfo, "from parent courseinfo");
+  console.log(additionalInfo, "Bangladesh 2.0");
+  console.log(lecture, "Inda magir pua");
 
   return (
     <div className=" container mx-auto py-4">
@@ -62,7 +68,10 @@ const NewCourse = () => {
                 />
               </TabsContent>
               <TabsContent value="additional-settings">
-                <AdditionalSettings />
+                <AdditionalSettings
+                  additionalInfo={additionalInfo}
+                  setAdditionalInfo={setAdditionalInfo}
+                />
               </TabsContent>
             </Tabs>
           </div>

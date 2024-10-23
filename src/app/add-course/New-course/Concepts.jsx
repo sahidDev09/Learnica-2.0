@@ -30,8 +30,6 @@ const Concepts = ({ lecture, setLecture }) => {
   };
 
   const handleVideoUploadSuccess = (info, index) => {
-    console.log("hi sahid i am from leacture", info);
-
     const updatedLectures = lecture.map((lec, i) =>
       i === index
         ? {
@@ -44,8 +42,6 @@ const Concepts = ({ lecture, setLecture }) => {
     );
     setLecture(updatedLectures);
   };
-
-  console.log(lecture);
 
   return (
     <div>

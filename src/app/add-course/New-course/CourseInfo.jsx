@@ -22,7 +22,6 @@ const CourseInfo = ({ courseInfo, setCourseInfo }) => {
     }));
   };
 
-  console.log(courseInfo);
 
   return (
     <div>
