@@ -12,6 +12,7 @@ import Loading from "../loading";
 import Checkout from "@/components/payment/Checkout"; // Assuming this is a custom component for payment
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { Elements } from "@stripe/react-stripe-js";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
   throw new Error("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is not defined");
@@ -128,40 +129,49 @@ const CustomCoursePage = () => {
     }
   };
 
-  const handlePaymentSuccess = async () => {
-    try {
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: user.id,
-          email: user.primaryEmailAddress?.emailAddress || "",
-          title: courseTitle,
-          status:'success',
-          totalAmount: cart.reduce((sum, item) => sum + parseFloat(item.price), 0),
-          items: cart.map((item) => ({
-            concept_title: item.concept_title,
-            concept_url: item.concept_url,
-            price: item.price,
-            duration: item.duration,
-            lang_tech: item.lang_tech,
-            rating: item.rating,
-          })),
-        }),
-      });
+  
 
-      const data = await res.json();
+const handlePaymentSuccess = async () => {
+  const navigate = useNavigate(); // Initialize useNavigate
 
-      if (!res.ok) throw new Error(data.error || "Failed to store order in the database.");
+  try {
+    const res = await fetch("/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: user.id,
+        email: user.primaryEmailAddress?.emailAddress || "",
+        title: courseTitle,
+        status: 'success',
+        totalAmount: cart.reduce((sum, item) => sum + parseFloat(item.price), 0),
+        items: cart.map((item) => ({
+          concept_title: item.concept_title,
+          concept_url: item.concept_url,
+          price: item.price,
+          duration: item.duration,
+          lang_tech: item.lang_tech,
+          rating: item.rating,
+        })),
+      }),
+    });
 
-      Swal.fire("Success", "Payment was successful and your order has been placed.", "success");
-      setCart([]);
-      setCourseTitle("");
-    } catch (error) {
-      console.error("Error saving order to database:", error);
-      showError("Failed to store order. Please contact support.");
-    }
-  };
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error || "Failed to store order in the database.");
+
+    Swal.fire("Success", "Payment was successful and your order has been placed.", "success");
+    
+    setCart([]); // Clear the cart
+    setCourseTitle(""); // Reset the course title input
+
+    // Redirect the user to the payment history page
+    navigate("/payment-history");
+  } catch (error) {
+    console.error("Error saving order to database:", error);
+    showError("Failed to store order. Please contact support.");
+  }
+};
+
 
   // Loader
   if (loading && products.length === 0) return <Loading />;
