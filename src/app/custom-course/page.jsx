@@ -127,9 +127,8 @@ const CustomCoursePage = () => {
     }
   };
 
-  const handlePaymentSuccess = async (paymentIntent, cardType) => {
+  const handlePaymentSuccess = async () => {
     try {
-      const paymentStatus = paymentIntent.status; // Payment status from the paymentIntent
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -146,8 +145,6 @@ const CustomCoursePage = () => {
             lang_tech: item.lang_tech,
             rating: item.rating,
           })),
-          payment_status: paymentStatus, // Add payment status
-          card_type: cardType, // Send card type to the backend
         }),
       });
 
