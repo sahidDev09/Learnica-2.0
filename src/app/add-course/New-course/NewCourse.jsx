@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -16,7 +17,6 @@ const NewCourse = () => {
     description: "",
     pricing: "",
     objectives: "",
-    image: "",
   };
 
   const initialLecture = {
@@ -36,8 +36,10 @@ const NewCourse = () => {
   const [courseInfo, setCourseInfo] = useState(courseInfoInitialData);
   const [additionalInfo, setAdditionalInfo] = useState([initialAdditional]);
 
-  console.log(additionalInfo, "Bangladesh 2.0");
-  console.log(lecture, "Inda magir pua");
+  const handleSubmit = () => {
+    alert("hello");
+    console.log(additionalInfo, "additional information");
+  };
 
   return (
     <div className=" container mx-auto py-4">
@@ -45,7 +47,9 @@ const NewCourse = () => {
         <h1 className="md:text-3xl text-xl font-extrabold">
           Add a new courses
         </h1>
-        <Button className="bg-secondary">SUBMIT</Button>
+        <Button className="bg-secondary" onClick={handleSubmit}>
+          SUBMIT
+        </Button>
       </div>
       <Card className="my-4">
         <CardContent>

@@ -4,44 +4,29 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 
 const AdditionalSettings = ({ additionalInfo, setAdditionalInfo }) => {
-  const [settings, setSettings] = useState({
-    couponCode: "",
-    discountAmount: "",
-    thumbnailUrl: "",
-  });
-
-  // Handle input change and update parent state automatically
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    const updatedSettings = { ...settings, [name]: value };
-    setSettings(updatedSettings);
-    setAdditionalInfo((prev) => [
-      {
-        image: updatedSettings.thumbnailUrl,
-        coupon_code: updatedSettings.couponCode,
-        discount_amount: updatedSettings.discountAmount,
-      },
+  const handleCouponChange = (e) => {
+    setAdditionalInfo((prev) => ({
       ...prev,
-    ]);
+      coupon_code: e.target.value,
+    }));
   };
 
-  // Handle thumbnail upload and update parent state automatically
-  const handleImageUploadSuccess = (info) => {
-    const updatedSettings = { ...settings, thumbnailUrl: info.secure_url };
-    setSettings(updatedSettings);
-    setAdditionalInfo((prev) => [
-      {
-        image: updatedSettings.thumbnailUrl,
-        coupon_code: updatedSettings.couponCode,
-        discount_amount: updatedSettings.discountAmount,
-      },
+  const handleDiscountChange = (e) => {
+    setAdditionalInfo((prev) => ({
       ...prev,
-    ]);
+      discount_amount: e.target.value,
+    }));
   };
 
+  const handleImageUrlChange = (e) => {
+    setAdditionalInfo((prev) => ({
+      ...prev,
+      image: e.target.value, // Set the image URL
+    }));
+  };
 
   return (
     <div>
@@ -58,10 +43,9 @@ const AdditionalSettings = ({ additionalInfo, setAdditionalInfo }) => {
                 <Input
                   type="text"
                   id="coupon"
-                  name="couponCode"
                   placeholder="Enter Coupon code"
-                  value={settings.couponCode}
-                  onChange={handleChange}
+                  value={additionalInfo.coupon_code} // bind to parent state
+                  onChange={handleCouponChange} // update parent state
                 />
               </div>
 
@@ -71,10 +55,9 @@ const AdditionalSettings = ({ additionalInfo, setAdditionalInfo }) => {
                 <Input
                   type="number"
                   id="discount"
-                  name="discountAmount"
                   placeholder="Enter discount amount"
-                  value={settings.discountAmount}
-                  onChange={handleChange}
+                  value={additionalInfo.discount_amount} // bind to parent state
+                  onChange={handleDiscountChange} // update parent state
                 />
               </div>
             </div>
@@ -84,23 +67,20 @@ const AdditionalSettings = ({ additionalInfo, setAdditionalInfo }) => {
               <Label>Upload Course Thumbnail</Label>
               <CldUploadWidget
                 uploadPreset="ml_default"
-                onSuccess={({ info }) => handleImageUploadSuccess(info)}>
+                onSuccess={({ info }) => {
+                  setAdditionalInfo((prev) => ({
+                    ...prev,
+                    image: info.secure_url, // update parent state with the uploaded image
+                  }));
+                }}>
                 {({ open }) => (
                   <div className="border rounded-md mt-4 flex flex-col gap-4 items-start">
-                    {settings.thumbnailUrl ? (
-                      <Button
-                        className="bg-primary text-white"
-                        onClick={() => open()}>
-                        Replace Image
-                      </Button>
-                    ) : (
-                      <Button variant="secondary" onClick={() => open()}>
-                        Upload Image
-                      </Button>
-                    )}
-                    {settings.thumbnailUrl ? (
+                    <Button variant="secondary" onClick={() => open()}>
+                      {additionalInfo.image ? "Replace Image" : "Upload Image"}
+                    </Button>
+                    {additionalInfo.image ? (
                       <Image
-                        src={settings.thumbnailUrl}
+                        src={additionalInfo.image}
                         alt="Course Thumbnail"
                         width={500}
                         height={500}
@@ -112,6 +92,19 @@ const AdditionalSettings = ({ additionalInfo, setAdditionalInfo }) => {
                   </div>
                 )}
               </CldUploadWidget>
+            </div>
+
+            {/* Image URL Input */}
+            <div className="flex flex-col space-y-2.5 disabled:true">
+              <Label htmlFor="image-url">Image URL</Label>
+              <Input
+                type="text"
+                id="image-url"
+                placeholder="Enter Image URL"
+                value={additionalInfo.image}
+                disabled
+                onChange={handleImageUrlChange}
+              />
             </div>
           </div>
         </CardContent>
