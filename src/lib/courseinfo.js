@@ -73,7 +73,7 @@ export const courseinformationFormControls = [
   },
 ];
 
-export const courseLandingInitialFormData = {
+export const courseInfoInitialData = {
   title: "",
   category: "",
   level: "",

@@ -6,9 +6,20 @@ import { TabsContent } from "@radix-ui/react-tabs";
 import React, { useState } from "react";
 import Concepts from "./Concepts";
 import CourseInfo from "./CourseInfo";
-import AdditonalSettings from "./AdditonalSettings";
+import AdditionalSettings from "./AdditonalSettings";
+
 
 const NewCourse = () => {
+  const courseInfoInitialData = {
+    title: "",
+    category: "",
+    subtitle: "",
+    description: "",
+    pricing: "",
+    objectives: "",
+    image: "",
+  };
+
   const initialLecture = {
     title: "",
     videoUrl: "",
@@ -17,6 +28,10 @@ const NewCourse = () => {
   };
 
   const [lecture, setLecture] = useState([initialLecture]);
+  const [courseInfo, setCourseInfo] = useState(courseInfoInitialData);
+
+  console.log(lecture, "from parent lecture");
+  console.log(courseInfo, "from parent courseinfo");
 
   return (
     <div className=" container mx-auto py-4">
@@ -41,10 +56,13 @@ const NewCourse = () => {
                 <Concepts lecture={lecture} setLecture={setLecture} />
               </TabsContent>
               <TabsContent value="course-info">
-                <CourseInfo />
+                <CourseInfo
+                  courseInfo={courseInfo}
+                  setCourseInfo={setCourseInfo}
+                />
               </TabsContent>
               <TabsContent value="additional-settings">
-                <AdditonalSettings />
+                <AdditionalSettings />
               </TabsContent>
             </Tabs>
           </div>
