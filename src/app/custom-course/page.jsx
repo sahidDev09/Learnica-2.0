@@ -164,11 +164,9 @@ const CustomCoursePage = () => {
   
       Swal.fire("Success", "Payment was successful and your order has been placed.", "success");
       
-      setCart([]); // Clear the cart
-      setCourseTitle(""); // Reset the course title input
-  
-      // Redirect the user to the payment history page
-      router.push("/payment-history"); // Use router.push to navigate
+      setCart([]); 
+      setCourseTitle("");
+      router.push("/payment-history"); 
     } catch (error) {
       console.error("Error saving order to database:", error);
       showError("Failed to store order. Please contact support.");
