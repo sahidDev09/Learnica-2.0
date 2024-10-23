@@ -30,6 +30,7 @@ const CustomCoursePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
   const [courseTitle, setCourseTitle] = useState("");
+  
 
   const showError = (message) => {
     Swal.fire("Error", message, "error");

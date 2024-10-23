@@ -63,7 +63,7 @@ const Checkout = ({ clientSecret, handlePaymentSuccess, setIsModalOpen, cart }) 
       <PaymentElement />
       {errorMessage && <div className="text-red-500 mt-4">{errorMessage}</div>}
       <button
-        className={`bg-primary text-white mt-4 p-3 rounded-lg w-full ${isLoading ? "opacity-50" : ""}`}
+        className={`bg-secondary text-white mt-4 p-3 rounded-lg w-full ${isLoading ? "opacity-50" : ""}`}
         disabled={isLoading || !stripe || !clientSecret}
         type="submit"
       >
