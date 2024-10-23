@@ -24,7 +24,14 @@ export default async function handler(req, res) {
       return res
         // .status(201)
         .json(result);
-    } else {
+    } 
+    // ------- delete ------------ 
+    else if (req.method === "DELETE") {
+      const reviewerEmail = req.body.email;
+      await reviewsCollection.deleteOne({reviewerEmail})
+      return res.json({ success: true, message: "review deleted successfully!" });
+    } 
+    else {
       // Handle unsupported HTTP methods
       return res
         .status(405)
