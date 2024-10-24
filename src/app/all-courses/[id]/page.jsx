@@ -12,6 +12,7 @@ import Questions from "./Questions";
 import Loading from "@/app/loading";
 import { redirect } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
+import MyReview from "./MyReview";
 
 const Page = ({ params }) => {
   const { user } = useUser();
@@ -209,7 +210,7 @@ const Page = ({ params }) => {
               aria-label="Reviews"
             />
             <div role="tabpanel" className="tab-content pt-4 bg-white w-full">
-              <AddReviewForm />
+              <MyReview />
               <Reviews />
             </div>
 

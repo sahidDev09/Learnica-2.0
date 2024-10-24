@@ -9,11 +9,29 @@ export default async function handler(req, res) {
 
     // Handle the POST request
     if (req.method === "GET") {
-      const result = await reviewsCollection.find({}).toArray();
+      const email = req.query.email
+      const onlyMe = req.query.onlyMe
+      console.log({onlyMe});
+      let query;
+      
+      if (onlyMe) {
+        query = {reviewerEmail: email}
+      } else {
+        query = {reviewerEmail: {$ne: email}}
+      }
+
+      const result = await reviewsCollection.find(query).toArray();
       return res
         // .status(201)
         .json(result);
-    } else {
+    } 
+    // ------- delete ------------ 
+    else if (req.method === "DELETE") {
+      const reviewerEmail = req.body.email;
+      await reviewsCollection.deleteOne({reviewerEmail})
+      return res.json({ success: true, message: "review deleted successfully!" });
+    } 
+    else {
       // Handle unsupported HTTP methods
       return res
         .status(405)
