@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { useUser } from '@clerk/nextjs'; 
+import { useUser } from '@clerk/nextjs';
 import Loading from '../loading';
 import {
   Table,
@@ -10,19 +10,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TiTickOutline } from 'react-icons/ti';
 import { format } from 'date-fns';
 
-
 const Page = () => {
-  const { user, isLoaded } = useUser(); 
+  const { user, isLoaded } = useUser();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  
   async function fetchOrders(userEmail) {
     try {
       const response = await fetch('/api/get-orders');
@@ -62,53 +60,53 @@ const Page = () => {
   }
 
   return (
-    <div className="container mx-auto text-center">
-        <Card>
-          <CardHeader>
-            <CardTitle>My Payment History</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Table>
+    <div className="container mx-auto p-4">
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg md:text-2xl">My Payment History</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <Table className="min-w-full">
               <TableCaption>A list of your recent invoices.</TableCaption>
               <TableHeader>
-                    <TableRow className="text-center">
-                  <TableHead>Serial #</TableHead>
-                  <TableHead>Course Title</TableHead>
-                  <TableHead>Total Amount</TableHead>
-                  <TableHead>Created Date</TableHead>
-                  <TableHead className="text-right">Payment Status</TableHead>
+                <TableRow>
+                  <TableHead className="text-center py-2 px-4">Serial #</TableHead>
+                  <TableHead className="text-center py-2 px-4">Course Title</TableHead>
+                  <TableHead className="text-center py-2 px-4">Total Amount</TableHead>
+                  <TableHead className="text-center py-2 px-4">Created Date</TableHead>
+                  <TableHead className="text-center py-2 px-4">Payment Status</TableHead>
                 </TableRow>
-                
               </TableHeader>
-              <TableBody className="text-center">
-              {
-                 orders.length > 0 ? (
-                  orders.map((order, index) =>(
-                    <TableRow key={order._id}>
-                  <TableCell>{index + 1}</TableCell>
-                  <TableCell>{order.title}</TableCell>
-                  <TableCell>{order.totalAmount}</TableCell>
-                  <TableCell>{format(new Date(order.createdAt), 'PPpp')}</TableCell>
-                  <TableCell className="text-right"><div className="flex items-center gap-x-2 justify-center">
-                      <span>{order.status}</span>
-                      <TiTickOutline />
-                    </div></TableCell>
-                </TableRow>
-                  ))):
-                  (
-                    <TableRow>
-                    <TableHead colSpan="5" className="text-center py-3 px-4">
+              <TableBody>
+                {orders.length > 0 ? (
+                  orders.map((order, index) => (
+                    <TableRow key={order._id} className="hover:bg-gray-50">
+                      <TableCell className="text-center py-2 px-4">{index + 1}</TableCell>
+                      <TableCell className="text-center py-2 px-4">{order.title}</TableCell>
+                      <TableCell className="text-center py-2 px-4">{order.totalAmount}</TableCell>
+                      <TableCell className="text-center py-2 px-4">{format(new Date(order.createdAt), 'PPpp')}</TableCell>
+                      <TableCell className="text-center py-2 px-4">
+                        <div className="flex items-center justify-center gap-x-1">
+                          <span>{order.status}</span>
+                          <TiTickOutline />
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan="5" className="text-center py-4">
                       No orders found
-                    </TableHead>
-                  </TableRow> 
-                  )
-                }
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
-          </CardContent>
-        </Card>
-      </div>
-   
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
