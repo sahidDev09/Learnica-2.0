@@ -2,12 +2,16 @@
 import { FaTrashAlt } from "react-icons/fa";
 import AddQuestionForm from "./AddQuestionForm";
 import { useQuery } from "@tanstack/react-query";
+import { useUser } from "@clerk/nextjs";
 import Loader from "@/components/shared/Loader";
 import QnaModal from "./QnaModal";
 import Image from "next/image";
 import Swal from "sweetalert2";
 
 function Questions() {
+  const user = useUser()
+  const userEmail = user?.user.emailAddresses[0].emailAddress
+
   // get quesions
   const {
     data: questions,
@@ -93,15 +97,17 @@ function Questions() {
                   <span className=" text-primary">Q:</span> {ques.question}
                 </button>
               </h3>
-              <p className="text-sm text-gray-500">
-                <span>{ques.userEmail} • </span>
-                <span>{new Date(ques.createdAt).toLocaleDateString()} • </span>
-                <button
-                  onClick={() => handleQuestionDelete(ques._id)}
-                  className="p-1 border border-transparent hover:border-red-600 text-red-600 rounded hover:-translate-y-1 transition-all">
-                  <FaTrashAlt />
-                </button>
-              </p>
+              <div className="text-sm text-gray-500 flex items-center gap-2">
+                <p>{ques.userEmail} • </p>
+                <p>{new Date(ques.createdAt).toLocaleDateString()} </p>
+                {ques.userEmail === userEmail && (
+                  <button
+                    onClick={() => handleQuestionDelete(ques._id)}
+                    className="ml-auto p-1 border border-transparent hover:border-red-600 text-red-600 rounded hover:-translate-y-1 transition-all">
+                      <FaTrashAlt />
+                  </button>
+                )}
+              </div>
 
               <QnaModal question={ques} />
             </div>
