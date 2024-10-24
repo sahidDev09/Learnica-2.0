@@ -112,9 +112,9 @@ const Page = () => {
                 <TableRow>
                   <TableHead>Serial #</TableHead>
                   <TableHead>Course Title</TableHead>
-                  <TableHead>Method</TableHead>
-                  <TableHead>Method</TableHead>
-                  <TableHead className="text-right">Amount</TableHead>
+                  <TableHead>Total Amount</TableHead>
+                  <TableHead>Created Date</TableHead>
+                  <TableHead className="text-right">Payment Status</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
