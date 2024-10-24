@@ -12,6 +12,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { TiTickOutline } from 'react-icons/ti';
+import { format } from 'date-fns';
 
 
 const Page = () => {
@@ -61,46 +63,6 @@ const Page = () => {
 
   return (
     <div className="container mx-auto text-center">
-      {/* <div className="overflow-x-auto bg-secondary my-20">
-        <table className="table w-full text-left">
-          <thead>
-            <tr className="text-white text-center">
-              <th>Serial</th>
-              <th>Course Title</th>
-              <th>Total Amount</th>
-              <th>Created Date</th>
-              <th>Payment Status</th>
-            </tr>
-          </thead>
-          <tbody className="text-white text-center">
-            {orders.length > 0 ? (
-              orders.map((order, index) => (
-                <tr key={order._id}>
-                  <td className="py-3 px-4">{index + 1}</td>
-                  <td className="py-3 px-4">{order.title}</td>
-                  <td className="py-3 px-4">{order.totalAmount}</td>
-                  <td className="py-3 px-4">
-                    {format(new Date(order.createdAt), 'PPpp')} 
-                  </td>
-                  <td className="py-3 px-4">
-                    <div className="flex items-center gap-x-2 justify-center">
-                      <span>{order.status}</span>
-                      <TiTickOutline />
-                    </div>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="5" className="text-center py-3 px-4">
-                  No orders found
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div> */}
-      
         <Card>
           <CardHeader>
             <CardTitle>My Payment History</CardTitle>
@@ -109,21 +71,38 @@ const Page = () => {
             <Table>
               <TableCaption>A list of your recent invoices.</TableCaption>
               <TableHeader>
-                <TableRow>
+                    <TableRow className="text-center">
                   <TableHead>Serial #</TableHead>
                   <TableHead>Course Title</TableHead>
                   <TableHead>Total Amount</TableHead>
                   <TableHead>Created Date</TableHead>
                   <TableHead className="text-right">Payment Status</TableHead>
                 </TableRow>
+                
               </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell>1</TableCell>
-                  <TableCell>Paid</TableCell>
-                  <TableCell>Credit Card</TableCell>
-                  <TableCell className="text-right">$250.00</TableCell>
+              <TableBody className="text-center">
+              {
+                 orders.length > 0 ? (
+                  orders.map((order, index) =>(
+                    <TableRow key={order._id}>
+                  <TableCell>{index + 1}</TableCell>
+                  <TableCell>{order.title}</TableCell>
+                  <TableCell>{order.totalAmount}</TableCell>
+                  <TableCell>{format(new Date(order.createdAt), 'PPpp')}</TableCell>
+                  <TableCell className="text-right"><div className="flex items-center gap-x-2 justify-center">
+                      <span>{order.status}</span>
+                      <TiTickOutline />
+                    </div></TableCell>
                 </TableRow>
+                  ))):
+                  (
+                    <TableRow>
+                    <TableHead colSpan="5" className="text-center py-3 px-4">
+                      No orders found
+                    </TableHead>
+                  </TableRow> 
+                  )
+                }
               </TableBody>
             </Table>
           </CardContent>
