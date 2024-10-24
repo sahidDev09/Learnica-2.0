@@ -2,8 +2,17 @@
 import React, { useEffect, useState } from 'react';
 import { useUser } from '@clerk/nextjs'; 
 import Loading from '../loading';
-import { format } from 'date-fns'; 
-import { TiTickOutline } from "react-icons/ti";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
 
 const Page = () => {
   const { user, isLoaded } = useUser(); 
@@ -52,7 +61,7 @@ const Page = () => {
 
   return (
     <div className="container mx-auto text-center">
-      <div className="overflow-x-auto bg-secondary my-20">
+      {/* <div className="overflow-x-auto bg-secondary my-20">
         <table className="table w-full text-left">
           <thead>
             <tr className="text-white text-center">
@@ -90,8 +99,37 @@ const Page = () => {
             )}
           </tbody>
         </table>
-      </div>
-    </div>
+      </div> */}
+      
+        <Card>
+          <CardHeader>
+            <CardTitle>My Payment History</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableCaption>A list of your recent invoices.</TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Serial #</TableHead>
+                  <TableHead>Course Title</TableHead>
+                  <TableHead>Method</TableHead>
+                  <TableHead>Method</TableHead>
+                  <TableHead className="text-right">Amount</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell>1</TableCell>
+                  <TableCell>Paid</TableCell>
+                  <TableCell>Credit Card</TableCell>
+                  <TableCell className="text-right">$250.00</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      </div>
+   
   );
 };
 
