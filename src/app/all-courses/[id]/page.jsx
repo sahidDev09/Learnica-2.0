@@ -195,7 +195,7 @@ const Page = ({ params }) => {
               aria-label="Q&A"
             />
             <div role="tabpanel" className="tab-content py-4 bg-white w-full">
-              <Questions />
+              <Questions courseId={courseId} />
             </div>
             {/*------------------------------- Notes ----------------------------*/}
             <input

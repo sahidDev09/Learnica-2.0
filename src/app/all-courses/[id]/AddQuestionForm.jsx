@@ -16,7 +16,7 @@ const addQuestion = async (formData) => {
   return res.json();
 };
 
-function AddQuestionForm() {
+function AddQuestionForm({courseId}) {
   const queryClient = useQueryClient();
   const mutation = useMutation({ mutationFn: addQuestion });
   const user = useUser()
@@ -30,6 +30,7 @@ function AddQuestionForm() {
       question: e.target.question.value.trim(),
       userEmail,
       createdAt: Date.now(),
+      courseId
     };
 
     if (!formData.userEmail) {
@@ -39,7 +40,7 @@ function AddQuestionForm() {
 
     mutation.mutate(formData, {
       onSuccess: () => {
-        queryClient.invalidateQueries(["qna-ques"]);
+        queryClient.invalidateQueries(["qna-ques", courseId]);
         // reset form and show alert
         e.target.reset();
         Swal.fire({

@@ -8,7 +8,7 @@ import QnaModal from "./QnaModal";
 import Image from "next/image";
 import Swal from "sweetalert2";
 
-function Questions() {
+function Questions({courseId}) {
   const user = useUser()
   const userEmail = user?.user.emailAddresses[0].emailAddress
 
@@ -80,7 +80,7 @@ function Questions() {
       </header>
 
       {/* -------- ask quesion form ---------- */}
-      <AddQuestionForm refetch={refetch} />
+      <AddQuestionForm refetch={refetch} courseId={courseId} />
 
       {/* -------- all quesions ---------- */}
       {questions.length > 0 ? (
