@@ -1,6 +1,8 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import Loading from "@/app/loading";
 
 const Card = ({ course }) => {
   const formatDate = (timestamp) => {
@@ -11,13 +13,17 @@ const Card = ({ course }) => {
     return `${month}-${day}-${year}`;
   };
 
+  if (!course) {
+    return <Loading />;
+  }
+
   return (
     <div className=" bg-card">
       <div className="w-full mx-auto md:mx-0 border rounded-xl text-gray-800 dark:bg-gray-800 dark:text-white shadow-md">
         <Image
           className="w-full h-[260px] rounded-xl object-fit"
-          src={course.additionalInfo.image}
-          alt={course.name}
+          src={course?.additionalInfo?.image}
+          alt={course?.name}
           width={1000}
           height={1000}
         />

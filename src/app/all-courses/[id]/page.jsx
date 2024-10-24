@@ -61,7 +61,7 @@ const Page = ({ params }) => {
       cancelButtonAriaLabel: "Thumbs down",
       cancelButtonColor: "#d33",
       preConfirm: () => {
-        window.location.href = alert("Enroll page");
+        alert("welcome");
       },
       onClose: () => {
         console.log("Modal closed");
@@ -69,7 +69,7 @@ const Page = ({ params }) => {
     });
   };
 
-  if (isLoading || !isLoaded) {
+  if ((!data && isLoading) || !isLoaded) {
     return <Loading />;
   }
 
