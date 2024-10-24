@@ -61,26 +61,6 @@ const Page = ({ params }) => {
 
   return (
     <div className="min-h-screen py-10">
-      {/* approve button */}
-
-      {data?.status == "pending" && (
-        <div className="w-7/12 mx-auto ">
-          <div className="my-6 bg-yellow-400 rounded-xl p-8">
-            <h2 className="text-xl font-medium text-center my-3">
-              This is a pending course
-            </h2>
-            <h2 className="text-lg font-semibold text-center my-3">
-              Do you approve it..?
-            </h2>
-            <div className="flex justify-center mt-5">
-              <button className="btn btn-2xl bg-green-600 text-white border-0">
-                Approve
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       <div className="container mx-auto flex flex-col-reverse lg:flex-row px-2">
         <div className="lg:w-5/12">
           <div className=" bg-card p-6 h-full rounded-xl">
