@@ -44,7 +44,7 @@ function AddNoteForm({ courseId }) {
 
     mutation.mutate(formData, {
       onSuccess: () => {
-        queryClient.invalidateQueries(["my-notes"]);
+        queryClient.invalidateQueries(["my-notes", courseId]);
         // reset form and show alert
         e.target.reset();
         Swal.fire({
