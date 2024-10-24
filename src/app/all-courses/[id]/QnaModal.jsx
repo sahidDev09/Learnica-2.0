@@ -74,7 +74,6 @@ function QnaModal({ question }) {
             <div className="mb-6">
               <AddAnswerForm
                 question={question}
-                user={user}
                 refetch={refetch}
               />
             </div>

@@ -2,6 +2,7 @@
 import Swal from "sweetalert2";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@clerk/nextjs";
 
 // req: add new answer >>
 const addAnswer = async (formData) => {
@@ -15,9 +16,11 @@ const addAnswer = async (formData) => {
   return res.json();
 };
 
-function AddAnswerForm({ question, user, refetch }) {
+function AddAnswerForm({ question, refetch }) {
   const queryClient = useQueryClient();
   const mutation = useMutation({ mutationFn: addAnswer });
+  const user = useUser()
+  const userEmail = user?.user.emailAddresses[0].emailAddress
 
   // handler: add question
   const handleWriteAnswer = async (e) => {
@@ -26,9 +29,7 @@ function AddAnswerForm({ question, user, refetch }) {
     const formData = {
       qid: question._id,
       answer: e.target.answer.value.trim(),
-      userName: user.userName,
-      userEmail: user.userEmail,
-      userPhotoUrl: user.userPhotoUrl,
+      userEmail,
       createdAt: Date.now(),
     };
 
