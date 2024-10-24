@@ -207,7 +207,7 @@ const Page = ({ params }) => {
             />
             <div role="tabpanel" className="tab-content py-2 bg-white w-full">
               <AddNoteForm courseId={courseId} />
-              <Notes />
+              <Notes courseId={courseId} />
             </div>
             {/*------------------------------- Reviews --------------------------*/}
             <input
