@@ -218,7 +218,7 @@ const Navbar = () => {
                         variant="destructive"
                         className="rounded-full"
                         aria-label="Author Dashboard">
-                        <PenBox size={20} className="mr-2" /> Author Dashboard
+                        <ShieldCheck size={20} /> Teacher
                       </Button>
                     </Link>
                   ) : null}
@@ -256,14 +256,11 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      <div
-        className={`${
-          openMenu ? "w-3/4" : "w-0"
-        } fixed top-0 right-0 h-full bg-black transition-all overflow-hidden z-50`}>
-        <div className="flex justify-end px-4 py-5">
+      <div className={`${openMenu ? "w-3/4" : "w-0"} fixed top-0 right-0 h-full bg-black transition-all overflow-hidden z-50`}>
+        <div className="absolute right-4 top-4">
           <RxCross1
             onClick={handleCloseMenu}
-            className="text-white text-4xl cursor-pointer"
+            className="text-red-600 text-4xl cursor-pointer"
           />
         </div>
         <ul className="text-white font-semibold p-4 space-y-4">
@@ -305,6 +302,28 @@ const Navbar = () => {
                 </UserButton.MenuItems>
               </UserButton>
             </SignedIn>
+          </li>
+          <li>
+            {/* author dashboard */}
+            {user && mainRole === "admin" ? (
+              <Link href="/dashboard/admin/manage-courses">
+                <Button
+                  variant="destructive"
+                  className="rounded-full"
+                  aria-label="Author Dashboard">
+                  <ShieldCheck size={20} /> Admin
+                </Button>
+              </Link>
+            ) : user?.unsafeMetadata?.role === "teacher" ? (
+              <Link href="/dashboard/teacher">
+                <Button
+                  variant="destructive"
+                  className="rounded-full"
+                  aria-label="Author Dashboard">
+                  <ShieldCheck size={20} /> Teacher
+                </Button>
+              </Link>
+            ) : null}
           </li>
           <li>
             <Sheet>
