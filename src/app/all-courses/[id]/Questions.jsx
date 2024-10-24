@@ -109,7 +109,7 @@ function Questions({courseId}) {
                 )}
               </div>
 
-              <QnaModal question={ques} />
+              <QnaModal question={ques} courseId={courseId} />
             </div>
           ))}
         </div>

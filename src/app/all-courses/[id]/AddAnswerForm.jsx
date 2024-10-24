@@ -16,7 +16,7 @@ const addAnswer = async (formData) => {
   return res.json();
 };
 
-function AddAnswerForm({ question, refetch }) {
+function AddAnswerForm({ question, refetch, courseId }) {
   const queryClient = useQueryClient();
   const mutation = useMutation({ mutationFn: addAnswer });
   const user = useUser()
@@ -31,11 +31,12 @@ function AddAnswerForm({ question, refetch }) {
       answer: e.target.answer.value.trim(),
       userEmail,
       createdAt: Date.now(),
+      courseId
     };
 
     mutation.mutate(formData, {
       onSuccess: () => {
-        queryClient.invalidateQueries(["qna-ans"]);
+        queryClient.invalidateQueries(["qna-ans", courseId]);
 
         // refetch ans, reset form and show alert
         refetch();

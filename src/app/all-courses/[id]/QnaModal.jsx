@@ -13,7 +13,7 @@ const user = {
   userPhotoUrl: "https://randomuser.me/api/portraits/men/22.jpg",
 };
 
-function QnaModal({ question }) {
+function QnaModal({ question, courseId }) {
   const user = useUser()
   const userEmail = user?.user.emailAddresses[0].emailAddress
 
@@ -80,6 +80,7 @@ function QnaModal({ question }) {
               <AddAnswerForm
                 question={question}
                 refetch={refetch}
+                courseId={courseId}
               />
             </div>
 
