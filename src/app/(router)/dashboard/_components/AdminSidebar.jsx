@@ -23,7 +23,7 @@ const AdminSidebar = () => {
       id: 3,
       name: "Statistics",
       icons: Store,
-      path: "/manage-courses",
+      path: "/dashboard/admin/statistics",
     },
   ];
 

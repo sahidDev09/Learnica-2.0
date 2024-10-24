@@ -9,7 +9,8 @@ export default async function handler(req, res) {
     const notesCollection = db.collection("my-notes");
 
     if (req.method === "GET") {
-      const result = await notesCollection.find({}).toArray();
+      const email = req.query?.email
+      const result = await notesCollection.find({email}).toArray();
       return res.json(result);
     } 
     // --------- POST -------------
