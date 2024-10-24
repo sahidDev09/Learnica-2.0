@@ -1,8 +1,10 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { useUser } from "@clerk/nextjs";
 import AddAnswerForm from "./AddAnswerForm";
 import Loading from "@/app/loading";
+import { FaTrashAlt } from "react-icons/fa";
 
 // dummy user
 const user = {
@@ -11,17 +13,20 @@ const user = {
   userPhotoUrl: "https://randomuser.me/api/portraits/men/22.jpg",
 };
 
-function QnaModal({ question }) {
+function QnaModal({ question, courseId }) {
+  const user = useUser()
+  const userEmail = user?.user.emailAddresses[0].emailAddress
+
   // get answers based on question
   const {
     data: answers,
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["qna-ans", question._id],
+    queryKey: ["qna-ans", question._id, courseId],
     queryFn: async () => {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + `/api/qna-ans?id=${question._id}`
+        process.env.NEXT_PUBLIC_BASE_URL + `/api/qna-ans?id=${question._id}&courseId=${courseId}`
       );
       return res.json();
     },
@@ -74,8 +79,8 @@ function QnaModal({ question }) {
             <div className="mb-6">
               <AddAnswerForm
                 question={question}
-                user={user}
                 refetch={refetch}
+                courseId={courseId}
               />
             </div>
 
@@ -86,11 +91,17 @@ function QnaModal({ question }) {
                   <h3 className="mb-2 font-semibold text-secondary">Answers:</h3>
                   {answers.map((ans) => (
                     <div key={ans._id} className="text-sm">
-                      <p className="text-gray-500 mb-0.5">
+                      <p className="text-gray-500 mb-0.5 flex gap-2">
                         <span>{ans.userEmail} • </span>
-                        <span>{new Date(ans.createdAt).toLocaleDateString()} • </span>
+                        <span>{new Date(ans.createdAt).toLocaleDateString()} </span>
 
-                        <button onClick={() => handleAnswerDelete(ans._id)} className="underline text-red-600">delete</button>
+                        {userEmail === ans.userEmail && 
+                          <button
+                            onClick={() => handleAnswerDelete(ans._id)}
+                            className="ml-auto p-1 border border-transparent hover:border-red-600 text-red-600 rounded hover:-translate-y-1 transition-all">
+                              <FaTrashAlt />
+                          </button>
+                        }
                       </p>
                       <p>{ans.answer}</p>
                       <hr className="my-3" />

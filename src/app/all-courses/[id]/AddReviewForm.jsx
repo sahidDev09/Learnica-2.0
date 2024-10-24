@@ -7,7 +7,7 @@ import { useUser } from "@clerk/nextjs";
 // req: add new review >>
 const addComment = async (formData) => {
   const res = await fetch(
-    process.env.NEXT_PUBLIC_BASE_URL + "/api/add-review",
+    process.env.NEXT_PUBLIC_BASE_URL + "/api/get-reviews",
     {
       method: "POST",
       headers: {
@@ -19,14 +19,10 @@ const addComment = async (formData) => {
   return res.json();
 };
 
-function AddReviewForm() {
+function AddReviewForm({courseId}) {
   const queryClient = useQueryClient();
-  const userData = useUser()
-  const user = {
-    authorEmail: userData?.user.emailAddresses[0].emailAddress,
-    authorName: userData?.user.fullName,
-    authorPhotoUrl: userData?.user.imageUrl
-  } 
+  const user = useUser()
+  const userEmail = user?.user.emailAddresses[0].emailAddress
 
   const mutation = useMutation({
     mutationFn: addComment,
@@ -39,20 +35,20 @@ function AddReviewForm() {
     const formData = {
       rating: +e.target.rating.value,
       review_text: e.target.review_text.value.trim(),
-      reviewerName: user.authorName,
-      reviewerEmail: user.authorEmail,
+      reviewerEmail: userEmail,
       created_at: Date.now(),
+      courseId
     };
 
     // check user info
-    if (!(user.authorEmail && user.authorName)) {
+    if ( !userEmail ) {
       alert('you must login!')
       return;
     }
 
     mutation.mutate(formData, {
       onSuccess: () => {
-        queryClient.invalidateQueries(["my-review"]);
+        queryClient.invalidateQueries(["my-review", courseId]);
         // reset form and show alert
         e.target.reset();
         Swal.fire({
