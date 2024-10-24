@@ -20,6 +20,7 @@ import {
   BriefcaseBusiness,
   FileStackIcon,
   PenBox,
+  ShieldCheck,
 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaCashRegister } from "react-icons/fa";
@@ -137,7 +138,7 @@ const Navbar = () => {
                 <Link
                   href="/all-courses"
                   className="duration-150 hover:border-transparent p-1 text-center">
-                  <li>All Courses</li>
+                  <li>Courses</li>
                 </Link>
 
                 {user && (
@@ -150,7 +151,7 @@ const Navbar = () => {
                     <li
                       className="duration-150 hover:border-transparent p-1 text-center cursor-pointer"
                       onClick={() => setShowSupportModal(true)}>
-                      Help-line
+                      Helpline
                     </li>
                   </>
                 )}
@@ -209,7 +210,7 @@ const Navbar = () => {
                         variant="destructive"
                         className="rounded-full"
                         aria-label="Author Dashboard">
-                        <PenBox size={20} className="mr-2" /> Admin Dashboard
+                        <ShieldCheck size={20} /> Admin
                       </Button>
                     </Link>
                   ) : user?.unsafeMetadata?.role === "teacher" ? (
@@ -332,7 +333,7 @@ const Navbar = () => {
             <Link href="/">Home</Link>
           </li>
           <li>
-            <Link href="/all-courses">All Courses</Link>
+            <Link href="/all-courses">Courses</Link>
           </li>
           <li>
             <Link href="/live_class">Live Classes</Link>
@@ -340,7 +341,7 @@ const Navbar = () => {
           <li
             className="duration-150 hover:border-transparent p-1 cursor-pointer"
             onClick={() => setShowSupportModal(true)}>
-            Help-line
+            Helpline
           </li>
           <li>
             <Link href="/about">About Us</Link>
