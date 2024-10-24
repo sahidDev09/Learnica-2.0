@@ -1,31 +1,42 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import { useUser } from '@clerk/nextjs'; 
-import Loading from '../loading';
-import { format } from 'date-fns'; 
+import React, { useEffect, useState } from "react";
+import { useUser } from "@clerk/nextjs";
+import Loading from "../loading";
+import { format } from "date-fns";
 import { TiTickOutline } from "react-icons/ti";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const Page = () => {
-  const { user, isLoaded } = useUser(); 
+  const { user, isLoaded } = useUser();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  
   async function fetchOrders(userEmail) {
     try {
-      const response = await fetch('/api/get-orders');
+      const response = await fetch("/api/get-orders");
       if (response.ok) {
         const data = await response.json();
-        const filteredOrders = data.filter(order => order.email === userEmail);
+        const filteredOrders = data.filter(
+          (order) => order.email === userEmail
+        );
         setOrders(filteredOrders);
         setLoading(false);
       } else {
-        setError('Failed to fetch data');
+        setError("Failed to fetch data");
         setLoading(false);
       }
     } catch (error) {
-      setError('Error fetching data');
+      setError("Error fetching data");
       setLoading(false);
     }
   }
@@ -71,7 +82,7 @@ const Page = () => {
                   <td className="py-3 px-4">{order.title}</td>
                   <td className="py-3 px-4">{order.totalAmount}</td>
                   <td className="py-3 px-4">
-                    {format(new Date(order.createdAt), 'PPpp')} 
+                    {format(new Date(order.createdAt), "PPpp")}
                   </td>
                   <td className="py-3 px-4">
                     <div className="flex items-center gap-x-2 justify-center">

@@ -11,7 +11,13 @@ const Concepts = ({ lecture, setLecture }) => {
   const handleAddLecture = () => {
     setLecture((prevLecture) => [
       ...prevLecture,
-      { title: "", videoUrl: "", freePreview: false, public_id: "" },
+      {
+        title: "",
+        videoUrl: "",
+        freePreview: false,
+        public_id: "",
+        duration: "",
+      },
     ]);
   };
 
@@ -36,6 +42,7 @@ const Concepts = ({ lecture, setLecture }) => {
             ...lec,
             videoUrl: info.secure_url,
             public_id: info.public_id,
+            duration: info.duration,
             title: info.original_filename || lec.title,
           }
         : lec

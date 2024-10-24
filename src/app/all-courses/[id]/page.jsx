@@ -13,13 +13,17 @@ import Loading from "@/app/loading";
 import { redirect } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import MyReview from "./MyReview";
+import { useEffect } from "react";
 
 const Page = ({ params }) => {
-  const { user } = useUser();
+  const { user, isLoaded, isSignedIn } = useUser();
 
-  if (!user) {
-    redirect("/?sign-in=true");
-  }
+  // Wait until Clerk has fully loaded and the user is determined
+  useEffect(() => {
+    if (isLoaded && !isSignedIn) {
+      redirect("/?sign-in=true");
+    }
+  }, [isLoaded, isSignedIn]);
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["courses"],
@@ -31,33 +35,9 @@ const Page = ({ params }) => {
     },
   });
 
-  if (isLoading) {
+  if (isLoading || !isLoaded) {
     return <Loading />;
   }
-  // const { user } = useUser();
-
-  const topic = [
-    {
-      title: "Introduction to JavaScript",
-      duration: "2",
-    },
-    {
-      title: "React Basics",
-      duration: "3",
-    },
-    {
-      title: "Understanding Node.js",
-      duration: "1.5",
-    },
-    {
-      title: "MongoDB Essentials",
-      duration: "2.5",
-    },
-    {
-      title: "Advanced CSS Techniques",
-      duration: "4",
-    },
-  ];
 
   return (
     <div className="min-h-screen py-10">
@@ -65,7 +45,7 @@ const Page = ({ params }) => {
         <div className="lg:w-5/12">
           <div className=" bg-card p-6 h-full rounded-xl">
             {/* title */}
-            <h2 className="text-2xl md:text-3xl font-semibold">{data.title}</h2>
+            <h2 className="text-2xl md:text-3xl font-semibold">{data.name}</h2>
             {/* progress */}
             <div className="flex gap-2 items-center my-4">
               <progress
@@ -76,7 +56,7 @@ const Page = ({ params }) => {
             </div>
             {/* content */}
             <div className="space-y-3">
-              {topic.map((item, index) => (
+              {data.lectures.map((item, index) => (
                 <div
                   key={index}
                   className="flex gap-2 items-center p-2 bg-white w-full rounded-md">
@@ -84,8 +64,8 @@ const Page = ({ params }) => {
                     <PlaySquare className=" size-8 text-white" />
                   </div>
                   <div className="text-start w-full ml-2">
-                    <h2 className="text-lg md:text-lg font-semibold">
-                      {index + 1}. {item.title}
+                    <h2 className=" md:text-lg font-semibold">
+                      {index + 1}. {item.title.slice(0, 35)}..
                     </h2>
                     <h4 className="ml-5">Duration : {item.duration} min</h4>
                   </div>
