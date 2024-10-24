@@ -24,7 +24,7 @@ function Reviews() {
   return (
     <section className="max-w-screen-lg mx-auto mt-6">
       <header className="mb-6">
-        <h2 className="text-xl md:text-2xl font-semibold">Learner Reviews</h2>
+        <h2 className="text-xl md:text-2xl font-semibold text-secondary">Learner Reviews</h2>
       </header>
 
       {/* cards */}
@@ -37,8 +37,8 @@ function Reviews() {
 
               <div className="flex items-center justify-between flex-col gap-1 md:flex-row md:gap-4 mb-2">
                 <div className="flex items-center gap-2">
-                  <h3 className="text-secondary font-bold capitalize">
-                    {review.reviewerName} 
+                  <h3 className="text-secondary font-semibold text-sm">
+                    {review.reviewerEmail} 
                   </h3> •
 
                   <p className="flex items-center gap-2 font-semibold text-yellow-800">

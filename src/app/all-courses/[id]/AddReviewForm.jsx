@@ -21,12 +21,8 @@ const addComment = async (formData) => {
 
 function AddReviewForm() {
   const queryClient = useQueryClient();
-  const userData = useUser()
-  const user = {
-    authorEmail: userData?.user.emailAddresses[0].emailAddress,
-    authorName: userData?.user.fullName,
-    authorPhotoUrl: userData?.user.imageUrl
-  } 
+  const user = useUser()
+  const userEmail = user?.user.emailAddresses[0].emailAddress
 
   const mutation = useMutation({
     mutationFn: addComment,
@@ -39,13 +35,12 @@ function AddReviewForm() {
     const formData = {
       rating: +e.target.rating.value,
       review_text: e.target.review_text.value.trim(),
-      reviewerName: user.authorName,
-      reviewerEmail: user.authorEmail,
+      reviewerEmail: userEmail,
       created_at: Date.now(),
     };
 
     // check user info
-    if (!(user.authorEmail && user.authorName)) {
+    if ( !userEmail ) {
       alert('you must login!')
       return;
     }
