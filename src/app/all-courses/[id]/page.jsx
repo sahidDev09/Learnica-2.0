@@ -218,7 +218,7 @@ const Page = ({ params }) => {
               aria-label="Reviews"
             />
             <div role="tabpanel" className="tab-content pt-4 bg-white w-full">
-              <MyReview />
+              <MyReview courseId={courseId} />
               <Reviews />
             </div>
 

@@ -19,7 +19,7 @@ const addComment = async (formData) => {
   return res.json();
 };
 
-function AddReviewForm() {
+function AddReviewForm({courseId}) {
   const queryClient = useQueryClient();
   const user = useUser()
   const userEmail = user?.user.emailAddresses[0].emailAddress
@@ -37,6 +37,7 @@ function AddReviewForm() {
       review_text: e.target.review_text.value.trim(),
       reviewerEmail: userEmail,
       created_at: Date.now(),
+      courseId
     };
 
     // check user info
@@ -47,7 +48,7 @@ function AddReviewForm() {
 
     mutation.mutate(formData, {
       onSuccess: () => {
-        queryClient.invalidateQueries(["my-review"]);
+        queryClient.invalidateQueries(["my-review", courseId]);
         // reset form and show alert
         e.target.reset();
         Swal.fire({
