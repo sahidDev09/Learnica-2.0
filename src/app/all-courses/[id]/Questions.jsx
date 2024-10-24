@@ -1,5 +1,5 @@
 "use client";
-import { FaReplyAll, FaTrashAlt } from "react-icons/fa";
+import { FaTrashAlt } from "react-icons/fa";
 import AddQuestionForm from "./AddQuestionForm";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "@/components/shared/Loader";
