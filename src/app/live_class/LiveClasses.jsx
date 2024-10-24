@@ -27,7 +27,7 @@ const LiveClasses = () => {
      
 
       {/* Responsive Grid Layout */}
-      <div className="grid md:grid-cols-2 gap-5">
+      <div className="grid md:grid-cols-1 gap-5">
         {liveClasses?.map((liveClass, index) => (
           <div
             key={index}

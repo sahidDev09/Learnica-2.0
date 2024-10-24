@@ -34,7 +34,7 @@ const CoursesPage = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`/api/all-courses?id=${id}`, {
+        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/all-courses?id=${id}`, {
           // Use the correct API route
           method: "DELETE",
         })
@@ -86,7 +86,7 @@ const CoursesPage = () => {
                     <div className="avatar">
                       <div className="mask mask-squircle h-12 w-12 border-2">
                         <Image
-                          src={item.thumbnail}
+                          src={item.additionalInfo.image                          }
                           alt={item.title}
                           width={50}
                           height={80}
@@ -94,16 +94,18 @@ const CoursesPage = () => {
                       </div>
                     </div>
                     <div>
-                      <div className="font-bold">{item.title}</div>
+                      <div className="font-bold">{item.name.length > 20
+              ? `${item.name.slice(0, 20)}...`
+              : item.name}</div>
                       <div className="text-sm opacity-50">
-                        by {item.authorName}
+                        by {item.author.name}
                       </div>
                     </div>
                   </div>
                 </td>
 
                 <td className="">376</td>
-                <td className="">{item.price} $</td>
+                <td className="">{item.pricing} $</td>
                 <td className="">{item.status || "Published"}</td>
 
                 <td className="">
