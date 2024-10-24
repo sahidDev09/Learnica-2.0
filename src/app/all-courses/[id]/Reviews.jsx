@@ -4,15 +4,15 @@ import { FaStar } from "react-icons/fa";
 import Loading from "@/app/loading";
 import { useUser } from "@clerk/nextjs";
 
-function Reviews() {
+function Reviews({courseId}) {
   const user = useUser()
   const userEmail = user?.user.emailAddresses[0].emailAddress
 
   const { data: reviews, isLoading } = useQuery({
-    queryKey: ["course-reviews"],
+    queryKey: ["course-reviews", courseId],
     queryFn: async () => {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + `/api/get-reviews?email=${userEmail}`
+        process.env.NEXT_PUBLIC_BASE_URL + `/api/get-reviews?email=${userEmail}&courseId=${courseId}`
       );
       return res.json();
     },

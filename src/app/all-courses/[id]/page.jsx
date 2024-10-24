@@ -219,7 +219,7 @@ const Page = ({ params }) => {
             />
             <div role="tabpanel" className="tab-content pt-4 bg-white w-full">
               <MyReview courseId={courseId} />
-              <Reviews />
+              <Reviews courseId={courseId} />
             </div>
 
             {/*------------------------------- Attachment --------------------------*/}
