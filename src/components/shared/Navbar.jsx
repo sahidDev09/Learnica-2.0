@@ -23,7 +23,6 @@ import {
 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaCashRegister } from "react-icons/fa";
-import Loading from "@/app/loading";
 import Support from "../Support";
 import {
   Sheet,
@@ -99,7 +98,7 @@ const Navbar = () => {
   }, [currUser]);
 
   if (loading) {
-    return;
+    return <div>please wait..</div>;
   }
 
   return (

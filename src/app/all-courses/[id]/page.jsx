@@ -100,7 +100,7 @@ const Page = ({ params }) => {
                   </div>
                   <div className="text-start w-full ml-2">
                     <h2 className=" md:text-lg font-semibold">
-                      {index + 1}. {item.title.slice(0, 35)}..
+                      {index + 1}. {item.title.slice(0, 25)}..
                     </h2>
                     <h4 className="ml-5 flex items-center gap-2">
                       <Clock className=" h-5 w-5" />{" "}
