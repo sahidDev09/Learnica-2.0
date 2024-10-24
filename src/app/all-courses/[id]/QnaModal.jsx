@@ -23,10 +23,10 @@ function QnaModal({ question, courseId }) {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["qna-ans", question._id],
+    queryKey: ["qna-ans", question._id, courseId],
     queryFn: async () => {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + `/api/qna-ans?id=${question._id}`
+        process.env.NEXT_PUBLIC_BASE_URL + `/api/qna-ans?id=${question._id}&courseId=${courseId}`
       );
       return res.json();
     },
