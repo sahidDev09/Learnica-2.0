@@ -24,6 +24,14 @@ export default async function handler(req, res) {
       const result = await reviewsCollection.find(query).toArray();
       return res.json(result);
     } 
+    // Handle the POST request
+    else if (req.method === "POST") {
+      const newReview = req.body;
+
+      // Insert new course into the database
+      await reviewsCollection.insertOne(newReview);
+      return res.json({ success: true, message: "Review successfully inserted!" });
+    }
     // ------- delete ------------ 
     else if (req.method === "DELETE") {
       const reviewerEmail = req.body.email;

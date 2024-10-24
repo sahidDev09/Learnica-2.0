@@ -7,7 +7,7 @@ import { useUser } from "@clerk/nextjs";
 // req: add new review >>
 const addComment = async (formData) => {
   const res = await fetch(
-    process.env.NEXT_PUBLIC_BASE_URL + "/api/add-review",
+    process.env.NEXT_PUBLIC_BASE_URL + "/api/get-reviews",
     {
       method: "POST",
       headers: {
