@@ -99,7 +99,7 @@ const Navbar = () => {
   }, [currUser]);
 
   if (loading) {
-    return <Loading />;
+    return;
   }
 
   return (

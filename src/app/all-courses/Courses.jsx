@@ -15,7 +15,6 @@ const Courses = ({ products, loading }) => {
     return <NoDataFound />;
   }
 
-  // Render courses or a message if no courses are available
   return (
     <section className="px-4 py-8 md:py-12">
       <div className="container mx-auto">
