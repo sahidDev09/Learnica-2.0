@@ -11,10 +11,10 @@ function MyReview({courseId}) {
   const userEmail = user?.user.emailAddresses[0].emailAddress
 
   const { data: myReview, isLoading, refetch } = useQuery({
-    queryKey: ["my-review"],
+    queryKey: ["my-review", courseId],
     queryFn: async () => {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + `/api/get-reviews?email=${userEmail}&onlyMe=1`
+        process.env.NEXT_PUBLIC_BASE_URL + `/api/get-reviews?email=${userEmail}&onlyMe=1&courseId=${courseId}`
       );
       return res.json();
     },

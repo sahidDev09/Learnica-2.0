@@ -11,19 +11,18 @@ export default async function handler(req, res) {
     if (req.method === "GET") {
       const email = req.query.email
       const onlyMe = req.query.onlyMe
-      console.log({onlyMe});
+      const courseId = req.query?.courseId
+
       let query;
       
       if (onlyMe) {
-        query = {reviewerEmail: email}
+        query = {reviewerEmail: email, courseId}
       } else {
-        query = {reviewerEmail: {$ne: email}}
+        query = {reviewerEmail: {$ne: email}, courseId}
       }
 
       const result = await reviewsCollection.find(query).toArray();
-      return res
-        // .status(201)
-        .json(result);
+      return res.json(result);
     } 
     // ------- delete ------------ 
     else if (req.method === "DELETE") {
