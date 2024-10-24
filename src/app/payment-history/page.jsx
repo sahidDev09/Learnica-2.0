@@ -1,36 +1,46 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import { useUser } from '@clerk/nextjs'; 
-import Loading from '../loading';
-import { format } from 'date-fns'; 
+import React, { useEffect, useState } from "react";
+import { useUser } from "@clerk/nextjs";
+import Loading from "../loading";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TiTickOutline } from "react-icons/ti";
+import { format } from "date-fns";
 
 const Page = () => {
-  const { user, isLoaded } = useUser(); 
+  const { user, isLoaded } = useUser();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  
   async function fetchOrders(userEmail) {
     try {
-      const response = await fetch('/api/get-orders');
+      const response = await fetch("/api/get-orders");
       if (response.ok) {
         const data = await response.json();
-        const filteredOrders = data.filter(order => order.email === userEmail);
+        const filteredOrders = data.filter(
+          (order) => order.email === userEmail
+        );
         setOrders(filteredOrders);
         setLoading(false);
       } else {
-        setError('Failed to fetch data');
+        setError("Failed to fetch data");
         setLoading(false);
       }
     } catch (error) {
-      setError('Error fetching data');
+      setError("Error fetching data");
       setLoading(false);
     }
   }
-
-  useEffect(() => {
+useEffect(() => {
     if (isLoaded && user) {
       const userEmail = user.email || user.primaryEmailAddress?.emailAddress;
       if (userEmail) {
@@ -51,46 +61,72 @@ const Page = () => {
   }
 
   return (
-    <div className="container mx-auto text-center">
-      <div className="overflow-x-auto bg-secondary my-20">
-        <table className="table w-full text-left">
-          <thead>
-            <tr className="text-white text-center">
-              <th>Serial</th>
-              <th>Course Title</th>
-              <th>Total Amount</th>
-              <th>Created Date</th>
-              <th>Payment Status</th>
-            </tr>
-          </thead>
-          <tbody className="text-white text-center">
-            {orders.length > 0 ? (
-              orders.map((order, index) => (
-                <tr key={order._id}>
-                  <td className="py-3 px-4">{index + 1}</td>
-                  <td className="py-3 px-4">{order.title}</td>
-                  <td className="py-3 px-4">{order.totalAmount}</td>
-                  <td className="py-3 px-4">
-                    {format(new Date(order.createdAt), 'PPpp')} 
-                  </td>
-                  <td className="py-3 px-4">
-                    <div className="flex items-center gap-x-2 justify-center">
-                      <span>{order.status}</span>
-                      <TiTickOutline />
-                    </div>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="5" className="text-center py-3 px-4">
-                  No orders found
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+    <div className="container mx-auto p-4">
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg md:text-2xl">
+            My Payment History
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <Table className="min-w-full">
+              <TableCaption>A list of your recent invoices.</TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-center py-2 px-4">
+                    Serial #
+                  </TableHead>
+                  <TableHead className="text-center py-2 px-4">
+                    Course Title
+                  </TableHead>
+                  <TableHead className="text-center py-2 px-4">
+                    Total Amount
+                  </TableHead>
+                  <TableHead className="text-center py-2 px-4">
+                    Created Date
+                  </TableHead>
+                  <TableHead className="text-center py-2 px-4">
+                    Payment Status
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {orders.length > 0 ? (
+                  orders.map((order, index) => (
+                    <TableRow key={order._id} className="hover:bg-gray-50">
+                      <TableCell className="text-center py-2 px-4">
+                        {index + 1}
+                      </TableCell>
+                      <TableCell className="text-center py-2 px-4">
+                        {order.title}
+                      </TableCell>
+                      <TableCell className="text-center py-2 px-4">
+                        {order.totalAmount}
+                      </TableCell>
+                      <TableCell className="text-center py-2 px-4">
+                        {format(new Date(order.createdAt), "PPpp")}
+                      </TableCell>
+                      <TableCell className="text-center py-2 px-4">
+                        <div className="flex items-center justify-center gap-x-1">
+                          <span>{order.status}</span>
+                          <TiTickOutline />
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan="5" className="text-center py-4">
+                      No orders found
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

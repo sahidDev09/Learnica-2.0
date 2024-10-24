@@ -232,9 +232,9 @@ const Navbar = () => {
                       }}>
                       <UserButton.MenuItems>
                         <UserButton.Link
-                          label="My Purchases"
+                          label="My Learning"
                           labelIcon={<BriefcaseBusiness size={15} />}
-                          href="my-applications"></UserButton.Link>
+                          href="my-learning"></UserButton.Link>
 
                         <UserButton.Link
                           label="Payment History"
@@ -289,9 +289,9 @@ const Navbar = () => {
                 className="mr-3">
                 <UserButton.MenuItems>
                   <UserButton.Link
-                    label="My Purchases"
+                    label="My Learning"
                     labelIcon={<BriefcaseBusiness size={15} />}
-                    href="my-applications"></UserButton.Link>
+                    href="/my-learning"></UserButton.Link>
 
                   <UserButton.Link
                     label="Payment History"

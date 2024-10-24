@@ -34,6 +34,7 @@ const NewCourse = () => {
     videoUrl: "",
     freePreview: false,
     public_id: "",
+    duration: "",
   };
 
   const initialAdditional = {
@@ -82,6 +83,7 @@ const NewCourse = () => {
         videoUrl: lec.videoUrl,
         freePreview: lec.freePreview,
         public_id: lec.public_id,
+        duration: lec.duration,
       })),
       additionalInfo: {
         image: additionalInfo.image,
@@ -116,7 +118,6 @@ const NewCourse = () => {
         setLecture([initialLecture]);
         setCourseInfo(courseInfoInitialData);
         setAdditionalInfo(initialAdditional);
-        
       } else {
         throw new Error(data.message || "Failed to add course.");
       }
