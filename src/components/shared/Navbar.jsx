@@ -120,14 +120,14 @@ const Navbar = () => {
           </Link>
           <div>
             {/* Mobile menu icon */}
-            <div className="block md:hidden lg:hidden">
+            <div className="block lg:hidden">
               <IoMdMenu
                 onClick={handleOpenMenu}
                 className="text-4xl cursor-pointer"
               />
             </div>
             {/* Desktop Menu */}
-            <div className="hidden md:block lg:block">
+            <div className="hidden lg:block">
               <ul className="flex gap-6">
                 <Link
                   href="/"
@@ -162,10 +162,9 @@ const Navbar = () => {
                   <li>About Us</li>
                 </Link>
 
-                <li className="p-1">
-                  {/* Dark Mode Toggle */}
+                {/* <li className="p-1">
                   <BellDot />
-                </li>
+                </li> */}
                 {user && (
                   <li>
                     <Sheet>
