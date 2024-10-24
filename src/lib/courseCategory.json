@@ -1,0 +1,18 @@
+[
+  { "id": "web-development", "label": "Web Development" },
+  { "id": "backend-development", "label": "Backend Development" },
+  { "id": "data-science", "label": "Data Science" },
+  { "id": "machine-learning", "label": "Machine Learning" },
+  { "id": "artificial-intelligence", "label": "Artificial Intelligence" },
+  { "id": "cloud-computing", "label": "Cloud Computing" },
+  { "id": "cyber-security", "label": "Cyber Security" },
+  { "id": "mobile-development", "label": "Mobile Development" },
+  { "id": "game-development", "label": "Game Development" },
+  { "id": "software-engineering", "label": "Software Engineering" },
+  { "id": "ux-ui-design", "label": "UX/UI Design" },
+  { "id": "digital-marketing", "label": "Digital Marketing" },
+  { "id": "video-editing", "label": "Video Editing" },
+  { "id": "prompt-engineering", "label": "Prompt Engineering" },
+  { "id": "devops", "label": "DevOps" },
+  { "id": "graphics-design", "label": "Graphics Design" }
+]

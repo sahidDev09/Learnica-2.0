@@ -95,7 +95,7 @@ const AllUsers = () => {
   return (
     <div className="bg-slate-50 p-4 container mx-auto rounded-md mt-14 md:mt-0">
       <h1 className="text-2xl">Total users: {users.length}</h1>
-      <div>
+      <div className="container mx-auto">
         <div className="overflow-x-auto">
           <table className="table">
             <thead>
@@ -145,7 +145,7 @@ const AllUsers = () => {
                   <td>
                     {user.mainRole === "admin" ? (
                       <button
-                        className="btn bg-yellow-400"
+                        className="btn bg-secondary text-white"
                         data-tooltip-id="user-tooltip"
                         data-tooltip-content="Admin">
                         <FaChessKing />
@@ -153,18 +153,18 @@ const AllUsers = () => {
                     ) : (
                       <button
                         onClick={() => handleAdmin(user)}
-                        className="btn bg-yellow-100 hover:bg-yellow-400"
+                        className="btn bg-secondary bg-opacity-25 hover:bg-primary hover:text-white"
                         data-tooltip-id="user-tooltip"
                         data-tooltip-content="Make Admin">
                         <RiAdminFill />
                       </button>
                     )}
                   </td>
-                  <th className="flex gap-2">
+                  <th className="flex gap-2 justify-center">
                     {user.status === "blocked" ? (
                       <button
                         disabled
-                        className="btn bg-red-100 hover:bg-red-400"
+                        className="btn bg-red-100 hover:bg-primary"
                         data-tooltip-id="user-tooltip"
                         data-tooltip-content="Blocked">
                         <MdBlockFlipped />
@@ -172,7 +172,7 @@ const AllUsers = () => {
                     ) : (
                       <button
                         onClick={() => handleBlockUsers(user)}
-                        className="btn bg-red-100 hover:bg-red-400"
+                        className="btn bg-red-100 hover:bg-primary hover:text-white"
                         data-tooltip-id="user-tooltip"
                         data-tooltip-content="Block">
                         <MdBlockFlipped />
@@ -180,7 +180,7 @@ const AllUsers = () => {
                     )}
 
                     <button
-                      className="btn bg-[#C3C1F9] hover:bg-[#8985f6]"
+                      className="btn bg-secondary hover:bg-opacity-75 hover:bg-secondary text-white"
                       onClick={() => setShowModal(user)}>
                       See info
                     </button>

@@ -1,20 +1,29 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import Loading from "@/app/loading";
 
 const Card = ({ course }) => {
-  const validThumbnail =
-    course.thumbnail.startsWith("/") || course.thumbnail.startsWith("http")
-      ? course.thumbnail
-      : "/default-thumbnail.jpg";
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${month}-${day}-${year}`;
+  };
+
+  if (!course) {
+    return <Loading />;
+  }
 
   return (
     <div className=" bg-card">
       <div className="w-full mx-auto md:mx-0 border rounded-xl text-gray-800 dark:bg-gray-800 dark:text-white shadow-md">
         <Image
           className="w-full h-[260px] rounded-xl object-fit"
-          src={validThumbnail}
-          alt={course.title}
+          src={course?.additionalInfo?.image}
+          alt={course?.name}
           width={1000}
           height={1000}
         />
@@ -24,21 +33,21 @@ const Card = ({ course }) => {
             {course.category}
           </p>
           <h3 className="text-lg font-semibold my-1 e">
-            {course.title.length > 35
-              ? `${course.title.slice(0, 35)}...`
-              : course.title}
+            {course.name.length > 35
+              ? `${course.name.slice(0, 35)}...`
+              : course.name}
           </h3>
           <p>
-            <span className="text-gray-500">Release Date 12-05-2024</span>
+            <span className="text-gray-500">
+              Release Date: {formatDate(course.publish_date)}
+            </span>
           </p>
           <p className="text-sm text-primary">
-            Author: <span className="font-semibold">{course.authorName}</span>
+            Author: <span className="font-semibold">{course.author.name}</span>
           </p>
 
           <Link href={`/all-courses/${course._id}`}>
-            <Button className="my-2 bg-secondary">
-              View Details
-            </Button>
+            <Button className="my-2 bg-secondary">View Details</Button>
           </Link>
         </div>
       </div>

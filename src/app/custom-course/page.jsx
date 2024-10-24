@@ -7,21 +7,22 @@ import { PiShoppingCartSimpleLight } from "react-icons/pi";
 import { MdOutlineCancel } from "react-icons/md";
 import Swal from "sweetalert2";
 import convertToSubCurrency from "@/lib/convertToSubCurrency";
-import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Loading from "../loading";
-import Checkout from "@/components/payment/Checkout";
+import Checkout from "@/components/payment/Checkout"; 
 import { IoIosRemoveCircleOutline } from "react-icons/io";
+import { Elements } from "@stripe/react-stripe-js";
+import { useRouter } from "next/navigation"; 
+
 
 if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
   throw new Error("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is not defined");
 }
 
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 const CustomCoursePage = () => {
+  const router = useRouter();
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("JavaScript");
   const [loading, setLoading] = useState(false);
@@ -31,8 +32,14 @@ const CustomCoursePage = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
+  const [courseTitle, setCourseTitle] = useState("");
+  
+  
+  const showError = (message) => {
+    Swal.fire("Error", message, "error");
+  };
 
-  // ---------fetch course-----------------
+  // Fetch Courses
   const fetchCourses = useCallback(async () => {
     setLoading(true);
     const queryParams = new URLSearchParams({ lang_tech: selectedCategory });
@@ -47,7 +54,7 @@ const CustomCoursePage = () => {
       }
     } catch (error) {
       console.error("Fetch Courses Error:", error);
-      Swal.fire("Error", "Failed to fetch courses", "error");
+      showError("Failed to fetch courses");
     } finally {
       setLoading(false);
     }
@@ -57,34 +64,33 @@ const CustomCoursePage = () => {
     if (isLoaded && isSignedIn) fetchCourses();
   }, [fetchCourses, isLoaded, isSignedIn]);
 
-  // ----------------handle category------------------
   const handleCategorySelect = (lang_tech) => {
     setSelectedCategory(lang_tech);
   };
-  // -------------------cart----------------------
+
   const addToCart = (product) => {
-    if (!cart.find((item) => item._id === product._id)) {
-      setCart([...cart, product]);
+    if (!cart.some((item) => item._id === product._id)) {
+      setCart((prevCart) => [...prevCart, product]);
     }
   };
-  // ---------------remove from cart----------------
+
   const removeFromCart = (productId) => {
-    setCart(cart.filter((item) => item._id !== productId));
-  };
-  // ----------------toggle--------------------
-  const toggleCart = () => {
-    setIsCartOpen(!isCartOpen);
+    setCart((prevCart) => prevCart.filter((item) => item._id !== productId));
   };
 
-  // --------------------stripe payment------------------------
+  const toggleCart = () => {
+    setIsCartOpen((prev) => !prev);
+  };
+
+  // Stripe Payment
   const handlePayNow = async () => {
     if (!isLoaded || !isSignedIn || !user) {
-      Swal.fire("Error", "Please sign in to proceed with payment.", "error");
+      showError("Please sign in to proceed with payment.");
       return;
     }
 
     if (cart.length === 0) {
-      Swal.fire("Error", "Your cart is empty.", "error");
+      showError("Your cart is empty.");
       return;
     }
 
@@ -95,9 +101,7 @@ const CustomCoursePage = () => {
     try {
       const res = await fetch("/pay-api/create-payment-intent", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           amount: totalAmount,
           userId: user.id,
@@ -123,29 +127,26 @@ const CustomCoursePage = () => {
       }
     } catch (error) {
       console.error("Error fetching clientSecret:", error);
-      Swal.fire(
-        "Error",
-        "Failed to initialize payment. Please try again.",
-        "error"
-      );
+      showError("Failed to initialize payment. Please try again.");
     }
   };
 
-  // ----------------------backend-----------------------
+  
+
+  
   const handlePaymentSuccess = async () => {
+     // Initialize useRouter
+  
     try {
       const res = await fetch("/pay-api/checkout", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userId: user.id,
           email: user.primaryEmailAddress?.emailAddress || "",
-          totalAmount: cart.reduce(
-            (sum, item) => sum + parseFloat(item.price),
-            0
-          ),
+          title: courseTitle,
+          status: 'success',
+          totalAmount: cart.reduce((sum, item) => sum + parseFloat(item.price), 0),
           items: cart.map((item) => ({
             concept_title: item.concept_title,
             concept_url: item.concept_url,
@@ -156,30 +157,28 @@ const CustomCoursePage = () => {
           })),
         }),
       });
-
+  
       const data = await res.json();
-
-      if (!res.ok)
-        throw new Error(data.error || "Failed to store order in the database.");
-      Swal.fire(
-        "Success",
-        "Payment was successful and your order has been placed.",
-        "success"
-      );
-      setCart([]);
+  
+      if (!res.ok) throw new Error(data.error || "Failed to store order in the database.");
+  
+      Swal.fire("Success", "Payment was successful and your order has been placed.", "success");
+      
+      setCart([]); 
+      setCourseTitle("");
+      router.push("/payment-history"); 
     } catch (error) {
       console.error("Error saving order to database:", error);
-      Swal.fire(
-        "Error",
-        "Failed to store order. Please contact support.",
-        "error"
-      );
+      showError("Failed to store order. Please contact support.");
     }
   };
+  
 
-  // --------------------loader----------------------
 
+  // Loader
   if (loading && products.length === 0) return <Loading />;
+
+ 
 
   return (
     <div className="px-4">
@@ -198,11 +197,11 @@ const CustomCoursePage = () => {
                 <button
                   key={index}
                   onClick={() => handleCategorySelect(lang_tech)}
-                  className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full transition-transform md:text-lg ${
-                    selectedCategory === lang_tech
-                      ? "bg-primary text-white"
-                      : "bg-secondary text-white"
-                  }`}>
+                  className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full transition-transform md:text-lg ${selectedCategory === lang_tech
+                    ? "bg-primary text-white"
+                    : "bg-secondary text-white"
+                    }`}
+                >
                   <FaTags />
                   {lang_tech}
                 </button>
@@ -233,18 +232,16 @@ const CustomCoursePage = () => {
               return (
                 <div
                   key={product._id}
-                  className={`bg-secondary w-full h-40 p-4 rounded-lg shadow-md flex flex-col justify-between relative ${
-                    isInCart ? "opacity-50" : ""
-                  }`}>
+                  className={`bg-secondary w-full h-40 p-4 rounded-lg shadow-md flex flex-col justify-between relative ${isInCart ? "opacity-50" : ""
+                    }`}>
                   <div className="flex justify-between items-center">
                     <button className="rounded-2xl px-4 py-1 bg-white text-black">
                       {product.lang_tech}
                     </button>
                     <button
                       onClick={() => (isInCart ? null : addToCart(product))}
-                      className={`text-3xl ${
-                        isInCart ? "text-green-500" : "text-primary"
-                      }`}
+                      className={`text-3xl ${isInCart ? "text-green-500" : "text-primary"
+                        }`}
                       disabled={isInCart}>
                       {isInCart ? <FaCheck /> : <FaSquarePlus />}
                     </button>
@@ -271,7 +268,7 @@ const CustomCoursePage = () => {
 
       {/*--------------------Cart Sidebar----------------- */}
       {isCartOpen && (
-        <div className="fixed inset-0 z-50 flex">
+        <div className="fixed inset-0 z-50 flex overflow-y-auto">
           <div
             className="fixed inset-0 bg-black opacity-50"
             onClick={toggleCart}></div>
@@ -325,11 +322,25 @@ const CustomCoursePage = () => {
                       .toFixed(2)}
                   </p>
                 </div>
-                <button
-                  onClick={handlePayNow}
-                  className="bg-primary text-white mt-4 p-3 rounded-lg w-full">
-                  Pay Now
-                </button>
+                <div className="flex flex-col mt-4">
+                  <input
+                    type="text"
+                    placeholder="Enter your Custom Course Title here...."
+                    value={courseTitle}
+                    onChange={(e) => setCourseTitle(e.target.value)}
+                    className="border p-2 rounded mb-2"
+                  />
+                  <button
+                    onClick={handlePayNow}
+                    className={`rounded-2xl px-4 py-2 ${courseTitle.replace(/\s+/g, '').length >= 10 ? 'bg-secondary text-white' : 'bg-gray-400 cursor-not-allowed text-gray-700'}`}
+                    disabled={courseTitle.replace(/\s+/g, '').length < 10} 
+                  >
+                   Proceed to your payment
+                  </button>
+                </div>
+
+
+
               </>
             )}
           </div>

@@ -27,7 +27,7 @@ const CourseManagement = () => {
       if (!userEmail) return []; // If no email, return an empty array
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/manage-courses?email=${userEmail}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/manage-courses?.author?.email=${userEmail}`
       );
       return res.json();
     },
@@ -115,7 +115,7 @@ const CourseManagement = () => {
                     <div className="avatar">
                       <div className="mask mask-squircle h-12 w-12 border-2">
                         <Image
-                          src={item.thumbnail}
+                          src={item.additionalInfo?.image}
                           alt={item.title}
                           width={50}
                           height={80}
@@ -123,7 +123,9 @@ const CourseManagement = () => {
                       </div>
                     </div>
                     <div>
-                      <div className="font-bold">{item.title}</div>
+                      <div className="font-bold">{item.name.length > 20
+              ? `${item.name.slice(0, 20)}...`
+              : item.name}</div>
                       <div className="text-sm opacity-50">
                        
                       </div>
@@ -132,7 +134,7 @@ const CourseManagement = () => {
                 </td>
 
                 <td className="">376</td>
-                <td className="">{item.price} $</td>
+                <td className="">{item.pricing} $</td>
                 <td className="">{item.status || "Published"}</td>
 
                 <td className="">

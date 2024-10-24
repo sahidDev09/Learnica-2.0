@@ -13,12 +13,7 @@ const Sidebar = () => {
       icons: BookCopy,
       path: "/dashboard/teacher",
     },
-    {
-      id: 2,
-      name: "My Analytics",
-      icons: Database,
-      path: "/analysis",
-    },
+    
     {
       id: 2,
       name: "Add Live Class",

@@ -5,8 +5,12 @@ import { FaTrashAlt } from "react-icons/fa";
 import NoteModal from "./NoteModal";
 import Image from "next/image";
 import Loading from "@/app/loading";
+import { useUser } from "@clerk/nextjs";
 
 function Notes() {
+  const user = useUser()
+  const userEmail = user?.user.emailAddresses[0].emailAddress
+
   // get notes
   const {
     data: notes,
@@ -16,7 +20,7 @@ function Notes() {
     queryKey: ["my-notes"],
     queryFn: async () => {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + "/api/my-notes"
+        process.env.NEXT_PUBLIC_BASE_URL + `/api/my-notes?email=${userEmail || ''}`
       );
       return res.json();
     },

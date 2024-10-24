@@ -1,17 +1,15 @@
-// src/app/api/checkout/route.js
-
 import { NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
 
 export async function POST(request) {
   try {
-    const { userId, email, totalAmount, items } = await request.json();
+    const { userId, email,title, totalAmount, status, items } = await request.json();
 
-    if (!userId || !email || !totalAmount || !items) {
+    if (!userId || !email || !title || !totalAmount ||!status|| !items) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Missing required fields: userId, email, totalAmount, items',
+          message: 'Missing required fields: userId, email, title, totalAmount, items',
         },
         { status: 400 }
       );
@@ -19,21 +17,21 @@ export async function POST(request) {
 
     const client = await clientPromise;
     const db = client.db('learnica');
-    const ordersCollection = db.collection('orders');
-    
-    // Prepare the order object
+    const ordersCollection = db.collection('orders')
     const order = {
       userId,
       email,
+      title,
+      status,
       totalAmount: parseFloat(totalAmount),
       items: items.map((item) => ({
         concept_title: item.concept_title,
         concept_url: item.concept_url,
-        price: parseFloat(item.price),  
+        price: parseFloat(item.price), 
         duration: item.duration,
         lang_tech: item.lang_tech,
         rating: item.rating,
-        quantity: item.quantity || 1,  
+        quantity: item.quantity || 1, 
       })),
       createdAt: new Date(),
     };

@@ -6,19 +6,26 @@ import AddReviewForm from "./AddReviewForm";
 import AddNoteForm from "./AddNoteForm";
 import Notes from "./Notes";
 import Resources from "./Resources";
-import { PlaySquare } from "lucide-react";
+import { Clock, PlaySquare } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import Questions from "./Questions";
 import Loading from "@/app/loading";
 import { redirect } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
+import MyReview from "./MyReview";
+import { useEffect } from "react";
+import Swal from "sweetalert2";
+import { Button } from "@/components/ui/button";
 
 const Page = ({ params }) => {
-  const { user } = useUser();
+  const { user, isLoaded, isSignedIn } = useUser();
 
-  if (!user) {
-    redirect("/?sign-in=true");
-  }
+  // Wait until Clerk has fully loaded and the user is determined
+  useEffect(() => {
+    if (isLoaded && !isSignedIn) {
+      redirect("/?sign-in=true");
+    }
+  }, [isLoaded, isSignedIn]);
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["courses"],
@@ -30,72 +37,61 @@ const Page = ({ params }) => {
     },
   });
 
-  if (isLoading) {
+  const VideoDuration = (duration) => {
+    const hours = Math.floor(duration / 60);
+    const minutes = Math.floor(duration / 60);
+    const seconds = Math.floor(duration % 60);
+    return `${minutes} min ${seconds} sec`;
+  };
+
+  const handleLockedBuybtn = () => {
+    Swal.fire({
+      title: "Access Denied",
+      icon: "info",
+      html: `
+        You can watch more after enrolling in this course
+      `,
+      showCloseButton: true,
+      showCancelButton: true,
+      focusConfirm: false,
+      confirmButtonText: "Enroll Now",
+      confirmButtonAriaLabel: "Thumbs up, great!",
+      confirmButtonColor: "#135276",
+      cancelButtonText: "Skip for later",
+      cancelButtonAriaLabel: "Thumbs down",
+      cancelButtonColor: "#d33",
+      preConfirm: () => {
+        alert("welcome");
+      },
+      onClose: () => {
+        console.log("Modal closed");
+      },
+    });
+  };
+
+  if ((!data && isLoading) || !isLoaded) {
     return <Loading />;
   }
-  // const { user } = useUser();
-
-  const topic = [
-    {
-      title: "Introduction to JavaScript",
-      duration: "2",
-    },
-    {
-      title: "React Basics",
-      duration: "3",
-    },
-    {
-      title: "Understanding Node.js",
-      duration: "1.5",
-    },
-    {
-      title: "MongoDB Essentials",
-      duration: "2.5",
-    },
-    {
-      title: "Advanced CSS Techniques",
-      duration: "4",
-    },
-  ];
 
   return (
     <div className="min-h-screen py-10">
-      {/* approve button */}
-
-      {data?.status == "pending" && (
-        <div className="w-7/12 mx-auto ">
-          <div className="my-6 bg-yellow-400 rounded-xl p-8">
-            <h2 className="text-xl font-medium text-center my-3">
-              This is a pending course
-            </h2>
-            <h2 className="text-lg font-semibold text-center my-3">
-              Do you approve it..?
-            </h2>
-            <div className="flex justify-center mt-5">
-              <button className="btn btn-2xl bg-green-600 text-white border-0">
-                Approve
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       <div className="container mx-auto flex flex-col-reverse lg:flex-row px-2">
         <div className="lg:w-5/12">
           <div className=" bg-card p-6 h-full rounded-xl">
             {/* title */}
-            <h2 className="text-2xl md:text-3xl font-semibold">{data.title}</h2>
+            <h2 className="text-2xl md:text-3xl font-semibold">{data.name}</h2>
             {/* progress */}
             <div className="flex gap-2 items-center my-4">
               <progress
-                className="progress progress-error w-56"
+                className="progress progress-error w-full"
                 value="10"
                 max="100"></progress>
               <span className="font-semibold">10%</span>
             </div>
+            <Button className="my-3 bg-primary">Enroll Now</Button>
             {/* content */}
             <div className="space-y-3">
-              {topic.map((item, index) => (
+              {data.lectures.map((item, index) => (
                 <div
                   key={index}
                   className="flex gap-2 items-center p-2 bg-white w-full rounded-md">
@@ -103,14 +99,25 @@ const Page = ({ params }) => {
                     <PlaySquare className=" size-8 text-white" />
                   </div>
                   <div className="text-start w-full ml-2">
-                    <h2 className="text-lg md:text-lg font-semibold">
-                      {index + 1}. {item.title}
+                    <h2 className=" md:text-lg font-semibold">
+                      {index + 1}. {item.title.slice(0, 35)}..
                     </h2>
-                    <h4 className="ml-5">Duration : {item.duration} min</h4>
+                    <h4 className="ml-5 flex items-center gap-2">
+                      <Clock className=" h-5 w-5" />{" "}
+                      {VideoDuration(item.duration)}
+                    </h4>
                   </div>
-                  <button className="btn btn-sm bg-secondary text-white">
-                    Play
-                  </button>
+                  {item.freePreview === true ? (
+                    <button className="btn btn-sm bg-secondary text-white">
+                      Play
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleLockedBuybtn}
+                      className="btn btn-sm bg-gray-400 text-white">
+                      Locked
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
@@ -126,6 +133,7 @@ const Page = ({ params }) => {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen></iframe>
           {/* tab */}
+
           <div
             role="tablist"
             className="tabs tabs-bordered mt-4 bg-secondary pt-4 rounded-md w-full sm:max-w-none md:max-w-none lg:max-w-full flex flex-col md:inline-grid">
@@ -209,7 +217,7 @@ const Page = ({ params }) => {
               aria-label="Reviews"
             />
             <div role="tabpanel" className="tab-content pt-4 bg-white w-full">
-              <AddReviewForm />
+              <MyReview />
               <Reviews />
             </div>
 
