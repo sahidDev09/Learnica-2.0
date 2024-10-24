@@ -83,6 +83,7 @@ const NewCourse = () => {
         videoUrl: lec.videoUrl,
         freePreview: lec.freePreview,
         public_id: lec.public_id,
+        duration: lec.duration,
       })),
       additionalInfo: {
         image: additionalInfo.image,

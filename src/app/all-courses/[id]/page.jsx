@@ -6,7 +6,7 @@ import AddReviewForm from "./AddReviewForm";
 import AddNoteForm from "./AddNoteForm";
 import Notes from "./Notes";
 import Resources from "./Resources";
-import { PlaySquare } from "lucide-react";
+import { Clock, PlaySquare } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import Questions from "./Questions";
 import Loading from "@/app/loading";
@@ -14,6 +14,8 @@ import { redirect } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import MyReview from "./MyReview";
 import { useEffect } from "react";
+import Swal from "sweetalert2";
+import { Button } from "@/components/ui/button";
 
 const Page = ({ params }) => {
   const { user, isLoaded, isSignedIn } = useUser();
@@ -35,6 +37,38 @@ const Page = ({ params }) => {
     },
   });
 
+  const VideoDuration = (duration) => {
+    const hours = Math.floor(duration / 60);
+    const minutes = Math.floor(duration / 60);
+    const seconds = Math.floor(duration % 60);
+    return `${minutes} min ${seconds} sec`;
+  };
+
+  const handleLockedBuybtn = () => {
+    Swal.fire({
+      title: "Access Denied",
+      icon: "info",
+      html: `
+        You can watch more after enrolling in this course
+      `,
+      showCloseButton: true,
+      showCancelButton: true,
+      focusConfirm: false,
+      confirmButtonText: "Enroll Now",
+      confirmButtonAriaLabel: "Thumbs up, great!",
+      confirmButtonColor: "#135276",
+      cancelButtonText: "Skip for later",
+      cancelButtonAriaLabel: "Thumbs down",
+      cancelButtonColor: "#d33",
+      preConfirm: () => {
+        window.location.href = alert("Enroll page");
+      },
+      onClose: () => {
+        console.log("Modal closed");
+      },
+    });
+  };
+
   if (isLoading || !isLoaded) {
     return <Loading />;
   }
@@ -49,11 +83,12 @@ const Page = ({ params }) => {
             {/* progress */}
             <div className="flex gap-2 items-center my-4">
               <progress
-                className="progress progress-error w-56"
+                className="progress progress-error w-full"
                 value="10"
                 max="100"></progress>
               <span className="font-semibold">10%</span>
             </div>
+            <Button className="my-3 bg-primary">Enroll Now</Button>
             {/* content */}
             <div className="space-y-3">
               {data.lectures.map((item, index) => (
@@ -67,11 +102,22 @@ const Page = ({ params }) => {
                     <h2 className=" md:text-lg font-semibold">
                       {index + 1}. {item.title.slice(0, 35)}..
                     </h2>
-                    <h4 className="ml-5">Duration : {item.duration} min</h4>
+                    <h4 className="ml-5 flex items-center gap-2">
+                      <Clock className=" h-5 w-5" />{" "}
+                      {VideoDuration(item.duration)}
+                    </h4>
                   </div>
-                  <button className="btn btn-sm bg-secondary text-white">
-                    Play
-                  </button>
+                  {item.freePreview === true ? (
+                    <button className="btn btn-sm bg-secondary text-white">
+                      Play
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleLockedBuybtn}
+                      className="btn btn-sm bg-gray-400 text-white">
+                      Locked
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
@@ -87,6 +133,7 @@ const Page = ({ params }) => {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen></iframe>
           {/* tab */}
+
           <div
             role="tablist"
             className="tabs tabs-bordered mt-4 bg-secondary pt-4 rounded-md w-full sm:max-w-none md:max-w-none lg:max-w-full flex flex-col md:inline-grid">
