@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 
 const Page = ({ params }) => {
   const { user, isLoaded, isSignedIn } = useUser();
+  const courseId = params.id
 
   // Wait until Clerk has fully loaded and the user is determined
   useEffect(() => {
@@ -205,7 +206,7 @@ const Page = ({ params }) => {
               aria-label="Notes"
             />
             <div role="tabpanel" className="tab-content py-2 bg-white w-full">
-              <AddNoteForm />
+              <AddNoteForm courseId={courseId} />
               <Notes />
             </div>
             {/*------------------------------- Reviews --------------------------*/}

@@ -16,7 +16,7 @@ const addNote = async (formData) => {
   return res.json();
 };
 
-function AddNoteForm() {
+function AddNoteForm({ courseId }) {
   const queryClient = useQueryClient();
   const user = useUser()
   const userEmail = user?.user.emailAddresses[0].emailAddress
@@ -34,6 +34,7 @@ function AddNoteForm() {
       description: e.target.description.value.trim(),
       email: userEmail,
       created_at: Date.now(),
+      courseId
     };
 
     // no email alert 
