@@ -325,7 +325,7 @@ const CustomCoursePage = () => {
                 <div className="flex flex-col mt-4">
                   <input
                     type="text"
-                    placeholder="Enter Course Title"
+                    placeholder="Enter your Custom Course Title here...."
                     value={courseTitle}
                     onChange={(e) => setCourseTitle(e.target.value)}
                     className="border p-2 rounded mb-2"
