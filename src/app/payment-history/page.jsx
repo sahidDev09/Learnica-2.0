@@ -1,7 +1,7 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import { useUser } from '@clerk/nextjs';
-import Loading from '../loading';
+import React, { useEffect, useState } from "react";
+import { useUser } from "@clerk/nextjs";
+import Loading from "../loading";
 import {
   Table,
   TableBody,
@@ -11,9 +11,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { TiTickOutline } from 'react-icons/ti';
-import { format } from 'date-fns';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { TiTickOutline } from "react-icons/ti";
+import { format } from "date-fns";
 
 const Page = () => {
   const { user, isLoaded } = useUser();
@@ -23,23 +23,24 @@ const Page = () => {
 
   async function fetchOrders(userEmail) {
     try {
-      const response = await fetch('/api/get-orders');
+      const response = await fetch("/api/get-orders");
       if (response.ok) {
         const data = await response.json();
-        const filteredOrders = data.filter(order => order.email === userEmail);
+        const filteredOrders = data.filter(
+          (order) => order.email === userEmail
+        );
         setOrders(filteredOrders);
         setLoading(false);
       } else {
-        setError('Failed to fetch data');
+        setError("Failed to fetch data");
         setLoading(false);
       }
     } catch (error) {
-      setError('Error fetching data');
+      setError("Error fetching data");
       setLoading(false);
     }
   }
-
-  useEffect(() => {
+useEffect(() => {
     if (isLoaded && user) {
       const userEmail = user.email || user.primaryEmailAddress?.emailAddress;
       if (userEmail) {
@@ -63,7 +64,9 @@ const Page = () => {
     <div className="container mx-auto p-4">
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg md:text-2xl">My Payment History</CardTitle>
+          <CardTitle className="text-lg md:text-2xl">
+            My Payment History
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
@@ -71,21 +74,39 @@ const Page = () => {
               <TableCaption>A list of your recent invoices.</TableCaption>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-center py-2 px-4">Serial #</TableHead>
-                  <TableHead className="text-center py-2 px-4">Course Title</TableHead>
-                  <TableHead className="text-center py-2 px-4">Total Amount</TableHead>
-                  <TableHead className="text-center py-2 px-4">Created Date</TableHead>
-                  <TableHead className="text-center py-2 px-4">Payment Status</TableHead>
+                  <TableHead className="text-center py-2 px-4">
+                    Serial #
+                  </TableHead>
+                  <TableHead className="text-center py-2 px-4">
+                    Course Title
+                  </TableHead>
+                  <TableHead className="text-center py-2 px-4">
+                    Total Amount
+                  </TableHead>
+                  <TableHead className="text-center py-2 px-4">
+                    Created Date
+                  </TableHead>
+                  <TableHead className="text-center py-2 px-4">
+                    Payment Status
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {orders.length > 0 ? (
                   orders.map((order, index) => (
                     <TableRow key={order._id} className="hover:bg-gray-50">
-                      <TableCell className="text-center py-2 px-4">{index + 1}</TableCell>
-                      <TableCell className="text-center py-2 px-4">{order.title}</TableCell>
-                      <TableCell className="text-center py-2 px-4">{order.totalAmount}</TableCell>
-                      <TableCell className="text-center py-2 px-4">{format(new Date(order.createdAt), 'PPpp')}</TableCell>
+                      <TableCell className="text-center py-2 px-4">
+                        {index + 1}
+                      </TableCell>
+                      <TableCell className="text-center py-2 px-4">
+                        {order.title}
+                      </TableCell>
+                      <TableCell className="text-center py-2 px-4">
+                        {order.totalAmount}
+                      </TableCell>
+                      <TableCell className="text-center py-2 px-4">
+                        {format(new Date(order.createdAt), "PPpp")}
+                      </TableCell>
                       <TableCell className="text-center py-2 px-4">
                         <div className="flex items-center justify-center gap-x-1">
                           <span>{order.status}</span>
