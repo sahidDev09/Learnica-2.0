@@ -44,7 +44,7 @@ function AddAnswerForm({ question, refetch }) {
           title: "Successfully added the answer!",
           icon: "success",
           position: "top",
-          timer: 2000,
+          timer: 1500,
           confirmButtonColor: "#15803D",
         });
       },
