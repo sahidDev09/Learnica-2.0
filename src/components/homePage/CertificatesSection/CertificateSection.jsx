@@ -1,9 +1,8 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import img1 from '../../../../public/assets/cybersecurity.jpg';
-import img2 from '../../../../public/assets/uxui.png';
 import Image from "next/image";
 import { FaBookmark } from "react-icons/fa";
+import img1 from '../../../../public/assets/cybersecurity.jpg';
+import img2 from '../../../../public/assets/uxui.png';
 
 const CertificateSection = () => {
 	return (
@@ -21,7 +20,7 @@ const CertificateSection = () => {
 					</div>
 					{/* 2nd part */}
 					<div className="mx-auto lg:mx-0">
-						<div className="card bg-base-100  lg:w-96. shadow-xl">
+						<div className="card bg-base-100 shadow-xl">
 							<figure className="px-4 pt-4">
 								<Image
 									src={img1}
@@ -47,7 +46,7 @@ const CertificateSection = () => {
 					</div>
 					{/* 3rd part */}
 					<div className="mx-auto lg:mx-0">
-						<div className="card bg-base-100 lg:w-96. shadow-xl">
+						<div className="card bg-base-100 shadow-xl">
 							<figure className="px-4 pt-4">
 								<Image
 									src={img2}

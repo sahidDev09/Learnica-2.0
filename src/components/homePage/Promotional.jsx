@@ -1,9 +1,6 @@
 "use client";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowBigLeft, ArrowRight } from "lucide-react";
-import Image from "next/image";
 import React, { useRef } from "react";
-import { Input } from "../ui/input";
 import Swal from "sweetalert2";
 
 const Promotional = () => {
