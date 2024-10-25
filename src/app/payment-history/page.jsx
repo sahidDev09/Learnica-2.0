@@ -26,9 +26,7 @@ const Page = () => {
       const response = await fetch("/api/get-orders");
       if (response.ok) {
         const data = await response.json();
-        const filteredOrders = data.filter(
-          (order) => order.email === userEmail
-        );
+        const filteredOrders = data.filter((order) => order.email === userEmail);
         setOrders(filteredOrders);
         setLoading(false);
       } else {
@@ -40,7 +38,8 @@ const Page = () => {
       setLoading(false);
     }
   }
-useEffect(() => {
+
+  useEffect(() => {
     if (isLoaded && user) {
       const userEmail = user.email || user.primaryEmailAddress?.emailAddress;
       if (userEmail) {
@@ -61,12 +60,10 @@ useEffect(() => {
   }
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 h-screen mt-10">
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg md:text-2xl">
-            My Payment History
-          </CardTitle>
+          <CardTitle className="text-lg md:text-2xl">My Payment History</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
@@ -74,41 +71,25 @@ useEffect(() => {
               <TableCaption>A list of your recent invoices.</TableCaption>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-center py-2 px-4">
-                    Serial #
-                  </TableHead>
-                  <TableHead className="text-center py-2 px-4">
-                    Course Title
-                  </TableHead>
-                  <TableHead className="text-center py-2 px-4">
-                    Total Amount
-                  </TableHead>
-                  <TableHead className="text-center py-2 px-4">
-                    Created Date
-                  </TableHead>
-                  <TableHead className="text-center py-2 px-4">
-                    Payment Status
-                  </TableHead>
+                  <TableHead className="text-center py-2 px-4">Serial #</TableHead>
+                  <TableHead className="text-center py-2 px-4">Course Title</TableHead>
+                  <TableHead className="text-center py-2 px-4">Total Amount</TableHead>
+                  <TableHead className="text-center py-2 px-4">Created Date</TableHead>
+                  <TableHead className="text-center py-2 px-4">Payment Status</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {orders.length > 0 ? (
                   orders.map((order, index) => (
                     <TableRow key={order._id} className="hover:bg-gray-50">
-                      <TableCell className="text-center py-2 px-4">
-                        {index + 1}
-                      </TableCell>
-                      <TableCell className="text-center py-2 px-4">
-                        {order.title}
-                      </TableCell>
-                      <TableCell className="text-center py-2 px-4">
-                        {order.totalAmount}
-                      </TableCell>
+                      <TableCell className="text-center py-2 px-4">{index + 1}</TableCell>
+                      <TableCell className="text-center py-2 px-4">{order.title}</TableCell>
+                      <TableCell className="text-center py-2 px-4">{order.totalAmount}</TableCell>
                       <TableCell className="text-center py-2 px-4">
                         {format(new Date(order.createdAt), "PPpp")}
                       </TableCell>
                       <TableCell className="text-center py-2 px-4">
-                        <div className="flex items-center justify-center gap-x-1">
+                        <div className="inline-flex items-center bg-green-500 bg-opacity-65 rounded-full gap-x-1 py-1 px-2 text-white">
                           <span>{order.status}</span>
                           <TiTickOutline />
                         </div>
@@ -132,3 +113,4 @@ useEffect(() => {
 };
 
 export default Page;
+  

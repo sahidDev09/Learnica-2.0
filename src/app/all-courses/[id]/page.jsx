@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 
 const Page = ({ params }) => {
   const { user, isLoaded, isSignedIn } = useUser();
-  const courseId = params.id
+  const courseId = params.id;
 
   // Wait until Clerk has fully loaded and the user is determined
   useEffect(() => {
@@ -92,35 +92,39 @@ const Page = ({ params }) => {
             <Button className="my-3 bg-primary">Enroll Now</Button>
             {/* content */}
             <div className="space-y-3">
-              {data.lectures.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex gap-2 items-center p-2 bg-white w-full rounded-md">
-                  <div className=" bg-secondary p-2 rounded-md">
-                    <PlaySquare className=" size-8 text-white" />
+              {data?.lectures?.length > 0 ? (
+                data.lectures.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex gap-2 items-center p-2 bg-white w-full rounded-md">
+                    <div className=" bg-secondary p-2 rounded-md">
+                      <PlaySquare className=" size-8 text-white" />
+                    </div>
+                    <div className="text-start w-full ml-2">
+                      <h2 className=" md:text-lg font-semibold">
+                        {index + 1}. {item.title.slice(0, 25)}..
+                      </h2>
+                      <h4 className="ml-5 flex items-center gap-2">
+                        <Clock className=" h-5 w-5" />{" "}
+                        {VideoDuration(item.duration)}
+                      </h4>
+                    </div>
+                    {item.freePreview === true ? (
+                      <button className="btn btn-sm bg-secondary text-white">
+                        Play
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handleLockedBuybtn}
+                        className="btn btn-sm bg-gray-400 text-white">
+                        Locked
+                      </button>
+                    )}
                   </div>
-                  <div className="text-start w-full ml-2">
-                    <h2 className=" md:text-lg font-semibold">
-                      {index + 1}. {item.title.slice(0, 25)}..
-                    </h2>
-                    <h4 className="ml-5 flex items-center gap-2">
-                      <Clock className=" h-5 w-5" />{" "}
-                      {VideoDuration(item.duration)}
-                    </h4>
-                  </div>
-                  {item.freePreview === true ? (
-                    <button className="btn btn-sm bg-secondary text-white">
-                      Play
-                    </button>
-                  ) : (
-                    <button
-                      onClick={handleLockedBuybtn}
-                      className="btn btn-sm bg-gray-400 text-white">
-                      Locked
-                    </button>
-                  )}
-                </div>
-              ))}
+                ))
+              ) : (
+                <div>No lectures available</div>
+              )}
             </div>
           </div>
         </div>

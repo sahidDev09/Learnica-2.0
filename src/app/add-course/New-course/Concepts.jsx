@@ -65,13 +65,13 @@ const Concepts = ({ lecture, setLecture }) => {
           <div className=" my-2">
             {lecture.map((lec, index) => (
               <div key={index} className="border p-5 my-2 rounded-md">
-                <div className="flex gap-5 items-center">
+                <div className="md:flex gap-5 items-center">
                   <h3 className=" font-semibold">Lecture {index + 1}</h3>
                   <Input
                     name={`title${index + 1}`}
                     placeholder="Write course title"
                     value={lec.title}
-                    className="max-w-96"
+                    className="max-w-96 my-3 md:my-0"
                     onChange={(event) => handleTitleChange(event, index)}
                   />
                   <div className="flex items-center space-x-2">
@@ -93,7 +93,7 @@ const Concepts = ({ lecture, setLecture }) => {
                     }
                   }}>
                   {({ open }) => (
-                    <div className="flex items-center gap-3 border rounded-md mt-4">
+                    <div className="md:flex items-center gap-3 border rounded-md mt-4">
                       {lec.videoUrl ? (
                         <Button
                           className="bg-primary text-white"
@@ -108,7 +108,7 @@ const Concepts = ({ lecture, setLecture }) => {
                       {lec.videoUrl ? (
                         <a>{lec.title}</a>
                       ) : (
-                        <h1>No chosen file yet</h1>
+                        <h1 className="mt-1 md:mt-0">No chosen file yet</h1>
                       )}
                     </div>
                   )}

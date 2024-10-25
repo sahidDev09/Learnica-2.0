@@ -29,7 +29,7 @@ const Card = ({ course }) => {
         />
 
         <div className="p-4">
-          <p className="text-white text-sm bg-primary rounded-full px-2 py-0.5 w-fit">
+          <p className="text-white md:text-base text-sm bg-primary rounded-full px-2 py-0.5 w-fit">
             {course.category}
           </p>
           <h3 className="text-lg font-semibold mb-1 mt-2">
@@ -37,7 +37,13 @@ const Card = ({ course }) => {
               ? `${course.name.slice(0, 35)}...`
               : course.name}
           </h3>
-          <p className="text-gray-500 text-sm"> Published: <span className="font-semibold">{formatDate(course.publish_date)}</span></p>
+          <p className="text-gray-500 text-sm">
+            {" "}
+            Published:{" "}
+            <span className="font-semibold">
+              {formatDate(course.publish_date)}
+            </span>
+          </p>
           <p className="text-sm text-gray-500 mt-1">
             Author: <span className="font-semibold">{course.author.name}</span>
           </p>
