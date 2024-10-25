@@ -7,7 +7,7 @@ function StatCards({statsData}) {
       </div>
 
       <div className="min-w-56 px-4 py-6 border-2 border-secondary rounded-md shadow-md text-center">
-        <span className="text-4xl font-bold text-secondary block">09</span>
+        <span className="text-4xl font-bold text-secondary block">{statsData.totalCustomCourses}</span>
         <span className="text-sm text-gray-600">Custom Courses</span>
       </div>
 

@@ -7,10 +7,12 @@ export default async function handler(req, res) {
     const client = await clientPromise;
     const db = client.db("learnica");
     const coursesCollection = db.collection("courses");
+    const customCoursesCollection = db.collection("concepts");
 
     if (req.method === "GET") {
       const totalCourses = await coursesCollection.estimatedDocumentCount()
-      return res.json({totalCourses});
+      const totalCustomCourses = await customCoursesCollection.estimatedDocumentCount()
+      return res.json({totalCourses, totalCustomCourses});
     } 
     else {
       // Handle unsupported HTTP methods
