@@ -9,17 +9,18 @@ import Swal from "sweetalert2";
 import convertToSubCurrency from "@/lib/convertToSubCurrency";
 import { loadStripe } from "@stripe/stripe-js";
 import Loading from "../loading";
-import Checkout from "@/components/payment/Checkout"; 
+import Checkout from "@/components/payment/Checkout";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { Elements } from "@stripe/react-stripe-js";
-import { useRouter } from "next/navigation"; 
-
+import { useRouter } from "next/navigation";
 
 if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
   throw new Error("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is not defined");
 }
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
 
 const CustomCoursePage = () => {
   const router = useRouter();
@@ -33,8 +34,7 @@ const CustomCoursePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
   const [courseTitle, setCourseTitle] = useState("");
-  
-  
+
   const showError = (message) => {
     Swal.fire("Error", message, "error");
   };
@@ -131,12 +131,9 @@ const CustomCoursePage = () => {
     }
   };
 
-  
-
-  
   const handlePaymentSuccess = async () => {
-     // Initialize useRouter
-  
+    // Initialize useRouter
+
     try {
       const res = await fetch("/pay-api/checkout", {
         method: "POST",
@@ -145,8 +142,11 @@ const CustomCoursePage = () => {
           userId: user.id,
           email: user.primaryEmailAddress?.emailAddress || "",
           title: courseTitle,
-          status: 'success',
-          totalAmount: cart.reduce((sum, item) => sum + parseFloat(item.price), 0),
+          status: "success",
+          totalAmount: cart.reduce(
+            (sum, item) => sum + parseFloat(item.price),
+            0
+          ),
           items: cart.map((item) => ({
             concept_title: item.concept_title,
             concept_url: item.concept_url,
@@ -157,34 +157,35 @@ const CustomCoursePage = () => {
           })),
         }),
       });
-  
+
       const data = await res.json();
-  
-      if (!res.ok) throw new Error(data.error || "Failed to store order in the database.");
-  
-      Swal.fire("Success", "Payment was successful and your order has been placed.", "success");
-      
-      setCart([]); 
+
+      if (!res.ok)
+        throw new Error(data.error || "Failed to store order in the database.");
+
+      Swal.fire(
+        "Success",
+        "Payment was successful and your order has been placed.",
+        "success"
+      );
+
+      setCart([]);
       setCourseTitle("");
-      router.push("/payment-history"); 
+      router.push("/payment-history");
     } catch (error) {
       console.error("Error saving order to database:", error);
       showError("Failed to store order. Please contact support.");
     }
   };
-  
-
 
   // Loader
   if (loading && products.length === 0) return <Loading />;
-
- 
 
   return (
     <div className="px-4">
       <div className="container mx-auto">
         <header className="text-center md:text-left text-sm flex items-center justify-between">
-          <h2 className="text-md md:text-2xl font-bold hidden md:inline">
+          <h2 className="text-md md:text-2xl font-bold hidden md:inline mt-5">
             Customize your course
           </h2>
         </header>
@@ -197,11 +198,11 @@ const CustomCoursePage = () => {
                 <button
                   key={index}
                   onClick={() => handleCategorySelect(lang_tech)}
-                  className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full transition-transform md:text-lg ${selectedCategory === lang_tech
-                    ? "bg-primary text-white"
-                    : "bg-secondary text-white"
-                    }`}
-                >
+                  className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full transition-transform md:text-lg ${
+                    selectedCategory === lang_tech
+                      ? "bg-primary text-white"
+                      : "bg-secondary text-white"
+                  }`}>
                   <FaTags />
                   {lang_tech}
                 </button>
@@ -232,26 +233,28 @@ const CustomCoursePage = () => {
               return (
                 <div
                   key={product._id}
-                  className={`bg-secondary w-full h-40 p-4 rounded-lg shadow-md flex flex-col justify-between relative ${isInCart ? "opacity-50" : ""
-                    }`}>
+                  className={`bg-secondary w-full h-40 p-4 rounded-lg shadow-md flex flex-col justify-between relative ${
+                    isInCart ? "opacity-50" : ""
+                  }`}>
                   <div className="flex justify-between items-center">
-                    <button className="rounded-2xl px-4 py-1 bg-white text-black">
+                    <button className="rounded-2xl text-sm md:text-md md:px-4 text-white py-1 md:bg-white md:text-black">
                       {product.lang_tech}
                     </button>
                     <button
                       onClick={() => (isInCart ? null : addToCart(product))}
-                      className={`text-3xl ${isInCart ? "text-green-500" : "text-primary"
-                        }`}
+                      className={`text-3xl ${
+                        isInCart ? "text-green-500" : "text-primary"
+                      }`}
                       disabled={isInCart}>
                       {isInCart ? <FaCheck /> : <FaSquarePlus />}
                     </button>
                   </div>
 
                   <div className="flex justify-between items-center mt-2">
-                    <h1 className="text-white font-semibold text-lg">
+                    <h1 className="text-white md:font-semibold md:text-lg">
                       {product.concept_title}
                     </h1>
-                    <p className="font-bold ml-2 text-white text-xl">
+                    <p className="font-bold ml-2 text-white md:text-xl">
                       ${parseFloat(product.price).toFixed(2)}
                     </p>
                   </div>
@@ -332,15 +335,15 @@ const CustomCoursePage = () => {
                   />
                   <button
                     onClick={handlePayNow}
-                    className={`rounded-2xl px-4 py-2 ${courseTitle.replace(/\s+/g, '').length >= 10 ? 'bg-secondary text-white' : 'bg-gray-400 cursor-not-allowed text-gray-700'}`}
-                    disabled={courseTitle.replace(/\s+/g, '').length < 10} 
-                  >
-                   Proceed to your payment
+                    className={`rounded-2xl px-4 py-2 ${
+                      courseTitle.replace(/\s+/g, "").length >= 10
+                        ? "bg-secondary text-white"
+                        : "bg-gray-400 cursor-not-allowed text-gray-700"
+                    }`}
+                    disabled={courseTitle.replace(/\s+/g, "").length < 10}>
+                    Proceed to your payment
                   </button>
                 </div>
-
-
-
               </>
             )}
           </div>
