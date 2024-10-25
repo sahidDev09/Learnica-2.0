@@ -210,7 +210,7 @@ export default function AddClasses() {
         <div className="flex justify-center w-full col-span-full">
           <button
             type="submit"
-            className=" w-full md:w-1/2 bg-indigo-600 text-white rounded-md py-2 hover:bg-indigo-700 hover:shadow-lg transition-all">
+            className=" w-full md:w-1/2 bg-secondary text-white rounded-md py-2 hover:bg-secondary-dark hover:shadow-lg transition-all">
             Submit
           </button>
         </div>
