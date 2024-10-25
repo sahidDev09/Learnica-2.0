@@ -1,51 +1,24 @@
 import clientPromise from "@/lib/mongodb";
 
 export default async function handler(req, res) {
+  if (req.method !== "GET") {
+    return res.status(405).json({ message: "Method Not Allowed" });
+  }
+
   try {
     const client = await clientPromise;
     const db = client.db("learnica");
+    const usersCollection = db.collection("users");
 
-    if (req.method === "POST") {
-      const { title, description } = req.body;
+    const users = await usersCollection.find().toArray();
 
-      // Validate incoming data
-      if (!title || !description) {
-        return res.status(400).json({
-          success: false,
-          message: "Title and Description are required",
-        });
-      }
-
-      // Insert new course into the database
-      const newCourse = await db
-        .collection("courses")
-        .insertOne({ title, description });
-
-      // Prepare notification message
-      const notificationMessage = `A new course titled "${title}" has been uploaded!`;
-
-      // Fetch all users and create notifications
-      const users = await db.collection("users").find().toArray();
-      const notifications = users.map((user) => ({
-        userId: user._id,
-        message: notificationMessage,
-        courseId: newCourse.insertedId,
-        createdAt: new Date(),
-        isRead: false,
-      }));
-
-      // Insert notifications into the database
-      await db.collection("notifications").insertMany(notifications);
-
-      return res.status(201).json({ success: true, message: "Course added!" });
-    } else {
-      return res
-        .status(405)
-        .json({ success: false, message: "Method Not Allowed" });
+    if (users.length === 0) {
+      return res.status(404).json({ message: "No users found" });
     }
+
+    res.status(200).json(users);
   } catch (error) {
-    return res
-      .status(500)
-      .json({ success: false, message: "Internal Server Error" });
+    console.error("Error fetching users:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }

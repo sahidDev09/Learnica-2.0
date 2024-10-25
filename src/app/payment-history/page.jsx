@@ -61,7 +61,7 @@ useEffect(() => {
   }
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 h-screen mt-10">
       <Card>
         <CardHeader>
           <CardTitle className="text-lg md:text-2xl">
