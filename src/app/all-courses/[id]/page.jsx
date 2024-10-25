@@ -26,7 +26,7 @@ const Page = ({ params }) => {
     if ((isLoaded && !isSignedIn) || !user) {
       router.push("/?sign-in=true");
     }
-  }, [isLoaded, isSignedIn]);
+  }, [isLoaded, isSignedIn, router, user]);
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["courses"],
