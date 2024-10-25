@@ -1,4 +1,4 @@
-import { BookAIcon, BookCopy, Database } from "lucide-react";
+import { BookCopy, Database, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -6,18 +6,23 @@ import React, { useState } from "react";
 const Sidebar = () => {
   const [activeItem, setActiveItem] = useState(1);
 
+  const handleItemClick = (id) => {
+    setActiveItem(id);
+  };
+
   const sideNavMenu = [
     {
       id: 1,
       name: "Course Management",
       icons: BookCopy,
-      path: "/course",
+      path: "/dashboard/teacher",
     },
+
     {
       id: 2,
-      name: "My Analytics",
-      icons: Database,
-      path: "/analysis",
+      name: "Add Live Class",
+      icons: Plus,
+      path: "/dashboard/teacher/liveClassAdd",
     },
   ];
 
@@ -41,16 +46,14 @@ const Sidebar = () => {
           <Link
             key={item.id}
             href={item.path}
-            onClick={() => handleItemClick(item.id)}
-          >
+            onClick={() => handleItemClick(item.id)}>
             <div
               className={`group flex gap-3 mt-1 p-3 text-[18px] items-center rounded-md transition-all ease-in-out duration-200 
                 ${
                   activeItem === item.id
                     ? "bg-secondary text-white"
                     : "hover:bg-secondary hover:text-white"
-                }`}
-            >
+                }`}>
               <item.icons className="group-hover:animate-bounce" />
               <h2>{item.name}</h2>
             </div>

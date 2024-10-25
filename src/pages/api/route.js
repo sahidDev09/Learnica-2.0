@@ -4,30 +4,28 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(request) {
   try {
-    // Step 1: Parse the request JSON
-    const { amount, userId, email, items } = await request.json();
-
-    // Step 2: Validate the input data
-    if (!amount || !userId || !email || !items || items.length === 0) {
+   
+    const { amount, userId, email, title, status, items } = await request.json();
+    if (!amount || !userId || !email || !title ||!status|| !items || items.length === 0) {
       return NextResponse.json(
-        { error: "Missing required fields: amount, userId, email, or items" },
+        { error: "Missing required fields: amount, userId, email, title, or items" },
         { status: 400 }
       );
     }
 
-    // Step 3: Create a Stripe Payment Intent
+   
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(amount * 100), // Convert amount to cents
+      amount: Math.round(amount * 100), 
       currency: "usd",
       automatic_payment_methods: { enabled: true },
       metadata: {
-        userId: userId,
-        email: email,
-        items: JSON.stringify(items), // Store items in metadata for reference
+        userId,
+        email,
+        items: JSON.stringify(items),
       },
     });
 
-    // Step 4: Store the order details in MongoDB
+   
     const client = await clientPromise;
     const db = client.db("learnica");
     const ordersCollection = db.collection("orders");
@@ -45,15 +43,13 @@ export async function POST(request) {
     const newOrder = {
       userId,
       email,
+      title,
+      status,
       totalAmount: parseFloat(amount),
       items: formattedItems,
       createdAt: new Date(),
     };
-
-    // Insert the new order into the orders collection
     const result = await ordersCollection.insertOne(newOrder);
-
-    // Step 5: Return the client secret and orderId to the frontend
     return NextResponse.json({
       success: true,
       message: "Order successfully placed!",

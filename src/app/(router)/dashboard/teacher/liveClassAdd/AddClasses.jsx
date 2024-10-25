@@ -7,23 +7,24 @@ import Swal from "sweetalert2";
 import { useUser } from "@clerk/clerk-react";
 
 export default function AddClasses() {
-  const { user } = useUser(); 
+  const { user } = useUser();
   const [formData, setFormData] = useState({
     thumbnail: "",
     courseName: "",
     category: "",
-    authorName: "", 
-    authorId: user?.id || "", 
+    authorName: "",
+    authorId: user?.id || "",
     authorEmail: user?.primaryEmailAddress?.emailAddress || "",
     liveLink: "",
     liveTime: "",
   });
 
-
   useEffect(() => {
     const fetchAuthorData = async () => {
       try {
-        const response = await axios.get(process.env.NEXT_PUBLIC_BASE_URL + "/api/courses");
+        const response = await axios.get(
+          process.env.NEXT_PUBLIC_BASE_URL + "/api/courses"
+        );
         const authorData = response.data;
 
         // Set the fetched author data in the form
@@ -31,7 +32,10 @@ export default function AddClasses() {
           ...prevFormData,
           authorName: authorData.authorName || user?.fullName || "", // Use API data or Clerk user name
           authorId: authorData.authorId || user?.id || "",
-          authorEmail: authorData.authorEmail || user?.primaryEmailAddress?.emailAddress || "",
+          authorEmail:
+            authorData.authorEmail ||
+            user?.primaryEmailAddress?.emailAddress ||
+            "",
         }));
       } catch (error) {
         console.error("Error fetching author data:", error);
@@ -51,7 +55,10 @@ export default function AddClasses() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(process.env.NEXT_PUBLIC_BASE_URL + "/api/add-classes", formData);
+      const response = await axios.post(
+        process.env.NEXT_PUBLIC_BASE_URL + "/api/add-classes",
+        formData
+      );
       console.log("Course added successfully:", response.data);
 
       // Show success alert
@@ -88,8 +95,12 @@ export default function AddClasses() {
 
   return (
     <div className="max-w-full mx-auto mt-10 p-6 rounded-lg mb-6">
-      <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">Add your live class</h2>
-      <form onSubmit={handleSubmit} className="space-y-4 grid sm:grid-cols-1 md:grid-cols-2 gap-6">
+      <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">
+        Add live class
+      </h2>
+      <form
+        onSubmit={handleSubmit}
+        className="space-y-4 grid sm:grid-cols-1 md:grid-cols-2 gap-6">
         <div className="mt-4 lg:ml-32">
           <div>
             <label className="form-control w-full mb-1">Thumbnail:</label>
@@ -199,8 +210,7 @@ export default function AddClasses() {
         <div className="flex justify-center w-full col-span-full">
           <button
             type="submit"
-            className=" w-full md:w-1/2 bg-indigo-600 text-white rounded-md py-2 hover:bg-indigo-700 hover:shadow-lg transition-all"
-          >
+            className=" w-full md:w-1/2 bg-indigo-600 text-white rounded-md py-2 hover:bg-indigo-700 hover:shadow-lg transition-all">
             Submit
           </button>
         </div>
