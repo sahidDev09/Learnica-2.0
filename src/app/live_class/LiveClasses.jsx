@@ -24,10 +24,8 @@ const LiveClasses = () => {
     <div className="p-4">
       <h1 className="text-3xl font-bold mb-4 text-center">Live Classes</h1>
 
-     
-
       {/* Responsive Grid Layout */}
-      <div className="grid md:grid-cols-1 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {liveClasses?.map((liveClass, index) => (
           <div
             key={index}
@@ -44,35 +42,32 @@ const LiveClasses = () => {
                 alt="Course Thumbnail"
                 width={256}
                 height={144}
-                className="lg:w-60 w-full rounded-lg h-full object-cover"
+                className="w-full rounded-lg h-full object-cover"
               />
             </div>
 
             {/* Information */}
             <div className="md:w-1/2 flex flex-col justify-between h-full">
               <div className="flex-1">
-                <h3 className="text-lg font-bold mt-2 md:mt-0 text-fuchsia-800">
+                <h3 className="text-lg font-bold mt-2 md:mt-0">
                   {liveClass.courseName}
                 </h3>
-                <p className="text-sm font-bold">
-                  <span className="text-red-600">Category:</span>{" "}
-                  {liveClass.category}
+                <p className="text-sm">
+                  <span className="">Category:</span> {liveClass.category}
                 </p>
-                <p className="text-sm font-bold">
-                  <span className="text-rose-800">Author:</span>{" "}
-                  {liveClass.authorName}
+                <p className="text-sm">
+                  <span className="">Author:</span> {liveClass.authorName}
                 </p>
-                <p className="text-sm font-bold">
-                  <span className="text-red-500">Live Time:</span>{" "}
-                  {liveClass.liveTime}
+                <p className="text-sm ">
+                  <span className="">Live Time:</span> {liveClass.liveTime}
                 </p>
               </div>
 
               {/* Button, aligned right */}
               <div className="mt-4 md:mt-0 flex justify-end">
-                <Link href={liveClass.liveLink}>
-                  <button className="bg-primary text-white rounded-md px-3 py-2 hover:bg-orange-700 transition">
-                    Join Live Class
+                <Link href={liveClass.liveLink} target="_blank">
+                  <button className="bg-secondary text-white rounded-md px-3 py-2 m-2 transition uppercase">
+                    Join Now
                   </button>
                 </Link>
               </div>
