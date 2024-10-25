@@ -7,7 +7,7 @@ import Image from "next/image";
 import Loading from "@/app/loading";
 import { useUser } from "@clerk/nextjs";
 
-function Notes() {
+function Notes({courseId}) {
   const user = useUser()
   const userEmail = user?.user.emailAddresses[0].emailAddress
 
@@ -17,10 +17,10 @@ function Notes() {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["my-notes"],
+    queryKey: ["my-notes", courseId],
     queryFn: async () => {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + `/api/my-notes?email=${userEmail || ''}`
+        process.env.NEXT_PUBLIC_BASE_URL + `/api/my-notes?email=${userEmail}&courseId=${courseId}`
       );
       return res.json();
     },

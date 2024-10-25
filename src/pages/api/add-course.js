@@ -8,18 +8,20 @@ export default async function handler(req, res) {
 
     if (req.method === "POST") {
       const newCourse = req.body;
-
-      // Insert new course into the database
       await courseCollection.insertOne(newCourse);
-      return res.status(201).json({ success: true, message: "Course added!" });
+      return res
+        .status(201)
+        .json({ success: true, message: "Course successfully inserted!" });
     } else {
       return res
         .status(405)
         .json({ success: false, message: "Method Not Allowed" });
     }
   } catch (error) {
-    return res
-      .status(500)
-      .json({ success: false, message: "Internal Server Error" });
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
   }
 }

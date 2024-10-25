@@ -9,7 +9,8 @@ export default async function handler(req, res) {
     const answersCollection = db.collection("qna-ans");
 
     if (req.method === "GET") {
-      const result = await answersCollection.find({qid: req.query.id}).toArray();      
+      const courseId = req.query?.courseId
+      const result = await answersCollection.find({qid: req.query.id, courseId}).toArray();      
       return res.json(result);
     } 
     // --------- POST -------------

@@ -6,15 +6,15 @@ import Swal from "sweetalert2";
 import Loading from "@/app/loading";
 import AddReviewForm from "./AddReviewForm";
 
-function MyReview() {
+function MyReview({courseId}) {
   const user = useUser()
   const userEmail = user?.user.emailAddresses[0].emailAddress
 
   const { data: myReview, isLoading, refetch } = useQuery({
-    queryKey: ["my-review"],
+    queryKey: ["my-review", courseId],
     queryFn: async () => {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + `/api/get-reviews?email=${userEmail}&onlyMe=1`
+        process.env.NEXT_PUBLIC_BASE_URL + `/api/get-reviews?email=${userEmail}&onlyMe=1&courseId=${courseId}`
       );
       return res.json();
     },
@@ -75,9 +75,9 @@ function MyReview() {
         <div className="border p-4 rounded-md shadow-md bg-card">
           <div className="flex items-center justify-between flex-col gap-1 md:flex-row md:gap-4 mb-2">
             <div className="flex items-center gap-2">
-              <h3 className="text-secondary font-bold capitalize">
-                {myReview[0].reviewerName}
-              </h3> •
+              <h3 className="text-secondary font-semibold text-sm">
+                {myReview[0].reviewerEmail}
+              </h3> • 
   
               <p className="flex items-center gap-2 font-semibold text-yellow-800">
                 <FaStar className="text-yellow-600" /> {myReview[0].rating}
@@ -99,7 +99,7 @@ function MyReview() {
       </div>
     );
   } else {
-    return <AddReviewForm />
+    return <AddReviewForm courseId={courseId} />
   }
 }
 

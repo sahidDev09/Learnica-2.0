@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 
 const Page = ({ params }) => {
   const { user, isLoaded, isSignedIn } = useUser();
+  const courseId = params.id
 
   // Wait until Clerk has fully loaded and the user is determined
   useEffect(() => {
@@ -100,7 +101,7 @@ const Page = ({ params }) => {
                   </div>
                   <div className="text-start w-full ml-2">
                     <h2 className=" md:text-lg font-semibold">
-                      {index + 1}. {item.title.slice(0, 35)}..
+                      {index + 1}. {item.title.slice(0, 25)}..
                     </h2>
                     <h4 className="ml-5 flex items-center gap-2">
                       <Clock className=" h-5 w-5" />{" "}
@@ -194,7 +195,7 @@ const Page = ({ params }) => {
               aria-label="Q&A"
             />
             <div role="tabpanel" className="tab-content py-4 bg-white w-full">
-              <Questions />
+              <Questions courseId={courseId} />
             </div>
             {/*------------------------------- Notes ----------------------------*/}
             <input
@@ -205,8 +206,8 @@ const Page = ({ params }) => {
               aria-label="Notes"
             />
             <div role="tabpanel" className="tab-content py-2 bg-white w-full">
-              <AddNoteForm />
-              <Notes />
+              <AddNoteForm courseId={courseId} />
+              <Notes courseId={courseId} />
             </div>
             {/*------------------------------- Reviews --------------------------*/}
             <input
@@ -217,8 +218,8 @@ const Page = ({ params }) => {
               aria-label="Reviews"
             />
             <div role="tabpanel" className="tab-content pt-4 bg-white w-full">
-              <MyReview />
-              <Reviews />
+              <MyReview courseId={courseId} />
+              <Reviews courseId={courseId} />
             </div>
 
             {/*------------------------------- Attachment --------------------------*/}

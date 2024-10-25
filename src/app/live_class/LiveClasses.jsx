@@ -24,18 +24,10 @@ const LiveClasses = () => {
     <div className="p-4">
       <h1 className="text-3xl font-bold mb-4 text-center">Live Classes</h1>
 
-      {/* Add Courses Button */}
-      <div className="flex justify-end mt-4 mb-4">
-        <Link href="liveClassAdd">
-          <button className="text-sm flex items-center gap-2 p-2 px-4 text-white bg-primary rounded-xl hover:scale-105 transition-transform md:text-lg">
-            <FaPlus />
-            Add Live Class
-          </button>
-        </Link>
-      </div>
+     
 
       {/* Responsive Grid Layout */}
-      <div className="grid md:grid-cols-2 gap-5">
+      <div className="grid md:grid-cols-1 gap-5">
         {liveClasses?.map((liveClass, index) => (
           <div
             key={index}
