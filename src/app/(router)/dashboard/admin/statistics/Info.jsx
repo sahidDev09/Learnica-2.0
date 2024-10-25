@@ -1,11 +1,26 @@
+"use client"
+import { useQuery } from "@tanstack/react-query";
 import StatCards from "./StatCards";
 import TopCoursesChart from "./TopCoursesChart";
 import UserAmountPieChart from "./UserAmountPieChart";
+import Loading from "@/app/loading";
 
 function Info() {
-  return (  
+  // get stats
+  const { data: statsData, isLoading, refetch } = useQuery({
+    queryKey: ["admin-stats"],
+    queryFn: async () => {
+      const res = await fetch(
+        process.env.NEXT_PUBLIC_BASE_URL + `/api/admin-stats`
+      );
+      return res.json();
+    },
+  });
+  
+  if (isLoading) {return <Loading/> }
+  return (
     <div>
-      <StatCards />
+      <StatCards statsData={statsData} />
       <div className="grid grid-cols-[6fr_4fr] gap-12">
         <TopCoursesChart />
         <UserAmountPieChart />
