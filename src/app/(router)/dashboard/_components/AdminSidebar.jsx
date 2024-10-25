@@ -1,4 +1,4 @@
-import { BookA, Store, User } from "lucide-react";
+import { BookA, Plus, Store, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -29,7 +29,7 @@ const AdminSidebar = () => {
     {
       id: 4,
       name: "Add Support Link",
-      icons: MdSyncProblem,
+      icons: Plus,
       path: "/dashboard/admin/addSupportLink",
     },
     {
