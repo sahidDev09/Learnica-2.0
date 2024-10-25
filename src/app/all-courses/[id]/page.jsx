@@ -21,6 +21,8 @@ const Page = ({ params }) => {
   const router = useRouter();
   const courseId = params.id;
 
+  console.log(user?.unsafeMetadata?.role, "from details");
+
   // Wait until Clerk has fully loaded and the user is determined
   useEffect(() => {
     if ((isLoaded && !isSignedIn) || !user) {

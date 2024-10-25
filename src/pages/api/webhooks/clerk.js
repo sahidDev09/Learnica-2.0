@@ -45,7 +45,8 @@ export default async function handler(req, res) {
       const user = event.data;
       console.log("User Data:", user);
 
-      const userRole = user.public_metadata?.role || "student";
+      const userRole = user?.unsafeMetadata?.role;
+
 
       const userData = {
         userId: user.id,
