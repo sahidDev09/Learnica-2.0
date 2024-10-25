@@ -1,5 +1,5 @@
-import StatCards from "./StatCards";
-import TopCoursesChart from "./TopCoursesChart";
+import Info from "./Info";
+
 
 function Statistics() {
   return (  
@@ -8,8 +8,7 @@ function Statistics() {
         <h2 className="text-secondary text-2xl font-semibold mb-6 mt-6 md:mt-0">My Statistics</h2>
       </header>
       
-      <StatCards />
-      <TopCoursesChart />
+      <Info />
     </div>
   );
 }
