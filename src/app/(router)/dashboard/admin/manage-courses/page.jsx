@@ -24,7 +24,7 @@ const CoursesPage = () => {
   });
 
   const handleDelete = (id) => {
-    console.log(id);
+    
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -36,7 +36,7 @@ const CoursesPage = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/all-courses?id=${id}`, {
-          // Use the correct API route
+          
           method: "DELETE",
         })
           .then((res) => res.json())

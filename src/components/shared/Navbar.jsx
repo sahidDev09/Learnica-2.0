@@ -99,7 +99,11 @@ const Navbar = () => {
   }, [currUser]);
 
   if (loading) {
-    return <div>please wait..</div>;
+    return (
+      <div className=" bg-secondary w-full text-center text-white">
+        please wait..
+      </div>
+    );
   }
 
   return (
@@ -205,19 +209,17 @@ const Navbar = () => {
                   {user && mainRole === "admin" ? (
                     <Link href="/dashboard/admin/manage-courses">
                       <Button
-                        variant="destructive"
-                        className="rounded-full"
+                        className="rounded-full bg-primary"
                         aria-label="Author Dashboard">
-                        <ShieldCheck size={20} /> Admin
+                        <ShieldCheck size={20} /> Admin mode
                       </Button>
                     </Link>
                   ) : user?.unsafeMetadata?.role === "teacher" ? (
                     <Link href="/dashboard/teacher">
                       <Button
-                        variant="destructive"
-                        className="rounded-full"
+                        className="rounded-full bg-primary"
                         aria-label="Author Dashboard">
-                        <ShieldCheck size={20} /> Teacher
+                        <ShieldCheck size={20} /> instructor mode
                       </Button>
                     </Link>
                   ) : null}
@@ -255,7 +257,10 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      <div className={`${openMenu ? "w-3/4" : "w-0"} fixed top-0 right-0 h-full bg-black transition-all overflow-hidden z-50`}>
+      <div
+        className={`${
+          openMenu ? "w-3/4" : "w-0"
+        } fixed top-0 right-0 h-full bg-black transition-all overflow-hidden z-50`}>
         <div className="absolute right-4 top-4">
           <RxCross1
             onClick={handleCloseMenu}
