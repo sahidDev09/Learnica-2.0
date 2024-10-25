@@ -20,7 +20,7 @@ const Chat = () => {
   const [userInput, setUserInput] = useState("");
   const [chat, setChat] = useState(null);
   const [error, setError] = useState(null);
-  const [typing, setTyping] = useState(false); // State to manage typing indicator
+  const [typing, setTyping] = useState(false);
 
   const { user } = useUser();
   const ref = useRef();

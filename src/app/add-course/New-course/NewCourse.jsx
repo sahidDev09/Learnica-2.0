@@ -135,7 +135,7 @@ const NewCourse = () => {
 
   return (
     <div className=" container mx-auto py-4">
-      <div className=" flex items-center justify-between">
+      <div className=" flex items-center justify-between mx-5 md:mx-0∆">
         <h1 className="md:text-3xl text-xl font-extrabold">
           Add a new courses
         </h1>
