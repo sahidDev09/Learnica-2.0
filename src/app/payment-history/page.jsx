@@ -89,7 +89,7 @@ const Page = () => {
                         {format(new Date(order.createdAt), "PPpp")}
                       </TableCell>
                       <TableCell className="text-center py-2 px-4">
-                        <div className="inline-flex items-center bg-green-400 rounded-full gap-x-1 py-1 px-2 text-white">
+                        <div className="inline-flex items-center bg-green-500 bg-opacity-65 rounded-full gap-x-1 py-1 px-2 text-white">
                           <span>{order.status}</span>
                           <TiTickOutline />
                         </div>
@@ -113,3 +113,4 @@ const Page = () => {
 };
 
 export default Page;
+  
