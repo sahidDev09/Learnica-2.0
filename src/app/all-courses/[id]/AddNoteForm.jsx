@@ -18,8 +18,8 @@ const addNote = async (formData) => {
 
 function AddNoteForm({ courseId }) {
   const queryClient = useQueryClient();
-  const user = useUser()
-  const userEmail = user?.user.emailAddresses[0].emailAddress
+  const user = useUser();
+  const userEmail = user?.user?.emailAddresses[0]?.emailAddress;
 
   const mutation = useMutation({
     mutationFn: addNote,
@@ -34,12 +34,12 @@ function AddNoteForm({ courseId }) {
       description: e.target.description.value.trim(),
       email: userEmail,
       created_at: Date.now(),
-      courseId
+      courseId,
     };
 
-    // no email alert 
+    // no email alert
     if (!formData.email) {
-      alert('you must log in!')
+      alert("you must log in!");
     }
 
     mutation.mutate(formData, {

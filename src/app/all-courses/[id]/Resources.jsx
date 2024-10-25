@@ -141,10 +141,6 @@ const Resources = ({ courseId, userid }) => {
     }
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
   return (
     <div className="bg-card p-4 overflow-hidden rounded-md flex flex-col gap-3 items-start">
       {user?.id === userid && (

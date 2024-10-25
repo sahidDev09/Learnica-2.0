@@ -2,7 +2,6 @@
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 import Reviews from "./Reviews";
-import AddReviewForm from "./AddReviewForm";
 import AddNoteForm from "./AddNoteForm";
 import Notes from "./Notes";
 import Resources from "./Resources";
@@ -10,7 +9,7 @@ import { Clock, PlaySquare } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import Questions from "./Questions";
 import Loading from "@/app/loading";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import MyReview from "./MyReview";
 import { useEffect } from "react";
@@ -19,12 +18,13 @@ import { Button } from "@/components/ui/button";
 
 const Page = ({ params }) => {
   const { user, isLoaded, isSignedIn } = useUser();
+  const router = useRouter();
   const courseId = params.id;
 
   // Wait until Clerk has fully loaded and the user is determined
   useEffect(() => {
-    if (isLoaded && !isSignedIn) {
-      redirect("/?sign-in=true");
+    if ((isLoaded && !isSignedIn) || !user) {
+      router.push("/?sign-in=true");
     }
   }, [isLoaded, isSignedIn]);
 
@@ -236,7 +236,7 @@ const Page = ({ params }) => {
               aria-label="Resources"
             />
             <div role="tabpanel" className="tab-content bg-white pt-2 w-full">
-              <Resources courseId={data._id} userid={data.userId} />
+              <Resources courseId={data._id} userid={data.author.id} />
             </div>
           </div>
         </div>

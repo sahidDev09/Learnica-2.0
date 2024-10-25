@@ -8,7 +8,7 @@ import AddReviewForm from "./AddReviewForm";
 
 function MyReview({courseId}) {
   const user = useUser()
-  const userEmail = user?.user.emailAddresses[0].emailAddress
+  const userEmail = user?.user?.emailAddresses[0]?.emailAddress
 
   const { data: myReview, isLoading, refetch } = useQuery({
     queryKey: ["my-review", courseId],
