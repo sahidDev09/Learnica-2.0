@@ -30,7 +30,7 @@ const Promotional = () => {
       className=" bg-gradient-to-b from-white to-blue-100 md:py-32 py-5">
       <div className="container mx-auto text-center p-5 md:p-0 lg:pb-5">
         <div className=" relative">
-          <h1 className="md:text-5xl font-bold text-3xl my-5">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold my-5">
             Sign up for newsletter
           </h1>
           <p className="my-4 md:w-[40%] mx-auto">
@@ -43,7 +43,7 @@ const Promotional = () => {
             alt="book"
             width={360}
             height={100}
-            className="absolute -left-[100px] -top-[137px] hidden md:inline"
+            className="absolute -left-[100px] -top-[137px] hidden lg:inline"
             style={{
               translateY,
             }}></motion.img>
@@ -53,7 +53,7 @@ const Promotional = () => {
             alt="book"
             width={260}
             height={100}
-            className="absolute -right-[50px] -top-[-30px] hidden md:inline"
+            className="absolute -right-[50px] -top-[-30px] hidden lg:inline"
             style={{
               translateY,
             }}></motion.img>
