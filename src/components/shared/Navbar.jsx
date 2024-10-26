@@ -164,17 +164,13 @@ const Navbar = () => {
                   className="duration-150 hover:border-transparent p-1 text-center">
                   <li>About Us</li>
                 </Link>
-
-                {/* <li className="p-1">
-                  <BellDot />
-                </li> */}
                 {user && (
                   <li>
                     <Sheet>
                       <SheetTrigger>
                         <Image
-                          src={"/assets/aibot 2.jpeg"}
-                          alt=""
+                          src={"/assets/aibot.jpeg"}
+                          alt="chatbotAi"
                           width={35}
                           height={100}
                           className=" rounded-full"
@@ -228,7 +224,7 @@ const Navbar = () => {
                     <UserButton
                       appearance={{
                         elements: {
-                          avatarBox: " w-10 h-10",
+                          avatarBox: "w-10 h-10",
                         },
                       }}>
                       <UserButton.MenuItems>
