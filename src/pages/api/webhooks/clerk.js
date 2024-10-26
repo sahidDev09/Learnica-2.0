@@ -43,10 +43,9 @@ export default async function handler(req, res) {
 
     if (event.type === "user.created" || event.type === "user.updated") {
       const user = event.data;
-      console.log("User Data:", user);
 
-      const userRole = user?.unsafeMetadata?.role;
-
+      const userRole =
+        user?.unsafe_metadata?.role || user?.unsafeMetadata?.role;
 
       const userData = {
         userId: user.id,
