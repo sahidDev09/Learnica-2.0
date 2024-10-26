@@ -7,7 +7,7 @@ import Image from "next/image";
 
 const Companies = () => {
   return (
-    <div className=" mt-5">
+    <div className="mt-5">
       <div className="container mx-auto py-4 rounded-md">
         <Carousel
           plugins={[Autoplay({ delay: 2000, stopOnInteraction: false })]}
@@ -20,7 +20,7 @@ const Companies = () => {
                   alt={name}
                   width={180}
                   height={180}
-                  className="h-24 sm:h-34 object-contain text-black"
+                  className="h-24 sm:h-34 w-auto object-contain text-black"
                 />
               </CarouselItem>
             ))}

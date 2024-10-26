@@ -64,10 +64,12 @@ const Page = ({ params }) => {
   }, [isLoaded, isSignedIn, user, courseId]);
 
   useEffect(() => {
-    if ((isLoaded && !isSignedIn) || !user) {
-      router.push("/?sign-in=true");
+    if (isLoaded) {
+      if (!isSignedIn || !user) {
+        router.replace("/?sign-in=true");
+      }
     }
-  }, [isLoaded, isSignedIn, router, user]);
+  }, [isLoaded, isSignedIn, user, router]);
 
   const VideoDuration = (duration) => {
     const minutes = Math.floor(duration / 60);
