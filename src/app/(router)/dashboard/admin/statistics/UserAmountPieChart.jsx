@@ -1,30 +1,28 @@
 "use client"
 import { PieChart, Pie, Legend, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
-const data = [
-  { name: 'Group A', value: 400 },
-  { name: 'Group B', value: 300 },
-  { name: 'Group C', value: 300 },
-  { name: 'Group D', value: 200 },
-  { name: 'Group E', value: 278 },
-  { name: 'Group F', value: 189 },
-];
-
-function UserAmountPieChart() {
+function UserAmountPieChart({ userTypes }) {
+  const userTypesData = [
+    { name: 'student', value: userTypes.filter(u => u.role === 'student').length },
+    { name: 'teacher', value: userTypes.filter(u => u.role === 'teacher').length },
+    { name: 'admin', value: userTypes.filter(u => u.mainRole === 'admin').length },
+    { name: 'blocked', value: userTypes.filter(u => u.status === 'blocked').length },
+  ]
+  
   return (
-    <div className='mt-10 '>
-      <h3 className='mb-6 text-xl text-secondary font-semibold'>Title:</h3>
-      <div className='w-full h-[500px] p-6 border-2 border-secondary rounded-md'>
+    <div className='p-4 border-2 border-secondary rounded-md bg-card'>
+      <h3 className='mb-4 text-xl text-secondary font-semibold'>User Types:</h3>
+      <div className='w-full h-[400px]'>
         <ResponsiveContainer width="100%" height="100%">
           <PieChart width={400} height={400}>
             <Pie
               dataKey="value"
-              isAnimationActive={false}
-              data={data}
+              isAnimationActive={true}
+              data={userTypesData}
               cx="50%"
               cy="50%"
               outerRadius={100}
-              innerRadius={40}
+              innerRadius={50}
               fill="#135276"
               label
             />

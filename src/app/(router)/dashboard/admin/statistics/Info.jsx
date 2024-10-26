@@ -23,7 +23,7 @@ function Info() {
       <StatCards statsData={statsData} />
       <div className="grid grid-cols-[6fr_4fr] gap-12">
         <TopCoursesChart />
-        <UserAmountPieChart />
+        <UserAmountPieChart userTypes={statsData.userTypes} />
       </div>
     </div>
   );

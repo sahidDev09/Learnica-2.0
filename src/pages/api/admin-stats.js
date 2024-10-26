@@ -14,7 +14,11 @@ export default async function handler(req, res) {
       const totalCourses = await coursesCollection.estimatedDocumentCount()
       const totalCustomCourses = await customCoursesCollection.estimatedDocumentCount()
       const totalUsers = await usersCollection.estimatedDocumentCount()
-      return res.json({totalCourses, totalCustomCourses, totalUsers});
+      const userTypes = await usersCollection.find({}, {
+        projection: {_id: 0, role: 1, mainRole: 1, status: 1}}
+      ).toArray();
+      
+      return res.json({totalCourses, totalCustomCourses, totalUsers, userTypes});
     } 
     else {
       // Handle unsupported HTTP methods
