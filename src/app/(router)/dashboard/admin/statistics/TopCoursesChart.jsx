@@ -1,40 +1,27 @@
 "use client"
 
-import React, { PureComponent } from 'react';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const data = [
   {
-    rating: 3.5,
-    name: 'javascript fundamentals for beginners'
+    amount: 200,
+    name: 'Today'
   },
   {
-    rating: 4,
-    name: 'react for beginners with a big project'
+    amount: 160,
+    name: '1 day ago'
   },
   {
-    rating: 5,
-    name: 'learn mern stack with a project'
-  },
-  {
-    rating: 5,
-    name: 'learn mern stack with a project'
-  },
-  {
-    rating: 5,
-    name: 'learn mern stack with a project'
-  },
-  {
-    rating: 5,
-    name: 'learn mern stack with a project'
+    amount: 450,
+    name: '2 days ago'
   },
 ]
 
 function TopCoursesChart() {
   return (
-    <div className='mt-10 '>
-      <h3 className='mb-6 text-xl text-secondary font-semibold'>Top Rated Courses:</h3>
-      <div className='w-full h-[500px] p-6 border-2 border-secondary rounded-md'>
+    <div className='p-4 border-2 border-secondary rounded-md bg-card'>
+      <h3 className='mb-4 text-xl text-secondary font-semibold'>Recent Order numbers (Courses):</h3>
+      <div className='w-full h-[400px]'>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             width={500}
@@ -52,11 +39,10 @@ function TopCoursesChart() {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="rating" fill="#135276" activeBar={<Rectangle fill="#287aa9" stroke="#135276" />} />
+            <Bar dataKey="amount" fill="#135276" activeBar={<Rectangle fill="#287aa9" stroke="#135276" />} />
           </BarChart>
         </ResponsiveContainer>
       </div>
-      <p className='text-[#287aa9]'></p>
     </div>
   );
 }
