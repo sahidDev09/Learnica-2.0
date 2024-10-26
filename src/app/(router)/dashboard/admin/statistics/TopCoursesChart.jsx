@@ -20,7 +20,7 @@ const data = [
 function TopCoursesChart() {
   return (
     <div className='p-4 border-2 border-secondary rounded-md bg-card'>
-      <h3 className='mb-4 text-xl text-secondary font-semibold'>Recent Transactions (courses):</h3>
+      <h3 className='mb-4 text-xl text-secondary font-semibold'>Recent Order numbers (Courses):</h3>
       <div className='w-full h-[400px]'>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
