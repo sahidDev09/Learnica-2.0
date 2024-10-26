@@ -124,8 +124,8 @@ const handlePaymentSuccess = async () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         userId: user.id,
-        courseId:data._id,
-        title:data.name,
+        courseId: data._id,
+        title: data.name,
         email: user.primaryEmailAddress?.emailAddress || "",
         status: "success",
         totalAmount: data.pricing,
@@ -143,13 +143,29 @@ const handlePaymentSuccess = async () => {
       throw new Error(result.error || "Failed to store order in the database.");
     }
 
-    Swal.fire("Success", "Payment and enrollment successful!", "success");
-    setIsModalOpen(false);
+    // Show success alert with two buttons
+    Swal.fire({
+      title: "Success",
+      text: "Payment and enrollment successful!",
+      icon: "success",
+      showCancelButton: true,
+      confirmButtonText: "OK",
+      cancelButtonText: "Payment History",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // User clicked OK button
+        setIsModalOpen(false);
+      } else if (result.isDismissed) {
+        // User clicked Payment History button
+        router.push("/payment-history"); // Redirect to payment history page
+      }
+    });
   } catch (error) {
     console.error("Error storing order:", error);
     showError("Failed to store order. Please contact support.");
   }
 };
+
 
 if (isLoading || !isLoaded) {
   return <Loading />;
