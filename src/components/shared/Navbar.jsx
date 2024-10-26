@@ -164,13 +164,21 @@ const Navbar = () => {
                   className="duration-150 hover:border-transparent p-1 text-center">
                   <li>About Us</li>
                 </Link>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 999523dbd3bd22fec076d3c62e0e270c18917ab4
                 {user && (
                   <li>
                     <Sheet>
                       <SheetTrigger>
                         <Image
                           src={"/assets/aibot.jpeg"}
+<<<<<<< HEAD
                           alt="chatbotAi"
+=======
+                          alt=""
+>>>>>>> 999523dbd3bd22fec076d3c62e0e270c18917ab4
                           width={35}
                           height={100}
                           className=" rounded-full"

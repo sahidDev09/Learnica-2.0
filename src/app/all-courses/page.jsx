@@ -84,15 +84,17 @@ const Page = () => {
   return (
     <div className="bg-card px-4">
       <div className="container mx-auto">
-        <header className="text-center md:text-left text-sm flex items-center justify-between">
-          <h2 className="text-md md:text-2xl font-bold hidden md:inline">
+        <header className="text-center md:text-left text-sm flex items-center justify-between flex-wrap">
+          <h2 className="text-md md:text-2xl font-bold hidden md:block">
             All Courses
           </h2>
-          <div className="px-4 p-8 md:mt-10">
-            <label className="input rounded-3xl border-transparent flex items-center gap-2">
+          {/* ----- search ------ */}
+          <div className="my-6">
+            {/* <label className="input rounded-3xl border-transparent flex items-center gap-2"> */}
+            <label className="block relative rounded-full bg-white">
               <input
                 type="text"
-                className="lg:w-80 text-black flex-1"
+                className="lg:w-96 text-black text-base py-1 md:py-2 px-6 bg-transparent outline-0 border-2 rounded-full shadow"
                 placeholder="Search Something....."
                 value={search}
                 onChange={handleSearchChange}
@@ -101,7 +103,7 @@ const Page = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 16 16"
                 fill="currentColor"
-                className="h-6 w-6 text-primary">
+                className="h-6 w-6 text-primary self-center absolute top-1.5 md:top-2.5 right-3">
                 <path
                   fillRule="evenodd"
                   d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
@@ -110,6 +112,17 @@ const Page = () => {
               </svg>
             </label>
           </div>
+          {/* ---- Add Courses Button ------- */}
+        <div className="flex justify-end">
+          {user?.unsafeMetadata?.role === "teacher" && (
+            <Link href="add-course">
+              <button className="text-sm flex items-center gap-2 p-2 px-4 text-white bg-primary rounded-xl hover:scale-105 transition-transform md:text-lg">
+                <FaPlus />
+                Add Course
+              </button>
+            </Link>
+          )}
+        </div>
         </header>
 
         {/* Category Filter */}
@@ -145,17 +158,6 @@ const Page = () => {
           </div>
         </div>
 
-        {/* Add Courses Button */}
-        <div className="flex justify-end mt-4">
-          {user?.unsafeMetadata?.role === "teacher" && (
-            <Link href="add-course">
-              <button className="text-sm flex items-center gap-2 p-2 px-4 text-white bg-primary rounded-xl hover:scale-105 transition-transform md:text-lg">
-                <FaPlus />
-                Add Course
-              </button>
-            </Link>
-          )}
-        </div>
 
         {/* Courses and Pagination */}
         <Courses products={products} loading={loading} />
