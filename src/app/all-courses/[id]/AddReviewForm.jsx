@@ -19,10 +19,10 @@ const addComment = async (formData) => {
   return res.json();
 };
 
-function AddReviewForm({courseId}) {
+function AddReviewForm({ courseId }) {
   const queryClient = useQueryClient();
-  const user = useUser()
-  const userEmail = user?.user.emailAddresses[0].emailAddress
+  const user = useUser();
+  const userEmail = user?.user?.emailAddresses[0]?.emailAddress;
 
   const mutation = useMutation({
     mutationFn: addComment,
@@ -37,12 +37,12 @@ function AddReviewForm({courseId}) {
       review_text: e.target.review_text.value.trim(),
       reviewerEmail: userEmail,
       created_at: Date.now(),
-      courseId
+      courseId,
     };
 
     // check user info
-    if ( !userEmail ) {
-      alert('you must login!')
+    if (!userEmail) {
+      alert("you must login!");
       return;
     }
 
@@ -71,7 +71,9 @@ function AddReviewForm({courseId}) {
   return (
     <div>
       <header className="mb-2">
-        <h2 className="text-xl md:text-2xl font-semibold text-secondary">Give your review:</h2>
+        <h2 className="text-xl md:text-2xl font-semibold text-secondary">
+          Give your review:
+        </h2>
       </header>
 
       <form onSubmit={handleAddCourse} className="mx-auto">

@@ -8,9 +8,9 @@ import QnaModal from "./QnaModal";
 import Image from "next/image";
 import Swal from "sweetalert2";
 
-function Questions({courseId}) {
-  const user = useUser()
-  const userEmail = user?.user.emailAddresses[0].emailAddress
+function Questions({ courseId }) {
+  const { user } = useUser();
+  const userEmail = user?.user?.emailAddresses[0]?.emailAddress;
 
   // get quesions
   const {
@@ -76,11 +76,14 @@ function Questions({courseId}) {
   return (
     <section className="max-w-screen-lg mx-auto">
       <header className="mb-4">
-        <h2 className="text-xl md:text-3xl font-semibold text-secondary">QnA</h2>
+        <h2 className="text-xl md:text-3xl font-semibold text-secondary">
+          QnA
+        </h2>
       </header>
 
       {/* -------- ask quesion form ---------- */}
-      <AddQuestionForm refetch={refetch} courseId={courseId} />
+
+      {user && <AddQuestionForm refetch={refetch} courseId={courseId} />}
 
       {/* -------- all quesions ---------- */}
       {questions.length > 0 ? (
@@ -100,11 +103,11 @@ function Questions({courseId}) {
               <div className="text-sm text-gray-500 flex items-center gap-2">
                 <p>{ques.userEmail} • </p>
                 <p>{new Date(ques.createdAt).toLocaleDateString()} </p>
-                {ques.userEmail === userEmail && (
+                {userEmail && ques.userEmail === userEmail && (
                   <button
                     onClick={() => handleQuestionDelete(ques._id)}
                     className="ml-auto p-1 border border-transparent hover:border-red-600 text-red-600 rounded hover:-translate-y-1 transition-all">
-                      <FaTrashAlt />
+                    <FaTrashAlt />
                   </button>
                 )}
               </div>
