@@ -165,15 +165,12 @@ const Navbar = () => {
                   <li>About Us</li>
                 </Link>
 
-                {/* <li className="p-1">
-                  <BellDot />
-                </li> */}
                 {user && (
                   <li>
                     <Sheet>
                       <SheetTrigger>
                         <Image
-                          src={"/assets/aibot 2.jpeg"}
+                          src={"/assets/aibot.jpeg"}
                           alt=""
                           width={35}
                           height={100}

@@ -8,10 +8,11 @@ const Banner = () => {
         <div className="md:flex items-center justify-between flex-row-reverse container mx-auto mb-5">
           <div className="">
             <Image
-              width={1000}
-              height={1000}
+              width={500}
+              height={500}
               alt="banner logo"
               src={"/assets/courseui.png"}
+              loading="lazy"
               className="w-[1000px]"></Image>
           </div>
           <div className="md:text-left text-center content-info">
