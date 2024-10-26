@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
-import { ObjectId } from "mongodb"; // Import ObjectId
+import { ObjectId } from "mongodb"; 
 
 export async function POST(request) {
   try {
@@ -19,7 +19,6 @@ export async function POST(request) {
     const client = await clientPromise;
     const db = client.db("learnica");
 
-    // Use 'new ObjectId(courseId)' to create a new ObjectId instance
     const courseData = await db.collection("courses").findOne({ _id: new ObjectId(courseId) });
 
     if (!courseData) {

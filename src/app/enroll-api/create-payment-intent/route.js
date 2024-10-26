@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import clientPromise from "@/lib/mongodb";
-import { ObjectId } from "mongodb"; // Import ObjectId
+import { ObjectId } from "mongodb"; 
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -15,8 +15,6 @@ export async function POST(request) {
 
     const client = await clientPromise;
     const db = client.db("learnica");
-
-    // Use 'new ObjectId(courseId)' to create a new ObjectId instance
     const courseData = await db.collection("courses").findOne({ _id: new ObjectId(courseId) });
 
     if (!courseData) {
@@ -34,7 +32,7 @@ export async function POST(request) {
         courseId,
         email,
         title,
-        lectures: lectureTitles.slice(0, 490), // Limit to avoid metadata limit issues
+        lectures: lectureTitles.slice(0, 490), 
       },
     });
 
