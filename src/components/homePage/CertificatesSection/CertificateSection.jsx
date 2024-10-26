@@ -1,28 +1,26 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import img1 from '../../../../public/assets/cybersecurity.jpg';
-import img2 from '../../../../public/assets/uxui.png';
 import Image from "next/image";
 import { FaBookmark } from "react-icons/fa";
+import img1 from '../../../../public/assets/cybersecurity.jpg';
+import img2 from '../../../../public/assets/uxui.png';
 
 const CertificateSection = () => {
 	return (
 		<div className="py-10 px-4">
 			<div className="bg-card lg:h-[550px] container mx-auto rounded-2xl p-6 lg:p-10">
-				{/* 3part */}
-				<div className="lg:flex grid grid-cols-1 gap-y-8 lg:grid-cols-3 lg:gap-x-10 py-10">
+				<div className="grid grid-cols-1 gap-y-8 lg:grid-cols-3 lg:gap-x-10 py-10">
 					{/* 1st part */}
 					<div className="text-center lg:text-left lg:self-center">
-						<h1 className="text-3xl lg:text-5xl font-bold">
+						<h1 className="text-secondary text-3xl lg:text-4xl font-bold">
 							Popular certificates, new AI skills.
 						</h1>
-						<p className="text-lg lg:text-xl font-medium mt-6 lg:mt-10">
+						<p className="text-lg lg:text-xl font-medium mt-6">
 							Get job-ready with Google Professional Certificates—now including AI skills.
 						</p>
 					</div>
 					{/* 2nd part */}
 					<div className="mx-auto lg:mx-0">
-						<div className="card bg-base-100  lg:w-96 shadow-xl">
+						<div className="card bg-base-100 shadow-xl">
 							<figure className="px-4 pt-4">
 								<Image
 									src={img1}
@@ -48,7 +46,7 @@ const CertificateSection = () => {
 					</div>
 					{/* 3rd part */}
 					<div className="mx-auto lg:mx-0">
-						<div className="card bg-base-100 lg:w-96 shadow-xl">
+						<div className="card bg-base-100 shadow-xl">
 							<figure className="px-4 pt-4">
 								<Image
 									src={img2}

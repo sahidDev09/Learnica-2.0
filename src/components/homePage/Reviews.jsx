@@ -16,13 +16,9 @@ const Reviews = () => {
         <p className="text-2xl text-center font-semibold text-primary">
           Reviews
         </p>
-        <h1 className="md:text-4xl text-3xl text-center font-bold my-2">
+        <h2 className="md:text-4xl text-3xl text-center font-bold my-2">
           What Our Learners Say
-        </h1>
-        <p className="text-center md:w-[55%] flex mx-auto text-gray-400">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo mollitia
-          perspiciatis magnam, nostrum nesciunt, tempore ut sit,
-        </p>
+        </h2>
       </div>
 
       <div className=" overflow-hidden mask-gradient md:flex gap-5 max-h-[738px]">
