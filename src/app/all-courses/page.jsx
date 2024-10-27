@@ -8,6 +8,7 @@ import Loading from "../loading";
 import Link from "next/link";
 import debounce from "lodash.debounce";
 import { useUser } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
 
 const Page = () => {
   const [page, setPage] = useState(1);
@@ -113,16 +114,16 @@ const Page = () => {
             </label>
           </div>
           {/* ---- Add Courses Button ------- */}
-        <div className="flex justify-end">
-          {user?.unsafeMetadata?.role === "teacher" && (
-            <Link href="add-course">
-              <button className="text-sm flex items-center gap-2 p-2 px-4 text-white bg-primary rounded-xl hover:scale-105 transition-transform md:text-lg">
-                <FaPlus />
-                Add Course
-              </button>
-            </Link>
-          )}
-        </div>
+          <div className="flex justify-end">
+            {user?.unsafeMetadata?.role === "teacher" && (
+              <Link href="add-course">
+                <Button className="bg-secondary">
+                  <FaPlus />
+                  Add Course
+                </Button>
+              </Link>
+            )}
+          </div>
         </header>
 
         {/* Category Filter */}
@@ -157,7 +158,6 @@ const Page = () => {
             </section>
           </div>
         </div>
-
 
         {/* Courses and Pagination */}
         <Courses products={products} loading={loading} />

@@ -46,17 +46,21 @@ const LatestCourses = () => {
           <h2 className="text-3xl md:text-4xl font-bold">Latest courses</h2>
         </header>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {courses.slice(0, 3).map((course, index) => (
-            <Card key={index} course={course} />
-          ))}
+          {courses.length > 0
+            ? courses
+                .slice(0, 3)
+                .map((course, index) => <Card key={index} course={course} />)
+            : null}
         </div>
 
         <div className="mt-8 flex justify-center">
-          <Link
-            className="inline-block bg-primary text-white px-8 py-3 rounded-full shadow-md hover:opacity-80 transition-opacity"
-            href="/all-courses">
-            View all
-          </Link>
+          {courses.length > 0 && (
+            <Link
+              className="inline-block bg-primary text-white px-8 py-3 rounded-full shadow-md hover:opacity-80 transition-opacity"
+              href="/all-courses">
+              View all
+            </Link>
+          )}
         </div>
       </div>
     </section>
