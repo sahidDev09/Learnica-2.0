@@ -2,7 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
-import { FaPlus } from "react-icons/fa";
+
 import Loading from "../loading";
 
 const LiveClasses = () => {
@@ -29,9 +29,9 @@ const LiveClasses = () => {
         {liveClasses?.map((liveClass, index) => (
           <div
             key={index}
-            className="flex flex-col md:flex-row gap-6 bg-card rounded-lg shadow p-4 duration-300 hover:shadow-md hover:scale-[1.01] transition-transform h-full border">
+            className="flex flex-col lg:flex-row gap-6 bg-card rounded-lg shadow p-4 duration-300 hover:shadow-md hover:scale-[1.01] transition-transform h-full border">
             {/* Image */}
-            <div className="md:w-1/2 h-full">
+            <div className=" h-full">
               <Image
                 src={
                   liveClass.thumbnail?.startsWith("http") ||
@@ -47,7 +47,7 @@ const LiveClasses = () => {
             </div>
 
             {/* Information */}
-            <div className="md:w-1/2 flex flex-col justify-between h-full">
+            <div className=" flex flex-col justify-between h-full">
               <div className="flex-1">
                 <h3 className="text-secondary text-lg font-semibold mb-2 mt-2 md:mt-0">
                   {liveClass.courseName}
