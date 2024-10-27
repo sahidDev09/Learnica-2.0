@@ -1,10 +1,10 @@
 import React from "react";
-import Chat from "./Chat";
+import MyCourses from "./MyCourses";
 
 const page = () => {
   return (
     <div>
-      <Chat/>
+      <MyCourses />
     </div>
   );
 };
