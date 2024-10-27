@@ -49,7 +49,7 @@ const Page = ({ params }) => {
       if (!isLoaded || !isSignedIn || !user) return;
       try {
         const res = await fetch(
-          `http://localhost:3000/api/get-orders?userId=${user.id}`
+          `http://localhost:3000/api/get-orders?userId=${user._id}`
         );
         const orders = await res.json();
         const isAlreadyEnrolled = orders.some(
