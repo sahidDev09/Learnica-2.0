@@ -71,9 +71,11 @@ const Page = ({ params }) => {
     }
   }, [isLoaded, isSignedIn, user, router]);
 
+  // video durations
+
   const VideoDuration = (duration) => {
     const minutes = Math.floor(duration / 60);
-    const seconds = duration % 60;
+    const seconds = Math.floor(duration % 60);
     return `${minutes} min ${seconds} sec`;
   };
 
@@ -227,7 +229,7 @@ const Page = ({ params }) => {
                     </div>
                     <div className="text-start w-full ml-2">
                       <h2 className="md:text-lg font-semibold">
-                        {index + 1}. {item.title.slice(0, 25)}..
+                        {index + 1}. {item.title.slice(0, 40)}..
                       </h2>
                       <h4 className="ml-5 flex items-center gap-2">
                         <Clock className="h-5 w-5" />{" "}
