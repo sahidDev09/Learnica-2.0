@@ -1,7 +1,8 @@
-import { BookA, Store, User } from "lucide-react";
+import { BookA, Plus, Store, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import { MdSyncProblem } from "react-icons/md";
 
 const AdminSidebar = () => {
   const [activeItem, setActiveItem] = useState(1);
@@ -24,6 +25,18 @@ const AdminSidebar = () => {
       name: "Statistics",
       icons: Store,
       path: "/dashboard/admin/statistics",
+    },
+    {
+      id: 4,
+      name: "Add Support Link",
+      icons: Plus,
+      path: "/dashboard/admin/addSupportLink",
+    },
+    {
+      id: 5,
+      name: "Support issues",
+      icons: MdSyncProblem,
+      path: "/dashboard/admin/issues",
     },
   ];
 
