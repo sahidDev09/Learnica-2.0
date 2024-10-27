@@ -232,8 +232,7 @@ const Page = ({ params }) => {
                         {index + 1}. {item.title.slice(0, 40)}..
                       </h2>
                       <h4 className="ml-5 flex items-center gap-2">
-                        <Clock className="h-5 w-5" />{" "}
-                        {VideoDuration(item.duration)}
+                        Duration : <span className=" text-secondary">{VideoDuration(item.duration)}</span>
                       </h4>
                     </div>
                     {item.freePreview || isEnrolled ? (
