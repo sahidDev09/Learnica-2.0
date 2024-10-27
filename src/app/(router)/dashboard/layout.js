@@ -24,7 +24,6 @@ const Layout = ({ children }) => {
           const data = await response.json();
           const currData = data;
           setMainRole(currData.mainRole);
-          console.log("current data", currData);
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
