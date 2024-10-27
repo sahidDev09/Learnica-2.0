@@ -3,8 +3,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useUser } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
 
-import { useUser } from "@clerk/clerk-react";
+// import { useUser } from "@clerk/clerk-react";
 
 export default function AddClasses() {
   const { user } = useUser();
@@ -27,10 +29,9 @@ export default function AddClasses() {
         );
         const authorData = response.data;
 
-        // Set the fetched author data in the form
         setFormData((prevFormData) => ({
           ...prevFormData,
-          authorName: authorData.authorName || user?.fullName || "", // Use API data or Clerk user name
+          authorName: authorData.authorName || user?.fullName || "",
           authorId: authorData.authorId || user?.id || "",
           authorEmail:
             authorData.authorEmail ||
@@ -101,7 +102,7 @@ export default function AddClasses() {
       <form
         onSubmit={handleSubmit}
         className="space-y-4 grid sm:grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="mt-4 lg:ml-32">
+        <div className="mt-4">
           <div>
             <label className="form-control w-full mb-1">Thumbnail:</label>
             <input
@@ -154,7 +155,7 @@ export default function AddClasses() {
             />
           </div>
         </div>
-        <div className="mt-4 lg:mr-32">
+        <div className="mt-4">
           <div>
             <label className="form-control w-full mb-1">Live Link:</label>
             <input
@@ -208,11 +209,9 @@ export default function AddClasses() {
         </div>
 
         <div className="flex justify-center w-full col-span-full">
-          <button
-            type="submit"
-            className=" w-full md:w-1/2 bg-secondary text-white rounded-md py-2 hover:bg-secondary-dark hover:shadow-lg transition-all">
+          <Button type="submit" className=" w-full bg-secondary">
             Submit
-          </button>
+          </Button>
         </div>
       </form>
     </div>

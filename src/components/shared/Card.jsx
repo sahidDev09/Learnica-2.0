@@ -38,7 +38,6 @@ const Card = ({ course }) => {
               : course.name}
           </h3>
           <p className="text-gray-500 text-sm">
-            {" "}
             Published:{" "}
             <span className="font-semibold">
               {formatDate(course.publish_date)}
@@ -48,9 +47,12 @@ const Card = ({ course }) => {
             Author: <span className="font-semibold">{course.author.name}</span>
           </p>
 
-          <Link href={`/all-courses/${course._id}`}>
-            <Button className="mt-4 mb-2 bg-secondary">View Details</Button>
-          </Link>
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-2xl font-bold text-secondary">${course.pricing}</p>
+            <Link href={`/all-courses/${course._id}`}>
+              <Button className="mt-4 mb-2 bg-secondary">View Details</Button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
