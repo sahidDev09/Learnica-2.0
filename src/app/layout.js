@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Learnica</title>
       </head>
-      <body>
+      <body className='overflow-x-hidden'>
         <ClerkProvider>
           <TanstackProvider>
             {!hideNavFoot && (
