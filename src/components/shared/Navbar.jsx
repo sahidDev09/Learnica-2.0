@@ -164,16 +164,15 @@ const Navbar = () => {
                   className="duration-150 hover:border-transparent p-1 text-center">
                   <li>About Us</li>
                 </Link>
-
                 {user && (
                   <li>
                     <Sheet>
                       <SheetTrigger>
                         <Image
-                          src={"/assets/aibot.jpeg"}
-                          alt=""
+                          src={"/assets/aibot.png"}
+                          alt="chatbotAi"
                           width={35}
-                          height={100}
+                          height={35}
                           className=" rounded-full"
                         />
                       </SheetTrigger>
@@ -212,7 +211,7 @@ const Navbar = () => {
                       </Button>
                     </Link>
                   ) : user?.unsafeMetadata?.role === "teacher" ? (
-                    <Link href="/dashboard/teacher">
+                    <Link href="/dashboard/teacher/my-courses">
                       <Button
                         className="rounded-full bg-primary"
                         aria-label="Author Dashboard">
@@ -225,7 +224,7 @@ const Navbar = () => {
                     <UserButton
                       appearance={{
                         elements: {
-                          avatarBox: " w-10 h-10",
+                          avatarBox: "w-10 h-10",
                         },
                       }}>
                       <UserButton.MenuItems>
@@ -312,16 +311,16 @@ const Navbar = () => {
                   variant="destructive"
                   className="rounded-full"
                   aria-label="Author Dashboard">
-                  <ShieldCheck size={20} /> Admin
+                  <ShieldCheck size={20} /> Admin Mode
                 </Button>
               </Link>
             ) : user?.unsafeMetadata?.role === "teacher" ? (
-              <Link href="/dashboard/teacher">
+              <Link href="/dashboard/teacher/my-courses">
                 <Button
                   variant="destructive"
                   className="rounded-full"
                   aria-label="Author Dashboard">
-                  <ShieldCheck size={20} /> Teacher
+                  <ShieldCheck size={20} /> Instructor Mode
                 </Button>
               </Link>
             ) : null}
