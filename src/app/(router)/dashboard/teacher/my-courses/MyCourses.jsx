@@ -129,7 +129,7 @@ const MyCourses = () => {
                     <td>{item.pricing} $</td>
                     <td>
                       <div className="flex gap-4">
-                        <Link href={`/all-courses/${item._id}`}>
+                        <Link href={"/add-course"}>
                           <Button className=" bg-card text-secondary hover:text-white border border-secondary border-opacity-15">
                             <Edit /> Edit
                           </Button>
