@@ -20,6 +20,7 @@ export default async function handler(req, res) {
       const coursesIds = ordersArr.map(order => new ObjectId(order.courseId))
       const courses = await coursesCollection.find(
         {_id: {$in: coursesIds}}, 
+        {projection: {additionalInfo: 1, name: 1, category: 1, publish_date:1, author:1, pricing:1}}
       ).toArray();
 
       return res.json(courses);
