@@ -37,26 +37,21 @@ const Page = ({ params }) => {
   const { data, isLoading } = useQuery({
     queryKey: ["courses", courseId],
     queryFn: async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/${courseId}`
-      );
-      console.log('coureId', courseId)
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/${courseId}`);
       return res.json();
     },
   });
 
-  // ------------check enrollment---------
+  // Check enrollment
   useEffect(() => {
     const checkEnrollmentStatus = async () => {
       if (!isLoaded || !isSignedIn || !user) return;
       try {
-        const res = await fetch(
-          `http://localhost:3000/api/get-orders?userId=${user.  id}`
-        );
+        const res = await fetch(`http://localhost:3000/api/get-orders?userId=${user.id}`);
         const orders = await res.json();
-        const isAlreadyEnrolled = orders.some(
-          (order) => order.courseId === courseId
-        );
+
+        // Check if any order's courseId matches the fetched course _id
+        const isAlreadyEnrolled = orders.some((order) => order.courseId === courseId);
         setIsEnrolled(isAlreadyEnrolled);
       } catch (error) {
         console.error("Error checking enrollment status:", error);
@@ -64,7 +59,7 @@ const Page = ({ params }) => {
     };
     checkEnrollmentStatus();
   }, [isLoaded, isSignedIn, user, courseId]);
-
+  
   useEffect(() => {
     if (isLoaded) {
       if (!isSignedIn || !user) {
