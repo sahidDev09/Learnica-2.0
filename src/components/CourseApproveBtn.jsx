@@ -44,8 +44,7 @@ const CourseApproveBtn = ({ c_id, c_title }) => {
         <div className="flex justify-center mt-5">
           <button
             onClick={() => handleApprove(c_id, c_title)}
-            className="btn btn-2xl bg-green-600 text-white border-0"
-          >
+            className="btn btn-2xl bg-green-600 text-white border-0">
             Approve
           </button>
         </div>
