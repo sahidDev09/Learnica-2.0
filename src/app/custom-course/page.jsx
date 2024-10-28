@@ -30,6 +30,7 @@ const CustomCoursePage = () => {
   const [products, setProducts] = useState([]);
   const { user, isLoaded, isSignedIn } = useUser();
   const [cart, setCart] = useState([]);
+  
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
@@ -94,9 +95,8 @@ const CustomCoursePage = () => {
       return;
     }
 
-    const finalAmount = convertToSubCurrency(
-      cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0)
-    );
+    const totalAmount = cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0);
+    const finalAmount = convertToSubCurrency(totalAmount);
 
     try {
       const res = await fetch("/pay-api/create-payment-intent", {

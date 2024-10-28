@@ -84,7 +84,7 @@ const Page = () => {
                     <TableRow key={order._id} className="hover:bg-gray-50">
                       <TableCell className="text-center py-2 px-4">{index + 1}</TableCell>
                       <TableCell className="text-center py-2 px-4">{order.title}</TableCell>
-                      <TableCell className="text-center py-2 px-4">{order.totalAmount}</TableCell>
+                      <TableCell className="text-center py-2 px-4">{order.finalAmount}</TableCell>
                       <TableCell className="text-center py-2 px-4">
                         {format(new Date(order.createdAt), "PPpp")}
                       </TableCell>

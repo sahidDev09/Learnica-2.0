@@ -4,18 +4,21 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(request) {
   try {
-   
-    const { amount, userId, email, title, status, items } = await request.json();
-    if (!amount || !userId || !email || !title ||!status|| !items || items.length === 0) {
+    const { userId, email, title, status, items } = await request.json();
+    if (!userId || !email || !title || !status || !items || items.length === 0) {
       return NextResponse.json(
-        { error: "Missing required fields: amount, userId, email, title, or items" },
+        { error: "Missing required fields: userId, email, title, or items" },
         { status: 400 }
       );
     }
 
-   
+    // Calculate the final amount from the items
+    const finalAmount = items.reduce((total, item) => {
+      return total + item.price * item.quantity; // Assuming `price` is per item and `quantity` is the number of that item
+    }, 0);
+
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(amount * 100), 
+      amount: Math.round(finalAmount * 100), // Convert to cents
       currency: "usd",
       automatic_payment_methods: { enabled: true },
       metadata: {
@@ -25,7 +28,6 @@ export async function POST(request) {
       },
     });
 
-   
     const client = await clientPromise;
     const db = client.db("learnica");
     const ordersCollection = db.collection("orders");
@@ -45,10 +47,11 @@ export async function POST(request) {
       email,
       title,
       status,
-      totalAmount: parseFloat(amount),
+      finalAmount: finalAmount, // Use the calculated final amount
       items: formattedItems,
       createdAt: new Date(),
     };
+
     const result = await ordersCollection.insertOne(newOrder);
     return NextResponse.json({
       success: true,

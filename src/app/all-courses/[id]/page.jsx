@@ -151,7 +151,18 @@ const Page = ({ params }) => {
   };
 
   // Handle successful payment
-  const handlePaymentSuccess = async (finalAmount) => {
+  const handlePaymentSuccess = async () => {
+
+    
+    const totalAmount = data.pricing;
+    const coupon = data.additionalInfo?.coupon_code || "";
+    const discount = data.additionalInfo?.discount_amount || 0;
+
+
+    // Calculate final amount with discount
+    const discountAmount = discount > 0 ? (totalAmount * discount) / 100 : 0;
+    const finalAmount = totalAmount - discountAmount;
+    setFinalAmount(finalAmount); // Set final amount state
     try {
       const res = await fetch("/enroll-api/checkout", {
         method: "POST",
