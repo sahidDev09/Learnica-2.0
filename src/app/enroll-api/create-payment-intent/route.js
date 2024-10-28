@@ -7,9 +7,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(request) {
   try {
-    const { userId, courseId, amount, email, title } = await request.json();
+    const { userId, courseId, finalAmount, email, title } = await request.json();
 
-    if (!amount || amount <= 0) {
+    if (!finalAmount || finalAmount <= 0) {
       return NextResponse.json({ success: false, message: "Invalid amount" }, { status: 400 });
     }
 
@@ -24,7 +24,7 @@ export async function POST(request) {
     const lectureTitles = courseData.lectures.map((lecture) => lecture.title).join(", ");
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(amount * 100),
+      amount: Math.round(finalAmount * 100), // Correctly use 'amount' instead of 'finalAmount'
       currency: "usd",
       automatic_payment_methods: { enabled: true },
       metadata: {
@@ -32,7 +32,7 @@ export async function POST(request) {
         courseId,
         email,
         title,
-        lectures: lectureTitles.slice(0, 490), 
+        lectures: lectureTitles.slice(0, 490),
       },
     });
 

@@ -31,6 +31,7 @@ const Page = ({ params }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
   const [isEnrolled, setIsEnrolled] = useState(false);
+  const [finalAmount, setFinalAmount] = useState(0);
 
   // Fetch course data
   const { data, isLoading } = useQuery({
@@ -39,6 +40,7 @@ const Page = ({ params }) => {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/${courseId}`
       );
+      console.log('coureId', courseId)
       return res.json();
     },
   });
@@ -49,7 +51,7 @@ const Page = ({ params }) => {
       if (!isLoaded || !isSignedIn || !user) return;
       try {
         const res = await fetch(
-          `http://localhost:3000/api/get-orders?userId=${user._id}`
+          `http://localhost:3000/api/get-orders?userId=${user.  id}`
         );
         const orders = await res.json();
         const isAlreadyEnrolled = orders.some(
@@ -107,7 +109,14 @@ const Page = ({ params }) => {
     }
 
     const totalAmount = data.pricing;
+    const coupon = data.additionalInfo?.coupon_code || "";
+    const discount = data.additionalInfo?.discount_amount || 0;
 
+
+    // Calculate final amount with discount
+    const discountAmount = discount > 0 ? (totalAmount * discount) / 100 : 0;
+    const finalAmount = totalAmount - discountAmount;
+    setFinalAmount(finalAmount); // Set final amount state
     try {
       const res = await fetch("/enroll-api/create-payment-intent", {
         method: "POST",
@@ -116,13 +125,15 @@ const Page = ({ params }) => {
           userId: user.id,
           courseId: data._id,
           title: data.name,
-          amount: totalAmount,
+          finalAmount: finalAmount,
           email: user.primaryEmailAddress?.emailAddress || "",
           items: data.lectures.map((item) => ({
             concept_title: item.title,
             concept_url: item.videoUrl,
             duration: item.duration,
           })),
+          coupon: coupon,
+          discount: discount,
         }),
       });
 
@@ -140,7 +151,7 @@ const Page = ({ params }) => {
   };
 
   // Handle successful payment
-  const handlePaymentSuccess = async () => {
+  const handlePaymentSuccess = async (finalAmount) => {
     try {
       const res = await fetch("/enroll-api/checkout", {
         method: "POST",
@@ -151,7 +162,7 @@ const Page = ({ params }) => {
           title: data.name,
           email: user.primaryEmailAddress?.emailAddress || "",
           status: "success",
-          totalAmount: data.pricing,
+          finalAmount: finalAmount,
           items: data.lectures.map((item) => ({
             concept_title: item.title,
             concept_url: item.videoUrl,
@@ -265,106 +276,7 @@ const Page = ({ params }) => {
             allowFullScreen></iframe>
           {/* tab */}
 
-          <div
-            role="tablist"
-            className="tabs tabs-bordered mt-4 bg-secondary pt-4 rounded-md w-full sm:max-w-none md:max-w-none lg:max-w-full flex flex-col md:inline-grid">
-            {/*--------------------------------- Overview --------------------------------*/}
-            <input
-              type="radio"
-              name="my_tabs_1"
-              className="tab mx-2 px-2 text-white"
-              aria-label="Overview"
-              defaultChecked
-            />
-            <div
-              role="tabpanel"
-              className="tab-content py-4 min-h-full bg-white w-full">
-              <h2 className="text-lg md:text-xl font-semibold">{data.title}</h2>
-              <div className="flex gap-5 my-4 w-full">
-                <div className="text-center">
-                  <div className="flex gap-2">
-                    <span className="font-semibold text-xl">4.6</span>{" "}
-                    <FaStar className="text-xl mt-1 text-orange-600" />
-                  </div>
-                  <h4 className="text-gray-400 font-semibold">
-                    34,506 ratings
-                  </h4>
-                </div>
-                <div className="text-center">
-                  <div className="font-semibold text-xl">5,406</div>
-                  <h4 className="text-gray-400 font-semibold">Students</h4>
-                </div>
-                <div className="text-center">
-                  <div className="font-semibold text-xl">50 h</div>
-                  <h4 className="text-gray-400 font-semibold">total</h4>
-                </div>
-              </div>
-
-              <h4 className="my-4">Last update 2024</h4>
-
-              {/* author card */}
-              <h4 className="text-secondary mb-2">Author</h4>
-              <div className="flex gap-2 items-center p-2 bg-card rounded-md">
-                <Image
-                  width={30}
-                  height={30}
-                  src={"/assets/developers/numan.jpg"}
-                  alt="video_thumbnail"
-                  className="rounded w-16 h-16"></Image>
-                <div className="text-start">
-                  <h2 className="text-lg md:text-xl font-semibold">Jhon doe</h2>
-                  <h4 className="text-gray-500">Web Developer </h4>
-                </div>
-              </div>
-            </div>
-            {/* --------------------------- Q&A -------------------------*/}
-            <input
-              type="radio"
-              name="my_tabs_1"
-              className="tab mx-2 px-2 text-white"
-              aria-label="Q&A"
-            />
-            <div role="tabpanel" className="tab-content py-4 bg-white w-full">
-              <Questions courseId={courseId} />
-            </div>
-            {/*------------------------------- Notes ----------------------------*/}
-            <input
-              type="radio"
-              name="my_tabs_1"
-              role="tab"
-              className="tab mx-2 px-2 text-white"
-              aria-label="Notes"
-            />
-            <div role="tabpanel" className="tab-content py-2 bg-white w-full">
-              <AddNoteForm courseId={courseId} />
-              <Notes courseId={courseId} />
-            </div>
-            {/*------------------------------- Reviews --------------------------*/}
-            <input
-              type="radio"
-              name="my_tabs_1"
-              role="tab"
-              className="tab mx-2 px-2 text-white"
-              aria-label="Reviews"
-            />
-            <div role="tabpanel" className="tab-content pt-4 bg-white w-full">
-              <MyReview courseId={courseId} />
-              <Reviews courseId={courseId} />
-            </div>
-
-            {/*------------------------------- Attachment --------------------------*/}
-
-            <input
-              type="radio"
-              name="my_tabs_1"
-              role="tab"
-              className="tab mx-2 px-2 text-white"
-              aria-label="Resources"
-            />
-            <div role="tabpanel" className="tab-content bg-white pt-2 w-full">
-              <Resources courseId={data._id} userid={data.author.id} />
-            </div>
-          </div>
+        
         </div>
       </div>
 
@@ -384,6 +296,9 @@ const Page = ({ params }) => {
                   clientSecret={clientSecret}
                   handlePaymentSuccess={handlePaymentSuccess}
                   setIsModalOpen={setIsModalOpen}
+                  totalAmount={data.pricing}   // Passing the totalAmount to Checkout
+                  coupon={data.additionalInfo?.coupon_code || ""}
+                  discount={data.additionalInfo?.discount_amount || 0}
                 />
               </Elements>
             )}

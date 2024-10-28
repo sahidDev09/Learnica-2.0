@@ -94,7 +94,7 @@ const CustomCoursePage = () => {
       return;
     }
 
-    const totalAmount = convertToSubCurrency(
+    const finalAmount = convertToSubCurrency(
       cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0)
     );
 
@@ -103,7 +103,7 @@ const CustomCoursePage = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          amount: totalAmount,
+          finalAmount: finalAmount,
           userId: user.id,
           email: user.primaryEmailAddress?.emailAddress || "",
           items: cart.map((item) => ({
@@ -143,7 +143,7 @@ const CustomCoursePage = () => {
           email: user.primaryEmailAddress?.emailAddress || "",
           title: courseTitle,
           status: "success",
-          totalAmount: cart.reduce(
+          finalAmounts: cart.reduce(
             (sum, item) => sum + parseFloat(item.price),
             0
           ),
