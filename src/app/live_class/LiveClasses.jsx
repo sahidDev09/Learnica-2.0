@@ -56,13 +56,16 @@ const LiveClasses = () => {
                   {liveClass.courseName}
                 </h3>
                 <p className="text-sm mb-0.5">
-                  Category: <span className="font-semibold">{liveClass.category}</span>
+                  Category:{" "}
+                  <span className="font-semibold">{liveClass.category}</span>
                 </p>
                 <p className="text-sm mb-0.5">
-                  Author: <span className="font-semibold">{liveClass.authorName}</span>
+                  Author:{" "}
+                  <span className="font-semibold">{liveClass.authorName}</span>
                 </p>
-                <p className="text-sm mb-0.5">
-                  Live Time: <span className="font-semibold">{liveClass.liveTime}</span>
+                <p className="text-sm mb-0.5 ">
+                  Live Time:{" "}
+                  <span className="font-semibold">{liveClass.liveTime}</span>
                 </p>
               </div>
 
@@ -70,7 +73,7 @@ const LiveClasses = () => {
               <div className="flex justify-end mt-4">
                 <Link href={liveClass.liveLink} target="_blank">
                   <button className="bg-secondary text-white rounded-md px-3 py-2 m-2 hover:opacity-80 transition uppercase">
-                    Join
+                    Join Now
                   </button>
                 </Link>
               </div>
