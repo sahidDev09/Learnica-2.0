@@ -1,6 +1,14 @@
+"use client"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import CoursesContent from "./CoursesContent";
+import { useUser } from "@clerk/nextjs";
+import Loader from "@/components/shared/Loader";
 
 function MyLearning() {
+  const { user } = useUser()
+  // console.log("user", user);
+  
+  if (!user) { return <Loader/> }
   return (
     <div>
       <Tabs defaultValue="courses">
@@ -8,7 +16,9 @@ function MyLearning() {
           <TabsTrigger value="courses">My Courses</TabsTrigger>
           <TabsTrigger value="custom-courses">My Custom Courses</TabsTrigger>
         </TabsList>
-        <TabsContent value="courses">Courses content</TabsContent>
+        <TabsContent value="courses">
+          <CoursesContent user={user} />
+        </TabsContent>
         <TabsContent value="custom-courses">Custom courses content</TabsContent>
       </Tabs>
     </div>
