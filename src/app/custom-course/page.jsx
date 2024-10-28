@@ -30,7 +30,7 @@ const CustomCoursePage = () => {
   const [products, setProducts] = useState([]);
   const { user, isLoaded, isSignedIn } = useUser();
   const [cart, setCart] = useState([]);
-  
+  const [finalAmount, setFinalAmount] = useState(0);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
@@ -97,7 +97,7 @@ const CustomCoursePage = () => {
 
     const totalAmount = cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0);
     const finalAmount = convertToSubCurrency(totalAmount);
-
+    setFinalAmount(finalAmount); 
     try {
       const res = await fetch("/pay-api/create-payment-intent", {
         method: "POST",
@@ -143,7 +143,7 @@ const CustomCoursePage = () => {
           email: user.primaryEmailAddress?.emailAddress || "",
           title: courseTitle,
           status: "success",
-          finalAmounts: cart.reduce(
+          finalAmount: cart.reduce(
             (sum, item) => sum + parseFloat(item.price),
             0
           ),
@@ -198,11 +198,10 @@ const CustomCoursePage = () => {
                 <button
                   key={index}
                   onClick={() => handleCategorySelect(lang_tech)}
-                  className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full transition-transform md:text-lg ${
-                    selectedCategory === lang_tech
+                  className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full transition-transform md:text-lg ${selectedCategory === lang_tech
                       ? "bg-primary text-white"
                       : "bg-secondary text-white"
-                  }`}>
+                    }`}>
                   <FaTags />
                   {lang_tech}
                 </button>
@@ -233,18 +232,16 @@ const CustomCoursePage = () => {
               return (
                 <div
                   key={product._id}
-                  className={`bg-secondary w-full h-40 p-4 rounded-lg shadow-md flex flex-col justify-between relative ${
-                    isInCart ? "opacity-50" : ""
-                  }`}>
+                  className={`bg-secondary w-full h-40 p-4 rounded-lg shadow-md flex flex-col justify-between relative ${isInCart ? "opacity-50" : ""
+                    }`}>
                   <div className="flex justify-between items-center">
                     <button className="rounded-2xl text-sm md:text-md md:px-4 text-white py-1 md:bg-white md:text-black">
                       {product.lang_tech}
                     </button>
                     <button
                       onClick={() => (isInCart ? null : addToCart(product))}
-                      className={`text-3xl ${
-                        isInCart ? "text-green-500" : "text-primary"
-                      }`}
+                      className={`text-3xl ${isInCart ? "text-green-500" : "text-primary"
+                        }`}
                       disabled={isInCart}>
                       {isInCart ? <FaCheck /> : <FaSquarePlus />}
                     </button>
@@ -335,11 +332,10 @@ const CustomCoursePage = () => {
                   />
                   <button
                     onClick={handlePayNow}
-                    className={`rounded-2xl px-4 py-2 ${
-                      courseTitle.replace(/\s+/g, "").length >= 10
+                    className={`rounded-2xl px-4 py-2 ${courseTitle.replace(/\s+/g, "").length >= 10
                         ? "bg-secondary text-white"
                         : "bg-gray-400 cursor-not-allowed text-gray-700"
-                    }`}
+                      }`}
                     disabled={courseTitle.replace(/\s+/g, "").length < 10}>
                     Proceed to your payment
                   </button>
@@ -366,6 +362,7 @@ const CustomCoursePage = () => {
                   clientSecret={clientSecret}
                   handlePaymentSuccess={handlePaymentSuccess}
                   setIsModalOpen={setIsModalOpen}
+                  finalAmount={finalAmount}
                   cart={cart}
                 />
               </Elements>

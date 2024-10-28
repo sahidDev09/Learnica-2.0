@@ -20,10 +20,14 @@ const Checkout = ({
   const [couponMessage, setCouponMessage] = useState("");
   const [couponMessageType, setCouponMessageType] = useState(""); // success or error
 
-  // Effect to reset final amount when totalAmount changes
+  // Effect to set finalAmount based on coupon/discount availability
   useEffect(() => {
-    setFinalAmount(Number(totalAmount));
-  }, [totalAmount]);
+    if (!coupon || discount <= 0) {
+      setFinalAmount(Number(totalAmount));
+    } else {
+      setFinalAmount(Number(totalAmount)); // Reset to total amount on prop change
+    }
+  }, [totalAmount, coupon, discount]);
 
   const handleApplyCoupon = () => {
     if (appliedCoupon.trim().toLowerCase() === coupon.trim().toLowerCase()) {
@@ -88,7 +92,7 @@ const Checkout = ({
       )}
 
       {isCouponApplied && coupon && discount > 0 && (
-        <div className="text-green-500 ">
+        <div className="text-green-500">
           Coupon Applied: {coupon} - Discount: {discount}%
         </div>
       )}
@@ -140,7 +144,9 @@ const Checkout = ({
         disabled={isLoading || !stripe || !clientSecret}
         type="submit"
       >
-        {isLoading ? "Processing..." : `Pay Now $${finalAmount.toFixed(2)}`}
+        {isLoading
+          ? "Processing..."
+          : `Pay Now${isCouponApplied && discount > 0 ? ` $${finalAmount.toFixed(2)}` : ""}`}
       </button>
     </form>
   );
