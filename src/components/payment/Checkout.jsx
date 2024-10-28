@@ -6,8 +6,8 @@ const Checkout = ({
   handlePaymentSuccess,
   setIsModalOpen,
   totalAmount,
-  coupon = "", // use coupon as prop
-  discount = 0, // use discount as prop
+  coupon = "", 
+  discount = 0, 
 }) => {
   const stripe = useStripe();
   const elements = useElements();
@@ -129,7 +129,7 @@ const Checkout = ({
         </div>
       )}
 
-      {/* Display coupon message based on success or error */}
+      {/* coupon msg */}
       {couponMessage && (
         <div className={`mt-2 text-${couponMessageType === "success" ? "green" : "red"}-500`}>
           {couponMessage}
