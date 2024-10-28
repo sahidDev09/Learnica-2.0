@@ -42,24 +42,37 @@ const Page = ({ params }) => {
     },
   });
 
-  // Check enrollment
-  useEffect(() => {
-    const checkEnrollmentStatus = async () => {
-      if (!isLoaded || !isSignedIn || !user) return;
-      try {
-        const res = await fetch(`http://localhost:3000/api/get-orders?userId=${user.id}`);
-        const orders = await res.json();
+// Check enrollment by email
+useEffect(() => {
+  const checkEnrollmentStatus = async () => {
+    if (!isLoaded || !isSignedIn || !user) return;
+    const userEmail = user.primaryEmailAddress?.emailAddress;
 
-        // Check if any order's courseId matches the fetched course _id
-        const isAlreadyEnrolled = orders.some((order) => order.courseId === courseId);
-        setIsEnrolled(isAlreadyEnrolled);
-      } catch (error) {
-        console.error("Error checking enrollment status:", error);
-      }
-    };
-    checkEnrollmentStatus();
-  }, [isLoaded, isSignedIn, user, courseId]);
-  
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/get-orders?email=${userEmail}&courseId=${courseId}`
+      );
+      const orders = await res.json();
+      const isAlreadyEnrolled = orders.some(
+        (order) => order.email === userEmail && order.courseId === courseId
+      );
+      setIsEnrolled(isAlreadyEnrolled);
+    } catch (error) {
+      console.error("Error checking enrollment status:", error);
+    }
+  };
+  checkEnrollmentStatus();
+}, [isLoaded, isSignedIn, user, courseId]);
+
+// Redirect to sign-in if not signed in
+useEffect(() => {
+  if (isLoaded) {
+    if (!isSignedIn || !user) {
+      router.replace("/?sign-in=true");
+    }
+  }
+}, [isLoaded, isSignedIn, user, router]);
+
   useEffect(() => {
     if (isLoaded) {
       if (!isSignedIn || !user) {
