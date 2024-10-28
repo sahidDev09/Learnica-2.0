@@ -22,7 +22,9 @@ const LiveClasses = () => {
 
   return (
     <div className="p-4 mb-8 mt-4">
-      <h1 className="text-3xl md:text-4xl font-bold mb-8 text-center text-secondary">Live Classes</h1>
+      <h1 className="text-3xl md:text-4xl font-bold mb-8 text-center text-secondary">
+        Live Classes
+      </h1>
 
       {/* Responsive Grid Layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -53,13 +55,16 @@ const LiveClasses = () => {
                   {liveClass.courseName}
                 </h3>
                 <p className="text-sm mb-0.5">
-                  Category: <span className="font-semibold">{liveClass.category}</span>
+                  Category:{" "}
+                  <span className="font-semibold">{liveClass.category}</span>
                 </p>
                 <p className="text-sm mb-0.5">
-                  Author: <span className="font-semibold">{liveClass.authorName}</span>
+                  Author:{" "}
+                  <span className="font-semibold">{liveClass.authorName}</span>
                 </p>
                 <p className="text-sm mb-0.5 ">
-                  Live Time: <span className="font-semibold">{liveClass.liveTime}</span>
+                  Live Time:{" "}
+                  <span className="font-semibold">{liveClass.liveTime}</span>
                 </p>
               </div>
 
@@ -67,7 +72,7 @@ const LiveClasses = () => {
               <div className="mt-4 md:mt-0 flex justify-end">
                 <Link href={liveClass.liveLink} target="_blank">
                   <button className="bg-secondary text-white rounded-md px-3 py-2 m-2 hover:opacity-80 transition uppercase">
-                    Join
+                    Join Now
                   </button>
                 </Link>
               </div>
