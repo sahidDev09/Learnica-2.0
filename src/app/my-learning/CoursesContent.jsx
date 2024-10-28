@@ -22,12 +22,13 @@ function CoursesContent({ user }) {
     <div className="border-2 rounded-md mt-3 px-4 pb-6 pt-4">
       <h3 className="text-xl md:text-2xl font-semibold mb-6 text-secondary">My Courses</h3>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {courses.length > 0
-            ? courses.map(course => <Card key={course._id} course={course} btnDetailsText={"Continue"} />)
-            : null
-          }
+      {courses.length > 0 ? (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {courses.map(course => <Card key={course._id} course={course} btnDetailsText={"Continue"} />)}
         </div>
+      ) : (
+        <p className="text-xl md:text-2xl p-6 font-semibold text-gray-500">No courses have been bought yet!</p>
+      )}
     </div>
   );
 }

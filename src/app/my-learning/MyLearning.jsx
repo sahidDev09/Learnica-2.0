@@ -19,7 +19,9 @@ function MyLearning() {
         <TabsContent value="courses">
           <CoursesContent user={user} />
         </TabsContent>
-        <TabsContent value="custom-courses">Custom courses content</TabsContent>
+        <TabsContent value="custom-courses">
+          <p className="text-2xl p-4">Coming soon this feature!</p>
+        </TabsContent>
       </Tabs>
     </div>
   );
