@@ -24,7 +24,7 @@ function CoursesContent({ user }) {
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {courses.length > 0
-            ? courses.map(course => <Card key={course._id} course={course} />)
+            ? courses.map(course => <Card key={course._id} course={course} btnDetailsText={"Continue"} />)
             : null
           }
         </div>

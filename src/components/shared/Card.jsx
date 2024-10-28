@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import Loading from "@/app/loading";
 
-const Card = ({ course }) => {
+const Card = ({ course, btnDetailsText }) => {
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     const day = String(date.getDate()).padStart(2, "0");
@@ -21,7 +21,7 @@ const Card = ({ course }) => {
     <div className=" bg-card">
       <div className="w-full mx-auto md:mx-0 border rounded-xl text-gray-800 dark:bg-gray-800 dark:text-white shadow-md">
         <Image
-          className="w-full h-[260px] rounded-xl object-fit"
+          className="w-full h-[260px] rounded-t-xl"
           src={course?.additionalInfo?.image}
           alt={course?.name}
           width={1000}
@@ -50,7 +50,7 @@ const Card = ({ course }) => {
           <div className="flex items-center justify-between gap-4">
             <p className="text-2xl font-bold text-secondary">${course.pricing}</p>
             <Link href={`/all-courses/${course._id}`}>
-              <Button className="mt-4 mb-2 bg-secondary">View Details</Button>
+              <Button className="mt-4 mb-2 bg-secondary">{btnDetailsText ? btnDetailsText : "View Details"}</Button>
             </Link>
           </div>
         </div>
