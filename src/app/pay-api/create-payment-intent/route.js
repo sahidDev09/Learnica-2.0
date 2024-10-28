@@ -7,14 +7,17 @@ export async function POST(request) {
   try {
     const { finalAmount, userId, email, items } = await request.json();
 
+    // Validate finalAmount
     if (!finalAmount || finalAmount <= 0) {
       return NextResponse.json({ success: false, message: "Invalid amount" }, { status: 400 });
     }
+
+    // Simplifying items for metadata
     const simplifiedItems = items.map(item => item.concept_title).join(', ');
 
-  
+    // Create a payment intent
     const paymentIntent = await stripe.paymentIntents.create({
-      finalAmount: Math.round(finalAmount * 100), 
+      amount: Math.round(finalAmount * 100), // Use 'amount' instead of 'finalAmount'
       currency: "usd",
       automatic_payment_methods: { enabled: true },
       metadata: {
