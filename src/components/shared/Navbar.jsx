@@ -231,7 +231,7 @@ const Navbar = () => {
                         <UserButton.Link
                           label="My Learning"
                           labelIcon={<BriefcaseBusiness size={15} />}
-                          href="my-learning"></UserButton.Link>
+                          href="/my-learning"></UserButton.Link>
 
                         <UserButton.Link
                           label="Payment History"
