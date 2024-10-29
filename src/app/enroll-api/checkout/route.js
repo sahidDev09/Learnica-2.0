@@ -4,9 +4,9 @@ import { ObjectId } from "mongodb";
 
 export async function POST(request) {
   try {
-    const { userId, courseId, email, title, finalAmount, status } = await request.json();
+    const { userId, courseId, email, title,type, finalAmount, status } = await request.json();
 
-    if (!userId || !courseId || !email || !title || finalAmount === undefined || !status) {
+    if (!userId || !courseId || !email || !title || !type|| finalAmount === undefined || !status) {
       return NextResponse.json(
         {
           success: false,
@@ -31,6 +31,7 @@ export async function POST(request) {
       email,
       title,
       status,
+      type,
       finalAmount: parseFloat(finalAmount), 
       items: courseData.lectures.map((lecture) => ({
         concept_title: lecture.title,
