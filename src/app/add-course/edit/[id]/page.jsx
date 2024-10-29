@@ -1,7 +1,13 @@
 import React from "react";
+import Update from "./Update";
+import { useQuery } from "@tanstack/react-query";
 
 const page = ({ params }) => {
-  return <div className=" container mx-auto my-4">{params.id}</div>;
+  return (
+    <div>
+      <Update courseParamsId={params.id} />
+    </div>
+  );
 };
 
 export default page;

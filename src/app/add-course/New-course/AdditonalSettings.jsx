@@ -24,7 +24,7 @@ const AdditionalSettings = ({ additionalInfo, setAdditionalInfo }) => {
   const handleImageUrlChange = (e) => {
     setAdditionalInfo((prev) => ({
       ...prev,
-      image: e.target.value, // Set the image URL
+      image: e.target.value, 
     }));
   };
 

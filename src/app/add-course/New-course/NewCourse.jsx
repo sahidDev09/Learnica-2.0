@@ -11,22 +11,23 @@ import AdditionalSettings from "./AdditonalSettings";
 import { useUser } from "@clerk/nextjs";
 import Swal from "sweetalert2";
 
-const NewCourse = () => {
+const NewCourse = ({ myCourse }) => {
   const { user, isLoaded } = useUser();
 
   const courseInfoInitialData = {
-    title: "",
-    category: "",
-    subtitle: "",
-    description: "",
-    pricing: "",
-    objectives: "",
-    status: "pending",
-    authorId: user?.id || "",
-    authorEmail: user?.primaryEmailAddress?.emailAddress || "",
-    authorName: user?.fullName || "",
-    authorProfile: user?.imageUrl || "",
-    publish_date: Date.now(),
+    title: myCourse?.name || "",
+    category: myCourse?.category || "",
+    subtitle: myCourse?.subtitle || "",
+    description: myCourse?.description || "",
+    pricing: myCourse?.pricing || "",
+    objectives: myCourse?.objectives || "",
+    status: myCourse?.status || "pending",
+    authorId: myCourse?.author?.id || user?.id || "",
+    authorEmail:
+      myCourse?.author?.email || user?.primaryEmailAddress?.emailAddress || "",
+    authorName: myCourse?.author?.name || user?.fullName || "",
+    authorProfile: myCourse?.author?.profile || user?.imageUrl || "",
+    publish_date: myCourse?.publish_date || Date.now(),
   };
 
   const initialLecture = {
@@ -43,7 +44,9 @@ const NewCourse = () => {
     discount_amount: "",
   };
 
-  const [lecture, setLecture] = useState([initialLecture]);
+  const [lecture, setLecture] = useState(
+    myCourse?.lectures || [initialLecture]
+  );
   const [courseInfo, setCourseInfo] = useState(courseInfoInitialData);
   const [additionalInfo, setAdditionalInfo] = useState([initialAdditional]);
   const [loading, setLoading] = useState(false);
