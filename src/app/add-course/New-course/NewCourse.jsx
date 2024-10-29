@@ -39,16 +39,16 @@ const NewCourse = ({ myCourse }) => {
   };
 
   const initialAdditional = {
-    image: "",
-    coupon_code: "",
-    discount_amount: "",
+    image: myCourse?.additionalInfo?.image || "",
+    coupon_code: myCourse?.additionalInfo?.coupon_code || "",
+    discount_amount: myCourse?.additionalInfo?.discount_amount || "",
   };
 
   const [lecture, setLecture] = useState(
     myCourse?.lectures || [initialLecture]
   );
   const [courseInfo, setCourseInfo] = useState(courseInfoInitialData);
-  const [additionalInfo, setAdditionalInfo] = useState([initialAdditional]);
+  const [additionalInfo, setAdditionalInfo] = useState(initialAdditional);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
