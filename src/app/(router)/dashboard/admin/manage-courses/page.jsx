@@ -1,6 +1,7 @@
 "use client";
 import Loading from "@/app/loading";
 import NoDataFound from "@/app/noDataFound";
+
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
