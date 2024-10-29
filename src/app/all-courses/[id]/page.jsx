@@ -121,7 +121,7 @@ useEffect(() => {
     const discount = data.additionalInfo?.discount_amount || 0;
 
 
-    // discount
+    // discount 
     const discountAmount = discount > 0 ? (totalAmount * discount) / 100 : 0;
     const finalAmount = totalAmount - discountAmount;
     setFinalAmount(finalAmount); 
