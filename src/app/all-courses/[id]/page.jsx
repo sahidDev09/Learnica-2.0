@@ -31,37 +31,47 @@ const Page = ({ params }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
   const [isEnrolled, setIsEnrolled] = useState(false);
+  const [finalAmount, setFinalAmount] = useState(0);
 
   // Fetch course data
   const { data, isLoading } = useQuery({
     queryKey: ["courses", courseId],
     queryFn: async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/${courseId}`
-      );
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/${courseId}`);
       return res.json();
     },
   });
 
-  // ------------check enrollment---------
-  useEffect(() => {
-    const checkEnrollmentStatus = async () => {
-      if (!isLoaded || !isSignedIn || !user) return;
-      try {
-        const res = await fetch(
-          `http://localhost:3000/api/get-orders?userId=${user.id}`
-        );
-        const orders = await res.json();
-        const isAlreadyEnrolled = orders.some(
-          (order) => order.courseId === courseId
-        );
-        setIsEnrolled(isAlreadyEnrolled);
-      } catch (error) {
-        console.error("Error checking enrollment status:", error);
-      }
-    };
-    checkEnrollmentStatus();
-  }, [isLoaded, isSignedIn, user, courseId]);
+// Check enrollment by email
+useEffect(() => {
+  const checkEnrollmentStatus = async () => {
+    if (!isLoaded || !isSignedIn || !user) return;
+    const userEmail = user.primaryEmailAddress?.emailAddress;
+
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/get-orders?email=${userEmail}&courseId=${courseId}`
+      );
+      const orders = await res.json();
+      const isAlreadyEnrolled = orders.some(
+        (order) => order.email === userEmail && order.courseId === courseId
+      );
+      setIsEnrolled(isAlreadyEnrolled);
+    } catch (error) {
+      console.error("Error checking enrollment status:", error);
+    }
+  };
+  checkEnrollmentStatus();
+}, [isLoaded, isSignedIn, user, courseId]);
+
+// Redirect to sign-in if not signed in
+useEffect(() => {
+  if (isLoaded) {
+    if (!isSignedIn || !user) {
+      router.replace("/?sign-in=true");
+    }
+  }
+}, [isLoaded, isSignedIn, user, router]);
 
   useEffect(() => {
     if (isLoaded) {
@@ -107,7 +117,14 @@ const Page = ({ params }) => {
     }
 
     const totalAmount = data.pricing;
+    const coupon = data.additionalInfo?.coupon_code || "";
+    const discount = data.additionalInfo?.discount_amount || 0;
 
+
+    // discount
+    const discountAmount = discount > 0 ? (totalAmount * discount) / 100 : 0;
+    const finalAmount = totalAmount - discountAmount;
+    setFinalAmount(finalAmount); 
     try {
       const res = await fetch("/enroll-api/create-payment-intent", {
         method: "POST",
@@ -116,13 +133,16 @@ const Page = ({ params }) => {
           userId: user.id,
           courseId: data._id,
           title: data.name,
-          amount: totalAmount,
+          finalAmount: finalAmount,
           email: user.primaryEmailAddress?.emailAddress || "",
-          items: data.lectures.map((item) => ({
-            concept_title: item.title,
-            concept_url: item.videoUrl,
-            duration: item.duration,
+          lectures: data.lectures.map((lecture) => ({
+            concept_title: lecture.title,
+            concept_url: lecture.videoUrl,
+            duration: lecture.duration,
+            freePreview: true, 
           })),
+          coupon: coupon,
+          discount: discount,
         }),
       });
 
@@ -139,8 +159,17 @@ const Page = ({ params }) => {
     }
   };
 
-  // Handle successful payment
+  // Handle payment
   const handlePaymentSuccess = async () => {
+    const totalAmount = data.pricing;
+    const coupon = data.additionalInfo?.coupon_code || "";
+    const discount = data.additionalInfo?.discount_amount || 0;
+  
+    // Calculate final amount
+    const discountAmount = discount > 0 ? (totalAmount * discount) / 100 : 0;
+    const finalAmount = totalAmount - discountAmount;
+    setFinalAmount(finalAmount);
+  
     try {
       const res = await fetch("/enroll-api/checkout", {
         method: "POST",
@@ -151,24 +180,26 @@ const Page = ({ params }) => {
           title: data.name,
           email: user.primaryEmailAddress?.emailAddress || "",
           status: "success",
-          totalAmount: data.pricing,
-          items: data.lectures.map((item) => ({
-            concept_title: item.title,
-            concept_url: item.videoUrl,
-            duration: item.duration,
+          type: "course",
+          finalAmount: finalAmount,
+          lectures: data.lectures.map((lecture) => ({
+            concept_title: lecture.title,
+            concept_url: lecture.videoUrl,
+            duration: lecture.duration,
+            freePreview: true, 
           })),
         }),
       });
-
+  
       const result = await res.json();
-
+  
       if (!res.ok) {
         throw new Error(
           result.error || "Failed to store order in the database."
         );
       }
       setIsEnrolled(true);
-
+  
       // Swal success message
       Swal.fire({
         title: "Success",
@@ -193,6 +224,7 @@ const Page = ({ params }) => {
       );
     }
   };
+  
 
   if (isLoading || !isLoaded) {
     return <Loading />;
@@ -362,7 +394,7 @@ const Page = ({ params }) => {
               aria-label="Resources"
             />
             <div role="tabpanel" className="tab-content bg-white pt-2 w-full">
-              <Resources courseId={data._id} userid={data.author.id} />
+              <Resources courseId={data?._id} userid={data?.author?.id} />
             </div>
           </div>
         </div>
@@ -384,6 +416,9 @@ const Page = ({ params }) => {
                   clientSecret={clientSecret}
                   handlePaymentSuccess={handlePaymentSuccess}
                   setIsModalOpen={setIsModalOpen}
+                  totalAmount={data.pricing}   // Passing the totalAmount to Checkout
+                  coupon={data.additionalInfo?.coupon_code || ""}
+                  discount={data.additionalInfo?.discount_amount || 0}
                 />
               </Elements>
             )}

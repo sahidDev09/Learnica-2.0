@@ -17,23 +17,42 @@ import { TiTickOutline } from "react-icons/ti";
 import { format } from "date-fns";
 
 const Page = () => {
-
   const { user } = useUser();
-  
-  const userEmail = user?.emailAddresses[0]?.emailAddress;
+  const [userEmail, setUserEmail] = useState(null);
+  const [orders, setOrders] = useState(null);
 
-  const { data: orders, isLoading } = useQuery({
-    queryKey: ["order"],
+  useEffect(() => {
+    if (user) {
+      const email = user?.emailAddresses[0]?.emailAddress;
+      setUserEmail(email);
+
+      // Check localStorage for cached orders if available
+      const cachedOrders = localStorage.getItem("orders");
+      if (cachedOrders) {
+        setOrders(JSON.parse(cachedOrders));
+      }
+    }
+  }, [user]);
+
+  const { isLoading } = useQuery({
+    queryKey: ["order", userEmail],
     queryFn: async () => {
+      if (!userEmail) return null;
+
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + `/api/get-orders?email=${userEmail}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/get-orders?email=${userEmail}`
       );
-      return res.json();
+      const data = await res.json();
+      setOrders(data);
+
+      localStorage.setItem("orders", JSON.stringify(data));
+
+      return data;
     },
+    enabled: !!userEmail,
   });
 
-
-  if (isLoading) {
+  if (isLoading || !orders) {
     return <Loading />;
   }
 
@@ -79,7 +98,7 @@ const Page = () => {
                         {order.title}
                       </TableCell>
                       <TableCell className="text-center py-2 px-4">
-                        {order.totalAmount}
+                        {order.finalAmount}
                       </TableCell>
                       <TableCell className="text-center py-2 px-4">
                         {format(new Date(order.createdAt), "PPpp")}

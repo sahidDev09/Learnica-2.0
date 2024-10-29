@@ -3,13 +3,13 @@ import clientPromise from "@/lib/mongodb";
 
 export async function POST(request) {
   try {
-    const { userId, email,title, totalAmount, status, items } = await request.json();
+    const { userId, email, title, type, finalAmount, status, items } = await request.json();
 
-    if (!userId || !email || !title || !totalAmount ||!status|| !items) {
+    if (!userId || !email || !title || !type|| !finalAmount || !status || !items) {
       return NextResponse.json(
         {
           success: false,
-          message: 'Missing required fields: userId, email, title, totalAmount, items',
+          message: 'Missing required fields: userId, email, title, finalAmount, status, items',
         },
         { status: 400 }
       );
@@ -17,13 +17,15 @@ export async function POST(request) {
 
     const client = await clientPromise;
     const db = client.db('learnica');
-    const ordersCollection = db.collection('orders')
+    const ordersCollection = db.collection('orders');
+
     const order = {
       userId,
       email,
       title,
       status,
-      totalAmount: parseFloat(totalAmount),
+      type,
+      finalAmount: parseFloat(finalAmount), 
       items: items.map((item) => ({
         concept_title: item.concept_title,
         concept_url: item.concept_url,
