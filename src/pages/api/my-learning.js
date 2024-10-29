@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     // Ensure a database connection is established
     const client = await clientPromise;
     const db = client.db("learnica");
-    const ordersCollection = db.collection("orders__");
+    const ordersCollection = db.collection("orders");
     const coursesCollection = db.collection("courses");
 
     if (req.method === "GET") {

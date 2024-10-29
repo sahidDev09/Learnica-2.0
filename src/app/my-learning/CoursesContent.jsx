@@ -27,7 +27,7 @@ function CoursesContent({ user }) {
           {courses.map(course => <Card key={course._id} course={course} btnDetailsText={"Continue"} />)}
         </div>
       ) : (
-        <p className="text-xl md:text-2xl p-6 font-semibold text-gray-500">No courses have been bought yet!</p>
+        <p className="text-xl md:text-2xl p-6 pl-0 font-semibold text-gray-500">No courses have been bought yet!</p>
       )}
     </div>
   );
