@@ -203,7 +203,7 @@ const Navbar = () => {
                   {/* author dashboard */}
 
                   {user && mainRole === "admin" ? (
-                    <Link href="/dashboard/admin/manage-courses">
+                    <Link href="/dashboard/admin/statistics">
                       <Button
                         className="rounded-full bg-primary"
                         aria-label="Author Dashboard">
@@ -306,7 +306,7 @@ const Navbar = () => {
           <li>
             {/* author dashboard */}
             {user && mainRole === "admin" ? (
-              <Link href="/dashboard/admin/manage-courses">
+              <Link href="/dashboard/admin/statistics">
                 <Button
                   variant="destructive"
                   className="rounded-full"
@@ -330,7 +330,7 @@ const Navbar = () => {
               <SheetTrigger className="flex items-center gap-4">
                 <h1>Learnica AI</h1>
                 <Image
-                  src={"/assets/aibot 2.jpeg"}
+                  src={"/assets/aibot.png"}
                   alt=""
                   width={25}
                   height={100}
