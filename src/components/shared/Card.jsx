@@ -48,7 +48,9 @@ const Card = ({ course, btnDetailsText }) => {
           </p>
 
           <div className="flex items-center justify-between gap-4">
-            <p className="text-2xl font-bold text-secondary">${course.pricing}</p>
+            {!btnDetailsText &&
+              <p className="text-2xl font-bold text-secondary">${course.pricing}</p> 
+            }
             <Link href={`/all-courses/${course._id}`}>
               <Button className="mt-4 mb-2 bg-secondary">{btnDetailsText ? btnDetailsText : "View Details"}</Button>
             </Link>
