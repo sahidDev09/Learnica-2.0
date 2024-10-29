@@ -5,12 +5,23 @@ import Reviews from "./Reviews";
 import AddNoteForm from "./AddNoteForm";
 import Notes from "./Notes";
 import Resources from "./Resources";
+<<<<<<< HEAD
+import { PlaySquare } from "lucide-react";
+=======
 import { Clock, PlaySquare } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+>>>>>>> 3b04a678e3315ff7dd55f7ed453502e3c12ef773
 import Questions from "./Questions";
 import Loading from "@/app/loading";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
+<<<<<<< HEAD
+<<<<<<< HEAD
+import CourseApproveBtn from "@/components/CourseApproveBtn";
+=======
+import CourseApproveBtn from "../../../components/CourseApproveBtn";
+>>>>>>> 71b31ce8f2030bc35711656602a03ca883299af4
+=======
 import MyReview from "./MyReview";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -23,6 +34,7 @@ import { loadStripe } from "@stripe/stripe-js";
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
+>>>>>>> 3b04a678e3315ff7dd55f7ed453502e3c12ef773
 
 const Page = ({ params }) => {
   const router = useRouter();
@@ -232,6 +244,17 @@ useEffect(() => {
 
   return (
     <div className="min-h-screen py-10">
+<<<<<<< HEAD
+      {/* approve button */}
+
+      {data?.status == "pending" && (
+        <CourseApproveBtn
+          c_id={data._id}
+          c_title={data.title}></CourseApproveBtn>
+      )}
+
+=======
+>>>>>>> 3b04a678e3315ff7dd55f7ed453502e3c12ef773
       <div className="container mx-auto flex flex-col-reverse lg:flex-row px-2">
         <div className="lg:w-5/12">
           <div className="bg-card p-6 h-full rounded-xl">
@@ -240,7 +263,8 @@ useEffect(() => {
               <progress
                 className="progress progress-error w-full"
                 value="10"
-                max="100"></progress>
+                max="100"
+              ></progress>
               <span className="font-semibold">10%</span>
             </div>
             <Button
@@ -251,6 +275,15 @@ useEffect(() => {
             </Button>
 
             <div className="space-y-3">
+<<<<<<< HEAD
+              {topic.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex gap-2 items-center p-2 bg-white w-full rounded-md"
+                >
+                  <div className=" bg-secondary p-2 rounded-md">
+                    <PlaySquare className=" size-8 text-white" />
+=======
               {data?.lectures?.length > 0 ? (
                 data.lectures.map((item, index) => (
                   <div
@@ -278,6 +311,7 @@ useEffect(() => {
                         Locked
                       </button>
                     )}
+>>>>>>> 3b04a678e3315ff7dd55f7ed453502e3c12ef773
                   </div>
                 ))
               ) : (
@@ -294,12 +328,14 @@ useEffect(() => {
             src="https://www.youtube.com/embed/kmZz0v4COpw?start=314"
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen></iframe>
+            allowFullScreen
+          ></iframe>
           {/* tab */}
 
           <div
             role="tablist"
-            className="tabs tabs-bordered mt-4 bg-secondary pt-4 rounded-md w-full sm:max-w-none md:max-w-none lg:max-w-full flex flex-col md:inline-grid">
+            className="tabs tabs-bordered mt-4 bg-secondary pt-4 rounded-md w-full sm:max-w-none md:max-w-none lg:max-w-full flex flex-col md:inline-grid"
+          >
             {/*--------------------------------- Overview --------------------------------*/}
             <input
               type="radio"
@@ -310,7 +346,8 @@ useEffect(() => {
             />
             <div
               role="tabpanel"
-              className="tab-content py-4 min-h-full bg-white w-full">
+              className="tab-content py-4 min-h-full bg-white w-full"
+            >
               <h2 className="text-lg md:text-xl font-semibold">{data.title}</h2>
               <div className="flex gap-5 my-4 w-full">
                 <div className="text-center">
@@ -342,7 +379,8 @@ useEffect(() => {
                   height={30}
                   src={"/assets/developers/numan.jpg"}
                   alt="video_thumbnail"
-                  className="rounded w-16 h-16"></Image>
+                  className="rounded w-16 h-16"
+                ></Image>
                 <div className="text-start">
                   <h2 className="text-lg md:text-xl font-semibold">Jhon doe</h2>
                   <h4 className="text-gray-500">Web Developer </h4>
