@@ -181,7 +181,7 @@ useEffect(() => {
           title: data.name,
           email: user.primaryEmailAddress?.emailAddress || "",
           status: "success",
-          type: "enrolled",
+          type: "course",
           finalAmount: finalAmount,
           items: data.lectures.map((item) => ({
             concept_title: item.title,

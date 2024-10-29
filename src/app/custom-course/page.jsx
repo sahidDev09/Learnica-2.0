@@ -143,7 +143,7 @@ const CustomCoursePage = () => {
           email: user.primaryEmailAddress?.emailAddress || "",
           title: courseTitle,
           status: "success",
-          type:"customCourse",
+          type:"custom",
           finalAmount: cart.reduce(
             (sum, item) => sum + parseFloat(item.price),
             0
