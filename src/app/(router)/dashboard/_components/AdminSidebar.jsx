@@ -1,7 +1,8 @@
-import { BookA, Store, User } from "lucide-react";
+import { BookA, Plus, Store, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import { MdSyncProblem } from "react-icons/md";
 
 const AdminSidebar = () => {
   const [activeItem, setActiveItem] = useState(1);
@@ -25,6 +26,19 @@ const AdminSidebar = () => {
       icons: Store,
       path: "/dashboard/admin/statistics",
     },
+
+    {
+      id: 5,
+      name: "Support issues",
+      icons: MdSyncProblem,
+      path: "/dashboard/admin/issues",
+    },
+    {
+      id: 4,
+      name: "Add Support Link",
+      icons: Plus,
+      path: "/dashboard/admin/addSupportLink",
+    },
   ];
 
   const handleItemClick = (id) => {
@@ -34,13 +48,15 @@ const AdminSidebar = () => {
   return (
     <div className="bg-card shadow-sm border h-screen">
       <div className="bg-secondary">
-        <Image
-          src="/assets/learnicaNavlogo.png"
-          className="w-40 p-5 flex mx-auto"
-          alt="logo"
-          width={100}
-          height={100}
-        />
+        <Link href={"/"}>
+          <Image
+            src="/assets/learnicaNavlogo.png"
+            className="w-40 p-5 flex mx-auto"
+            alt="logo"
+            width={100}
+            height={100}
+          />
+        </Link>
       </div>
 
       {/* menu list */}

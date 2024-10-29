@@ -9,6 +9,7 @@ import { RiAdminFill } from "react-icons/ri";
 import { Tooltip } from "react-tooltip";
 import Swal from "sweetalert2";
 import Loading from "@/app/loading";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const AllUsers = () => {
   const [showModal, setShowModal] = useState(null);
@@ -93,105 +94,108 @@ const AllUsers = () => {
   }
 
   return (
-    <div className="bg-slate-50 p-4 container mx-auto rounded-md mt-14 md:mt-0">
-      <h1 className="text-2xl">Total users: {users.length}</h1>
-      <div>
-        <div className="overflow-x-auto">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>User Profile</th>
-                <th>Status</th>
-                <th>Role</th>
-                <th className="text-center">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user, index) => (
-                <tr key={user._id}>
-                  <th>{index + 1}</th>
-                  <td>
-                    <div className="flex items-center gap-3">
-                      <div className="avatar">
-                        <div className="mask mask-squircle w-12 h-12">
-                          <Image
-                            src={user.photo}
-                            alt={`${user.name}'s avatar`}
-                            width={48}
-                            height={48}
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <div className="font-bold flex gap-1">
-                          {user.firstName}
-                          <span>{user.lastName}</span>
-                        </div>
-                        <div className="text-sm opacity-50">{user.email}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <span
-                      className={`${
-                        user.status === "blocked"
-                          ? "bg-red-100"
-                          : "bg-green-100"
-                      } p-2 rounded-full`}>
-                      {user.status ? user.status : "active"}
-                    </span>
-                  </td>
-                  <td>
-                    {user.mainRole === "admin" ? (
-                      <button
-                        className="btn bg-yellow-400"
-                        data-tooltip-id="user-tooltip"
-                        data-tooltip-content="Admin">
-                        <FaChessKing />
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => handleAdmin(user)}
-                        className="btn bg-yellow-100 hover:bg-yellow-400"
-                        data-tooltip-id="user-tooltip"
-                        data-tooltip-content="Make Admin">
-                        <RiAdminFill />
-                      </button>
-                    )}
-                  </td>
-                  <th className="flex gap-2">
-                    {user.status === "blocked" ? (
-                      <button
-                        disabled
-                        className="btn bg-red-100 hover:bg-red-400"
-                        data-tooltip-id="user-tooltip"
-                        data-tooltip-content="Blocked">
-                        <MdBlockFlipped />
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => handleBlockUsers(user)}
-                        className="btn bg-red-100 hover:bg-red-400"
-                        data-tooltip-id="user-tooltip"
-                        data-tooltip-content="Block">
-                        <MdBlockFlipped />
-                      </button>
-                    )}
-
-                    <button
-                      className="btn bg-[#C3C1F9] hover:bg-[#8985f6]"
-                      onClick={() => setShowModal(user)}>
-                      See info
-                    </button>
-                  </th>
+    <div>
+      <Card className=" m-4 mt-10 md:mt-0">
+        <CardHeader>
+          <CardTitle>Total User {users.length}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className=" overflow-x-auto">
+            <table className="table border my-4">
+              <thead>
+                <tr className=" bg-secondary text-white">
+                  <th>#</th>
+                  <th>User Profile</th>
+                  <th>Status</th>
+                  <th>Role</th>
+                  <th className="text-center">Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+              </thead>
+              <tbody>
+                {users.map((user, index) => (
+                  <tr key={user._id}>
+                    <th>{index + 1}</th>
+                    <td>
+                      <div className="flex items-center gap-3">
+                        <div className="avatar">
+                          <div className="mask mask-squircle w-12 h-12">
+                            <Image
+                              src={user.photo}
+                              alt={`${user.name}'s avatar`}
+                              width={48}
+                              height={48}
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <div className="font-bold flex gap-1">
+                            {user.firstName}
+                            <span>{user.lastName}</span>
+                          </div>
+                          <div className="text-sm opacity-50">{user.email}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span
+                        className={`${
+                          user.status === "blocked"
+                            ? "bg-red-100"
+                            : "bg-green-100"
+                        } p-2 rounded-full`}>
+                        {user.status ? user.status : "active"}
+                      </span>
+                    </td>
+                    <td>
+                      {user.mainRole === "admin" ? (
+                        <button
+                          className="btn bg-secondary text-white"
+                          data-tooltip-id="user-tooltip"
+                          data-tooltip-content="Admin">
+                          <FaChessKing />
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleAdmin(user)}
+                          className="btn bg-secondary bg-opacity-25 hover:bg-primary hover:text-white"
+                          data-tooltip-id="user-tooltip"
+                          data-tooltip-content="Make Admin">
+                          <RiAdminFill />
+                        </button>
+                      )}
+                    </td>
+                    <th className="flex gap-2 justify-center">
+                      {user.status === "blocked" ? (
+                        <button
+                          disabled
+                          className="btn bg-red-100 hover:bg-primary"
+                          data-tooltip-id="user-tooltip"
+                          data-tooltip-content="Blocked">
+                          <MdBlockFlipped />
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleBlockUsers(user)}
+                          className="btn bg-red-100 hover:bg-primary hover:text-white"
+                          data-tooltip-id="user-tooltip"
+                          data-tooltip-content="Block">
+                          <MdBlockFlipped />
+                        </button>
+                      )}
 
+                      <button
+                        className="btn bg-secondary hover:bg-opacity-75 hover:bg-secondary text-white"
+                        onClick={() => setShowModal(user)}>
+                        See info
+                      </button>
+                    </th>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
       {showModal && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg">

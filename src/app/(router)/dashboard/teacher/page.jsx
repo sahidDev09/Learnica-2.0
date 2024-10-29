@@ -1,11 +1,7 @@
 import React from "react";
 
 const page = () => {
-  return (
-    <div>
-      <h2>trainer dashboard</h2>
-    </div>
-  );
+  return <div>i am admin teacher</div>;
 };
 
 export default page;

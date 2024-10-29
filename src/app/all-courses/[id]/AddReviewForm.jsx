@@ -2,18 +2,12 @@
 import Swal from "sweetalert2";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-
-// dummy user
-const user = {
-  authorName: "ali",
-  authorEmail: "ali@mail.com",
-  authorPhotoUrl: "https://randomuser.me/api/portraits/men/22.jpg",
-};
+import { useUser } from "@clerk/nextjs";
 
 // req: add new review >>
 const addComment = async (formData) => {
   const res = await fetch(
-    process.env.NEXT_PUBLIC_BASE_URL + "/api/add-review",
+    process.env.NEXT_PUBLIC_BASE_URL + "/api/get-reviews",
     {
       method: "POST",
       headers: {
@@ -25,8 +19,10 @@ const addComment = async (formData) => {
   return res.json();
 };
 
-function AddReviewForm() {
+function AddReviewForm({ courseId }) {
   const queryClient = useQueryClient();
+  const user = useUser();
+  const userEmail = user?.user?.emailAddresses[0]?.emailAddress;
 
   const mutation = useMutation({
     mutationFn: addComment,
@@ -39,15 +35,20 @@ function AddReviewForm() {
     const formData = {
       rating: +e.target.rating.value,
       review_text: e.target.review_text.value.trim(),
-      reviewerName: user.authorName,
-      reviewerEmail: user.authorEmail,
-      reviewerPhotoUrl: user.authorPhotoUrl,
+      reviewerEmail: userEmail,
       created_at: Date.now(),
+      courseId,
     };
+
+    // check user info
+    if (!userEmail) {
+      alert("you must login!");
+      return;
+    }
 
     mutation.mutate(formData, {
       onSuccess: () => {
-        queryClient.invalidateQueries(["course-reviews"]);
+        queryClient.invalidateQueries(["my-review", courseId]);
         // reset form and show alert
         e.target.reset();
         Swal.fire({
@@ -70,10 +71,12 @@ function AddReviewForm() {
   return (
     <div>
       <header className="mb-2">
-        <h2 className="text-xl md:text-2xl font-semibold">Give your review:</h2>
+        <h2 className="text-xl md:text-2xl font-semibold text-secondary">
+          Give your review:
+        </h2>
       </header>
 
-      <form onSubmit={handleAddCourse} className="max-w-lg. mx-auto">
+      <form onSubmit={handleAddCourse} className="mx-auto">
         <label className="form-control mb-3">
           <div className="label">
             <span className="label-text">Review text:</span>
@@ -85,7 +88,7 @@ function AddReviewForm() {
             required></textarea>
         </label>
 
-        <div className="flex items-end gap-4 justify-between">
+        <div className="flex md:items-end gap-2 justify-between flex-col md:flex-row md:gap-4">
           {/* ------ star rating ---------- */}
           <div className="mb-3 text-2xl">
             <div className="label">
@@ -156,7 +159,7 @@ function AddReviewForm() {
             </div>
           </div>
 
-          <Button className="bg-secondary mt-4">Add Review</Button>
+          <Button className="bg-secondary">Add Review</Button>
         </div>
       </form>
     </div>

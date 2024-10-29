@@ -2,68 +2,249 @@
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
 import Reviews from "./Reviews";
-import AddReviewForm from "./AddReviewForm";
 import AddNoteForm from "./AddNoteForm";
 import Notes from "./Notes";
 import Resources from "./Resources";
+<<<<<<< HEAD
 import { PlaySquare } from "lucide-react";
+=======
+import { Clock, PlaySquare } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+>>>>>>> 3b04a678e3315ff7dd55f7ed453502e3c12ef773
 import Questions from "./Questions";
 import Loading from "@/app/loading";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
+<<<<<<< HEAD
 <<<<<<< HEAD
 import CourseApproveBtn from "@/components/CourseApproveBtn";
 =======
 import CourseApproveBtn from "../../../components/CourseApproveBtn";
 >>>>>>> 71b31ce8f2030bc35711656602a03ca883299af4
+=======
+import MyReview from "./MyReview";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
+import { Button } from "@/components/ui/button";
+import { MdOutlineCancel } from "react-icons/md";
+import { Elements } from "@stripe/react-stripe-js";
+import Checkout from "@/components/payment/Checkout";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
+>>>>>>> 3b04a678e3315ff7dd55f7ed453502e3c12ef773
 
 const Page = ({ params }) => {
-  const { user } = useUser();
+  const router = useRouter();
+  const { user, isLoaded, isSignedIn } = useUser();
+  const courseId = params.id;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [clientSecret, setClientSecret] = useState("");
+  const [isEnrolled, setIsEnrolled] = useState(false);
+  const [finalAmount, setFinalAmount] = useState(0);
 
-  if (!user) {
-    redirect("/?sign-in=true");
-  }
-
-  const { data, isLoading, refetch } = useQuery({
-    queryKey: ["courses"],
+  // Fetch course data
+  const { data, isLoading } = useQuery({
+    queryKey: ["courses", courseId],
     queryFn: async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/${params.id}`
-      );
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/${courseId}`);
       return res.json();
     },
   });
 
-  if (isLoading) {
+// Check enrollment by email
+useEffect(() => {
+  const checkEnrollmentStatus = async () => {
+    if (!isLoaded || !isSignedIn || !user) return;
+    const userEmail = user.primaryEmailAddress?.emailAddress;
+
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/get-orders?email=${userEmail}&courseId=${courseId}`
+      );
+      const orders = await res.json();
+      const isAlreadyEnrolled = orders.some(
+        (order) => order.email === userEmail && order.courseId === courseId
+      );
+      setIsEnrolled(isAlreadyEnrolled);
+    } catch (error) {
+      console.error("Error checking enrollment status:", error);
+    }
+  };
+  checkEnrollmentStatus();
+}, [isLoaded, isSignedIn, user, courseId]);
+
+// Redirect to sign-in if not signed in
+useEffect(() => {
+  if (isLoaded) {
+    if (!isSignedIn || !user) {
+      router.replace("/?sign-in=true");
+    }
+  }
+}, [isLoaded, isSignedIn, user, router]);
+
+  useEffect(() => {
+    if (isLoaded) {
+      if (!isSignedIn || !user) {
+        router.replace("/?sign-in=true");
+      }
+    }
+  }, [isLoaded, isSignedIn, user, router]);
+
+  // video durations
+
+  const VideoDuration = (duration) => {
+    const minutes = Math.floor(duration / 60);
+    const seconds = Math.floor(duration % 60);
+    return `${minutes} min ${seconds} sec`;
+  };
+
+  const handleLockedBuyBtn = () => {
+    Swal.fire({
+      title: "Access Denied",
+      icon: "info",
+      html: "You can watch more after enrolling in this course",
+      showCloseButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Enroll Now",
+      confirmButtonColor: "#135276",
+      cancelButtonText: "Skip for later",
+      cancelButtonColor: "#d33",
+      preConfirm: () => handlePayNow(),
+    });
+  };
+
+  // Initialize payment intent
+  const handlePayNow = async () => {
+    if (!isLoaded || !isSignedIn || !user) {
+      Swal.fire("Error", "Please sign in to proceed with payment.", "error");
+      return;
+    }
+
+    if (!data?.pricing) {
+      Swal.fire("Error", "Invalid course data or pricing not found.", "error");
+      return;
+    }
+
+    const totalAmount = data.pricing;
+    const coupon = data.additionalInfo?.coupon_code || "";
+    const discount = data.additionalInfo?.discount_amount || 0;
+
+
+    // discount
+    const discountAmount = discount > 0 ? (totalAmount * discount) / 100 : 0;
+    const finalAmount = totalAmount - discountAmount;
+    setFinalAmount(finalAmount); 
+    try {
+      const res = await fetch("/enroll-api/create-payment-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          courseId: data._id,
+          title: data.name,
+          finalAmount: finalAmount,
+          email: user.primaryEmailAddress?.emailAddress || "",
+          lectures: data.lectures.map((lecture) => ({
+            concept_title: lecture.title,
+            concept_url: lecture.videoUrl,
+            duration: lecture.duration,
+            freePreview: true, 
+          })),
+          coupon: coupon,
+          discount: discount,
+        }),
+      });
+
+      const paymentData = await res.json();
+
+      if (paymentData.clientSecret) {
+        setClientSecret(paymentData.clientSecret);
+        setIsModalOpen(true);
+      } else {
+        throw new Error(paymentData.error || "Failed to initialize payment.");
+      }
+    } catch (error) {
+      console.error("Error initializing payment:", error);
+    }
+  };
+
+  // Handle payment
+  const handlePaymentSuccess = async () => {
+    const totalAmount = data.pricing;
+    const coupon = data.additionalInfo?.coupon_code || "";
+    const discount = data.additionalInfo?.discount_amount || 0;
+  
+    // Calculate final amount
+    const discountAmount = discount > 0 ? (totalAmount * discount) / 100 : 0;
+    const finalAmount = totalAmount - discountAmount;
+    setFinalAmount(finalAmount);
+  
+    try {
+      const res = await fetch("/enroll-api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          courseId: data._id,
+          title: data.name,
+          email: user.primaryEmailAddress?.emailAddress || "",
+          status: "success",
+          type: "course",
+          finalAmount: finalAmount,
+          lectures: data.lectures.map((lecture) => ({
+            concept_title: lecture.title,
+            concept_url: lecture.videoUrl,
+            duration: lecture.duration,
+            freePreview: true, 
+          })),
+        }),
+      });
+  
+      const result = await res.json();
+  
+      if (!res.ok) {
+        throw new Error(
+          result.error || "Failed to store order in the database."
+        );
+      }
+      setIsEnrolled(true);
+  
+      // Swal success message
+      Swal.fire({
+        title: "Success",
+        text: "Payment and enrollment successful!",
+        icon: "success",
+        showCancelButton: true,
+        confirmButtonText: "OK",
+        cancelButtonText: "Payment History",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setIsModalOpen(false);
+        } else if (result.isDismissed) {
+          router.push("/payment-history");
+        }
+      });
+    } catch (error) {
+      console.error("Error storing order:", error);
+      Swal.fire(
+        "Error",
+        "Failed to store order. Please contact support.",
+        "error"
+      );
+    }
+  };
+  
+
+  if (isLoading || !isLoaded) {
     return <Loading />;
   }
-  // const { user } = useUser();
-
-  const topic = [
-    {
-      title: "Introduction to JavaScript",
-      duration: "2",
-    },
-    {
-      title: "React Basics",
-      duration: "3",
-    },
-    {
-      title: "Understanding Node.js",
-      duration: "1.5",
-    },
-    {
-      title: "MongoDB Essentials",
-      duration: "2.5",
-    },
-    {
-      title: "Advanced CSS Techniques",
-      duration: "4",
-    },
-  ];
 
   return (
     <div className="min-h-screen py-10">
+<<<<<<< HEAD
       {/* approve button */}
 
       {data?.status == "pending" && (
@@ -72,22 +253,29 @@ const Page = ({ params }) => {
           c_title={data.title}></CourseApproveBtn>
       )}
 
+=======
+>>>>>>> 3b04a678e3315ff7dd55f7ed453502e3c12ef773
       <div className="container mx-auto flex flex-col-reverse lg:flex-row px-2">
         <div className="lg:w-5/12">
-          <div className=" bg-card p-6 h-full rounded-xl">
-            {/* title */}
-            <h2 className="text-2xl md:text-3xl font-semibold">{data.title}</h2>
-            {/* progress */}
+          <div className="bg-card p-6 h-full rounded-xl">
+            <h2 className="text-2xl md:text-3xl font-semibold">{data.name}</h2>
             <div className="flex gap-2 items-center my-4">
               <progress
-                className="progress progress-error w-56"
+                className="progress progress-error w-full"
                 value="10"
                 max="100"
               ></progress>
               <span className="font-semibold">10%</span>
             </div>
-            {/* content */}
+            <Button
+              onClick={isEnrolled ? null : handlePayNow}
+              className={isEnrolled ? "bg-gray-500 mb-2" : "bg-primary mb-2"}
+              disabled={isEnrolled}>
+              {isEnrolled ? "Already Enrolled" : "Enroll Now"}
+            </Button>
+
             <div className="space-y-3">
+<<<<<<< HEAD
               {topic.map((item, index) => (
                 <div
                   key={index}
@@ -95,18 +283,40 @@ const Page = ({ params }) => {
                 >
                   <div className=" bg-secondary p-2 rounded-md">
                     <PlaySquare className=" size-8 text-white" />
+=======
+              {data?.lectures?.length > 0 ? (
+                data.lectures.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex gap-2 items-center p-2 bg-white w-full rounded-md">
+                    <div className="bg-secondary p-2 rounded-md">
+                      <PlaySquare className="size-8 text-white" />
+                    </div>
+                    <div className="text-start w-full ml-2">
+                      <h2 className="md:text-lg font-semibold">
+                        {index + 1}. {item.title.slice(0, 40)}..
+                      </h2>
+                      <h4 className="ml-5 flex items-center gap-2">
+                        Duration : <span className=" text-secondary">{VideoDuration(item.duration)}</span>
+                      </h4>
+                    </div>
+                    {item.freePreview || isEnrolled ? (
+                      <button className="btn btn-sm bg-secondary text-white">
+                        Play
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handleLockedBuyBtn}
+                        className="btn btn-sm bg-gray-400 text-white">
+                        Locked
+                      </button>
+                    )}
+>>>>>>> 3b04a678e3315ff7dd55f7ed453502e3c12ef773
                   </div>
-                  <div className="text-start w-full ml-2">
-                    <h2 className="text-lg md:text-lg font-semibold">
-                      {index + 1}. {item.title}
-                    </h2>
-                    <h4 className="ml-5">Duration : {item.duration} min</h4>
-                  </div>
-                  <button className="btn btn-sm bg-secondary text-white">
-                    Play
-                  </button>
-                </div>
-              ))}
+                ))
+              ) : (
+                <div>No lectures available</div>
+              )}
             </div>
           </div>
         </div>
@@ -121,6 +331,7 @@ const Page = ({ params }) => {
             allowFullScreen
           ></iframe>
           {/* tab */}
+
           <div
             role="tablist"
             className="tabs tabs-bordered mt-4 bg-secondary pt-4 rounded-md w-full sm:max-w-none md:max-w-none lg:max-w-full flex flex-col md:inline-grid"
@@ -184,7 +395,7 @@ const Page = ({ params }) => {
               aria-label="Q&A"
             />
             <div role="tabpanel" className="tab-content py-4 bg-white w-full">
-              <Questions />
+              <Questions courseId={courseId} />
             </div>
             {/*------------------------------- Notes ----------------------------*/}
             <input
@@ -195,8 +406,8 @@ const Page = ({ params }) => {
               aria-label="Notes"
             />
             <div role="tabpanel" className="tab-content py-2 bg-white w-full">
-              <AddNoteForm />
-              <Notes />
+              <AddNoteForm courseId={courseId} />
+              <Notes courseId={courseId} />
             </div>
             {/*------------------------------- Reviews --------------------------*/}
             <input
@@ -207,8 +418,8 @@ const Page = ({ params }) => {
               aria-label="Reviews"
             />
             <div role="tabpanel" className="tab-content pt-4 bg-white w-full">
-              <AddReviewForm />
-              <Reviews />
+              <MyReview courseId={courseId} />
+              <Reviews courseId={courseId} />
             </div>
 
             {/*------------------------------- Attachment --------------------------*/}
@@ -221,11 +432,37 @@ const Page = ({ params }) => {
               aria-label="Resources"
             />
             <div role="tabpanel" className="tab-content bg-white pt-2 w-full">
-              <Resources courseId={data._id} userid={data.userId} />
+              <Resources courseId={data?._id} userid={data?.author?.id} />
             </div>
           </div>
         </div>
       </div>
+
+      {/*----------------Payment Modal----------------- */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="fixed text-white inset-0 bg-black opacity-50"></div>
+          <div className="relative w-full md:w-2/3 lg:w-1/3 bg-white  p-4 rounded-lg shadow-lg">
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="text-4xl bg-primary text-white rounded-full mb-4">
+              <MdOutlineCancel />
+            </button>
+            {clientSecret && (
+              <Elements stripe={stripePromise} options={{ clientSecret }}>
+                <Checkout
+                  clientSecret={clientSecret}
+                  handlePaymentSuccess={handlePaymentSuccess}
+                  setIsModalOpen={setIsModalOpen}
+                  totalAmount={data.pricing}   // Passing the totalAmount to Checkout
+                  coupon={data.additionalInfo?.coupon_code || ""}
+                  discount={data.additionalInfo?.discount_amount || 0}
+                />
+              </Elements>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

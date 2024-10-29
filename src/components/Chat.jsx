@@ -183,7 +183,7 @@ const Chat = () => {
                 {m.role === "bot" && (
                   <div className="mb-6 flex gap-6">
                     <Avatar>
-                      <AvatarImage src="/assets/aibot.jpeg" />
+                      <AvatarImage src="/assets/aibot.png" />
                       <AvatarFallback></AvatarFallback>
                     </Avatar>
                     <div className="mt-1.5">
@@ -198,9 +198,9 @@ const Chat = () => {
             ))}
             {/* Typing indicator */}
             {typing && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-6">
                 <Avatar>
-                  <AvatarImage src="/assets/aibot.jpeg" />
+                  <AvatarImage src="/assets/aibot.png" />
                   <AvatarFallback></AvatarFallback>
                 </Avatar>
                 <div className="text-sm text-gray-700">

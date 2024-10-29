@@ -1,23 +1,27 @@
 "use client";
-import { FaReplyAll, FaTrashAlt } from "react-icons/fa";
+import { FaTrashAlt } from "react-icons/fa";
 import AddQuestionForm from "./AddQuestionForm";
 import { useQuery } from "@tanstack/react-query";
+import { useUser } from "@clerk/nextjs";
 import Loader from "@/components/shared/Loader";
 import QnaModal from "./QnaModal";
 import Image from "next/image";
 import Swal from "sweetalert2";
 
-function Questions() {
+function Questions({ courseId }) {
+  const { user } = useUser();
+  const userEmail = user?.user?.emailAddresses[0]?.emailAddress;
+
   // get quesions
   const {
     data: questions,
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["qna-ques"],
+    queryKey: ["qna-ques", courseId],
     queryFn: async () => {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + "/api/qna-ques"
+        process.env.NEXT_PUBLIC_BASE_URL + `/api/qna-ques?courseId=${courseId}`
       );
       return res.json();
     },
@@ -72,11 +76,14 @@ function Questions() {
   return (
     <section className="max-w-screen-lg mx-auto">
       <header className="mb-4">
-        <h2 className="text-xl md:text-3xl font-semibold text-secondary">QnA</h2>
+        <h2 className="text-xl md:text-3xl font-semibold text-secondary">
+          QnA
+        </h2>
       </header>
 
       {/* -------- ask quesion form ---------- */}
-      <AddQuestionForm refetch={refetch} />
+
+      {user && <AddQuestionForm refetch={refetch} courseId={courseId} />}
 
       {/* -------- all quesions ---------- */}
       {questions.length > 0 ? (
@@ -93,17 +100,19 @@ function Questions() {
                   <span className=" text-primary">Q:</span> {ques.question}
                 </button>
               </h3>
-              <p className="text-sm text-gray-500">
-                <span>{ques.userEmail} • </span>
-                <span>{new Date(ques.createdAt).toLocaleDateString()} • </span>
-                <button
-                  onClick={() => handleQuestionDelete(ques._id)}
-                  className="p-1 border border-transparent hover:border-red-600 text-red-600 rounded hover:-translate-y-1 transition-all">
-                  <FaTrashAlt />
-                </button>
-              </p>
+              <div className="text-sm text-gray-500 flex items-center gap-2">
+                <p>{ques.userEmail} • </p>
+                <p>{new Date(ques.createdAt).toLocaleDateString()} </p>
+                {userEmail && ques.userEmail === userEmail && (
+                  <button
+                    onClick={() => handleQuestionDelete(ques._id)}
+                    className="ml-auto p-1 border border-transparent hover:border-red-600 text-red-600 rounded hover:-translate-y-1 transition-all">
+                    <FaTrashAlt />
+                  </button>
+                )}
+              </div>
 
-              <QnaModal question={ques} />
+              <QnaModal question={ques} courseId={courseId} />
             </div>
           ))}
         </div>

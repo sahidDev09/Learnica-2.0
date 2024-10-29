@@ -3,14 +3,18 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: '*',
-        port: '',
+        protocol: "https",
+        hostname: "*",
+        port: "",
       },
     ],
   },
 };
 
-export default nextConfig;
+import withBundleAnalyzer from "@next/bundle-analyzer";
 
+const bundleAnalyzer = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
 
+export default bundleAnalyzer(nextConfig);

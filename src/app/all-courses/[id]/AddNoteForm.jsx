@@ -2,11 +2,7 @@
 import Swal from "sweetalert2";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-
-// dummy user
-const user = {
-  email: "ali@mail.com",
-};
+import { useUser } from "@clerk/nextjs";
 
 // req: add new note >>
 const addNote = async (formData) => {
@@ -20,8 +16,10 @@ const addNote = async (formData) => {
   return res.json();
 };
 
-function AddNoteForm() {
+function AddNoteForm({ courseId }) {
   const queryClient = useQueryClient();
+  const user = useUser();
+  const userEmail = user?.user?.emailAddresses[0]?.emailAddress;
 
   const mutation = useMutation({
     mutationFn: addNote,
@@ -34,13 +32,19 @@ function AddNoteForm() {
     const formData = {
       title: e.target.title.value.trim(),
       description: e.target.description.value.trim(),
-      email: user.email,
+      email: userEmail,
       created_at: Date.now(),
+      courseId,
     };
+
+    // no email alert
+    if (!formData.email) {
+      alert("you must log in!");
+    }
 
     mutation.mutate(formData, {
       onSuccess: () => {
-        queryClient.invalidateQueries(["my-notes"]);
+        queryClient.invalidateQueries(["my-notes", courseId]);
         // reset form and show alert
         e.target.reset();
         Swal.fire({

@@ -19,10 +19,10 @@ import {
   BriefcaseBusiness,
   FileStackIcon,
   PenBox,
+  ShieldCheck,
 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaCashRegister } from "react-icons/fa";
-import Loading from "@/app/loading";
 import Support from "../Support";
 import Notification from "../homePage/notification/Notification";
 import {
@@ -99,7 +99,11 @@ const Navbar = () => {
   }, [currUser]);
 
   if (loading) {
-    return <Loading />;
+    return (
+      <div className=" bg-secondary w-full text-center text-white">
+        please wait..
+      </div>
+    );
   }
 
   return (
@@ -119,14 +123,14 @@ const Navbar = () => {
           </Link>
           <div>
             {/* Mobile menu icon */}
-            <div className="block md:hidden lg:hidden">
+            <div className="block lg:hidden">
               <IoMdMenu
                 onClick={handleOpenMenu}
                 className="text-4xl cursor-pointer"
               />
             </div>
             {/* Desktop Menu */}
-            <div className="hidden md:block lg:block">
+            <div className="hidden lg:block">
               <ul className="flex gap-6">
                 <Link
                   href="/"
@@ -137,7 +141,7 @@ const Navbar = () => {
                 <Link
                   href="/all-courses"
                   className="duration-150 hover:border-transparent p-1 text-center">
-                  <li>All Courses</li>
+                  <li>Courses</li>
                 </Link>
 
                 {user && (
@@ -150,9 +154,14 @@ const Navbar = () => {
                     </Link>
                     <li
                       className="duration-150 hover:border-transparent p-1 text-center cursor-pointer"
+<<<<<<< HEAD
                       onClick={() => setShowSupportModal(true)}
                     >
                       Help-line
+=======
+                      onClick={() => setShowSupportModal(true)}>
+                      Helpline
+>>>>>>> 3b04a678e3315ff7dd55f7ed453502e3c12ef773
                     </li>
                   </>
                 )}
@@ -162,21 +171,24 @@ const Navbar = () => {
                   className="duration-150 hover:border-transparent p-1 text-center">
                   <li>About Us</li>
                 </Link>
+<<<<<<< HEAD
 
                 <li className="p-1">
                   {/* Dark Mode Toggle */}
                   {/* <BellDot /> */}
                   <Notification></Notification>
                 </li>
+=======
+>>>>>>> 3b04a678e3315ff7dd55f7ed453502e3c12ef773
                 {user && (
                   <li>
                     <Sheet>
                       <SheetTrigger>
                         <Image
-                          src={"/assets/aibot 2.jpeg"}
-                          alt=""
+                          src={"/assets/aibot.png"}
+                          alt="chatbotAi"
                           width={35}
-                          height={100}
+                          height={35}
                           className=" rounded-full"
                         />
                       </SheetTrigger>
@@ -209,19 +221,17 @@ const Navbar = () => {
                   {user && mainRole === "admin" ? (
                     <Link href="/dashboard/admin/manage-courses">
                       <Button
-                        variant="destructive"
-                        className="rounded-full"
+                        className="rounded-full bg-primary"
                         aria-label="Author Dashboard">
-                        <PenBox size={20} className="mr-2" /> Admin Dashboard
+                        <ShieldCheck size={20} /> Admin mode
                       </Button>
                     </Link>
                   ) : user?.unsafeMetadata?.role === "teacher" ? (
-                    <Link href="/dashboard/teacher">
+                    <Link href="/dashboard/teacher/my-courses">
                       <Button
-                        variant="destructive"
-                        className="rounded-full"
+                        className="rounded-full bg-primary"
                         aria-label="Author Dashboard">
-                        <PenBox size={20} className="mr-2" /> Author Dashboard
+                        <ShieldCheck size={20} /> instructor mode
                       </Button>
                     </Link>
                   ) : null}
@@ -230,14 +240,14 @@ const Navbar = () => {
                     <UserButton
                       appearance={{
                         elements: {
-                          avatarBox: " w-10 h-10",
+                          avatarBox: "w-10 h-10",
                         },
                       }}>
                       <UserButton.MenuItems>
                         <UserButton.Link
-                          label="My Purchases"
+                          label="My Learning"
                           labelIcon={<BriefcaseBusiness size={15} />}
-                          href="my-applications"></UserButton.Link>
+                          href="my-learning"></UserButton.Link>
 
                         <UserButton.Link
                           label="Payment History"
@@ -263,10 +273,10 @@ const Navbar = () => {
         className={`${
           openMenu ? "w-3/4" : "w-0"
         } fixed top-0 right-0 h-full bg-black transition-all overflow-hidden z-50`}>
-        <div className="flex justify-end px-4 py-5">
+        <div className="absolute right-4 top-4">
           <RxCross1
             onClick={handleCloseMenu}
-            className="text-white text-4xl cursor-pointer"
+            className="text-red-600 text-4xl cursor-pointer"
           />
         </div>
         <ul className="text-white font-semibold p-4 space-y-4">
@@ -292,9 +302,9 @@ const Navbar = () => {
                 className="mr-3">
                 <UserButton.MenuItems>
                   <UserButton.Link
-                    label="My Purchases"
+                    label="My Learning"
                     labelIcon={<BriefcaseBusiness size={15} />}
-                    href="my-applications"></UserButton.Link>
+                    href="/my-learning"></UserButton.Link>
 
                   <UserButton.Link
                     label="Payment History"
@@ -308,6 +318,28 @@ const Navbar = () => {
                 </UserButton.MenuItems>
               </UserButton>
             </SignedIn>
+          </li>
+          <li>
+            {/* author dashboard */}
+            {user && mainRole === "admin" ? (
+              <Link href="/dashboard/admin/manage-courses">
+                <Button
+                  variant="destructive"
+                  className="rounded-full"
+                  aria-label="Author Dashboard">
+                  <ShieldCheck size={20} /> Admin Mode
+                </Button>
+              </Link>
+            ) : user?.unsafeMetadata?.role === "teacher" ? (
+              <Link href="/dashboard/teacher/my-courses">
+                <Button
+                  variant="destructive"
+                  className="rounded-full"
+                  aria-label="Author Dashboard">
+                  <ShieldCheck size={20} /> Instructor Mode
+                </Button>
+              </Link>
+            ) : null}
           </li>
           <li>
             <Sheet>
@@ -335,7 +367,7 @@ const Navbar = () => {
             <Link href="/">Home</Link>
           </li>
           <li>
-            <Link href="/all-courses">All Courses</Link>
+            <Link href="/all-courses">Courses</Link>
           </li>
           <li>
             <Link href="/live_class">Live Classes</Link>
@@ -343,7 +375,7 @@ const Navbar = () => {
           <li
             className="duration-150 hover:border-transparent p-1 cursor-pointer"
             onClick={() => setShowSupportModal(true)}>
-            Help-line
+            Helpline
           </li>
           <li>
             <Link href="/about">About Us</Link>

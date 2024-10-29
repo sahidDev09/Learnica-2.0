@@ -5,18 +5,23 @@ import { FaTrashAlt } from "react-icons/fa";
 import NoteModal from "./NoteModal";
 import Image from "next/image";
 import Loading from "@/app/loading";
+import { useUser } from "@clerk/nextjs";
 
-function Notes() {
+function Notes({ courseId }) {
+  const user = useUser();
+  const userEmail = user?.user?.emailAddresses[0]?.emailAddress;
+
   // get notes
   const {
     data: notes,
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["my-notes"],
+    queryKey: ["my-notes", courseId],
     queryFn: async () => {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + "/api/my-notes"
+        process.env.NEXT_PUBLIC_BASE_URL +
+          `/api/my-notes?email=${userEmail}&courseId=${courseId}`
       );
       return res.json();
     },
@@ -66,7 +71,7 @@ function Notes() {
   };
 
   if (isLoading) {
-    return <Loading/>;
+    return <Loading />;
   }
   return (
     <section className="max-w-screen-lg mx-auto my-6">
@@ -100,7 +105,9 @@ function Notes() {
                   }>
                   view details
                 </button>
-                <p className="text-sm text-gray-500">• {new Date(note.created_at).toLocaleDateString()} •</p>
+                <p className="text-sm text-gray-500">
+                  • {new Date(note.created_at).toLocaleDateString()} •
+                </p>
                 <button
                   onClick={() => handleNoteDelete(note._id)}
                   className="p-1 border border-transparent hover:border-red-600 text-red-600 rounded hover:-translate-y-1 transition-all">
