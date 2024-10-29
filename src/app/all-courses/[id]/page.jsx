@@ -50,7 +50,7 @@ useEffect(() => {
 
     try {
       const res = await fetch(
-        `http://localhost:3000/api/get-orders?email=${userEmail}&courseId=${courseId}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/get-orders?email=${userEmail}&courseId=${courseId}`
       );
       const orders = await res.json();
       const isAlreadyEnrolled = orders.some(
@@ -136,8 +136,8 @@ useEffect(() => {
           finalAmount: finalAmount,
           email: user.primaryEmailAddress?.emailAddress || "",
           lectures: data.lectures.map((lecture) => ({
-            concept_title: lecture.title,
-            concept_url: lecture.videoUrl,
+            title: lecture.title,
+            videoUrl: lecture.videoUrl,
             duration: lecture.duration,
             freePreview: true, 
           })),
@@ -183,8 +183,8 @@ useEffect(() => {
           type: "course",
           finalAmount: finalAmount,
           lectures: data.lectures.map((lecture) => ({
-            concept_title: lecture.title,
-            concept_url: lecture.videoUrl,
+            title: lecture.title,
+            videoUrl: lecture.videoUrl,
             duration: lecture.duration,
             freePreview: true, 
           })),
