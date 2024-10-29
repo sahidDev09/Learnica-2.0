@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
+import { useQuery } from "@tanstack/react-query";
 import Loading from "../loading";
 import {
   Table,
@@ -16,54 +17,33 @@ import { TiTickOutline } from "react-icons/ti";
 import { format } from "date-fns";
 
 const Page = () => {
-  const { user, isLoaded } = useUser();
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  async function fetchOrders(userEmail) {
-    try {
-      const response = await fetch("/api/get-orders");
-      if (response.ok) {
-        const data = await response.json();
-        const filteredOrders = data.filter((order) => order.email === userEmail);
-        setOrders(filteredOrders);
-        setLoading(false);
-      } else {
-        setError("Failed to fetch data");
-        setLoading(false);
-      }
-    } catch (error) {
-      setError("Error fetching data");
-      setLoading(false);
-    }
-  }
+  const { user } = useUser();
+  
+  const userEmail = user?.emailAddresses[0]?.emailAddress;
 
-  useEffect(() => {
-    if (isLoaded && user) {
-      const userEmail = user.email || user.primaryEmailAddress?.emailAddress;
-      if (userEmail) {
-        fetchOrders(userEmail);
-      } else {
-        setError("Email not available");
-        setLoading(false);
-      }
-    }
-  }, [isLoaded, user]);
+  const { data: orders, isLoading } = useQuery({
+    queryKey: ["order"],
+    queryFn: async () => {
+      const res = await fetch(
+        process.env.NEXT_PUBLIC_BASE_URL + `/api/get-orders?email=${userEmail}`
+      );
+      return res.json();
+    },
+  });
 
-  if (loading) {
+
+  if (isLoading) {
     return <Loading />;
-  }
-
-  if (error) {
-    return <p>{error}</p>;
   }
 
   return (
     <div className="container mx-auto p-4 h-screen mt-10">
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg md:text-2xl">My Payment History</CardTitle>
+          <CardTitle className="text-lg md:text-2xl">
+            My Payment History
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
@@ -71,11 +51,21 @@ const Page = () => {
               <TableCaption>A list of your recent invoices.</TableCaption>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-center py-2 px-4">Serial #</TableHead>
-                  <TableHead className="text-center py-2 px-4">Course Title</TableHead>
-                  <TableHead className="text-center py-2 px-4">Total Amount</TableHead>
-                  <TableHead className="text-center py-2 px-4">Created Date</TableHead>
-                  <TableHead className="text-center py-2 px-4">Payment Status</TableHead>
+                  <TableHead className="text-center py-2 px-4">
+                    Serial #
+                  </TableHead>
+                  <TableHead className="text-center py-2 px-4">
+                    Course Title
+                  </TableHead>
+                  <TableHead className="text-center py-2 px-4">
+                    Total Amount
+                  </TableHead>
+                  <TableHead className="text-center py-2 px-4">
+                    Created Date
+                  </TableHead>
+                  <TableHead className="text-center py-2 px-4">
+                    Payment Status
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -113,4 +103,3 @@ const Page = () => {
 };
 
 export default Page;
-  

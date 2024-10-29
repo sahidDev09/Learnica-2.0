@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
+import Image from "next/image";
+import image from "../../../public/assets/learnicaAi.png";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SendHorizontalIcon } from "lucide-react";
@@ -7,15 +9,11 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useState, useEffect, useRef } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUser } from "@clerk/nextjs";
-import suggestion from "/src/lib/chataisuggestion.json";
-import { ReactLenis } from "/src/lib/lenis.jsx";
-
 import {
   GoogleGenerativeAI,
   HarmCategory,
   HarmBlockThreshold,
 } from "@google/generative-ai";
-import Image from "next/image";
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
@@ -93,8 +91,7 @@ const Chat = () => {
     initChat();
   }, [genAI, generationConfig, messages, safetySettings]);
 
-  const handleSendMessage = async (e) => {
-    e.preventDefault();
+  const handleSendMessage = async () => {
     try {
       const userMessage = {
         text: userInput,
@@ -136,29 +133,17 @@ const Chat = () => {
     }
   };
 
-  // Handle suggestion button click
-  const handleSuggestionClick = (suggestionText) => {
-    setUserInput(suggestionText);
-  };
-
   return (
-    <section className="flex flex-col h-screen md:h-[100vh] pb-20 container mx-auto">
-      <div className="m-2 md:m-0 flex flex-col gap-4 flex-grow">
-        <div className="flex gap-1 flex-wrap rounded-md mb-4">
-          {suggestion.map((sug) => (
-            <button
-              className="bg-secondary text-white p-2 border rounded-md"
-              key={sug.id}
-              onClick={() => handleSuggestionClick(sug.suggestion)} // Set button text to input
-            >
-              {sug.suggestion}
-            </button>
-          ))}
-        </div>
-        {/* responses & chatbox */}
-        <div className="flex-grow mb-2 rounded-md border p-4 bg-card overflow-y-auto">
-          <div
-            className="h-[calc(100vh-450px)] md:h-[calc(100vh-400px)] overflow-y-auto"
+    <section className="min-h-screen items-center container mx-auto">
+      {/* chat box */}
+      <div className=" m-2 md:m-0">
+        <h1 className="text-2xl font-medium bg-secondary text-white rounded-md py-2 max-w-lg text-center">
+          Learnica AI Assistant
+        </h1>
+        <div className="mt-4 w-full max-w-lg">
+          {/* responses */}
+          <ScrollArea
+            className="mb-2 md:h-[500px] h-[450px] rounded-md border p-4 bg-card"
             ref={ref}>
             {error && (
               <div className="text-sm text-red-400">{error.message}</div>
@@ -172,8 +157,8 @@ const Chat = () => {
                       <AvatarFallback></AvatarFallback>
                     </Avatar>
                     <div className="mt-1.5">
-                      <p className="font-semibold text-start">You</p>
-                      <div className="mt-1.5 text-sm text-zinc-700 text-start">
+                      <p className="font-semibold">You</p>
+                      <div className="mt-1.5 text-sm text-zinc-700">
                         {m.text}
                       </div>
                     </div>
@@ -183,24 +168,23 @@ const Chat = () => {
                 {m.role === "bot" && (
                   <div className="mb-6 flex gap-6">
                     <Avatar>
-                      <AvatarImage src="/assets/aibot.png" />
+                      <AvatarImage src="/assets/aibot.jpeg" />
                       <AvatarFallback></AvatarFallback>
                     </Avatar>
                     <div className="mt-1.5">
-                      <p className="font-semibold text-zinc-700 text-start">
-                        Learnica
-                      </p>
-                      <p className="text-secondary text-start">{m.text}</p>
+                      <p className="font-semibold text-zinc-700">Learnica</p>
+                      <p className=" text-secondary">{m.text}</p>
                     </div>
                   </div>
                 )}
               </div>
             ))}
+
             {/* Typing indicator */}
             {typing && (
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-2">
                 <Avatar>
-                  <AvatarImage src="/assets/aibot.png" />
+                  <AvatarImage src="/assets/aibot.jpeg" />
                   <AvatarFallback></AvatarFallback>
                 </Avatar>
                 <div className="text-sm text-gray-700">
@@ -208,34 +192,25 @@ const Chat = () => {
                 </div>
               </div>
             )}
-          </div>
-        </div>
-        <form
-          onSubmit={handleSendMessage}
-          className="relative focus:outline-none h-[10vh]">
-          <div className="absolute left-2 top-3 flex items-center">
-            <Image
-              src={"/assets/sparkelai.webp"}
-              alt=""
-              width={20}
-              height={20}
+          </ScrollArea>
+
+          <form onSubmit={handleSendMessage} className="relative">
+            <Input
+              value={userInput}
+              onChange={(e) => setUserInput(e.target.value)}
+              onKeyDown={handleKeyPress}
+              placeholder="Ask me anything..."
+              className="pr-12 placeholder:italic placeholder:text-zinc-600 text-gray-700"
             />
-          </div>
-          <Input
-            value={userInput}
-            onChange={(e) => setUserInput(e.target.value)}
-            onKeyDown={handleKeyPress}
-            placeholder="Ask me anything..."
-            className="pr-12 pl-10 placeholder:italic placeholder:text-zinc-600 text-gray-700 focus:outline-none"
-          />
-          <Button
-            size="icon"
-            type="submit"
-            variant="destructive"
-            className="absolute right-1 top-1 h-8 w-10">
-            <SendHorizontalIcon className="h-5 w-5 text-white" />
-          </Button>
-        </form>
+            <Button
+              size="icon"
+              type="submit"
+              variant="destructive"
+              className="absolute right-1 top-1 h-8 w-10">
+              <SendHorizontalIcon className="h-5 w-5 text-white" />
+            </Button>
+          </form>
+        </div>
       </div>
     </section>
   );
