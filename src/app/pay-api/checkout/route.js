@@ -27,16 +27,17 @@ export async function POST(request) {
       type,
       finalAmount: parseFloat(finalAmount),
       lectures: lectures.map((lecture) => ({
-        title: lecture.concept_title,
-        videoUrl: lecture.concept_url,
+        title: lecture.title,  
+        videoUrl: lecture.videoUrl,  
         price: parseFloat(lecture.price),
         duration: lecture.duration,
-        category: lecture.lang_tech,
+        category: lecture.category,   
         rating: lecture.rating,
         quantity: lecture.quantity || 1,
       })),
       createdAt: new Date(),
     };
+    console.log('lecture', lectures)
 
     const result = await ordersCollection.insertOne(order);
 

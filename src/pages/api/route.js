@@ -38,14 +38,15 @@ export async function POST(request) {
 
     
     const formattedLectures = lectures.map((lecture) => ({
-      title: lecture.concept_title,
-      videoUrl: lecture.concept_url,
-      price: parseFloat(lecture.price), 
+      title: lecture.concept_title, 
+      videoUrl: lecture.concept_url, 
+      price: parseFloat(lecture.price),
       duration: lecture.duration,
       category: lecture.lang_tech,
       rating: lecture.rating,
-      quantity: lecture.quantity || 1,  specified
+      quantity: lecture.quantity || 1,
     }));
+    
 
     
     const newOrder = {
