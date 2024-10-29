@@ -24,7 +24,7 @@ export async function POST(request) {
     const lectureTitles = courseData.lectures.map((lecture) => lecture.title).join(", ");
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(finalAmount * 100), // Correctly use 'amount' instead of 'finalAmount'
+      amount: Math.round(finalAmount * 100),
       currency: "usd",
       automatic_payment_methods: { enabled: true },
       metadata: {
