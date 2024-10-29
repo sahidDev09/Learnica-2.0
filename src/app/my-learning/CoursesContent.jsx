@@ -11,7 +11,7 @@ function CoursesContent({ user }) {
     queryFn: async () => {
       const res = await fetch(
         process.env.NEXT_PUBLIC_BASE_URL +
-        `/api/my-courses?email=${userEmail}`
+        `/api/my-learning?email=${userEmail}`
       );
       return res.json();
     },
