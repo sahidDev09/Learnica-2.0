@@ -1,6 +1,7 @@
 "use client";
 import Loading from "@/app/loading";
 import NoDataFound from "@/app/noDataFound";
+
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,7 +10,11 @@ import { MdDelete } from "react-icons/md";
 import Swal from "sweetalert2";
 
 const CoursesPage = () => {
-  const { data, isLoading, refetch } = useQuery({
+  const {
+    data: courses,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["courses"],
     queryFn: async () => {
       const res = await fetch(
@@ -20,7 +25,6 @@ const CoursesPage = () => {
   });
 
   const handleDelete = (id) => {
-    
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -32,7 +36,6 @@ const CoursesPage = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/all-courses?id=${id}`, {
-          
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -72,26 +75,8 @@ const CoursesPage = () => {
             </tr>
           </thead>
           <tbody>
-<<<<<<< HEAD
-            {data?.map((item, index) => (
-              <tr
-                key={index}
-                className="hover:bg-secondary transition-all ease-in-out duration-300 hover:rounded-md hover:text-white text-lg"
-              >
-                <td className="">{index + 1}</td>
-                <td className="">
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle h-12 w-12 border-2">
-                        <Image
-                          src={item.thumbnail}
-                          alt={item.title}
-                          width={50}
-                          height={80}
-                        />
-=======
             {courses?.length > 0 ? (
-              courses.map((item, index) => (
+              courses?.map((item, index) => (
                 <tr
                   key={index}
                   className="hover:bg-secondary transition-all ease-in-out duration-300 hover:rounded-md hover:text-white text-lg">
@@ -120,7 +105,6 @@ const CoursesPage = () => {
                         <div className="text-sm opacity-50">
                           by {item?.author?.name || "Unknown Author"}
                         </div>
->>>>>>> 3b04a678e3315ff7dd55f7ed453502e3c12ef773
                       </div>
                     </div>
                   </td>
@@ -138,24 +122,6 @@ const CoursesPage = () => {
                         <MdDelete className="text-2xl text-primary" />
                       </button>
                     </div>
-<<<<<<< HEAD
-                  </div>
-                </td>
-
-                <td className="">376</td>
-                <td className="">{item.price} $</td>
-                <td className="">{item.status}</td>
-
-                <td className="">
-                  <div className="flex gap-4">
-                    <Link href={`/all-courses/${item._id}`}>
-                      <BiSolidShow className="text-2xl" />
-                    </Link>
-                    <button onClick={() => handleDelete(item._id)}>
-                      <MdDelete className="text-2xl text-primary" />
-                    </button>
-                  </div>
-=======
                   </td>
                 </tr>
               ))
@@ -163,7 +129,6 @@ const CoursesPage = () => {
               <tr>
                 <td colSpan="6" className="text-center text-lg font-bold">
                   <NoDataFound />
->>>>>>> 3b04a678e3315ff7dd55f7ed453502e3c12ef773
                 </td>
               </tr>
             )}
