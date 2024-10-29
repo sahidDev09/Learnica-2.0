@@ -121,7 +121,7 @@ useEffect(() => {
     const discount = data.additionalInfo?.discount_amount || 0;
 
 
-    // discount 
+    // discount
     const discountAmount = discount > 0 ? (totalAmount * discount) / 100 : 0;
     const finalAmount = totalAmount - discountAmount;
     setFinalAmount(finalAmount); 
@@ -135,10 +135,11 @@ useEffect(() => {
           title: data.name,
           finalAmount: finalAmount,
           email: user.primaryEmailAddress?.emailAddress || "",
-          items: data.lectures.map((item) => ({
-            concept_title: item.title,
-            concept_url: item.videoUrl,
-            duration: item.duration,
+          lectures: data.lectures.map((lecture) => ({
+            concept_title: lecture.title,
+            concept_url: lecture.videoUrl,
+            duration: lecture.duration,
+            freePreview: true, 
           })),
           coupon: coupon,
           discount: discount,
@@ -160,17 +161,15 @@ useEffect(() => {
 
   // Handle payment
   const handlePaymentSuccess = async () => {
-
-    
     const totalAmount = data.pricing;
     const coupon = data.additionalInfo?.coupon_code || "";
     const discount = data.additionalInfo?.discount_amount || 0;
-
-
-    //  final amount 
+  
+    // Calculate final amount
     const discountAmount = discount > 0 ? (totalAmount * discount) / 100 : 0;
     const finalAmount = totalAmount - discountAmount;
-    setFinalAmount(finalAmount); 
+    setFinalAmount(finalAmount);
+  
     try {
       const res = await fetch("/enroll-api/checkout", {
         method: "POST",
@@ -183,23 +182,24 @@ useEffect(() => {
           status: "success",
           type: "course",
           finalAmount: finalAmount,
-          items: data.lectures.map((item) => ({
-            concept_title: item.title,
-            concept_url: item.videoUrl,
-            duration: item.duration,
+          lectures: data.lectures.map((lecture) => ({
+            concept_title: lecture.title,
+            concept_url: lecture.videoUrl,
+            duration: lecture.duration,
+            freePreview: true, 
           })),
         }),
       });
-
+  
       const result = await res.json();
-
+  
       if (!res.ok) {
         throw new Error(
           result.error || "Failed to store order in the database."
         );
       }
       setIsEnrolled(true);
-
+  
       // Swal success message
       Swal.fire({
         title: "Success",
@@ -224,6 +224,7 @@ useEffect(() => {
       );
     }
   };
+  
 
   if (isLoading || !isLoaded) {
     return <Loading />;
