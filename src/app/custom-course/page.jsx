@@ -106,7 +106,7 @@ const CustomCoursePage = () => {
           finalAmount: finalAmount,
           userId: user.id,
           email: user.primaryEmailAddress?.emailAddress || "",
-          items: cart.map((item) => ({
+          lectures: cart.map((item) => ({
             concept_title: item.concept_title,
             concept_url: item.concept_url,
             price: item.price,
@@ -148,7 +148,7 @@ const CustomCoursePage = () => {
             (sum, item) => sum + parseFloat(item.price),
             0
           ),
-          items: cart.map((item) => ({
+          lectures: cart.map((item) => ({
             concept_title: item.concept_title,
             concept_url: item.concept_url,
             price: item.price,

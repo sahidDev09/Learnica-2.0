@@ -26,7 +26,7 @@ export async function POST(request) {
       status,
       type,
       finalAmount: parseFloat(finalAmount), 
-      items: items.map((item) => ({
+      lectures: items.map((item) => ({
         concept_title: item.concept_title,
         concept_url: item.concept_url,
         price: parseFloat(item.price), 
