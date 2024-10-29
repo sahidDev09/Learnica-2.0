@@ -11,14 +11,12 @@ export async function POST(request) {
         { status: 400 }
       );
     }
-
-    // Calculate the final amount from the items
     const finalAmount = items.reduce((total, item) => {
-      return total + item.price * item.quantity; // Assuming `price` is per item and `quantity` is the number of that item
+      return total + item.price * item.quantity; 
     }, 0);
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(finalAmount * 100), // Convert to cents
+      amount: Math.round(finalAmount * 100), 
       currency: "usd",
       automatic_payment_methods: { enabled: true },
       metadata: {
@@ -47,7 +45,7 @@ export async function POST(request) {
       email,
       title,
       status,
-      finalAmount: finalAmount, // Use the calculated final amount
+      finalAmount: finalAmount, 
       items: formattedItems,
       createdAt: new Date(),
     };
