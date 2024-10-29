@@ -112,10 +112,10 @@ const CustomCoursePage = () => {
           email: user.primaryEmailAddress?.emailAddress || "",
           lectures: cart.map((item) => ({
             title: item.concept_title,
-            concept_url: item.concept_url,
+            videoUrl: item.concept_url,
             price: item.price,
             duration: item.duration,
-            lang_tech: item.lang_tech,
+            category: item.lang_tech,
             rating: item.rating,
           })),
         }),
@@ -153,11 +153,11 @@ const CustomCoursePage = () => {
             0
           ),
           lectures: cart.map((item) => ({
-            concept_title: item.concept_title,
-            concept_url: item.concept_url,
+            title: item.concept_title,
+            videoUrl: item.concept_url,
             price: item.price,
             duration: item.duration,
-            lang_tech: item.lang_tech,
+            category: item.lang_tech,
             rating: item.rating,
           })),
         }),
