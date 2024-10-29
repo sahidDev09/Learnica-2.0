@@ -31,7 +31,7 @@ export async function POST(request) {
       email,
       title,
       status,
-      finalAmount: parseFloat(finalAmount), // Ensure this is a float
+      finalAmount: parseFloat(finalAmount), 
       items: courseData.lectures.map((lecture) => ({
         concept_title: lecture.title,
         concept_url: lecture.videoUrl,
