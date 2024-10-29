@@ -132,7 +132,7 @@ const CustomCoursePage = () => {
   };
 
   const handlePaymentSuccess = async () => {
-    // Initialize useRouter
+    
 
     try {
       const res = await fetch("/pay-api/checkout", {
@@ -143,6 +143,7 @@ const CustomCoursePage = () => {
           email: user.primaryEmailAddress?.emailAddress || "",
           title: courseTitle,
           status: "success",
+          type:"customCourse",
           finalAmount: cart.reduce(
             (sum, item) => sum + parseFloat(item.price),
             0
