@@ -121,10 +121,10 @@ useEffect(() => {
     const discount = data.additionalInfo?.discount_amount || 0;
 
 
-    // Calculate final amount with discount
+    // discount
     const discountAmount = discount > 0 ? (totalAmount * discount) / 100 : 0;
     const finalAmount = totalAmount - discountAmount;
-    setFinalAmount(finalAmount); // Set final amount state
+    setFinalAmount(finalAmount); 
     try {
       const res = await fetch("/enroll-api/create-payment-intent", {
         method: "POST",
@@ -158,7 +158,7 @@ useEffect(() => {
     }
   };
 
-  // Handle successful payment
+  // Handle payment
   const handlePaymentSuccess = async () => {
 
     
@@ -167,10 +167,10 @@ useEffect(() => {
     const discount = data.additionalInfo?.discount_amount || 0;
 
 
-    // Calculate final amount with discount
+    //  final amount 
     const discountAmount = discount > 0 ? (totalAmount * discount) / 100 : 0;
     const finalAmount = totalAmount - discountAmount;
-    setFinalAmount(finalAmount); // Set final amount state
+    setFinalAmount(finalAmount); 
     try {
       const res = await fetch("/enroll-api/checkout", {
         method: "POST",
