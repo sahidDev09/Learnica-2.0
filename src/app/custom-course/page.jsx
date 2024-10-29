@@ -95,9 +95,14 @@ const CustomCoursePage = () => {
       return;
     }
 
-    const totalAmount = cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0);
+  const totalAmount = cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0);
+  if (!isNaN(totalAmount)) {
     const finalAmount = convertToSubCurrency(totalAmount);
-    setFinalAmount(finalAmount); 
+    setFinalAmount(finalAmount);
+  } else {
+    showError("Total amount calculation error.");
+    return;
+  }
     try {
       const res = await fetch("/pay-api/create-payment-intent", {
         method: "POST",
