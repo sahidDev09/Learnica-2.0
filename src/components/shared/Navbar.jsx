@@ -148,20 +148,13 @@ const Navbar = () => {
                   <>
                     <Link
                       href="/live_class"
-                      className="duration-150 hover:border-transparent p-1 text-center"
-                    >
+                      className="duration-150 hover:border-transparent p-1 text-center">
                       <li>Live classes</li>
                     </Link>
                     <li
                       className="duration-150 hover:border-transparent p-1 text-center cursor-pointer"
-<<<<<<< HEAD
-                      onClick={() => setShowSupportModal(true)}
-                    >
-                      Help-line
-=======
                       onClick={() => setShowSupportModal(true)}>
                       Helpline
->>>>>>> 3b04a678e3315ff7dd55f7ed453502e3c12ef773
                     </li>
                   </>
                 )}
@@ -171,15 +164,6 @@ const Navbar = () => {
                   className="duration-150 hover:border-transparent p-1 text-center">
                   <li>About Us</li>
                 </Link>
-<<<<<<< HEAD
-
-                <li className="p-1">
-                  {/* Dark Mode Toggle */}
-                  {/* <BellDot /> */}
-                  <Notification></Notification>
-                </li>
-=======
->>>>>>> 3b04a678e3315ff7dd55f7ed453502e3c12ef773
                 {user && (
                   <li>
                     <Sheet>
