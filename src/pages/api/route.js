@@ -4,8 +4,8 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(request) {
   try {
-    const { userId, email, title, status, items } = await request.json();
-    if (!userId || !email || !title || !status || !items || items.length === 0) {
+    const { userId, email, title, type, status, items } = await request.json();
+    if (!userId || !email || !title || !status || !type|| !items || items.length === 0) {
       return NextResponse.json(
         { error: "Missing required fields: userId, email, title, or items" },
         { status: 400 }
@@ -45,6 +45,7 @@ export async function POST(request) {
       email,
       title,
       status,
+      type,
       finalAmount: finalAmount, 
       items: formattedItems,
       createdAt: new Date(),

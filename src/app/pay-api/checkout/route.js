@@ -3,9 +3,9 @@ import clientPromise from "@/lib/mongodb";
 
 export async function POST(request) {
   try {
-    const { userId, email, title, finalAmount, status, items } = await request.json();
+    const { userId, email, title, type, finalAmount, status, items } = await request.json();
 
-    if (!userId || !email || !title || !finalAmount || !status || !items) {
+    if (!userId || !email || !title || !type|| !finalAmount || !status || !items) {
       return NextResponse.json(
         {
           success: false,
@@ -24,6 +24,7 @@ export async function POST(request) {
       email,
       title,
       status,
+      type,
       finalAmount: parseFloat(finalAmount), 
       items: items.map((item) => ({
         concept_title: item.concept_title,
