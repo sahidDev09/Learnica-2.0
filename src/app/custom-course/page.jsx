@@ -95,14 +95,13 @@ const CustomCoursePage = () => {
       return;
     }
 
-  const totalAmount = cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0);
-  if (!isNaN(totalAmount)) {
-    const finalAmount = convertToSubCurrency(totalAmount);
-    setFinalAmount(finalAmount);
-  } else {
-    showError("Total amount calculation error.");
-    return;
-  }
+    const totalAmount = cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0);
+    if (!isNaN(totalAmount)) {
+      setFinalAmount(totalAmount);  
+    } else {
+      showError("Total amount calculation error.");
+      return;
+    }
     try {
       const res = await fetch("/pay-api/create-payment-intent", {
         method: "POST",
@@ -368,7 +367,7 @@ const CustomCoursePage = () => {
                   clientSecret={clientSecret}
                   handlePaymentSuccess={handlePaymentSuccess}
                   setIsModalOpen={setIsModalOpen}
-                  finalAmount={finalAmount}
+                  totalAmount={finalAmount}
                   cart={cart}
                 />
               </Elements>
