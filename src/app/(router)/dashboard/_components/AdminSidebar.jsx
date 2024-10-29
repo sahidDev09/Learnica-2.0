@@ -10,31 +10,31 @@ const AdminSidebar = () => {
   const sideNavMenu = [
     {
       id: 1,
+      name: "Statistics",
+      icons: Store,
+      path: "/dashboard/admin/statistics",
+    },
+    {
+      id: 2,
       name: "Manage Courses",
       icons: BookA,
       path: "/dashboard/admin/manage-courses",
     },
     {
-      id: 2,
+      id: 3,
       name: "All Users",
       icons: User,
       path: "/dashboard/admin/all-users",
     },
-    {
-      id: 3,
-      name: "Statistics",
-      icons: Store,
-      path: "/dashboard/admin/statistics",
-    },
 
     {
-      id: 5,
+      id: 4,
       name: "Support issues",
       icons: MdSyncProblem,
       path: "/dashboard/admin/issues",
     },
     {
-      id: 4,
+      id: 5,
       name: "Add Support Link",
       icons: Plus,
       path: "/dashboard/admin/addSupportLink",
