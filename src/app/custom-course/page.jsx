@@ -111,7 +111,7 @@ const CustomCoursePage = () => {
           userId: user.id,
           email: user.primaryEmailAddress?.emailAddress || "",
           lectures: cart.map((item) => ({
-            concept_title: item.concept_title,
+            title: item.concept_title,
             concept_url: item.concept_url,
             price: item.price,
             duration: item.duration,
