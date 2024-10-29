@@ -44,13 +44,18 @@ const page = () => {
               className="w-full h-[300px] object-cover rounded-xl hidden md:inline"
               height={1000}></Image>
           </div>
-          {/* Image 2 */}
-          <Image
-            src={googleMap}
-            alt="bandimage"
-            width={1000}
-            className="w-full h-[300px] object-cover rounded-xl hidden md:inline"
-            height={1000}></Image>
+          <div className="w-full h-[300px] rounded-xl overflow-hidden hidden md:block">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7303.12975014924!2d90.35719480869143!3d23.76289124115171!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755bf579e10e0ef%3A0x6b7325b0f90d6a27!2sMohammadpur%20Town%20Hall%20Market!5e0!3m2!1sen!2sbd!4v1730129792115!5m2!1sen!2sbd"
+    width="100%"
+    height="100%"
+    style={{ border: 0 }}
+    allowFullScreen=""
+    loading="lazy"
+    referrerPolicy="no-referrer-when-downgrade"
+  ></iframe>
+</div>
+
         </div>
       </div>
 
@@ -98,12 +103,12 @@ const page = () => {
               <div className="flex text-2xl mt-4 gap-6">
                 <Link
                   className="text-pink-500 hover:text-[#0A66C2]"
-                  href={`https://www.linkedin.com/in/numan-ahmod`}>
+                  href={`https://www.linkedin.com/in/sahidofficial09`}>
                   <FiLinkedin />
                 </Link>
                 <Link
                   className="text-white hover:text-gray-500 transition-colors duration-300"
-                  href={`https://github.com/numanahmod`}>
+                  href={`https://github.com/sahidDev09`}>
                   <ImGithub />
                 </Link>
                 <Link
@@ -193,17 +198,17 @@ const page = () => {
               <div className="flex text-2xl mt-4 gap-6">
                 <Link
                   className="text-pink-500 hover:text-[#0A66C2]"
-                  href={`https://www.linkedin.com/in/numan-ahmod`}>
+                  href={`https://www.linkedin.com/in/rahatfaruk`}>
                   <FiLinkedin />
                 </Link>
                 <Link
                   className="text-white hover:text-gray-500 transition-colors duration-300"
-                  href={`https://github.com/numanahmod`}>
+                  href={`https://github.com/rahatfaruk`}>
                   <ImGithub />
                 </Link>
                 <Link
                   className="text-[#1877F2] hover:text-[#0E55A4] transition-colors duration-300"
-                  href={` https://www.facebook.com/rahatfaruk12/`}>
+                  href={` https://www.facebook.com/rahatfaruk12`}>
                   <FaFacebook />
                 </Link>
               </div>
@@ -242,12 +247,12 @@ const page = () => {
               <div className="flex text-2xl mt-4 gap-6">
                 <Link
                   className="text-pink-500 hover:text-[#0A66C2]"
-                  href={`https://www.linkedin.com/in/numan-ahmod`}>
+                  href={`https://www.linkedin.com/in/abdul-mazed`}>
                   <FiLinkedin />
                 </Link>
                 <Link
                   className="text-white hover:text-gray-500 transition-colors duration-300"
-                  href={`https://github.com/numanahmod`}>
+                  href={`https://github.com/Mazed1314`}>
                   <ImGithub />
                 </Link>
                 <Link
@@ -289,12 +294,12 @@ const page = () => {
               <div className="flex text-2xl mt-4 gap-6">
                 <Link
                   className="text-pink-500 hover:text-[#0A66C2]"
-                  href={`https://www.linkedin.com/in/numan-ahmod`}>
+                  href={`https://www.linkedin.com/in/sabikun-nahar-farha-179412307`}>
                   <FiLinkedin />
                 </Link>
                 <Link
                   className="text-white hover:text-gray-500 transition-colors duration-300"
-                  href={`https://github.com/numanahmod`}>
+                  href={`https://github.com/farha12345678`}>
                   <ImGithub />
                 </Link>
                 <Link

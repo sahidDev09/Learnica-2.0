@@ -4,52 +4,65 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(request) {
   try {
+    const { userId, email, title, type, status, lectures } = await request.json();
+
    
-    const { amount, userId, email, title, status, items } = await request.json();
-    if (!amount || !userId || !email || !title ||!status|| !items || items.length === 0) {
+    if (!userId || !email || !title || !status || !type || !lectures || lectures.length === 0) {
       return NextResponse.json(
-        { error: "Missing required fields: amount, userId, email, title, or items" },
+        { error: "Missing required fields: userId, email, title, type, status, or lectures" },
         { status: 400 }
       );
     }
 
+    
+    const finalAmount = lectures.reduce((total, lecture) => {
+      return total + (parseFloat(lecture.price) * (lecture.quantity || 1)); // Ensure quantity defaults to 1 if not provided
+    }, 0);
+
    
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(amount * 100), 
+      amount: Math.round(finalAmount * 100), 
       currency: "usd",
       automatic_payment_methods: { enabled: true },
       metadata: {
         userId,
         email,
-        items: JSON.stringify(items),
+        lectures: JSON.stringify(lectures),
       },
     });
 
-   
+  
     const client = await clientPromise;
     const db = client.db("learnica");
     const ordersCollection = db.collection("orders");
 
-    const formattedItems = items.map((item) => ({
-      concept_title: item.concept_title,
-      concept_url: item.concept_url,
-      amount: parseFloat(item.price),
-      duration: item.duration,
-      lang_tech: item.lang_tech,
-      rating: item.rating,
-      quantity: item.quantity,
+    
+    const formattedLectures = lectures.map((lecture) => ({
+      concept_title: lecture.concept_title,
+      concept_url: lecture.concept_url,
+      price: parseFloat(lecture.price), 
+      duration: lecture.duration,
+      lang_tech: lecture.lang_tech,
+      rating: lecture.rating,
+      quantity: lecture.quantity || 1,  specified
     }));
 
+    
     const newOrder = {
       userId,
       email,
       title,
       status,
-      totalAmount: parseFloat(amount),
-      items: formattedItems,
+      type,
+      finalAmount: finalAmount,
+      lectures: formattedLectures, 
       createdAt: new Date(),
     };
+
+    
     const result = await ordersCollection.insertOne(newOrder);
+    
+   
     return NextResponse.json({
       success: true,
       message: "Order successfully placed!",

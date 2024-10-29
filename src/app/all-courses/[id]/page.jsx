@@ -5,12 +5,23 @@ import Reviews from "./Reviews";
 import AddNoteForm from "./AddNoteForm";
 import Notes from "./Notes";
 import Resources from "./Resources";
+<<<<<<< HEAD
+import { PlaySquare } from "lucide-react";
+=======
 import { Clock, PlaySquare } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+>>>>>>> 3b04a678e3315ff7dd55f7ed453502e3c12ef773
 import Questions from "./Questions";
 import Loading from "@/app/loading";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
+<<<<<<< HEAD
+<<<<<<< HEAD
+import CourseApproveBtn from "@/components/CourseApproveBtn";
+=======
+import CourseApproveBtn from "../../../components/CourseApproveBtn";
+>>>>>>> 71b31ce8f2030bc35711656602a03ca883299af4
+=======
 import MyReview from "./MyReview";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -23,6 +34,7 @@ import { loadStripe } from "@stripe/stripe-js";
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
+>>>>>>> 3b04a678e3315ff7dd55f7ed453502e3c12ef773
 
 const Page = ({ params }) => {
   const router = useRouter();
@@ -31,37 +43,47 @@ const Page = ({ params }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
   const [isEnrolled, setIsEnrolled] = useState(false);
+  const [finalAmount, setFinalAmount] = useState(0);
 
   // Fetch course data
   const { data, isLoading } = useQuery({
     queryKey: ["courses", courseId],
     queryFn: async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/${courseId}`
-      );
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/${courseId}`);
       return res.json();
     },
   });
 
-  // ------------check enrollment---------
-  useEffect(() => {
-    const checkEnrollmentStatus = async () => {
-      if (!isLoaded || !isSignedIn || !user) return;
-      try {
-        const res = await fetch(
-          `http://localhost:3000/api/get-orders?userId=${user.id}`
-        );
-        const orders = await res.json();
-        const isAlreadyEnrolled = orders.some(
-          (order) => order.courseId === courseId
-        );
-        setIsEnrolled(isAlreadyEnrolled);
-      } catch (error) {
-        console.error("Error checking enrollment status:", error);
-      }
-    };
-    checkEnrollmentStatus();
-  }, [isLoaded, isSignedIn, user, courseId]);
+// Check enrollment by email
+useEffect(() => {
+  const checkEnrollmentStatus = async () => {
+    if (!isLoaded || !isSignedIn || !user) return;
+    const userEmail = user.primaryEmailAddress?.emailAddress;
+
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/get-orders?email=${userEmail}&courseId=${courseId}`
+      );
+      const orders = await res.json();
+      const isAlreadyEnrolled = orders.some(
+        (order) => order.email === userEmail && order.courseId === courseId
+      );
+      setIsEnrolled(isAlreadyEnrolled);
+    } catch (error) {
+      console.error("Error checking enrollment status:", error);
+    }
+  };
+  checkEnrollmentStatus();
+}, [isLoaded, isSignedIn, user, courseId]);
+
+// Redirect to sign-in if not signed in
+useEffect(() => {
+  if (isLoaded) {
+    if (!isSignedIn || !user) {
+      router.replace("/?sign-in=true");
+    }
+  }
+}, [isLoaded, isSignedIn, user, router]);
 
   useEffect(() => {
     if (isLoaded) {
@@ -107,7 +129,14 @@ const Page = ({ params }) => {
     }
 
     const totalAmount = data.pricing;
+    const coupon = data.additionalInfo?.coupon_code || "";
+    const discount = data.additionalInfo?.discount_amount || 0;
 
+
+    // discount
+    const discountAmount = discount > 0 ? (totalAmount * discount) / 100 : 0;
+    const finalAmount = totalAmount - discountAmount;
+    setFinalAmount(finalAmount); 
     try {
       const res = await fetch("/enroll-api/create-payment-intent", {
         method: "POST",
@@ -116,13 +145,16 @@ const Page = ({ params }) => {
           userId: user.id,
           courseId: data._id,
           title: data.name,
-          amount: totalAmount,
+          finalAmount: finalAmount,
           email: user.primaryEmailAddress?.emailAddress || "",
-          items: data.lectures.map((item) => ({
-            concept_title: item.title,
-            concept_url: item.videoUrl,
-            duration: item.duration,
+          lectures: data.lectures.map((lecture) => ({
+            concept_title: lecture.title,
+            concept_url: lecture.videoUrl,
+            duration: lecture.duration,
+            freePreview: true, 
           })),
+          coupon: coupon,
+          discount: discount,
         }),
       });
 
@@ -139,8 +171,17 @@ const Page = ({ params }) => {
     }
   };
 
-  // Handle successful payment
+  // Handle payment
   const handlePaymentSuccess = async () => {
+    const totalAmount = data.pricing;
+    const coupon = data.additionalInfo?.coupon_code || "";
+    const discount = data.additionalInfo?.discount_amount || 0;
+  
+    // Calculate final amount
+    const discountAmount = discount > 0 ? (totalAmount * discount) / 100 : 0;
+    const finalAmount = totalAmount - discountAmount;
+    setFinalAmount(finalAmount);
+  
     try {
       const res = await fetch("/enroll-api/checkout", {
         method: "POST",
@@ -151,24 +192,26 @@ const Page = ({ params }) => {
           title: data.name,
           email: user.primaryEmailAddress?.emailAddress || "",
           status: "success",
-          totalAmount: data.pricing,
-          items: data.lectures.map((item) => ({
-            concept_title: item.title,
-            concept_url: item.videoUrl,
-            duration: item.duration,
+          type: "course",
+          finalAmount: finalAmount,
+          lectures: data.lectures.map((lecture) => ({
+            concept_title: lecture.title,
+            concept_url: lecture.videoUrl,
+            duration: lecture.duration,
+            freePreview: true, 
           })),
         }),
       });
-
+  
       const result = await res.json();
-
+  
       if (!res.ok) {
         throw new Error(
           result.error || "Failed to store order in the database."
         );
       }
       setIsEnrolled(true);
-
+  
       // Swal success message
       Swal.fire({
         title: "Success",
@@ -193,6 +236,7 @@ const Page = ({ params }) => {
       );
     }
   };
+  
 
   if (isLoading || !isLoaded) {
     return <Loading />;
@@ -200,6 +244,17 @@ const Page = ({ params }) => {
 
   return (
     <div className="min-h-screen py-10">
+<<<<<<< HEAD
+      {/* approve button */}
+
+      {data?.status == "pending" && (
+        <CourseApproveBtn
+          c_id={data._id}
+          c_title={data.title}></CourseApproveBtn>
+      )}
+
+=======
+>>>>>>> 3b04a678e3315ff7dd55f7ed453502e3c12ef773
       <div className="container mx-auto flex flex-col-reverse lg:flex-row px-2">
         <div className="lg:w-5/12">
           <div className="bg-card p-6 h-full rounded-xl">
@@ -208,7 +263,8 @@ const Page = ({ params }) => {
               <progress
                 className="progress progress-error w-full"
                 value="10"
-                max="100"></progress>
+                max="100"
+              ></progress>
               <span className="font-semibold">10%</span>
             </div>
             <Button
@@ -219,6 +275,15 @@ const Page = ({ params }) => {
             </Button>
 
             <div className="space-y-3">
+<<<<<<< HEAD
+              {topic.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex gap-2 items-center p-2 bg-white w-full rounded-md"
+                >
+                  <div className=" bg-secondary p-2 rounded-md">
+                    <PlaySquare className=" size-8 text-white" />
+=======
               {data?.lectures?.length > 0 ? (
                 data.lectures.map((item, index) => (
                   <div
@@ -246,6 +311,7 @@ const Page = ({ params }) => {
                         Locked
                       </button>
                     )}
+>>>>>>> 3b04a678e3315ff7dd55f7ed453502e3c12ef773
                   </div>
                 ))
               ) : (
@@ -262,12 +328,14 @@ const Page = ({ params }) => {
             src="https://www.youtube.com/embed/kmZz0v4COpw?start=314"
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen></iframe>
+            allowFullScreen
+          ></iframe>
           {/* tab */}
 
           <div
             role="tablist"
-            className="tabs tabs-bordered mt-4 bg-secondary pt-4 rounded-md w-full sm:max-w-none md:max-w-none lg:max-w-full flex flex-col md:inline-grid">
+            className="tabs tabs-bordered mt-4 bg-secondary pt-4 rounded-md w-full sm:max-w-none md:max-w-none lg:max-w-full flex flex-col md:inline-grid"
+          >
             {/*--------------------------------- Overview --------------------------------*/}
             <input
               type="radio"
@@ -278,7 +346,8 @@ const Page = ({ params }) => {
             />
             <div
               role="tabpanel"
-              className="tab-content py-4 min-h-full bg-white w-full">
+              className="tab-content py-4 min-h-full bg-white w-full"
+            >
               <h2 className="text-lg md:text-xl font-semibold">{data.title}</h2>
               <div className="flex gap-5 my-4 w-full">
                 <div className="text-center">
@@ -310,7 +379,8 @@ const Page = ({ params }) => {
                   height={30}
                   src={"/assets/developers/numan.jpg"}
                   alt="video_thumbnail"
-                  className="rounded w-16 h-16"></Image>
+                  className="rounded w-16 h-16"
+                ></Image>
                 <div className="text-start">
                   <h2 className="text-lg md:text-xl font-semibold">Jhon doe</h2>
                   <h4 className="text-gray-500">Web Developer </h4>
@@ -362,7 +432,7 @@ const Page = ({ params }) => {
               aria-label="Resources"
             />
             <div role="tabpanel" className="tab-content bg-white pt-2 w-full">
-              <Resources courseId={data._id} userid={data.author.id} />
+              <Resources courseId={data?._id} userid={data?.author?.id} />
             </div>
           </div>
         </div>
@@ -384,6 +454,9 @@ const Page = ({ params }) => {
                   clientSecret={clientSecret}
                   handlePaymentSuccess={handlePaymentSuccess}
                   setIsModalOpen={setIsModalOpen}
+                  totalAmount={data.pricing}   // Passing the totalAmount to Checkout
+                  coupon={data.additionalInfo?.coupon_code || ""}
+                  discount={data.additionalInfo?.discount_amount || 0}
                 />
               </Elements>
             )}
