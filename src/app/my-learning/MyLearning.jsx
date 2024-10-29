@@ -3,10 +3,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CoursesContent from "./CoursesContent";
 import { useUser } from "@clerk/nextjs";
 import Loader from "@/components/shared/Loader";
+import CustomCoursesContent from "./CustomCoursesContent";
 
 function MyLearning() {
   const { user } = useUser()
-  // console.log("user", user);
   
   if (!user) { return <Loader/> }
   return (
@@ -20,7 +20,7 @@ function MyLearning() {
           <CoursesContent user={user} />
         </TabsContent>
         <TabsContent value="custom-courses">
-          <p className="text-2xl p-4">Coming soon this feature!</p>
+          <CustomCoursesContent user={user} />
         </TabsContent>
       </Tabs>
     </div>
