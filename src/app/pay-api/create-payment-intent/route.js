@@ -5,14 +5,14 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(request) {
   try {
-    const { finalAmount, userId, email, items } = await request.json();
+    const { finalAmount, userId, email, lectures } = await request.json();
 
     // Validate finalAmount
     if (!finalAmount || finalAmount <= 0) {
       return NextResponse.json({ success: false, message: "Invalid amount" }, { status: 400 });
     }
 
-    const simplifiedItems = items.map(item => item.concept_title).join(', ');
+    const simplifiedItems = lectures.map(lectures => lectures.concept_title).join(', ');
 
     
     const paymentIntent = await stripe.paymentIntents.create({
@@ -22,7 +22,7 @@ export async function POST(request) {
       metadata: {
         userId,
         email,
-        items: simplifiedItems,
+        lectures: simplifiedItems,
       },
     });
    
