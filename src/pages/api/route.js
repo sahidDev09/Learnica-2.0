@@ -6,7 +6,7 @@ export async function POST(request) {
   try {
     const { userId, email, title, type, status, lectures } = await request.json();
 
-    // Validate required fields
+   
     if (!userId || !email || !title || !status || !type || !lectures || lectures.length === 0) {
       return NextResponse.json(
         { error: "Missing required fields: userId, email, title, type, status, or lectures" },
@@ -14,14 +14,14 @@ export async function POST(request) {
       );
     }
 
-    // Calculate final amount
+    
     const finalAmount = lectures.reduce((total, lecture) => {
       return total + (parseFloat(lecture.price) * (lecture.quantity || 1)); // Ensure quantity defaults to 1 if not provided
     }, 0);
 
-    // Create payment intent with Stripe
+   
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(finalAmount * 100), // Convert amount to cents
+      amount: Math.round(finalAmount * 100), 
       currency: "usd",
       automatic_payment_methods: { enabled: true },
       metadata: {
