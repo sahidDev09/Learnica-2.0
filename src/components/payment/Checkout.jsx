@@ -18,14 +18,14 @@ const Checkout = ({
   const [isCouponApplied, setIsCouponApplied] = useState(false);
   const [finalAmount, setFinalAmount] = useState(Number(totalAmount) || 0);
   const [couponMessage, setCouponMessage] = useState("");
-  const [couponMessageType, setCouponMessageType] = useState(""); // success or error
+  const [couponMessageType, setCouponMessageType] = useState(""); 
 
-  // Effect to set finalAmount based on coupon/discount availability
+ 
   useEffect(() => {
     if (!coupon || discount <= 0) {
       setFinalAmount(Number(totalAmount));
     } else {
-      setFinalAmount(Number(totalAmount)); // Reset to total amount on prop change
+      setFinalAmount(Number(totalAmount)); 
     }
   }, [totalAmount, coupon, discount]);
 
@@ -140,14 +140,14 @@ const Checkout = ({
 
       {errorMessage && <div className="text-red-500 mt-4">{errorMessage}</div>}
       <button
-        className={`bg-secondary text-white mt-4 p-3 rounded-lg w-full ${isLoading ? "opacity-50" : ""}`}
-        disabled={isLoading || !stripe || !clientSecret}
-        type="submit"
-      >
-        {isLoading
-          ? "Processing..."
-          : `Pay Now${isCouponApplied && discount > 0 ? ` $${finalAmount.toFixed(2)}` : ""}`}
-      </button>
+  className={`bg-secondary text-white mt-4 p-3 rounded-lg w-full ${isLoading ? "opacity-50" : ""}`}
+  disabled={isLoading || !stripe || !clientSecret}
+  type="submit"
+>
+  {isLoading
+    ? "Processing..."
+    : `Pay Now $${isCouponApplied && discount > 0 ? finalAmount.toFixed(2) : finalAmount}`}
+</button>
     </form>
   );
 };
