@@ -5,7 +5,6 @@ export async function POST(request) {
   try {
     const { userId, email, title, finalAmount, status, items } = await request.json();
 
-    // Check for required fields
     if (!userId || !email || !title || !finalAmount || !status || !items) {
       return NextResponse.json(
         {
@@ -25,15 +24,15 @@ export async function POST(request) {
       email,
       title,
       status,
-      finalAmount: parseFloat(finalAmount), // Ensure it's a float
+      finalAmount: parseFloat(finalAmount), 
       items: items.map((item) => ({
         concept_title: item.concept_title,
         concept_url: item.concept_url,
-        price: parseFloat(item.price), // Ensure price is a float
+        price: parseFloat(item.price), 
         duration: item.duration,
         lang_tech: item.lang_tech,
         rating: item.rating,
-        quantity: item.quantity || 1, // Default quantity to 1 if not provided
+        quantity: item.quantity || 1, 
       })),
       createdAt: new Date(),
     };
