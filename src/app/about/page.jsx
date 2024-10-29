@@ -98,12 +98,12 @@ const page = () => {
               <div className="flex text-2xl mt-4 gap-6">
                 <Link
                   className="text-pink-500 hover:text-[#0A66C2]"
-                  href={`https://www.linkedin.com/in/numan-ahmod`}>
+                  href={`https://www.linkedin.com/in/sahidofficial09`}>
                   <FiLinkedin />
                 </Link>
                 <Link
                   className="text-white hover:text-gray-500 transition-colors duration-300"
-                  href={`https://github.com/numanahmod`}>
+                  href={`https://github.com/sahidDev09`}>
                   <ImGithub />
                 </Link>
                 <Link
@@ -193,17 +193,17 @@ const page = () => {
               <div className="flex text-2xl mt-4 gap-6">
                 <Link
                   className="text-pink-500 hover:text-[#0A66C2]"
-                  href={`https://www.linkedin.com/in/numan-ahmod`}>
+                  href={`https://www.linkedin.com/in/rahatfaruk`}>
                   <FiLinkedin />
                 </Link>
                 <Link
                   className="text-white hover:text-gray-500 transition-colors duration-300"
-                  href={`https://github.com/numanahmod`}>
+                  href={`https://github.com/rahatfaruk`}>
                   <ImGithub />
                 </Link>
                 <Link
                   className="text-[#1877F2] hover:text-[#0E55A4] transition-colors duration-300"
-                  href={` https://www.facebook.com/rahatfaruk12/`}>
+                  href={` https://www.facebook.com/rahatfaruk12`}>
                   <FaFacebook />
                 </Link>
               </div>
@@ -242,12 +242,12 @@ const page = () => {
               <div className="flex text-2xl mt-4 gap-6">
                 <Link
                   className="text-pink-500 hover:text-[#0A66C2]"
-                  href={`https://www.linkedin.com/in/numan-ahmod`}>
+                  href={`https://www.linkedin.com/in/abdul-mazed`}>
                   <FiLinkedin />
                 </Link>
                 <Link
                   className="text-white hover:text-gray-500 transition-colors duration-300"
-                  href={`https://github.com/numanahmod`}>
+                  href={`https://github.com/Mazed1314`}>
                   <ImGithub />
                 </Link>
                 <Link
@@ -289,12 +289,12 @@ const page = () => {
               <div className="flex text-2xl mt-4 gap-6">
                 <Link
                   className="text-pink-500 hover:text-[#0A66C2]"
-                  href={`https://www.linkedin.com/in/numan-ahmod`}>
+                  href={`https://www.linkedin.com/in/sabikun-nahar-farha-179412307`}>
                   <FiLinkedin />
                 </Link>
                 <Link
                   className="text-white hover:text-gray-500 transition-colors duration-300"
-                  href={`https://github.com/numanahmod`}>
+                  href={`https://github.com/farha12345678`}>
                   <ImGithub />
                 </Link>
                 <Link
