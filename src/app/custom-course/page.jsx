@@ -30,6 +30,7 @@ const CustomCoursePage = () => {
   const [products, setProducts] = useState([]);
   const { user, isLoaded, isSignedIn } = useUser();
   const [cart, setCart] = useState([]);
+  const [finalAmount, setFinalAmount] = useState(0);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
@@ -94,19 +95,22 @@ const CustomCoursePage = () => {
       return;
     }
 
-    const totalAmount = convertToSubCurrency(
-      cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0)
-    );
-
+    const totalAmount = cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0);
+    if (!isNaN(totalAmount)) {
+      setFinalAmount(totalAmount);  
+    } else {
+      showError("Total amount calculation error.");
+      return;
+    }
     try {
       const res = await fetch("/pay-api/create-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          amount: totalAmount,
+          finalAmount: finalAmount,
           userId: user.id,
           email: user.primaryEmailAddress?.emailAddress || "",
-          items: cart.map((item) => ({
+          lectures: cart.map((item) => ({
             concept_title: item.concept_title,
             concept_url: item.concept_url,
             price: item.price,
@@ -132,7 +136,7 @@ const CustomCoursePage = () => {
   };
 
   const handlePaymentSuccess = async () => {
-    // Initialize useRouter
+    
 
     try {
       const res = await fetch("/pay-api/checkout", {
@@ -143,11 +147,12 @@ const CustomCoursePage = () => {
           email: user.primaryEmailAddress?.emailAddress || "",
           title: courseTitle,
           status: "success",
-          totalAmount: cart.reduce(
+          type:"custom",
+          finalAmount: cart.reduce(
             (sum, item) => sum + parseFloat(item.price),
             0
           ),
-          items: cart.map((item) => ({
+          lectures: cart.map((item) => ({
             concept_title: item.concept_title,
             concept_url: item.concept_url,
             price: item.price,
@@ -198,11 +203,10 @@ const CustomCoursePage = () => {
                 <button
                   key={index}
                   onClick={() => handleCategorySelect(lang_tech)}
-                  className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full transition-transform md:text-lg ${
-                    selectedCategory === lang_tech
+                  className={`flex text-sm items-center gap-2 p-2 px-4 rounded-full transition-transform md:text-lg ${selectedCategory === lang_tech
                       ? "bg-primary text-white"
                       : "bg-secondary text-white"
-                  }`}>
+                    }`}>
                   <FaTags />
                   {lang_tech}
                 </button>
@@ -233,18 +237,16 @@ const CustomCoursePage = () => {
               return (
                 <div
                   key={product._id}
-                  className={`bg-secondary w-full h-40 p-4 rounded-lg shadow-md flex flex-col justify-between relative ${
-                    isInCart ? "opacity-50" : ""
-                  }`}>
+                  className={`bg-secondary w-full h-40 p-4 rounded-lg shadow-md flex flex-col justify-between relative ${isInCart ? "opacity-50" : ""
+                    }`}>
                   <div className="flex justify-between items-center">
                     <button className="rounded-2xl text-sm md:text-md md:px-4 text-white py-1 md:bg-white md:text-black">
                       {product.lang_tech}
                     </button>
                     <button
                       onClick={() => (isInCart ? null : addToCart(product))}
-                      className={`text-3xl ${
-                        isInCart ? "text-green-500" : "text-primary"
-                      }`}
+                      className={`text-3xl ${isInCart ? "text-green-500" : "text-primary"
+                        }`}
                       disabled={isInCart}>
                       {isInCart ? <FaCheck /> : <FaSquarePlus />}
                     </button>
@@ -335,11 +337,10 @@ const CustomCoursePage = () => {
                   />
                   <button
                     onClick={handlePayNow}
-                    className={`rounded-2xl px-4 py-2 ${
-                      courseTitle.replace(/\s+/g, "").length >= 10
+                    className={`rounded-2xl px-4 py-2 ${courseTitle.replace(/\s+/g, "").length >= 10
                         ? "bg-secondary text-white"
                         : "bg-gray-400 cursor-not-allowed text-gray-700"
-                    }`}
+                      }`}
                     disabled={courseTitle.replace(/\s+/g, "").length < 10}>
                     Proceed to your payment
                   </button>
@@ -366,6 +367,7 @@ const CustomCoursePage = () => {
                   clientSecret={clientSecret}
                   handlePaymentSuccess={handlePaymentSuccess}
                   setIsModalOpen={setIsModalOpen}
+                  totalAmount={finalAmount}
                   cart={cart}
                 />
               </Elements>

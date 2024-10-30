@@ -11,22 +11,23 @@ import AdditionalSettings from "./AdditonalSettings";
 import { useUser } from "@clerk/nextjs";
 import Swal from "sweetalert2";
 
-const NewCourse = () => {
+const NewCourse = ({ myCourse }) => {
   const { user, isLoaded } = useUser();
 
   const courseInfoInitialData = {
-    title: "",
-    category: "",
-    subtitle: "",
-    description: "",
-    pricing: "",
-    objectives: "",
-    status: "pending",
-    authorId: user?.id || "",
-    authorEmail: user?.primaryEmailAddress?.emailAddress || "",
-    authorName: user?.fullName || "",
-    authorProfile: user?.imageUrl || "",
-    publish_date: Date.now(),
+    title: myCourse?.name || "",
+    category: myCourse?.category || "",
+    subtitle: myCourse?.subtitle || "",
+    description: myCourse?.description || "",
+    pricing: myCourse?.pricing || "",
+    objectives: myCourse?.objectives || "",
+    status: myCourse?.status || "pending",
+    authorId: myCourse?.author?.id || user?.id || "",
+    authorEmail:
+      myCourse?.author?.email || user?.primaryEmailAddress?.emailAddress || "",
+    authorName: myCourse?.author?.name || user?.fullName || "",
+    authorProfile: myCourse?.author?.profile || user?.imageUrl || "",
+    publish_date: myCourse?.publish_date || Date.now(),
   };
 
   const initialLecture = {
@@ -38,14 +39,16 @@ const NewCourse = () => {
   };
 
   const initialAdditional = {
-    image: "",
-    coupon_code: "",
-    discount_amount: "",
+    image: myCourse?.additionalInfo?.image || "",
+    coupon_code: myCourse?.additionalInfo?.coupon_code || "",
+    discount_amount: myCourse?.additionalInfo?.discount_amount || "",
   };
 
-  const [lecture, setLecture] = useState([initialLecture]);
+  const [lecture, setLecture] = useState(
+    myCourse?.lectures || [initialLecture]
+  );
   const [courseInfo, setCourseInfo] = useState(courseInfoInitialData);
-  const [additionalInfo, setAdditionalInfo] = useState([initialAdditional]);
+  const [additionalInfo, setAdditionalInfo] = useState(initialAdditional);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -62,6 +65,7 @@ const NewCourse = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
+
     const courseInfoData = {
       name: courseInfo.title,
       category: courseInfo.category,
@@ -93,37 +97,43 @@ const NewCourse = () => {
     };
 
     try {
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + "/api/add-course",
-        {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(courseInfoData),
-        }
-      );
+      const url = myCourse
+        ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/${myCourse._id}`
+        : `${process.env.NEXT_PUBLIC_BASE_URL}/api/add-course`;
+
+      const method = myCourse ? "PUT" : "POST";
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(courseInfoData),
+      });
 
       const data = await response.json();
 
       if (response.ok) {
         Swal.fire({
-          title: "Successfully added the course!",
+          title: myCourse
+            ? "Course updated successfully!"
+            : "Successfully added the course!",
           icon: "success",
           confirmButtonColor: "#15803D",
         });
 
-        //make all state empty
-
-        setLecture([initialLecture]);
-        setCourseInfo(courseInfoInitialData);
-        setAdditionalInfo(initialAdditional);
+        // Reset all state fields if adding a new course
+        if (!myCourse) {
+          setLecture([initialLecture]);
+          setCourseInfo(courseInfoInitialData);
+          setAdditionalInfo(initialAdditional);
+        }
       } else {
-        throw new Error(data.message || "Failed to add course.");
+        throw new Error(data.message || "Failed to process the course.");
       }
     } catch (error) {
       Swal.fire({
-        title: "Error on adding course!",
+        title: "Error processing course!",
         text: error.message,
         icon: "error",
         confirmButtonColor: "#B91C1C",
@@ -131,21 +141,61 @@ const NewCourse = () => {
     } finally {
       setLoading(false);
     }
+
+    // try {
+    //   const response = await fetch(
+    //     process.env.NEXT_PUBLIC_BASE_URL + "/api/add-course",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "content-type": "application/json",
+    //       },
+    //       body: JSON.stringify(courseInfoData),
+    //     }
+    //   );
+
+    //   const data = await response.json();
+
+    //   if (response.ok) {
+    //     Swal.fire({
+    //       title: "Successfully added the course!",
+    //       icon: "success",
+    //       confirmButtonColor: "#15803D",
+    //     });
+
+    //     //make all state empty
+
+    //     setLecture([initialLecture]);
+    //     setCourseInfo(courseInfoInitialData);
+    //     setAdditionalInfo(initialAdditional);
+    //   } else {
+    //     throw new Error(data.message || "Failed to add course.");
+    //   }
+    // } catch (error) {
+    //   Swal.fire({
+    //     title: "Error on adding course!",
+    //     text: error.message,
+    //     icon: "error",
+    //     confirmButtonColor: "#B91C1C",
+    //   });
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (
     <div className=" container mx-auto py-4">
-      <div className=" flex items-center justify-between mx-5 md:mx-0∆">
+      <div className="flex items-center justify-between mx-5 md:mx-0">
         <h1 className="md:text-3xl text-xl font-extrabold">
-          Add a new courses
+          {myCourse ? "Edit Course" : "Add a New Course"}
         </h1>
         {loading ? (
-          <Button className="bg-secondary" onClick={handleSubmit}>
-            Uploading...
+          <Button className="bg-secondary" onClick={handleSubmit} disabled>
+            {myCourse ? "Updating..." : "Uploading..."}
           </Button>
         ) : (
           <Button className="bg-secondary" onClick={handleSubmit}>
-            Upload Course
+            {myCourse ? "Update Course" : "Upload Course"}
           </Button>
         )}
       </div>

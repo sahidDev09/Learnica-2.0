@@ -16,7 +16,6 @@ import {
 } from "@clerk/nextjs";
 import Link from "next/link";
 import {
-  BellDot,
   BriefcaseBusiness,
   FileStackIcon,
   PenBox,
@@ -25,6 +24,7 @@ import {
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaCashRegister } from "react-icons/fa";
 import Support from "../Support";
+import Notification from "../homePage/notification/Notification";
 import {
   Sheet,
   SheetContent,
@@ -203,7 +203,7 @@ const Navbar = () => {
                   {/* author dashboard */}
 
                   {user && mainRole === "admin" ? (
-                    <Link href="/dashboard/admin/manage-courses">
+                    <Link href="/dashboard/admin/statistics">
                       <Button
                         className="rounded-full bg-primary"
                         aria-label="Author Dashboard">
@@ -231,7 +231,7 @@ const Navbar = () => {
                         <UserButton.Link
                           label="My Learning"
                           labelIcon={<BriefcaseBusiness size={15} />}
-                          href="my-learning"></UserButton.Link>
+                          href="/my-learning"></UserButton.Link>
 
                         <UserButton.Link
                           label="Payment History"
@@ -306,7 +306,7 @@ const Navbar = () => {
           <li>
             {/* author dashboard */}
             {user && mainRole === "admin" ? (
-              <Link href="/dashboard/admin/manage-courses">
+              <Link href="/dashboard/admin/statistics">
                 <Button
                   variant="destructive"
                   className="rounded-full"
@@ -330,7 +330,7 @@ const Navbar = () => {
               <SheetTrigger className="flex items-center gap-4">
                 <h1>Learnica AI</h1>
                 <Image
-                  src={"/assets/aibot 2.jpeg"}
+                  src={"/assets/aibot.png"}
                   alt=""
                   width={25}
                   height={100}

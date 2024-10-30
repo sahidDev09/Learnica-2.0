@@ -7,22 +7,25 @@ export default async function handler(req, res) {
     const ordersCollection = db.collection("orders");
 
     if (req.method === "GET") {
-      const { email } = req.query;
+      const { courseId } = req.query;
 
-      // Check if email query parameter is provided
-      if (!email) {
+      // Check if courseId query parameter is provided
+      if (!courseId) {
         return res
           .status(400)
-          .json({ success: false, message: "Email is required" });
+          .json({ success: false, message: "Course ID is required" });
       }
 
-      // Find orders by email
-      const result = await ordersCollection.find({ email }).toArray();
+      // Find orders by courseId
+      const result = await ordersCollection.find({ courseId }).toArray();
 
       if (result.length === 0) {
         return res
           .status(404)
-          .json({ success: false, message: "No orders found for this email" });
+          .json({
+            success: false,
+            message: "No orders found for this course ID",
+          });
       }
 
       return res.status(200).json(result);

@@ -1,6 +1,7 @@
 "use client";
 import Loading from "@/app/loading";
 import NoDataFound from "@/app/noDataFound";
+
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,7 +25,6 @@ const CoursesPage = () => {
   });
 
   const handleDelete = (id) => {
-    
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -36,7 +36,6 @@ const CoursesPage = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/all-courses?id=${id}`, {
-          
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -77,7 +76,7 @@ const CoursesPage = () => {
           </thead>
           <tbody>
             {courses?.length > 0 ? (
-              courses.map((item, index) => (
+              courses?.map((item, index) => (
                 <tr
                   key={index}
                   className="hover:bg-secondary transition-all ease-in-out duration-300 hover:rounded-md hover:text-white text-lg">
