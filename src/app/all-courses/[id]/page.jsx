@@ -19,6 +19,7 @@ import { MdOutlineCancel } from "react-icons/md";
 import { Elements } from "@stripe/react-stripe-js";
 import Checkout from "@/components/payment/Checkout";
 import { loadStripe } from "@stripe/stripe-js";
+import CertificateButton from "@/components/certificate/CertificateButton";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -240,22 +241,29 @@ const Page = ({ params }) => {
               <progress
                 className="progress progress-error w-full"
                 value="10"
-                max="100"></progress>
+                max="100"
+              ></progress>
               <span className="font-semibold">10%</span>
             </div>
             <Button
               onClick={isEnrolled ? null : handlePayNow}
               className={isEnrolled ? "bg-gray-500 mb-2" : "bg-primary mb-2"}
-              disabled={isEnrolled}>
+              disabled={isEnrolled}
+            >
               {isEnrolled ? "Already Enrolled" : "Enroll Now"}
             </Button>
+
+            {/*-------------------- new added : certificate button -------------- */}
+
+            <CertificateButton></CertificateButton>
 
             <div className="space-y-3">
               {data?.lectures?.length > 0 ? (
                 data.lectures.map((item, index) => (
                   <div
                     key={index}
-                    className="flex gap-2 items-center p-2 bg-white w-full rounded-md">
+                    className="flex gap-2 items-center p-2 bg-white w-full rounded-md"
+                  >
                     <div className="bg-secondary p-2 rounded-md">
                       <PlaySquare className="size-8 text-white" />
                     </div>
@@ -277,7 +285,8 @@ const Page = ({ params }) => {
                     ) : (
                       <button
                         onClick={handleLockedBuyBtn}
-                        className="btn btn-sm bg-gray-400 text-white">
+                        className="btn btn-sm bg-gray-400 text-white"
+                      >
                         Locked
                       </button>
                     )}
@@ -297,12 +306,14 @@ const Page = ({ params }) => {
             src="https://www.youtube.com/embed/kmZz0v4COpw?start=314"
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen></iframe>
+            allowFullScreen
+          ></iframe>
           {/* tab */}
 
           <div
             role="tablist"
-            className="tabs tabs-bordered mt-4 bg-secondary pt-4 rounded-md w-full sm:max-w-none md:max-w-none lg:max-w-full flex flex-col md:inline-grid">
+            className="tabs tabs-bordered mt-4 bg-secondary pt-4 rounded-md w-full sm:max-w-none md:max-w-none lg:max-w-full flex flex-col md:inline-grid"
+          >
             {/*--------------------------------- Overview --------------------------------*/}
             <input
               type="radio"
@@ -313,7 +324,8 @@ const Page = ({ params }) => {
             />
             <div
               role="tabpanel"
-              className="tab-content py-4 min-h-full bg-white w-full">
+              className="tab-content py-4 min-h-full bg-white w-full"
+            >
               <h2 className="text-lg md:text-xl font-semibold">{data.title}</h2>
               <div className="flex gap-5 my-4 w-full">
                 <div className="text-center">
@@ -345,7 +357,8 @@ const Page = ({ params }) => {
                   height={30}
                   src={"/assets/developers/numan.jpg"}
                   alt="video_thumbnail"
-                  className="rounded w-16 h-16"></Image>
+                  className="rounded w-16 h-16"
+                ></Image>
                 <div className="text-start">
                   <h2 className="text-lg md:text-xl font-semibold">Jhon doe</h2>
                   <h4 className="text-gray-500">Web Developer </h4>
@@ -410,7 +423,8 @@ const Page = ({ params }) => {
           <div className="relative w-full md:w-2/3 lg:w-1/3 bg-white  p-4 rounded-lg shadow-lg">
             <button
               onClick={() => setIsModalOpen(false)}
-              className="text-4xl bg-primary text-white rounded-full mb-4">
+              className="text-4xl bg-primary text-white rounded-full mb-4"
+            >
               <MdOutlineCancel />
             </button>
             {clientSecret && (
