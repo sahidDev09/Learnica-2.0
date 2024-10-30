@@ -41,6 +41,8 @@
     "framer-motion": "^10.13.1",
     "glob": "^11.0.0",
     "inflight": "^1.0.6",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.2",
     "lenis": "^1.1.13",
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.441.0",
