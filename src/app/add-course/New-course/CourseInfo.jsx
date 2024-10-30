@@ -13,7 +13,7 @@ import React from "react";
 import category from "/src/lib/courseCategory.json";
 import { Textarea } from "@/components/ui/textarea";
 
-const CourseInfo = ({ courseInfo, setCourseInfo }) => {
+const CourseInfo = ({ courseInfo, setCourseInfo, }) => {
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setCourseInfo((prevState) => ({

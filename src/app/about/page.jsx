@@ -44,13 +44,18 @@ const page = () => {
               className="w-full h-[300px] object-cover rounded-xl hidden md:inline"
               height={1000}></Image>
           </div>
-          {/* Image 2 */}
-          <Image
-            src={googleMap}
-            alt="bandimage"
-            width={1000}
-            className="w-full h-[300px] object-cover rounded-xl hidden md:inline"
-            height={1000}></Image>
+          <div className="w-full h-[300px] rounded-xl overflow-hidden hidden md:block">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7303.12975014924!2d90.35719480869143!3d23.76289124115171!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755bf579e10e0ef%3A0x6b7325b0f90d6a27!2sMohammadpur%20Town%20Hall%20Market!5e0!3m2!1sen!2sbd!4v1730129792115!5m2!1sen!2sbd"
+    width="100%"
+    height="100%"
+    style={{ border: 0 }}
+    allowFullScreen=""
+    loading="lazy"
+    referrerPolicy="no-referrer-when-downgrade"
+  ></iframe>
+</div>
+
         </div>
       </div>
 
