@@ -1,8 +1,9 @@
 "use client"
 
-import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
 
 function TopCoursesChart({chartData}) {
+  const colors = ['#0088FE', '#00C49F', '#FFBB28']
   const data = [
     { name: "today", count: chartData.day1 },
     { name: "1 day ago", count: chartData.day2 },
@@ -30,7 +31,11 @@ function TopCoursesChart({chartData}) {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="count" fill="#135276" activeBar={<Rectangle fill="#287aa9" stroke="#135276" />} />
+            <Bar dataKey="count" fill="#135276" activeBar={<Rectangle fill="#287aa9" stroke="#135276" />} >
+            {data.map((_, index) => (
+              <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+            ))}
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>
