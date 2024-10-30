@@ -32,6 +32,20 @@ const Page = ({ params }) => {
   const [clientSecret, setClientSecret] = useState("");
   const [isEnrolled, setIsEnrolled] = useState(false);
   const [finalAmount, setFinalAmount] = useState(0);
+  const [totalDuration, setTotalDuration] = useState({
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  // date
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${month}-${day}-${year}`;
+  };
 
   // Fetch course data
   const { data, isLoading } = useQuery({
@@ -226,6 +240,22 @@ const Page = ({ params }) => {
     }
   };
 
+  // total hours calculation
+
+  useEffect(() => {
+    if (data?.lectures) {
+      const totalSeconds = data.lectures.reduce(
+        (sum, lecture) => sum + lecture.duration,
+        0
+      );
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = Math.floor(totalSeconds % 60);
+
+      setTotalDuration({ hours, minutes, seconds });
+    }
+  }, [data]);
+
   if (isLoading || !isLoaded) {
     return <Loading />;
   }
@@ -261,7 +291,7 @@ const Page = ({ params }) => {
                     </div>
                     <div className="text-start w-full ml-2">
                       <h2 className="md:text-lg font-semibold">
-                        {index + 1}. {item.title.slice(0, 40)}..
+                        {index + 1}. {item.title.slice(0, 25)}..
                       </h2>
                       <h4 className="ml-5 flex items-center gap-2">
                         Duration :{" "}
@@ -329,8 +359,12 @@ const Page = ({ params }) => {
                   <div className="font-semibold text-xl">5,406</div>
                   <h4 className="text-gray-400 font-semibold">Students</h4>
                 </div>
+                {/* total time for the course */}
                 <div className="text-center">
-                  <div className="font-semibold text-xl">50 h</div>
+                  <div className="font-semibold text-xl">
+                    {totalDuration.hours} h {totalDuration.minutes} min{" "}
+                    {totalDuration.seconds} sec
+                  </div>
                   <h4 className="text-gray-400 font-semibold">total</h4>
                 </div>
               </div>
@@ -343,12 +377,14 @@ const Page = ({ params }) => {
                 <Image
                   width={30}
                   height={30}
-                  src={"/assets/developers/numan.jpg"}
+                  src={data.author.profile}
                   alt="video_thumbnail"
                   className="rounded w-16 h-16"></Image>
                 <div className="text-start">
-                  <h2 className="text-lg md:text-xl font-semibold">Jhon doe</h2>
-                  <h4 className="text-gray-500">Web Developer </h4>
+                  <h2 className="text-lg md:text-xl font-semibold">
+                    {data.author.name}
+                  </h2>
+                  <h4 className="text-gray-500">Email : {data.author.email}</h4>
                 </div>
               </div>
             </div>
