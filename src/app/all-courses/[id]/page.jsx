@@ -449,7 +449,7 @@ const Page = ({ params }) => {
               aria-label="Notes"
             />
             <div role="tabpanel" className="tab-content py-2 bg-white w-full">
-              <AddNoteForm courseId={courseId} />
+              <AddNoteForm courseId={courseId} handleLockedBuyBtn={handleLockedBuyBtn} isEnrolled={isEnrolled} />
               <Notes courseId={courseId} />
             </div>
             {/*------------------------------- Reviews --------------------------*/}
