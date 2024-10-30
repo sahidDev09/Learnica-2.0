@@ -6,8 +6,6 @@ import NewCourse from "../../New-course/NewCourse";
 import Loading from "@/app/loading";
 
 const Update = ({ courseParamsId }) => {
-  console.log(courseParamsId, "Course id number");
-
   const { data: courseInfo, isLoading } = useQuery({
     queryKey: ["courseInfo", courseParamsId],
     queryFn: async () => {
