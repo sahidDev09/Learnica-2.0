@@ -83,60 +83,53 @@ const CustomCoursePage = () => {
     setIsCartOpen((prev) => !prev);
   };
 
-  // Stripe Payment
+    // Stripe Payment
   const handlePayNow = async () => {
     if (!isLoaded || !isSignedIn || !user) {
       showError("Please sign in to proceed with payment.");
       return;
     }
-  
+
     if (cart.length === 0) {
       showError("Your cart is empty.");
       return;
     }
-  
-    // Calculate total amount from the cart items
+
     const totalAmount = cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0);
-  
-    if (isNaN(totalAmount) || totalAmount <= 0) {
+    if (!isNaN(totalAmount)) {
+      setFinalAmount(totalAmount);  
+    } else {
       showError("Total amount calculation error.");
       return;
     }
-  
-    // Set finalAmount state for display
-    setFinalAmount(totalAmount);
-    console.log("Calculated Total Amount:", totalAmount); // Debugging output
-    console.log("Final Amount:", finalAmount); // Ensure finalAmount updates correctly
-  
     try {
-      // Reset clientSecret and modal state before new attempt
+
       setClientSecret(null);
       setIsModalOpen(false);
   
-      // Send payment intent request to the backend
       const res = await fetch("/pay-api/create-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          totalAmount, // Using the calculated totalAmount
+          finalAmount: totalAmount,
           userId: user.id,
           email: user.primaryEmailAddress?.emailAddress || "",
           lectures: cart.map((item) => ({
-            title: item.concept_title,
-            videoUrl: item.concept_url,
+            concept_title: item.concept_title,
+            concept_url: item.concept_url,
             price: item.price,
             duration: item.duration,
-            category: item.lang_tech,
+            lang_tech: item.lang_tech,
             rating: item.rating,
           })),
         }),
       });
-  
+
       const data = await res.json();
-  
-      if (res.ok && data.clientSecret) {
+
+      if (data.clientSecret) {
         setClientSecret(data.clientSecret);
-        setIsModalOpen(true); // Open modal when clientSecret is ready
+        setIsModalOpen(true);
       } else {
         throw new Error(data.error || "Failed to initialize payment.");
       }
@@ -145,8 +138,7 @@ const CustomCoursePage = () => {
       showError("Failed to initialize payment. Please try again.");
     }
   };
-  
-  
+    
 
   const handlePaymentSuccess = async () => {
     

@@ -38,7 +38,7 @@ const Page = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 h-screen mt-10">
+    <div className="container mx-auto p-4  my-10">
       <Card>
         <CardHeader>
           <CardTitle className="text-lg md:text-2xl">
