@@ -11,22 +11,33 @@ const CertificateButton = () => {
     provider: "Programming Hero",
   };
 
-  const generatePDF = () => {
-    const input = document.getElementById("pdf-content");
+  const generatePDF = async () => {
+    try {
+      const input = document.getElementById("pdf-content");
 
-    if (input) {
-      html2canvas(input)
-        .then(() => {
-          const imgData = canvas.toDataURL("image/png");
-          const pdf = new jsPDF();
-          pdf.addImage(imgData, "PNG", 10, 10, 190, 0);
-          pdf.save(`${certificate_details.userName}_Certificate.pdf`);
+      if (!input) {
+        console.error("Element with id 'pdf-content' not found.");
+        return;
+      }
 
-          document.getElementById("my_modal_5").close();
-        })
-        .catch((error) => {
-          console.error("PDF generation error:", error);
-        });
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
+      const canvas = await html2canvas(input, { scale: 2 });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "px",
+        format: "a4",
+      });
+      const width = pdf.internal.pageSize.getWidth();
+      const height = (canvas.height * width) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, width, height);
+      pdf.save(`${certificate_details.userName}_Certificate.pdf`);
+
+      document.getElementById("my_modal_5").close();
+    } catch (error) {
+      console.error("PDF generation error:", error);
     }
   };
 

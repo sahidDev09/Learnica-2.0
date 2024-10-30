@@ -5,7 +5,7 @@ import Reviews from "./Reviews";
 import AddNoteForm from "./AddNoteForm";
 import Notes from "./Notes";
 import Resources from "./Resources";
-import { Clock, PlaySquare } from "lucide-react";
+import { PlaySquare } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import Questions from "./Questions";
 import Loading from "@/app/loading";
@@ -19,6 +19,7 @@ import { MdOutlineCancel } from "react-icons/md";
 import { Elements } from "@stripe/react-stripe-js";
 import Checkout from "@/components/payment/Checkout";
 import { loadStripe } from "@stripe/stripe-js";
+import ReactPlayer from "react-player";
 import CertificateButton from "@/components/certificate/CertificateButton";
 
 const stripePromise = loadStripe(
@@ -33,6 +34,23 @@ const Page = ({ params }) => {
   const [clientSecret, setClientSecret] = useState("");
   const [isEnrolled, setIsEnrolled] = useState(false);
   const [finalAmount, setFinalAmount] = useState(0);
+  const [playedLectures, setPlayedLectures] = useState([]);
+  const [currentVideoUrl, setCurrentVideoUrl] = useState("");
+  const [currentLectureIndex, setCurrentLectureIndex] = useState(null);
+  const [totalDuration, setTotalDuration] = useState({
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  // date
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${month}-${day}-${year}`;
+  };
 
   // Fetch course data
   const { data, isLoading } = useQuery({
@@ -53,7 +71,7 @@ const Page = ({ params }) => {
 
       try {
         const res = await fetch(
-          `http://localhost:3000/api/get-orders?email=${userEmail}&courseId=${courseId}`
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/get-orders?email=${userEmail}&courseId=${courseId}`
         );
         const orders = await res.json();
         const isAlreadyEnrolled = orders.some(
@@ -128,25 +146,28 @@ const Page = ({ params }) => {
     const finalAmount = totalAmount - discountAmount;
     setFinalAmount(finalAmount);
     try {
-      const res = await fetch("/enroll-api/create-payment-intent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: user.id,
-          courseId: data._id,
-          title: data.name,
-          finalAmount: finalAmount,
-          email: user.primaryEmailAddress?.emailAddress || "",
-          lectures: data.lectures.map((lecture) => ({
-            concept_title: lecture.title,
-            concept_url: lecture.videoUrl,
-            duration: lecture.duration,
-            freePreview: true,
-          })),
-          coupon: coupon,
-          discount: discount,
-        }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/enroll-api/create-payment-intent`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId: user.id,
+            courseId: data._id,
+            title: data.name,
+            finalAmount: finalAmount,
+            email: user.primaryEmailAddress?.emailAddress || "",
+            lectures: data.lectures.map((lecture) => ({
+              concept_title: lecture.title,
+              concept_url: lecture.videoUrl,
+              duration: lecture.duration,
+              freePreview: true,
+            })),
+            coupon: coupon,
+            discount: discount,
+          }),
+        }
+      );
 
       const paymentData = await res.json();
 
@@ -173,25 +194,28 @@ const Page = ({ params }) => {
     setFinalAmount(finalAmount);
 
     try {
-      const res = await fetch("/enroll-api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: user.id,
-          courseId: data._id,
-          title: data.name,
-          email: user.primaryEmailAddress?.emailAddress || "",
-          status: "success",
-          type: "course",
-          finalAmount: finalAmount,
-          lectures: data.lectures.map((lecture) => ({
-            concept_title: lecture.title,
-            concept_url: lecture.videoUrl,
-            duration: lecture.duration,
-            freePreview: true,
-          })),
-        }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/enroll-api/checkout`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId: user.id,
+            courseId: data._id,
+            title: data.name,
+            email: user.primaryEmailAddress?.emailAddress || "",
+            status: "success",
+            type: "course",
+            finalAmount: finalAmount,
+            lectures: data.lectures.map((lecture) => ({
+              concept_title: lecture.title,
+              concept_url: lecture.videoUrl,
+              duration: lecture.duration,
+              freePreview: true,
+            })),
+          }),
+        }
+      );
 
       const result = await res.json();
 
@@ -227,6 +251,44 @@ const Page = ({ params }) => {
     }
   };
 
+  // total hours calculation
+
+  useEffect(() => {
+    if (data?.lectures) {
+      const totalSeconds = data.lectures.reduce(
+        (sum, lecture) => sum + lecture.duration,
+        0
+      );
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = Math.floor(totalSeconds % 60);
+
+      setTotalDuration({ hours, minutes, seconds });
+    }
+  }, [data]);
+
+  // video playback code
+
+  const handlePlayback = (videoUrl, index) => {
+    setCurrentVideoUrl(videoUrl);
+    setCurrentLectureIndex(index);
+  };
+
+  const handleVideoEnded = () => {
+    if (currentLectureIndex !== null) {
+      setPlayedLectures((prev) => [...prev, currentLectureIndex]);
+    }
+  };
+
+  const isLecturePlayed = (index) => playedLectures.includes(index);
+
+  //code for progress bar
+
+  const totalLectures = data?.lectures?.length || 0;
+  const progressPercentage = totalLectures
+    ? (playedLectures.length / totalLectures) * 100
+    : 0;
+
   if (isLoading || !isLoaded) {
     return <Loading />;
   }
@@ -240,10 +302,12 @@ const Page = ({ params }) => {
             <div className="flex gap-2 items-center my-4">
               <progress
                 className="progress progress-error w-full"
-                value="10"
+                value={progressPercentage}
                 max="100"
               ></progress>
-              <span className="font-semibold">10%</span>
+              <span className="font-semibold">{`${Math.round(
+                progressPercentage
+              )}%`}</span>
             </div>
             <Button
               onClick={isEnrolled ? null : handlePayNow}
@@ -262,25 +326,29 @@ const Page = ({ params }) => {
                 data.lectures.map((item, index) => (
                   <div
                     key={index}
-                    className="flex gap-2 items-center p-2 bg-white w-full rounded-md"
+                    className={`flex gap-2 items-center p-2 rounded-md ${
+                      currentLectureIndex === index
+                        ? "bg-secondary text-white"
+                        : "bg-white"
+                    }`}
                   >
                     <div className="bg-secondary p-2 rounded-md">
                       <PlaySquare className="size-8 text-white" />
                     </div>
                     <div className="text-start w-full ml-2">
                       <h2 className="md:text-lg font-semibold">
-                        {index + 1}. {item.title.slice(0, 40)}..
+                        {index + 1}. {item.title.slice(0, 25)}..
                       </h2>
                       <h4 className="ml-5 flex items-center gap-2">
-                        Duration :{" "}
-                        <span className=" text-secondary">
-                          {VideoDuration(item.duration)}
-                        </span>
+                        Duration : <span>{VideoDuration(item.duration)}</span>
                       </h4>
                     </div>
                     {item.freePreview || isEnrolled ? (
-                      <button className="btn btn-sm bg-secondary text-white">
-                        Play
+                      <button
+                        onClick={() => handlePlayback(item.videoUrl, index)}
+                        className="btn btn-sm bg-secondary text-white"
+                      >
+                        {isLecturePlayed(index) ? "Played" : "Play"}
                       </button>
                     ) : (
                       <button
@@ -299,15 +367,17 @@ const Page = ({ params }) => {
           </div>
         </div>
         <div className="lg:w-7/12 lg:px-6 w-full px-4 my-6 lg:my-0">
-          <iframe
-            className="w-full rounded-xl"
-            width="600"
-            height="340"
-            src="https://www.youtube.com/embed/kmZz0v4COpw?start=314"
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
+          <div className="w-full">
+            <ReactPlayer
+              controls={true}
+              url={currentVideoUrl}
+              width={"100%"}
+              playing={true}
+              className=" rounded-md"
+              onEnded={handleVideoEnded}
+            />
+          </div>
+
           {/* tab */}
 
           <div
@@ -341,13 +411,19 @@ const Page = ({ params }) => {
                   <div className="font-semibold text-xl">5,406</div>
                   <h4 className="text-gray-400 font-semibold">Students</h4>
                 </div>
+                {/* total time for the course */}
                 <div className="text-center">
-                  <div className="font-semibold text-xl">50 h</div>
+                  <div className="font-semibold text-xl">
+                    {totalDuration.hours} h {totalDuration.minutes} min{" "}
+                    {totalDuration.seconds} sec
+                  </div>
                   <h4 className="text-gray-400 font-semibold">total</h4>
                 </div>
               </div>
 
-              <h4 className="my-4">Last update 2024</h4>
+              <h4 className="my-4">
+                Last update : {formatDate(data.publish_date)}
+              </h4>
 
               {/* author card */}
               <h4 className="text-secondary mb-2">Author</h4>
@@ -355,13 +431,15 @@ const Page = ({ params }) => {
                 <Image
                   width={30}
                   height={30}
-                  src={"/assets/developers/numan.jpg"}
+                  src={data.author.profile}
                   alt="video_thumbnail"
                   className="rounded w-16 h-16"
                 ></Image>
                 <div className="text-start">
-                  <h2 className="text-lg md:text-xl font-semibold">Jhon doe</h2>
-                  <h4 className="text-gray-500">Web Developer </h4>
+                  <h2 className="text-lg md:text-xl font-semibold">
+                    {data.author.name}
+                  </h2>
+                  <h4 className="text-gray-500">Email : {data.author.email}</h4>
                 </div>
               </div>
             </div>
