@@ -83,7 +83,7 @@ const CustomCoursePage = () => {
     setIsCartOpen((prev) => !prev);
   };
 
-  // Stripe Payment
+    // Stripe Payment
   const handlePayNow = async () => {
     if (!isLoaded || !isSignedIn || !user) {
       showError("Please sign in to proceed with payment.");
@@ -103,11 +103,15 @@ const CustomCoursePage = () => {
       return;
     }
     try {
+
+      setClientSecret(null);
+      setIsModalOpen(false);
+  
       const res = await fetch("/pay-api/create-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          finalAmount: finalAmount,
+          finalAmount: totalAmount,
           userId: user.id,
           email: user.primaryEmailAddress?.emailAddress || "",
           lectures: cart.map((item) => ({
@@ -134,6 +138,7 @@ const CustomCoursePage = () => {
       showError("Failed to initialize payment. Please try again.");
     }
   };
+    
 
   const handlePaymentSuccess = async () => {
     
@@ -153,11 +158,11 @@ const CustomCoursePage = () => {
             0
           ),
           lectures: cart.map((item) => ({
-            concept_title: item.concept_title,
-            concept_url: item.concept_url,
+            title: item.concept_title,
+            videoUrl: item.concept_url,
             price: item.price,
             duration: item.duration,
-            lang_tech: item.lang_tech,
+            category: item.lang_tech,
             rating: item.rating,
           })),
         }),

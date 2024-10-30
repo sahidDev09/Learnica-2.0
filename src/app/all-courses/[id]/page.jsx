@@ -68,21 +68,21 @@ const Page = ({ params }) => {
       if (!isLoaded || !isSignedIn || !user) return;
       const userEmail = user.primaryEmailAddress?.emailAddress;
 
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/get-orders?email=${userEmail}&courseId=${courseId}`
-        );
-        const orders = await res.json();
-        const isAlreadyEnrolled = orders.some(
-          (order) => order.email === userEmail && order.courseId === courseId
-        );
-        setIsEnrolled(isAlreadyEnrolled);
-      } catch (error) {
-        console.error("Error checking enrollment status:", error);
-      }
-    };
-    checkEnrollmentStatus();
-  }, [isLoaded, isSignedIn, user, courseId]);
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/get-orders?email=${userEmail}&courseId=${courseId}`
+      );
+      const orders = await res.json();
+      const isAlreadyEnrolled = orders.some(
+        (order) => order.email === userEmail && order.courseId === courseId
+      );
+      setIsEnrolled(isAlreadyEnrolled);
+    } catch (error) {
+      console.error("Error checking enrollment status:", error);
+    }
+  };
+  checkEnrollmentStatus();
+}, [isLoaded, isSignedIn, user, courseId]);
 
   // Redirect to sign-in if not signed in
   useEffect(() => {
@@ -145,28 +145,25 @@ const Page = ({ params }) => {
     const finalAmount = totalAmount - discountAmount;
     setFinalAmount(finalAmount);
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/enroll-api/create-payment-intent`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            userId: user.id,
-            courseId: data._id,
-            title: data.name,
-            finalAmount: finalAmount,
-            email: user.primaryEmailAddress?.emailAddress || "",
-            lectures: data.lectures.map((lecture) => ({
-              concept_title: lecture.title,
-              concept_url: lecture.videoUrl,
-              duration: lecture.duration,
-              freePreview: true,
-            })),
-            coupon: coupon,
-            discount: discount,
-          }),
-        }
-      );
+      const res = await fetch("/enroll-api/create-payment-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          courseId: data._id,
+          title: data.name,
+          finalAmount: finalAmount,
+          email: user.primaryEmailAddress?.emailAddress || "",
+          lectures: data.lectures.map((lecture) => ({
+            title: lecture.title,
+            videoUrl: lecture.videoUrl,
+            duration: lecture.duration,
+            freePreview: true, 
+          })),
+          coupon: coupon,
+          discount: discount,
+        }),
+      });
 
       const paymentData = await res.json();
 
@@ -193,29 +190,26 @@ const Page = ({ params }) => {
     setFinalAmount(finalAmount);
 
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/enroll-api/checkout`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            userId: user.id,
-            courseId: data._id,
-            title: data.name,
-            email: user.primaryEmailAddress?.emailAddress || "",
-            status: "success",
-            type: "course",
-            finalAmount: finalAmount,
-            lectures: data.lectures.map((lecture) => ({
-              concept_title: lecture.title,
-              concept_url: lecture.videoUrl,
-              duration: lecture.duration,
-              freePreview: true,
-            })),
-          }),
-        }
-      );
-
+      const res = await fetch("/enroll-api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          courseId: data._id,
+          title: data.name,
+          email: user.primaryEmailAddress?.emailAddress || "",
+          status: "success",
+          type: "course",
+          finalAmount: finalAmount,
+          lectures: data.lectures.map((lecture) => ({
+            title: lecture.title,
+            videoUrl: lecture.videoUrl,
+            duration: lecture.duration,
+            freePreview: true, 
+          })),
+        }),
+      });
+  
       const result = await res.json();
 
       if (!res.ok) {
@@ -419,14 +413,14 @@ const Page = ({ params }) => {
                 <Image
                   width={30}
                   height={30}
-                  src={data.author.profile}
+                  src={data?.author?.profile}
                   alt="video_thumbnail"
                   className="rounded w-16 h-16"></Image>
                 <div className="text-start">
                   <h2 className="text-lg md:text-xl font-semibold">
-                    {data.author.name}
+                    {data?.author?.name}
                   </h2>
-                  <h4 className="text-gray-500">Email : {data.author.email}</h4>
+                  <h4 className="text-gray-500">Email : {data?.author?.email}</h4>
                 </div>
               </div>
             </div>
@@ -497,7 +491,7 @@ const Page = ({ params }) => {
                   clientSecret={clientSecret}
                   handlePaymentSuccess={handlePaymentSuccess}
                   setIsModalOpen={setIsModalOpen}
-                  totalAmount={data.pricing} // Passing the totalAmount to Checkout
+                  totalAmount={data.pricing} 
                   coupon={data.additionalInfo?.coupon_code || ""}
                   discount={data.additionalInfo?.discount_amount || 0}
                 />
