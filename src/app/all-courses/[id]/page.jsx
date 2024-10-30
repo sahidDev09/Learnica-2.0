@@ -20,6 +20,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import Checkout from "@/components/payment/Checkout";
 import { loadStripe } from "@stripe/stripe-js";
 import ReactPlayer from "react-player";
+import CertificateButton from "@/components/certificate/CertificateButton";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -296,7 +297,8 @@ const Page = ({ params }) => {
               <progress
                 className="progress progress-error w-full"
                 value={progressPercentage}
-                max="100"></progress>
+                max="100"
+              ></progress>
               <span className="font-semibold">{`${Math.round(
                 progressPercentage
               )}%`}</span>
@@ -304,9 +306,14 @@ const Page = ({ params }) => {
             <Button
               onClick={isEnrolled ? null : handlePayNow}
               className={isEnrolled ? "bg-gray-500 mb-2" : "bg-primary mb-2"}
-              disabled={isEnrolled}>
+              disabled={isEnrolled}
+            >
               {isEnrolled ? "Already Enrolled" : "Enroll Now"}
             </Button>
+
+            {/*-------------------- new added : certificate button -------------- */}
+
+            <CertificateButton></CertificateButton>
 
             <div className="space-y-3">
               {data?.lectures?.length > 0 ? (
@@ -317,7 +324,8 @@ const Page = ({ params }) => {
                       currentLectureIndex === index
                         ? "bg-secondary text-white"
                         : "bg-white"
-                    }`}>
+                    }`}
+                  >
                     <div className="bg-secondary p-2 rounded-md">
                       <PlaySquare className="size-8 text-white" />
                     </div>
@@ -332,13 +340,15 @@ const Page = ({ params }) => {
                     {item.freePreview || isEnrolled ? (
                       <button
                         onClick={() => handlePlayback(item.videoUrl, index)}
-                        className="btn btn-sm bg-secondary text-white">
+                        className="btn btn-sm bg-secondary text-white"
+                      >
                         {isLecturePlayed(index) ? "Played" : "Play"}
                       </button>
                     ) : (
                       <button
                         onClick={handleLockedBuyBtn}
-                        className="btn btn-sm bg-gray-400 text-white">
+                        className="btn btn-sm bg-gray-400 text-white"
+                      >
                         Locked
                       </button>
                     )}
@@ -366,7 +376,8 @@ const Page = ({ params }) => {
 
           <div
             role="tablist"
-            className="tabs tabs-bordered mt-4 bg-secondary pt-4 rounded-md w-full sm:max-w-none md:max-w-none lg:max-w-full flex flex-col md:inline-grid">
+            className="tabs tabs-bordered mt-4 bg-secondary pt-4 rounded-md w-full sm:max-w-none md:max-w-none lg:max-w-full flex flex-col md:inline-grid"
+          >
             {/*--------------------------------- Overview --------------------------------*/}
             <input
               type="radio"
@@ -377,7 +388,8 @@ const Page = ({ params }) => {
             />
             <div
               role="tabpanel"
-              className="tab-content py-4 min-h-full bg-white w-full">
+              className="tab-content py-4 min-h-full bg-white w-full"
+            >
               <h2 className="text-lg md:text-xl font-semibold">{data.title}</h2>
               <div className="flex gap-5 my-4 w-full">
                 <div className="text-center">
@@ -415,7 +427,8 @@ const Page = ({ params }) => {
                   height={30}
                   src={data?.author?.profile}
                   alt="video_thumbnail"
-                  className="rounded w-16 h-16"></Image>
+                  className="rounded w-16 h-16"
+                ></Image>
                 <div className="text-start">
                   <h2 className="text-lg md:text-xl font-semibold">
                     {data?.author?.name}
@@ -482,7 +495,8 @@ const Page = ({ params }) => {
           <div className="relative w-full md:w-2/3 lg:w-1/3 bg-white  p-4 rounded-lg shadow-lg">
             <button
               onClick={() => setIsModalOpen(false)}
-              className="text-4xl bg-primary text-white rounded-full mb-4">
+              className="text-4xl bg-primary text-white rounded-full mb-4"
+            >
               <MdOutlineCancel />
             </button>
             {clientSecret && (
