@@ -25,7 +25,35 @@ export default async function handler(req, res) {
         projection: {_id: 0, role: 1, mainRole: 1, status: 1}}
       ).toArray();
       
-      return res.json({totalCourses, totalCustomCourses, totalUsers, userTypes, totalQnA, totalSuccessfulOrders});
+      // ------ get 3 days data --------
+      const todayStart = new Date();
+      todayStart.setHours(0, 0, 0, 0);
+      const todayEnd = new Date();
+      todayEnd.setHours(23, 59, 59, 999);
+
+      const prevDayStart = new Date(todayStart);
+      prevDayStart.setDate(todayStart.getDate() - 1);
+      const prevDayEnd = new Date(todayEnd);
+      prevDayEnd.setDate(todayEnd.getDate() - 1);
+
+      const otherDayStart = new Date(prevDayStart);
+      otherDayStart.setDate(prevDayStart.getDate() - 1);
+      const otherDayEnd = new Date(prevDayEnd);
+      otherDayEnd.setDate(prevDayEnd.getDate() - 1);
+
+      const todaysCourseCount = await ordersCollection.countDocuments({ 
+        createdAt: { $gte: todayStart, $lte: todayEnd }, status: "success" 
+      })
+      const prevDaysCourseCount = await ordersCollection.countDocuments({ 
+        createdAt: { $gte: prevDayStart, $lte: prevDayEnd }, status: "success" 
+      })
+      const otherDaysCourseCount = await ordersCollection.countDocuments({ 
+        createdAt: { $gte: otherDayStart, $lte: otherDayEnd }, status: "success" 
+      })
+      const count3DaysCourses = {day1: todaysCourseCount, day2: prevDaysCourseCount, day3: otherDaysCourseCount}
+      
+      // return
+      return res.json({totalCourses, totalCustomCourses, totalUsers, userTypes, totalQnA, totalSuccessfulOrders, count3DaysCourses});
     } 
     else {
       // Handle unsupported HTTP methods

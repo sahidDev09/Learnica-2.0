@@ -17,7 +17,9 @@ const data = [
   },
 ]
 
-function TopCoursesChart() {
+function TopCoursesChart({chartData}) {
+  console.log("chartData", chartData);
+  
   return (
     <div className='p-4 border-2 border-secondary rounded-md bg-card'>
       <h3 className='mb-4 text-xl text-secondary font-semibold'>Recent Order numbers (Courses):</h3>
