@@ -413,14 +413,14 @@ const Page = ({ params }) => {
                 <Image
                   width={30}
                   height={30}
-                  src={data.author.profile}
+                  src={data?.author?.profile}
                   alt="video_thumbnail"
                   className="rounded w-16 h-16"></Image>
                 <div className="text-start">
                   <h2 className="text-lg md:text-xl font-semibold">
-                    {data.author.name}
+                    {data?.author?.name}
                   </h2>
-                  <h4 className="text-gray-500">Email : {data.author.email}</h4>
+                  <h4 className="text-gray-500">Email : {data?.author?.email}</h4>
                 </div>
               </div>
             </div>
