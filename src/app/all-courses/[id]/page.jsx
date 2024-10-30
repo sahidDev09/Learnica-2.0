@@ -369,7 +369,9 @@ const Page = ({ params }) => {
                 </div>
               </div>
 
-              <h4 className="my-4">Last update 2024</h4>
+              <h4 className="my-4">
+                Last update : {formatDate(data.publish_date)}
+              </h4>
 
               {/* author card */}
               <h4 className="text-secondary mb-2">Author</h4>
