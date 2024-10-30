@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import Loading from "@/app/loading";
 import AddReviewForm from "./AddReviewForm";
 
-function MyReview({courseId}) {
+function MyReview({courseId, handleLockedBuyBtn, isEnrolled}) {
   const user = useUser()
   const userEmail = user?.user?.emailAddresses[0]?.emailAddress
 
@@ -99,7 +99,7 @@ function MyReview({courseId}) {
       </div>
     );
   } else {
-    return <AddReviewForm courseId={courseId} />
+    return <AddReviewForm courseId={courseId} handleLockedBuyBtn={handleLockedBuyBtn} isEnrolled={isEnrolled} />
   }
 }
 

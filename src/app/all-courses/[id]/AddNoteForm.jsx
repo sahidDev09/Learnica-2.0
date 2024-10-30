@@ -16,7 +16,7 @@ const addNote = async (formData) => {
   return res.json();
 };
 
-function AddNoteForm({ courseId }) {
+function AddNoteForm({ courseId, handleLockedBuyBtn, isEnrolled }) {
   const queryClient = useQueryClient();
   const user = useUser();
   const userEmail = user?.user?.emailAddresses[0]?.emailAddress;
@@ -28,6 +28,12 @@ function AddNoteForm({ courseId }) {
   // handler: add course
   const handleAddCourse = async (e) => {
     e.preventDefault();
+
+    // check enrollment
+    if (!isEnrolled) {
+      handleLockedBuyBtn()
+      return
+    }
 
     const formData = {
       title: e.target.title.value.trim(),
