@@ -21,7 +21,7 @@ function Info() {
   return (
     <div>
       <StatCards statsData={statsData} />
-      <div className="grid grid-cols-[6fr_4fr] gap-12 mt-10">
+      <div className="grid lg:grid-cols-[6fr_4fr] gap-8 mt-10">
         <TopCoursesChart />
         <UserAmountPieChart userTypes={statsData.userTypes} />
       </div>
