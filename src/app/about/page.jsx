@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React from "react";
 import bandImage from "/public/assets/aboutBrandimage.png";
-import googleMap from "/public/assets/google.jpg.webp";
+
 import me from "/public/assets/team-members/numan.png";
 import sahid from "/public/assets/team-members/sahid.png";
 import rahat from "/public/assets/team-members/rahat.png";
