@@ -5,7 +5,7 @@ import Reviews from "./Reviews";
 import AddNoteForm from "./AddNoteForm";
 import Notes from "./Notes";
 import Resources from "./Resources";
-import { Clock, PlaySquare } from "lucide-react";
+import { PlaySquare } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import Questions from "./Questions";
 import Loading from "@/app/loading";
@@ -19,6 +19,7 @@ import { MdOutlineCancel } from "react-icons/md";
 import { Elements } from "@stripe/react-stripe-js";
 import Checkout from "@/components/payment/Checkout";
 import { loadStripe } from "@stripe/stripe-js";
+import ReactPlayer from "react-player";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -32,6 +33,9 @@ const Page = ({ params }) => {
   const [clientSecret, setClientSecret] = useState("");
   const [isEnrolled, setIsEnrolled] = useState(false);
   const [finalAmount, setFinalAmount] = useState(0);
+  const [playedLectures, setPlayedLectures] = useState([]);
+  const [currentVideoUrl, setCurrentVideoUrl] = useState("");
+  const [currentLectureIndex, setCurrentLectureIndex] = useState(null);
   const [totalDuration, setTotalDuration] = useState({
     hours: 0,
     minutes: 0,
@@ -256,6 +260,28 @@ const Page = ({ params }) => {
     }
   }, [data]);
 
+  // video playback code
+
+  const handlePlayback = (videoUrl, index) => {
+    setCurrentVideoUrl(videoUrl);
+    setCurrentLectureIndex(index);
+  };
+
+  const handleVideoEnded = () => {
+    if (currentLectureIndex !== null) {
+      setPlayedLectures((prev) => [...prev, currentLectureIndex]);
+    }
+  };
+
+  const isLecturePlayed = (index) => playedLectures.includes(index);
+
+  //code for progress bar
+
+  const totalLectures = data?.lectures?.length || 0;
+  const progressPercentage = totalLectures
+    ? (playedLectures.length / totalLectures) * 100
+    : 0;
+
   if (isLoading || !isLoaded) {
     return <Loading />;
   }
@@ -269,9 +295,11 @@ const Page = ({ params }) => {
             <div className="flex gap-2 items-center my-4">
               <progress
                 className="progress progress-error w-full"
-                value="10"
+                value={progressPercentage}
                 max="100"></progress>
-              <span className="font-semibold">10%</span>
+              <span className="font-semibold">{`${Math.round(
+                progressPercentage
+              )}%`}</span>
             </div>
             <Button
               onClick={isEnrolled ? null : handlePayNow}
@@ -285,7 +313,11 @@ const Page = ({ params }) => {
                 data.lectures.map((item, index) => (
                   <div
                     key={index}
-                    className="flex gap-2 items-center p-2 bg-white w-full rounded-md">
+                    className={`flex gap-2 items-center p-2 rounded-md ${
+                      currentLectureIndex === index
+                        ? "bg-secondary text-white"
+                        : "bg-white"
+                    }`}>
                     <div className="bg-secondary p-2 rounded-md">
                       <PlaySquare className="size-8 text-white" />
                     </div>
@@ -294,15 +326,14 @@ const Page = ({ params }) => {
                         {index + 1}. {item.title.slice(0, 25)}..
                       </h2>
                       <h4 className="ml-5 flex items-center gap-2">
-                        Duration :{" "}
-                        <span className=" text-secondary">
-                          {VideoDuration(item.duration)}
-                        </span>
+                        Duration : <span>{VideoDuration(item.duration)}</span>
                       </h4>
                     </div>
                     {item.freePreview || isEnrolled ? (
-                      <button className="btn btn-sm bg-secondary text-white">
-                        Play
+                      <button
+                        onClick={() => handlePlayback(item.videoUrl, index)}
+                        className="btn btn-sm bg-secondary text-white">
+                        {isLecturePlayed(index) ? "Played" : "Play"}
                       </button>
                     ) : (
                       <button
@@ -320,14 +351,17 @@ const Page = ({ params }) => {
           </div>
         </div>
         <div className="lg:w-7/12 lg:px-6 w-full px-4 my-6 lg:my-0">
-          <iframe
-            className="w-full rounded-xl"
-            width="600"
-            height="340"
-            src="https://www.youtube.com/embed/kmZz0v4COpw?start=314"
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen></iframe>
+          <div className="w-full">
+            <ReactPlayer
+              controls={true}
+              url={currentVideoUrl}
+              width={"100%"}
+              playing={true}
+              className=" rounded-md"
+              onEnded={handleVideoEnded}
+            />
+          </div>
+
           {/* tab */}
 
           <div
