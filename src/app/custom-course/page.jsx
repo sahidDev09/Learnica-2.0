@@ -89,25 +89,36 @@ const CustomCoursePage = () => {
       showError("Please sign in to proceed with payment.");
       return;
     }
-
+  
     if (cart.length === 0) {
       showError("Your cart is empty.");
       return;
     }
-
+  
+    // Calculate total amount from the cart items
     const totalAmount = cart.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0);
-    if (!isNaN(totalAmount)) {
-      setFinalAmount(totalAmount);  
-    } else {
+  
+    if (isNaN(totalAmount) || totalAmount <= 0) {
       showError("Total amount calculation error.");
       return;
     }
+  
+    // Set finalAmount state for display
+    setFinalAmount(totalAmount);
+    console.log("Calculated Total Amount:", totalAmount); // Debugging output
+    console.log("Final Amount:", finalAmount); // Ensure finalAmount updates correctly
+  
     try {
+      // Reset clientSecret and modal state before new attempt
+      setClientSecret(null);
+      setIsModalOpen(false);
+  
+      // Send payment intent request to the backend
       const res = await fetch("/pay-api/create-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          finalAmount: finalAmount,
+          totalAmount, // Using the calculated totalAmount
           userId: user.id,
           email: user.primaryEmailAddress?.emailAddress || "",
           lectures: cart.map((item) => ({
@@ -120,12 +131,12 @@ const CustomCoursePage = () => {
           })),
         }),
       });
-
+  
       const data = await res.json();
-
-      if (data.clientSecret) {
+  
+      if (res.ok && data.clientSecret) {
         setClientSecret(data.clientSecret);
-        setIsModalOpen(true);
+        setIsModalOpen(true); // Open modal when clientSecret is ready
       } else {
         throw new Error(data.error || "Failed to initialize payment.");
       }
@@ -134,6 +145,8 @@ const CustomCoursePage = () => {
       showError("Failed to initialize payment. Please try again.");
     }
   };
+  
+  
 
   const handlePaymentSuccess = async () => {
     
