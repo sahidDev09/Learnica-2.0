@@ -34,8 +34,8 @@ export async function POST(request) {
       status,
       finalAmount: parseFloat(finalAmount),
       lectures: courseData.lectures ? courseData.lectures.map((lecture) => ({
-        concept_title: lecture.title,
-        concept_url: lecture.videoUrl,
+        title: lecture.title,
+        videoUrl: lecture.videoUrl,
         duration: lecture.duration,
         freePreview: true, 
       })) : [],

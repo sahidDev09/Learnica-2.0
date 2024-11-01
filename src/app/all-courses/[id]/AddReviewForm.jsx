@@ -19,7 +19,7 @@ const addComment = async (formData) => {
   return res.json();
 };
 
-function AddReviewForm({ courseId }) {
+function AddReviewForm({ courseId, handleLockedBuyBtn, isEnrolled }) {
   const queryClient = useQueryClient();
   const user = useUser();
   const userEmail = user?.user?.emailAddresses[0]?.emailAddress;
@@ -31,6 +31,12 @@ function AddReviewForm({ courseId }) {
   // handler: add course
   const handleAddCourse = async (e) => {
     e.preventDefault();
+
+    // check enrollment
+    if (!isEnrolled) {
+      handleLockedBuyBtn()
+      return
+    }
 
     const formData = {
       rating: +e.target.rating.value,

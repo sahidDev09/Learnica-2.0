@@ -1,23 +1,15 @@
 "use client"
 
-import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
 
-const data = [
-  {
-    amount: 200,
-    name: 'Today'
-  },
-  {
-    amount: 160,
-    name: '1 day ago'
-  },
-  {
-    amount: 450,
-    name: '2 days ago'
-  },
-]
-
-function TopCoursesChart() {
+function TopCoursesChart({chartData}) {
+  const colors = ['#0088FE', '#00C49F', '#FFBB28']
+  const data = [
+    { name: "today", count: chartData.day1 },
+    { name: "1 day ago", count: chartData.day2 },
+    { name: "2 days ago", count: chartData.day3 },
+  ]
+  
   return (
     <div className='p-4 border-2 border-secondary rounded-md bg-card'>
       <h3 className='mb-4 text-xl text-secondary font-semibold'>Recent Order numbers (Courses):</h3>
@@ -39,7 +31,11 @@ function TopCoursesChart() {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="amount" fill="#135276" activeBar={<Rectangle fill="#287aa9" stroke="#135276" />} />
+            <Bar dataKey="count" fill="#135276" activeBar={<Rectangle fill="#287aa9" stroke="#135276" />} >
+            {data.map((_, index) => (
+              <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+            ))}
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>

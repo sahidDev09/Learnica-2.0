@@ -24,7 +24,7 @@ import {
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaCashRegister } from "react-icons/fa";
 import Support from "../Support";
-import Notification from "../homePage/notification/Notification";
+
 import {
   Sheet,
   SheetContent,
@@ -39,7 +39,7 @@ const Navbar = () => {
   const [showSupportModal, setShowSupportModal] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
-
+  const [showLiveClasses, setShowLiveClasses] = useState(false); 
   const [mainRole, setMainRole] = useState(null);
 
   const [loading, setLoading] = useState(true);
@@ -98,6 +98,28 @@ const Navbar = () => {
     fetchUserData();
   }, [currUser]);
 
+  useEffect(() => {
+    // Fetch orders to determine if "Live classes" should be shown
+    const fetchOrders = async () => {
+      if (currUser) {
+        try {
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/get-orders?email=${currUser}`
+          );
+          const data = await response.json();
+          // Check if email is found in the data
+          const emailMatch = data.some((order) => order.email === currUser);
+          setShowLiveClasses(emailMatch);
+        } catch (error) {
+          console.error("Error fetching orders data:", error);
+        }
+      }
+    };
+
+    fetchOrders();
+  }, [currUser]);
+
+
   if (loading) {
     return (
       <div className=" bg-secondary w-full text-center text-white">
@@ -105,6 +127,7 @@ const Navbar = () => {
       </div>
     );
   }
+  
 
   return (
     <nav className="bg-secondary">
@@ -146,11 +169,11 @@ const Navbar = () => {
 
                 {user && (
                   <>
-                    <Link
-                      href="/live_class"
-                      className="duration-150 hover:border-transparent p-1 text-center">
-                      <li>Live classes</li>
-                    </Link>
+                    {(showLiveClasses || user?.unsafeMetadata?.role === "teacher" || mainRole === "admin") && (
+                  <Link href="/live_class" className="duration-150 hover:border-transparent p-1 text-center">
+                    <li>Live classes</li>
+                  </Link>
+                )}
                     <li
                       className="duration-150 hover:border-transparent p-1 text-center cursor-pointer"
                       onClick={() => setShowSupportModal(true)}>
@@ -354,12 +377,15 @@ const Navbar = () => {
             <Link href="/all-courses">Courses</Link>
           </li>
           <li>
-            <Link href="/live_class">Live Classes</Link>
+          {user && showLiveClasses && (
+                  <Link href="/live_class" className="duration-150 hover:border-transparent p-1 text-center">
+                    <li>Live classes</li>
+                  </Link>
+                )}
           </li>
           <li
             className="duration-150 hover:border-transparent p-1 cursor-pointer"
-            onClick={() => setShowSupportModal(true)}>
-            Helpline
+            onClick={() => setShowSupportModal(true)}>Helpline
           </li>
           <li>
             <Link href="/about">About Us</Link>
