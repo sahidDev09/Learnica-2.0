@@ -40,7 +40,7 @@ const CoursesPage = () => {
         })
           .then((res) => res.json())
           .then((data) => {
-            console.log(data);
+           
             if (data.message) {
               Swal.fire("Deleted!", "Successfully deleted.", "success");
               refetch();
