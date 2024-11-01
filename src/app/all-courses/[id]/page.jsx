@@ -20,7 +20,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import Checkout from "@/components/payment/Checkout";
 import { loadStripe } from "@stripe/stripe-js";
 import ReactPlayer from "react-player";
-import CertificateButton from "@/components/certificate/CertificateButton";
+import Link from "next/link";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -313,7 +313,12 @@ const Page = ({ params }) => {
 
             {/*-------------------- new added : certificate button -------------- */}
 
-            <CertificateButton></CertificateButton>
+            <Link
+              href={"/certificate"}
+              className="btn bg-primary text-white p-2 rounded-md"
+            >
+              Certificate
+            </Link>
 
             <div className="space-y-3">
               {data?.lectures?.length > 0 ? (
