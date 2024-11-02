@@ -309,20 +309,23 @@ const Page = ({ params }) => {
                 progressPercentage
               )}%`}</span>
             </div>
-            <Button
-              onClick={isEnrolled ? null : handlePayNow}
-              className={isEnrolled ? "bg-gray-500 mb-2" : "bg-primary mb-2"}
-              disabled={isEnrolled}>
-              {isEnrolled ? "Already Enrolled" : "Enroll Now"}
-            </Button>
 
-            {/*-------------------- new added : certificate button -------------- */}
+            <div className=" flex gap-3 items-center mb-4 ">
+              <Button
+                onClick={isEnrolled ? null : handlePayNow}
+                className={isEnrolled ? "bg-gray-500" : "bg-primary"}
+                disabled={isEnrolled}>
+                {isEnrolled ? "Already Enrolled" : "Enroll Now"}
+              </Button>
 
-            <Link
-              href={"/certificate"}
-              className="btn bg-primary text-white p-2 rounded-md">
-              Certificate
-            </Link>
+              {progressPercentage === 100 && (
+                <Button className="bg-primary capitalize">
+                  <Link href={"/certificate"}>
+                    Your Certificate is Ready For download
+                  </Link>
+                </Button>
+              )}
+            </div>
 
             <div className="space-y-3">
               {data?.lectures?.length > 0 ? (
