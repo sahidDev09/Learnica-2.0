@@ -203,6 +203,7 @@ const Page = ({ params }) => {
           email: user.primaryEmailAddress?.emailAddress || "",
           status: "success",
           type: "course",
+          progress: '0',
           finalAmount: finalAmount,
           lectures: data.lectures.map((lecture) => ({
             title: lecture.title,
