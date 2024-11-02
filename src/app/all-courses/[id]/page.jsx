@@ -21,6 +21,7 @@ import Checkout from "@/components/payment/Checkout";
 import { loadStripe } from "@stripe/stripe-js";
 import ReactPlayer from "react-player";
 import Link from "next/link";
+import { progress } from "framer-motion";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -37,6 +38,7 @@ const Page = ({ params }) => {
   const [playedLectures, setPlayedLectures] = useState([]);
   const [currentVideoUrl, setCurrentVideoUrl] = useState("");
   const [currentLectureIndex, setCurrentLectureIndex] = useState(null);
+  const [progressPercentage, setProgressPercentage] = useState(0);
   const [totalDuration, setTotalDuration] = useState({
     hours: 0,
     minutes: 0,
@@ -69,21 +71,21 @@ const Page = ({ params }) => {
       if (!isLoaded || !isSignedIn || !user) return;
       const userEmail = user.primaryEmailAddress?.emailAddress;
 
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/get-orders?email=${userEmail}&courseId=${courseId}`
-      );
-      const orders = await res.json();
-      const isAlreadyEnrolled = orders.some(
-        (order) => order.email === userEmail && order.courseId === courseId
-      );
-      setIsEnrolled(isAlreadyEnrolled);
-    } catch (error) {
-      console.error("Error checking enrollment status:", error);
-    }
-  };
-  checkEnrollmentStatus();
-}, [isLoaded, isSignedIn, user, courseId]);
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/get-orders?email=${userEmail}&courseId=${courseId}`
+        );
+        const orders = await res.json();
+        const isAlreadyEnrolled = orders.some(
+          (order) => order.email === userEmail && order.courseId === courseId
+        );
+        setIsEnrolled(isAlreadyEnrolled);
+      } catch (error) {
+        console.error("Error checking enrollment status:", error);
+      }
+    };
+    checkEnrollmentStatus();
+  }, [isLoaded, isSignedIn, user, courseId]);
 
   // Redirect to sign-in if not signed in
   useEffect(() => {
@@ -159,7 +161,7 @@ const Page = ({ params }) => {
             title: lecture.title,
             videoUrl: lecture.videoUrl,
             duration: lecture.duration,
-            freePreview: true, 
+            freePreview: true,
           })),
           coupon: coupon,
           discount: discount,
@@ -206,11 +208,11 @@ const Page = ({ params }) => {
             title: lecture.title,
             videoUrl: lecture.videoUrl,
             duration: lecture.duration,
-            freePreview: true, 
+            freePreview: true,
           })),
         }),
       });
-  
+
       const result = await res.json();
 
       if (!res.ok) {
@@ -269,19 +271,24 @@ const Page = ({ params }) => {
   };
 
   const handleVideoEnded = () => {
-    if (currentLectureIndex !== null) {
-      setPlayedLectures((prev) => [...prev, currentLectureIndex]);
+    if (
+      currentLectureIndex !== null &&
+      !playedLectures.includes(currentLectureIndex)
+    ) {
+      setPlayedLectures((prev) => {
+        const updatedLectures = [...prev, currentLectureIndex];
+        const calculatedProgress =
+          (updatedLectures.length / data.lectures.length) * 100;
+        console.log("Calculated progress:", Math.round(calculatedProgress));
+        setProgressPercentage(calculatedProgress);
+        return updatedLectures;
+      });
     }
   };
 
   const isLecturePlayed = (index) => playedLectures.includes(index);
 
   //code for progress bar
-
-  const totalLectures = data?.lectures?.length || 0;
-  const progressPercentage = totalLectures
-    ? (playedLectures.length / totalLectures) * 100
-    : 0;
 
   if (isLoading || !isLoaded) {
     return <Loading />;
@@ -297,28 +304,28 @@ const Page = ({ params }) => {
               <progress
                 className="progress progress-error w-full"
                 value={progressPercentage}
-                max="100"
-              ></progress>
+                max="100"></progress>
               <span className="font-semibold">{`${Math.round(
                 progressPercentage
               )}%`}</span>
             </div>
-            <Button
-              onClick={isEnrolled ? null : handlePayNow}
-              className={isEnrolled ? "bg-gray-500 mb-2" : "bg-primary mb-2"}
-              disabled={isEnrolled}
-            >
-              {isEnrolled ? "Already Enrolled" : "Enroll Now"}
-            </Button>
 
-            {/*-------------------- new added : certificate button -------------- */}
+            <div className=" flex gap-3 items-center mb-4 ">
+              <Button
+                onClick={isEnrolled ? null : handlePayNow}
+                className={isEnrolled ? "bg-gray-500" : "bg-primary"}
+                disabled={isEnrolled}>
+                {isEnrolled ? "Already Enrolled" : "Enroll Now"}
+              </Button>
 
-            <Link
-              href={"/certificate"}
-              className="btn bg-primary text-white p-2 rounded-md"
-            >
-              Certificate
-            </Link>
+              {progressPercentage === 100 && (
+                <Button className="bg-primary capitalize">
+                  <Link href={"/certificate"}>
+                    Your Certificate is Ready For download
+                  </Link>
+                </Button>
+              )}
+            </div>
 
             <div className="space-y-3">
               {data?.lectures?.length > 0 ? (
@@ -329,8 +336,7 @@ const Page = ({ params }) => {
                       currentLectureIndex === index
                         ? "bg-secondary text-white"
                         : "bg-white"
-                    }`}
-                  >
+                    }`}>
                     <div className="bg-secondary p-2 rounded-md">
                       <PlaySquare className="size-8 text-white" />
                     </div>
@@ -345,15 +351,13 @@ const Page = ({ params }) => {
                     {item.freePreview || isEnrolled ? (
                       <button
                         onClick={() => handlePlayback(item.videoUrl, index)}
-                        className="btn btn-sm bg-secondary text-white"
-                      >
+                        className="btn btn-sm bg-secondary text-white">
                         {isLecturePlayed(index) ? "Played" : "Play"}
                       </button>
                     ) : (
                       <button
                         onClick={handleLockedBuyBtn}
-                        className="btn btn-sm bg-gray-400 text-white"
-                      >
+                        className="btn btn-sm bg-gray-400 text-white">
                         Locked
                       </button>
                     )}
@@ -381,8 +385,7 @@ const Page = ({ params }) => {
 
           <div
             role="tablist"
-            className="tabs tabs-bordered mt-4 bg-secondary pt-4 rounded-md w-full sm:max-w-none md:max-w-none lg:max-w-full flex flex-col md:inline-grid"
-          >
+            className="tabs tabs-bordered mt-4 bg-secondary pt-4 rounded-md w-full sm:max-w-none md:max-w-none lg:max-w-full flex flex-col md:inline-grid">
             {/*--------------------------------- Overview --------------------------------*/}
             <input
               type="radio"
@@ -393,8 +396,7 @@ const Page = ({ params }) => {
             />
             <div
               role="tabpanel"
-              className="tab-content py-4 min-h-full bg-white w-full"
-            >
+              className="tab-content py-4 min-h-full bg-white w-full">
               <h2 className="text-lg md:text-xl font-semibold">{data.title}</h2>
               <div className="flex gap-5 my-4 w-full">
                 <div className="text-center">
@@ -432,13 +434,14 @@ const Page = ({ params }) => {
                   height={30}
                   src={data?.author?.profile}
                   alt="video_thumbnail"
-                  className="rounded w-16 h-16"
-                ></Image>
+                  className="rounded w-16 h-16"></Image>
                 <div className="text-start">
                   <h2 className="text-lg md:text-xl font-semibold">
                     {data?.author?.name}
                   </h2>
-                  <h4 className="text-gray-500">Email : {data?.author?.email}</h4>
+                  <h4 className="text-gray-500">
+                    Email : {data?.author?.email}
+                  </h4>
                 </div>
               </div>
             </div>
@@ -461,7 +464,11 @@ const Page = ({ params }) => {
               aria-label="Notes"
             />
             <div role="tabpanel" className="tab-content py-2 bg-white w-full">
-              <AddNoteForm courseId={courseId} handleLockedBuyBtn={handleLockedBuyBtn} isEnrolled={isEnrolled} />
+              <AddNoteForm
+                courseId={courseId}
+                handleLockedBuyBtn={handleLockedBuyBtn}
+                isEnrolled={isEnrolled}
+              />
               <Notes courseId={courseId} />
             </div>
             {/*------------------------------- Reviews --------------------------*/}
@@ -473,7 +480,11 @@ const Page = ({ params }) => {
               aria-label="Reviews"
             />
             <div role="tabpanel" className="tab-content pt-4 bg-white w-full">
-              <MyReview courseId={courseId} handleLockedBuyBtn={handleLockedBuyBtn} isEnrolled={isEnrolled} />
+              <MyReview
+                courseId={courseId}
+                handleLockedBuyBtn={handleLockedBuyBtn}
+                isEnrolled={isEnrolled}
+              />
               <Reviews courseId={courseId} />
             </div>
 
@@ -500,8 +511,7 @@ const Page = ({ params }) => {
           <div className="relative w-full md:w-2/3 lg:w-1/3 bg-white  p-4 rounded-lg shadow-lg">
             <button
               onClick={() => setIsModalOpen(false)}
-              className="text-4xl bg-primary text-white rounded-full mb-4"
-            >
+              className="text-4xl bg-primary text-white rounded-full mb-4">
               <MdOutlineCancel />
             </button>
             {clientSecret && (
@@ -510,7 +520,7 @@ const Page = ({ params }) => {
                   clientSecret={clientSecret}
                   handlePaymentSuccess={handlePaymentSuccess}
                   setIsModalOpen={setIsModalOpen}
-                  totalAmount={data.pricing} 
+                  totalAmount={data.pricing}
                   coupon={data.additionalInfo?.coupon_code || ""}
                   discount={data.additionalInfo?.discount_amount || 0}
                 />
