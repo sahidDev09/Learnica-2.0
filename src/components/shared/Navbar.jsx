@@ -234,7 +234,7 @@ const Navbar = () => {
                       </Button>
                     </Link>
                   ) : user?.unsafeMetadata?.role === "teacher" ? (
-                    <Link href="/dashboard/teacher/my-courses">
+                    <Link href="/dashboard/teacher/statistics">
                       <Button
                         className="rounded-full bg-primary"
                         aria-label="Author Dashboard">
@@ -338,7 +338,7 @@ const Navbar = () => {
                 </Button>
               </Link>
             ) : user?.unsafeMetadata?.role === "teacher" ? (
-              <Link href="/dashboard/teacher/my-courses">
+              <Link href="/dashboard/teacher/statistics">
                 <Button
                   variant="destructive"
                   className="rounded-full"
@@ -376,16 +376,16 @@ const Navbar = () => {
           <li>
             <Link href="/all-courses">Courses</Link>
           </li>
-          <li>
-          {user && showLiveClasses && (
-                  <Link href="/live_class" className="duration-150 hover:border-transparent p-1 text-center">
+          <li className="">
+          {(showLiveClasses || user?.unsafeMetadata?.role === "teacher" || mainRole === "admin") && (
+                  <Link href="/live_class" className="">
                     <li>Live classes</li>
                   </Link>
                 )}
           </li>
           <li
-            className="duration-150 hover:border-transparent p-1 cursor-pointer"
-            onClick={() => setShowSupportModal(true)}>Helpline
+            className=""
+            onClick={()=>setShowSupportModal(true)}>Helpline
           </li>
           <li>
             <Link href="/about">About Us</Link>
