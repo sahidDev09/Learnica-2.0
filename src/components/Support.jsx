@@ -363,7 +363,14 @@ const Support = ({ showSupportModal, setShowSupportModal, user }) => {
                     Daily Support Session Time
                   </h3>
                   <ul className=" font-bold mt-6 gap-3">
-                    
+                    <div className=" flex justify-between gap-3">
+                      <li className=" bg-gray-100 rounded-lg p-1 pl-2 pr-2">
+                        <strong>Morning:</strong> 11:00 AM to 1:00 PM
+                      </li>
+                      <li className=" bg-gray-100 rounded-lg p-1 pl-2 pr-2">
+                        <strong>Afternoon:</strong> 4:00 PM to 6:00 PM
+                      </li>
+                    </div>
                     <li className=" bg-gray-100 rounded-lg p-1 pl-2 pr-2 mt-3 flex justify-center">
                       <strong>Night: </strong> 9:00 PM to 11:00 PM
                     </li>
