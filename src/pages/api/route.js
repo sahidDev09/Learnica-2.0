@@ -7,7 +7,7 @@ export async function POST(request) {
     const { userId, email, title, type, status, lectures } = await request.json();
 
    
-    if (!userId || !email || !title || !status || !type || !lectures || lectures.length === 0) {
+    if (!userId || !email || !title || !status || !type || !progress|| !lectures || lectures.length === 0) {
       return NextResponse.json(
         { error: "Missing required fields: userId, email, title, type, status, or lectures" },
         { status: 400 }
@@ -55,6 +55,7 @@ export async function POST(request) {
       title,
       status,
       type,
+      progress,
       finalAmount: finalAmount,
       lectures: formattedLectures, 
       createdAt: new Date(),
