@@ -110,4 +110,4 @@ For detailed information about the project, APIs, and more, please refer to the 
 - **Farha** - Frontend Developer
 - **Rahat Faruk** - Full Stack Developer
 - **Abdul Mazed** - Frontend & Backend Developer
-- **Numan Ahmod** - Frontend Developer
+- **[Numan Ahmod](www.linkedin.com/in/numan-ahmod)** - MERN Stack Developer
