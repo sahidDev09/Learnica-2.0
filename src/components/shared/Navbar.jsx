@@ -157,25 +157,25 @@ const Navbar = () => {
               <ul className="flex gap-6">
                 <Link
                   href="/"
-                  className="duration-150 hover:border-transparent text-center p-1">
+                  className="duration-150 hover:border-transparent hover:font-bold text-center p-1">
                   <li>Home</li>
                 </Link>
 
                 <Link
                   href="/all-courses"
-                  className="duration-150 hover:border-transparent p-1 text-center">
+                  className="duration-150 hover:border-transparent p-1 text-center hover:font-bold">
                   <li>Courses</li>
                 </Link>
 
                 {user && (
                   <>
                     {(showLiveClasses || user?.unsafeMetadata?.role === "teacher" || mainRole === "admin") && (
-                  <Link href="/live_class" className="duration-150 hover:border-transparent p-1 text-center">
+                  <Link href="/live_class" className="duration-150 hover:border-transparent p-1 text-center hover:font-bold">
                     <li>Live classes</li>
                   </Link>
                 )}
                     <li
-                      className="duration-150 hover:border-transparent p-1 text-center cursor-pointer"
+                      className="duration-150 hover:border-transparent p-1 text-center cursor-pointer hover:font-bold"
                       onClick={() => setShowSupportModal(true)}>
                       Helpline
                     </li>
@@ -184,7 +184,7 @@ const Navbar = () => {
 
                 <Link
                   href="/about"
-                  className="duration-150 hover:border-transparent p-1 text-center">
+                  className="duration-150 hover:border-transparent p-1 text-center hover:font-bold">
                   <li>About Us</li>
                 </Link>
                 {user && (
@@ -234,7 +234,7 @@ const Navbar = () => {
                       </Button>
                     </Link>
                   ) : user?.unsafeMetadata?.role === "teacher" ? (
-                    <Link href="/dashboard/teacher/my-courses">
+                    <Link href="/dashboard/teacher/statistics">
                       <Button
                         className="rounded-full bg-primary"
                         aria-label="Author Dashboard">
@@ -338,7 +338,7 @@ const Navbar = () => {
                 </Button>
               </Link>
             ) : user?.unsafeMetadata?.role === "teacher" ? (
-              <Link href="/dashboard/teacher/my-courses">
+              <Link href="/dashboard/teacher/statistics">
                 <Button
                   variant="destructive"
                   className="rounded-full"
@@ -371,24 +371,24 @@ const Navbar = () => {
             </Sheet>
           </li>
           <li>
-            <Link href="/">Home</Link>
+            <Link href="/" className="hover:font-bold">Home</Link>
           </li>
           <li>
-            <Link href="/all-courses">Courses</Link>
+            <Link href="/all-courses" className="hover:font-bold">Courses</Link>
           </li>
-          <li>
-          {user && showLiveClasses && (
-                  <Link href="/live_class" className="duration-150 hover:border-transparent p-1 text-center">
+          <li className="">
+          {(showLiveClasses || user?.unsafeMetadata?.role === "teacher" || mainRole === "admin") && (
+                  <Link href="/live_class" className="hover:font-bold">
                     <li>Live classes</li>
                   </Link>
                 )}
           </li>
           <li
-            className="duration-150 hover:border-transparent p-1 cursor-pointer"
-            onClick={() => setShowSupportModal(true)}>Helpline
+            className=" hover:font-bold"
+            onClick={()=>setShowSupportModal(true)}>Helpline
           </li>
           <li>
-            <Link href="/about">About Us</Link>
+            <Link href="/about" className="hover:font-bold">About Us</Link>
           </li>
         </ul>
       </div>

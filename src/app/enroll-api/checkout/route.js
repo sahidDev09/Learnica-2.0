@@ -4,13 +4,13 @@ import { ObjectId } from "mongodb";
 
 export async function POST(request) {
   try {
-    const { userId, courseId, email, title, type, finalAmount, status } = await request.json();
+    const { userId, courseId, email, title, type, progress, finalAmount, status } = await request.json();
 
-    if (!userId || !courseId || !email || !title || !type || finalAmount === undefined || !status) {
+    if (!userId || !courseId || !email || !title || !type || !progress|| finalAmount === undefined || !status) {
       return NextResponse.json(
         {
           success: false,
-          message: "Missing required fields: userId, courseId, email, title, type, finalAmount, status",
+          message: "Missing required fields: userId, courseId, email, title, type,progress, finalAmount, status",
         },
         { status: 400 }
       );
@@ -32,6 +32,7 @@ export async function POST(request) {
       title,
       type,
       status,
+      progress,
       finalAmount: parseFloat(finalAmount),
       lectures: courseData.lectures ? courseData.lectures.map((lecture) => ({
         title: lecture.title,
