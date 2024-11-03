@@ -84,6 +84,7 @@ const Page = ({ params }) => {
         console.error("Error checking enrollment status:", error);
       }
     };
+
     checkEnrollmentStatus();
   }, [isLoaded, isSignedIn, user, courseId]);
 
@@ -203,7 +204,7 @@ const Page = ({ params }) => {
           email: user.primaryEmailAddress?.emailAddress || "",
           status: "success",
           type: "course",
-          progress: '0',
+          progress: "0",
           finalAmount: finalAmount,
           lectures: data.lectures.map((lecture) => ({
             title: lecture.title,
@@ -271,7 +272,7 @@ const Page = ({ params }) => {
     setCurrentLectureIndex(index);
   };
 
-  const handleVideoEnded = () => {
+  const handleVideoEnded = async () => {
     if (
       currentLectureIndex !== null &&
       !playedLectures.includes(currentLectureIndex)
@@ -280,8 +281,10 @@ const Page = ({ params }) => {
         const updatedLectures = [...prev, currentLectureIndex];
         const calculatedProgress =
           (updatedLectures.length / data.lectures.length) * 100;
-        console.log("Calculated progress:", Math.round(calculatedProgress));
-        setProgressPercentage(calculatedProgress);
+        const roundedProgress = Math.round(calculatedProgress);
+        setProgressPercentage(roundedProgress);
+        console.log("first", order._id);
+
         return updatedLectures;
       });
     }
