@@ -22,9 +22,9 @@ Click Here : [Learnica Live Preview](https://learnica-2-0.vercel.app)
 
 - **Custom Courses:** Students can create their own custom course collections tailored to their interests.
 
-- **Live Classes:** The instructors can send their Live Classes details which will be shown in Live Class page and the students who enrolled the course he can the Live class page.
+- **Live Classes:** The instructors can send their Live Class details which will be shown in Live Class page and the students who will enroll the course he can see the Live class page.
 
-- **Helpline:** The our users face any issues they can solve their issues joining in the helpline center directly.
+- **Helpline:** If our users face any issues, they can solve their issues joining in the Helpline center directly.
 
 - **Chatbot AI:** Real-time AI-powered chatbot to assist users with questions and navigation.
 
