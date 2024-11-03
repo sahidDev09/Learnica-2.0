@@ -22,6 +22,10 @@ Click Here : [Learnica Live Preview](https://learnica-2-0.vercel.app)
 
 - **Custom Courses:** Students can create their own custom course collections tailored to their interests.
 
+- **Live Classes:** The instructors can send their Live Classes details which will be shown in Live Class page and the students who enrolled the course he can the Live class page.
+
+- **Helpline:** The our users face any issues they can solve their issues joining in the helpline center directly.
+
 - **Chatbot AI:** Real-time AI-powered chatbot to assist users with questions and navigation.
 
 - **Notes for Specific Courses:** Take notes specific to each course for better tracking and retention.
@@ -29,6 +33,7 @@ Click Here : [Learnica Live Preview](https://learnica-2-0.vercel.app)
 - **Resources Section:** Authors can upload course-related resources (PDFs, guides, etc.) in a dedicated resources section.
 
 - **Video Locking Mechanism:** Course videos are locked for unenrolled students; they must enroll to access videos, notes, and review sections.
+
 - **Class Tracking Progression:** Track progression through each class for a better learning experience.
 
 - **Course Completion Celebration:** Upon course completion, users are greeted with a celebration screen to recognize their achievement, enhancing user motivation.
@@ -107,7 +112,8 @@ For detailed information about the project, APIs, and more, please refer to the 
 ## 👥 Contributors
 
 - **Sahid** - MERN Stack Developer && UI/UX designer
+- **[Numan Ahmod](https://www.linkedin.com/in/numan-ahmod/)** - MERN Stack Developer
 - **Farha** - Frontend Developer
 - **Rahat Faruk** - Full Stack Developer
 - **Abdul Mazed** - Frontend & Backend Developer
-- **[Numan Ahmod](https://www.linkedin.com/in/numan-ahmod/)** - MERN Stack Developer
+
