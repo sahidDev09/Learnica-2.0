@@ -13,9 +13,9 @@ const Companies = () => {
         <Carousel
           plugins={[Autoplay({ delay: 2000, stopOnInteraction: false })]}
           className="w-full">
-          <CarouselContent className="flex items-center">
+          <CarouselContent className="-ml-12 flex items-center">
             {companies.map(({ name, id, location }) => (
-              <CarouselItem key={id} className="basis-1/3 lg:basis-1/6 grayscale hover:grayscale-0 transition-all duration-500 opacity-60 hover:opacity-100 flex justify-center">
+              <CarouselItem key={id} className="pl-12 basis-1/3 lg:basis-1/6 grayscale hover:grayscale-0 transition-all duration-500 opacity-60 hover:opacity-100 flex justify-center">
                 <Image
                   src={location}
                   alt={name}

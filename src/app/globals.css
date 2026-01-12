@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --primary: #ED626A;
-  --secondary: #135276;
+  --primary: #135276;
+  --secondary: #ED626A;
   --card: #EEF8FF;
 }
 

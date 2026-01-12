@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { Button } from "@/components/ui/button";
-import { Bot, User, Loader2, Trash2, Paperclip, ArrowRight } from "lucide-react";
+import { Bot, User, Loader2, Trash2, Paperclip, ArrowRight, Sparkles } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -245,6 +245,9 @@ const Chat = () => {
             
             <div className="flex items-center justify-between px-2 pb-1.5">
               <div className="flex items-center gap-1">
+                <div className="flex items-center justify-center h-8 w-8 rounded-lg bg-primary/10">
+                  <Sparkles className="h-4 w-4 text-primary animate-pulse" />
+                </div>
                 <Button 
                   variant="ghost" 
                   size="icon" 

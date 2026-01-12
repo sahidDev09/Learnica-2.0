@@ -85,8 +85,8 @@ const Banner = () => {
 
           {/* Floating Card 1: Online Students */}
           <div className="absolute top-[20%] right-[-5%] md:right-[-10%] bg-white p-4 rounded-2xl shadow-xl border border-slate-50 animate-bounce-slow flex items-center gap-4 z-20">
-             <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center">
-                <Users className="w-6 h-6 text-purple-600" />
+             <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                <Users className="w-6 h-6 text-primary" />
              </div>
              <div>
                 <h4 className="text-xl font-bold text-slate-800">1236+</h4>
@@ -96,8 +96,8 @@ const Banner = () => {
 
           {/* Floating Card 2: Online Courses */}
           <div className="absolute bottom-[30%] left-[-5%] md:left-[-15%] bg-white p-4 rounded-2xl shadow-xl border border-slate-50 animate-bounce-late flex items-center gap-4 z-20">
-             <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center">
-                <BookOpen className="w-6 h-6 text-[#FF6B35]" />
+             <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+                <BookOpen className="w-6 h-6 text-primary" />
              </div>
              <div>
                 <h4 className="text-xl font-bold text-slate-800">800+</h4>

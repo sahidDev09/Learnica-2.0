@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { Suspense } from "react";
 import TanstackProvider from "./TanstackProvider";
 import { ReactLenis } from "@/lib/lenis";
-import FloatingChat from "@/components/FloatingChat";
+// import FloatingChat from "@/components/FloatingChat";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
                 </Suspense>
               )}
               {children}
-              <FloatingChat />
+              {/* <FloatingChat /> */}
               {!hideNavFoot && <Footer />}
             </ReactLenis>
           </TanstackProvider>
