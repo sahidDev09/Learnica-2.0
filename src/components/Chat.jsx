@@ -1,244 +1,287 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { SendHorizontalIcon } from "lucide-react";
+import { Bot, User, Loader2, Trash2, Paperclip, ArrowRight } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUser } from "@clerk/nextjs";
 import suggestion from "/src/lib/chataisuggestion.json";
-import { ReactLenis } from "/src/lib/lenis.jsx";
-
-import {
-  GoogleGenerativeAI,
-  HarmCategory,
-  HarmBlockThreshold,
-} from "@google/generative-ai";
-import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import { GoogleGenAI } from "@google/genai";
+import { Textarea } from "@/components/ui/textarea";
+import { useAutoResizeTextarea } from "@/hooks/use-auto-resize-textarea";
+import { cn } from "@/lib/utils";
 
 const Chat = () => {
-  const [messages, setMessages] = useState([]);
-  const [userInput, setUserInput] = useState("");
-  const [chat, setChat] = useState(null);
-  const [error, setError] = useState(null);
-  const [typing, setTyping] = useState(false); // State to manage typing indicator
-
   const { user } = useUser();
-  const ref = useRef();
-
-  const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-  const modelName = "gemini-1.5-flash";
-
-  const genAI = new GoogleGenerativeAI(apiKey);
-  const generationConfig = {
-    temperature: 1,
-    topP: 0.95,
-    topK: 64,
-    maxOutputTokens: 8192,
-    responseMimeType: "text/plain",
-  };
-
-  const safetySettings = [
+  const scrollRef = useRef(null);
+  
+  const [messages, setMessages] = useState([
     {
-      category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-      threshold: HarmBlockThreshold.BLOCK_NONE,
+      text: "Hi! I'm Learnica AI, your personal learning assistant. How can I help you today?",
+      role: "bot",
+      timestamp: new Date(),
     },
-    {
-      category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-      threshold: HarmBlockThreshold.BLOCK_NONE,
-    },
-    {
-      category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-      threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-    },
-    {
-      category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-      threshold: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-    },
-  ];
+  ]);
+  const [userInput, setUserInput] = useState("");
+  const [error, setError] = useState(null);
+  const [typing, setTyping] = useState(false);
 
-  // Initialize chat and set default message
+  const { textareaRef, adjustHeight } = useAutoResizeTextarea({
+    minHeight: 52,
+    maxHeight: 200,
+  });
+
+  // Using NEXT_PUBLIC_GEMINI_API_KEY from environment
+  const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY?.trim();
+  const modelName = "gemini-2.5-flash";
+
+  const genAI = useMemo(() => {
+    if (!apiKey) return null;
+    return new GoogleGenAI({ apiKey });
+  }, [apiKey]);
+
+  // System instructions for Learnica AI
+  const systemInstruction = `You are Learnica AI, an expert educational assistant for the Learnica platform. 
+  Your goal is to help students learn effectively. 
+  - Be encouraging, professional, and concise.
+  - Provide code examples if relevant.
+  - If asked about Learnica, explain that it's a premium e-learning platform with courses on web development, digital marketing, and more.
+  - Always use a friendly and helpful tone.`;
+
+  // Auto-scroll to bottom
   useEffect(() => {
-    const initChat = async () => {
-      try {
-        const newChat = await genAI
-          .getGenerativeModel({ model: modelName })
-          .startChat({
-            generationConfig,
-            safetySettings,
-            history: messages.map((msg) => ({
-              text: msg.text,
-              role: msg.role,
-            })),
-          });
-        setChat(newChat);
-
-        // Add initial bot message
-        setMessages([
-          {
-            text: "Hi dear,I am Learnica how can I assist you?",
-            role: "bot",
-            timestamp: new Date(),
-          },
-        ]);
-
-        console.log("Chat initialized:", newChat);
-      } catch (error) {
-        setError(`Failed to initialize chat: ${error.message}`);
-        console.error("Chat initialization error:", error);
+    if (scrollRef.current) {
+      const scrollContainer = scrollRef.current.querySelector('[data-radix-scroll-area-viewport]');
+      if (scrollContainer) {
+        scrollContainer.scrollTo({
+          top: scrollContainer.scrollHeight,
+          behavior: 'smooth'
+        });
       }
-    };
-
-    initChat();
-  }, [genAI, generationConfig, messages, safetySettings]);
+    }
+  }, [messages, typing]);
 
   const handleSendMessage = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
+    if (!userInput.trim() || typing) return;
+
+    if (!genAI) {
+      setError("API Configuration error. Please ensure NEXT_PUBLIC_GEMINI_API_KEY is set.");
+      return;
+    }
+
+    const currentInput = userInput;
+    setUserInput("");
+    adjustHeight(true);
+    setError(null);
+
+    const userMessage = {
+      text: currentInput,
+      role: "user",
+      timestamp: new Date(),
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+
     try {
-      const userMessage = {
-        text: userInput,
-        role: "user",
+      setTyping(true);
+
+      const chatHistory = messages
+        .filter((_, i) => i > 0)
+        .map((msg) => ({
+          role: msg.role === "bot" ? "model" : "user",
+          parts: [{ text: msg.text }],
+        }));
+
+      const response = await genAI.models.generateContent({
+        model: modelName,
+        systemInstruction: systemInstruction,
+        contents: [
+          ...chatHistory,
+          { role: "user", parts: [{ text: currentInput }] }
+        ],
+        config: {
+          thinkingConfig: {
+            thinkingBudget: 0,
+          },
+          temperature: 0.7,
+          maxOutputTokens: 2048,
+        }
+      });
+
+      const responseText = response.text;
+
+      const botMessage = {
+        text: responseText,
+        role: "bot",
         timestamp: new Date(),
       };
 
-      setMessages((prevMessages) => [...prevMessages, userMessage]);
-      setUserInput("");
-
-      if (chat) {
-        setTyping(true);
-        console.log("Sending message:", userInput);
-
-        const result = await chat.sendMessage(userInput);
-        setTyping(false);
-
-        const botMessage = {
-          text: await result.response.text(),
-          role: "bot",
-          timestamp: new Date(),
-        };
-
-        setMessages((prevMessages) => [...prevMessages, botMessage]);
-      } else {
-        throw new Error("Chat not initialized");
-      }
-    } catch (error) {
-      setError(`Failed to send message: ${error.message}`);
+      setMessages((prev) => [...prev, botMessage]);
+    } catch (err) {
+      console.error("Chat error:", err);
+      setError(`Error: ${err.message || "Something went wrong"}`);
+    } finally {
       setTyping(false);
-      console.error("Message send error:", error);
     }
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
+  const clearChat = () => {
+    setMessages([
+      {
+        text: "Chat cleared! How can I help you now?",
+        role: "bot",
+        timestamp: new Date(),
+      },
+    ]);
+    setError(null);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
     }
   };
 
-  // Handle suggestion button click
-  const handleSuggestionClick = (suggestionText) => {
-    setUserInput(suggestionText);
-  };
-
   return (
-    <section className="flex flex-col h-screen md:h-[100vh] pb-20 container mx-auto">
-      <div className="m-2 md:m-0 flex flex-col gap-4 flex-grow">
-        <div className="flex gap-1 flex-wrap rounded-md mb-4">
-          {suggestion.map((sug) => (
-            <button
-              className="bg-secondary text-white p-2 border rounded-md"
-              key={sug.id}
-              onClick={() => handleSuggestionClick(sug.suggestion)} // Set button text to input
-            >
-              {sug.suggestion}
-            </button>
-          ))}
-        </div>
-        {/* responses & chatbox */}
-        <div className="flex-grow mb-2 rounded-md border p-4 bg-card overflow-y-auto">
-          <div
-            className="h-[calc(100vh-450px)] md:h-[calc(100vh-400px)] overflow-y-auto"
-            ref={ref}>
-            {error && (
-              <div className="text-sm text-red-400">{error.message}</div>
-            )}
-            {messages.map((m, index) => (
-              <div key={index} className="mr-6 whitespace-pre-wrap md:mr-12">
-                {m.role === "user" && (
-                  <div className="mb-6 flex gap-6">
-                    <Avatar>
-                      <AvatarImage src={user?.imageUrl} />
-                      <AvatarFallback></AvatarFallback>
+    <div className="flex flex-col h-full w-full bg-white dark:bg-zinc-950 overflow-hidden relative">
+      {/* Suggestions Header */}
+      <div className="px-4 py-3 flex gap-2 overflow-x-auto no-scrollbar border-b border-zinc-100 dark:border-zinc-900 bg-white/50 dark:bg-zinc-950/50 backdrop-blur-sm z-10">
+        {suggestion.map((sug) => (
+          <button
+            key={sug.id}
+            onClick={() => setUserInput(sug.suggestion)}
+            className="flex-shrink-0 px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-900 text-[10px] font-medium text-zinc-600 dark:text-zinc-400 hover:bg-primary/10 hover:text-primary transition-all border border-transparent hover:border-primary/20 whitespace-nowrap"
+          >
+            {sug.suggestion}
+          </button>
+        ))}
+      </div>
+
+      {/* Chat Messages Area */}
+      <div className="flex-grow relative overflow-hidden">
+        <ScrollArea className="h-full w-full p-4 md:p-6" ref={scrollRef}>
+          <div className="space-y-6 pb-24"> {/* Extra padding at bottom for the fixed input area */}
+            <AnimatePresence initial={false}>
+              {messages.map((m, index) => (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  key={index}
+                  className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
+                >
+                  <div className={`flex gap-3 max-w-[85%] ${m.role === "user" ? "flex-row-reverse" : "flex-row"}`}>
+                    <Avatar className="w-8 h-8 shrink-0 border border-zinc-200 dark:border-zinc-800 shadow-sm mt-1">
+                      {m.role === "user" ? (
+                        <AvatarImage src={user?.imageUrl} />
+                      ) : (
+                        <AvatarImage src="/assets/aibot.png" />
+                      )}
+                      <AvatarFallback className="bg-zinc-100 dark:bg-zinc-800 text-[10px]">
+                        {m.role === "user" ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4 text-primary" />}
+                      </AvatarFallback>
                     </Avatar>
-                    <div className="mt-1.5">
-                      <p className="font-semibold text-start">You</p>
-                      <div className="mt-1.5 text-sm text-zinc-700 text-start">
+                    
+                    <div className={`flex flex-col ${m.role === "user" ? "items-end" : "items-start"}`}>
+                      <div className={`px-4 py-3 rounded-2xl text-[13px] leading-relaxed shadow-sm ${
+                        m.role === "user" 
+                        ? "bg-primary text-primary-foreground rounded-tr-none" 
+                        : "bg-zinc-100 dark:bg-zinc-900 border border-transparent dark:border-zinc-800 rounded-tl-none text-zinc-800 dark:text-zinc-200"
+                      }`}>
                         {m.text}
+                        <span className="block mt-1.5 text-[8px] opacity-40 text-right">
+                          {new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </span>
                       </div>
                     </div>
                   </div>
-                )}
+                </motion.div>
+              ))}
+            </AnimatePresence>
 
-                {m.role === "bot" && (
-                  <div className="mb-6 flex gap-6">
-                    <Avatar>
-                      <AvatarImage src="/assets/aibot.png" />
-                      <AvatarFallback></AvatarFallback>
-                    </Avatar>
-                    <div className="mt-1.5">
-                      <p className="font-semibold text-zinc-700 text-start">
-                        Learnica
-                      </p>
-                      <p className="text-secondary text-start">{m.text}</p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-            {/* Typing indicator */}
             {typing && (
-              <div className="flex items-center gap-6">
-                <Avatar>
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex gap-3">
+                <Avatar className="w-8 h-8 shrink-0 border border-zinc-200 dark:border-zinc-800 shadow-sm">
                   <AvatarImage src="/assets/aibot.png" />
-                  <AvatarFallback></AvatarFallback>
+                  <AvatarFallback><Bot className="w-4 h-4 text-primary" /></AvatarFallback>
                 </Avatar>
-                <div className="text-sm text-gray-700">
-                  Learnica is typing...
+                <div className="bg-zinc-100 dark:bg-zinc-900 border border-transparent dark:border-zinc-800 px-4 py-3 rounded-2xl rounded-tl-none flex items-center gap-1.5 shadow-sm">
+                  <span className="w-1 h-1 bg-primary/60 rounded-full animate-bounce [animation-duration:0.6s]" />
+                  <span className="w-1 h-1 bg-primary/60 rounded-full animate-bounce [animation-duration:0.6s] [animation-delay:0.1s]" />
+                  <span className="w-1 h-1 bg-primary/60 rounded-full animate-bounce [animation-duration:0.6s] [animation-delay:0.2s]" />
                 </div>
+              </motion.div>
+            )}
+            
+            {error && (
+              <div className="flex justify-center mt-2">
+                <span className="px-3 py-1 text-[10px] text-red-500 bg-red-50 dark:bg-red-500/10 border border-red-100 dark:border-red-500/20 rounded-full">
+                  {error}
+                </span>
               </div>
             )}
           </div>
-        </div>
-        <form
-          onSubmit={handleSendMessage}
-          className="relative focus:outline-none h-[10vh]">
-          <div className="absolute left-2 top-3 flex items-center">
-            <Image
-              src={"/assets/sparkelai.webp"}
-              alt=""
-              width={20}
-              height={20}
-            />
-          </div>
-          <Input
-            value={userInput}
-            onChange={(e) => setUserInput(e.target.value)}
-            onKeyDown={handleKeyPress}
-            placeholder="Ask me anything..."
-            className="pr-12 pl-10 placeholder:italic placeholder:text-zinc-600 text-gray-700 focus:outline-none"
-          />
-          <Button
-            size="icon"
-            type="submit"
-            variant="destructive"
-            className="absolute right-1 top-1 h-8 w-10">
-            <SendHorizontalIcon className="h-5 w-5 text-white" />
-          </Button>
-        </form>
+        </ScrollArea>
       </div>
-    </section>
+
+      {/* Fixed Bottom Input (KokonutUI Style) */}
+      <div className="absolute bottom-0 left-0 right-0 p-4 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-t border-zinc-100 dark:border-zinc-900 z-20">
+        <div className="max-w-3xl mx-auto relative group">
+           <div className="rounded-2xl bg-zinc-100/50 dark:bg-zinc-900/50 p-1 shadow-sm border border-zinc-200/50 dark:border-zinc-800/50 transition-all group-focus-within:border-primary/30 group-focus-within:ring-4 group-focus-within:ring-primary/5">
+            <Textarea
+              ref={textareaRef}
+              value={userInput}
+              onChange={(e) => {
+                setUserInput(e.target.value);
+                adjustHeight();
+              }}
+              onKeyDown={handleKeyDown}
+              placeholder="Ask Learnica anything..."
+              className="w-full resize-none rounded-xl border-none bg-transparent px-4 py-3 text-[13px] placeholder:text-zinc-500 focus-visible:ring-0 focus-visible:ring-offset-0 dark:text-zinc-200 min-h-[52px]"
+            />
+            
+            <div className="flex items-center justify-between px-2 pb-1.5">
+              <div className="flex items-center gap-1">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-8 w-8 rounded-lg text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
+                >
+                  <Paperclip className="h-4 w-4" />
+                </Button>
+                <div className="h-4 w-[1px] bg-zinc-200 dark:bg-zinc-800 mx-1" />
+                <button 
+                  onClick={clearChat}
+                  className="text-[10px] px-2 py-1 rounded-md text-zinc-500 hover:bg-zinc-200/50 dark:hover:bg-zinc-800/50 transition-colors"
+                >
+                  Clear history
+                </button>
+              </div>
+
+              <Button
+                onClick={handleSendMessage}
+                disabled={!userInput.trim() || typing}
+                size="icon"
+                className={cn(
+                  "h-8 w-8 rounded-lg transition-all duration-200",
+                  userInput.trim() ? "bg-primary text-white scale-100 shadow-md shadow-primary/20" : "bg-zinc-200 dark:bg-zinc-800 text-zinc-400 scale-95"
+                )}
+              >
+                {typing ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowRight className="h-4 w-4" />}
+              </Button>
+            </div>
+          </div>
+        </div>
+        <p className="text-[9px] text-center text-zinc-400 mt-2 tracking-tight">
+          Powered by Gemini 2.5 Flash • Learnica AI can make mistakes.
+        </p>
+      </div>
+    </div>
   );
 };
 
 export default Chat;
+

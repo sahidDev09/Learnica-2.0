@@ -10,11 +10,15 @@
     "cssVariables": false,
     "prefix": ""
   },
+  "iconLibrary": "lucide",
   "aliases": {
     "components": "@/components",
     "utils": "@/lib/utils",
     "ui": "@/components/ui",
     "lib": "@/lib",
     "hooks": "@/hooks"
+  },
+  "registries": {
+    "@kokonutui": "https://kokonutui.com/r/{name}.json"
   }
 }

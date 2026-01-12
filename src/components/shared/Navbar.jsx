@@ -189,15 +189,18 @@ const Navbar = () => {
                           className=" rounded-full"
                         />
                       </SheetTrigger>
-                      <SheetContent className="w-[510px] sm:max-w-none">
-                        <SheetHeader>
-                          <SheetTitle>
-                            Here is some suggestions for you
-                          </SheetTitle>
-                          <SheetDescription>
+                      <SheetContent className="w-[400px] sm:w-[540px] p-0 border-l border-zinc-200 dark:border-zinc-800">
+                        <div className="flex flex-col h-full">
+                          <SheetHeader className="p-6 pb-0">
+                            <SheetTitle className="text-xl font-bold tracking-tight">Learnica AI Assistant</SheetTitle>
+                            <SheetDescription className="text-xs text-zinc-500">
+                              Ask anything about our courses, platforms, or general learning tips.
+                            </SheetDescription>
+                          </SheetHeader>
+                          <div className="flex-grow mt-4 overflow-hidden border-t border-zinc-100 dark:border-zinc-900">
                             <Chat />
-                          </SheetDescription>
-                        </SheetHeader>
+                          </div>
+                        </div>
                       </SheetContent>
                     </Sheet>
                   </li>
@@ -349,13 +352,15 @@ const Navbar = () => {
                   className=" rounded-full"
                 />
               </SheetTrigger>
-              <SheetContent className="md:w-[510px] w-screen">
-                <SheetHeader>
-                  <SheetTitle>Here is some suggestions for you</SheetTitle>
-                  <SheetDescription>
+              <SheetContent className="w-full sm:max-w-[400px] p-0 border-l border-zinc-200 dark:border-zinc-800">
+                <div className="flex flex-col h-full">
+                  <SheetHeader className="p-6 pb-2">
+                    <SheetTitle className="text-lg font-bold">Learnica AI</SheetTitle>
+                  </SheetHeader>
+                  <div className="flex-grow overflow-hidden border-t border-zinc-100 dark:border-zinc-900">
                     <Chat />
-                  </SheetDescription>
-                </SheetHeader>
+                  </div>
+                </div>
               </SheetContent>
             </Sheet>
           </li>
