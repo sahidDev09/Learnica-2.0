@@ -20,7 +20,7 @@ export default async function handler(req, res) {
         }
         if (search) {
           filter.$or = [
-            { title: { $regex: search, $options: "i" } }, 
+            { name: { $regex: search, $options: "i" } }, 
             { description: { $regex: search, $options: "i" } },
           ];
         }

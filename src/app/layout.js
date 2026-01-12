@@ -6,6 +6,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import { Suspense } from "react";
 import TanstackProvider from "./TanstackProvider";
+import { ReactLenis } from "@/lib/lenis";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -22,13 +23,15 @@ export default function RootLayout({ children }) {
       <body className='overflow-x-hidden'>
         <ClerkProvider>
           <TanstackProvider>
-            {!hideNavFoot && (
-              <Suspense fallback={<div>...</div>}>
-                <Navbar />
-              </Suspense>
-            )}
-            {children}
-            {!hideNavFoot && <Footer />}
+            <ReactLenis root>
+              {!hideNavFoot && (
+                <Suspense fallback={<div>...</div>}>
+                  <Navbar />
+                </Suspense>
+              )}
+              {children}
+              {!hideNavFoot && <Footer />}
+            </ReactLenis>
           </TanstackProvider>
         </ClerkProvider>
       </body>

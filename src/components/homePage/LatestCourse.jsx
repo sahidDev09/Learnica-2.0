@@ -12,9 +12,7 @@ const LatestCourses = () => {
     // Function to fetch courses
     const fetchCourses = async () => {
       try {
-        const res = await fetch(
-          process.env.NEXT_PUBLIC_BASE_URL + "/api/courses"
-        );
+        const res = await fetch("/api/courses");
         if (!res.ok) {
           throw new Error("Failed to fetch courses");
         }

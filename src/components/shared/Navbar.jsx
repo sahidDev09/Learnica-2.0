@@ -3,7 +3,6 @@ import { IoMdMenu } from "react-icons/io";
 import { RxCross1 } from "react-icons/rx";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import DarkModeLogo from "../../../public/assets/learnicaNavlogo.png";
 
 import { Button } from "../ui/button";
 
@@ -84,7 +83,7 @@ const Navbar = () => {
       if (currUser) {
         try {
           const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/user?email=${currUser}`
+            `/api/users/user?email=${currUser}`
           );
           const data = await response.json();
           const currData = data;
@@ -104,7 +103,7 @@ const Navbar = () => {
       if (currUser) {
         try {
           const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/api/get-orders?email=${currUser}`
+            `/api/get-orders?email=${currUser}`
           );
           const data = await response.json();
           // Check if email is found in the data
@@ -120,27 +119,18 @@ const Navbar = () => {
   }, [currUser]);
 
 
-  if (loading) {
-    return (
-      <div className=" bg-secondary w-full text-center text-white">
-        please wait..
-      </div>
-    );
-  }
-  
-
   return (
-    <nav className="bg-secondary">
-      <div className="sticky z-20 top-0 w-full container mx-auto text-white dark:bg-black">
-        <div className="rounded-b-2xl flex mx-auto justify-between items-center py-2 md:py-5 px-3 md:px-0">
+    <nav className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-slate-100">
+      <div className="w-full container mx-auto text-slate-900">
+        <div className="flex mx-auto justify-between items-center py-4 px-6 md:px-0">
           <Link href={"/"}>
-            <div>
+            <div className="flex items-center gap-2">
               <Image
-                src={DarkModeLogo}
+                src={"/assets/navLogo.png"}
                 alt="Logo"
                 width={100}
                 height={100}
-                className="w-40"
+                className="w-32"
               />
             </div>
           </Link>
@@ -157,25 +147,25 @@ const Navbar = () => {
               <ul className="flex gap-6">
                 <Link
                   href="/"
-                  className="duration-150 hover:border-transparent hover:font-bold text-center p-1">
+                  className="duration-150 text-slate-600 hover:text-primary font-semibold text-center p-1">
                   <li>Home</li>
                 </Link>
 
                 <Link
                   href="/all-courses"
-                  className="duration-150 hover:border-transparent p-1 text-center hover:font-bold">
+                  className="duration-150 text-slate-600 hover:text-primary font-semibold p-1 text-center">
                   <li>Courses</li>
                 </Link>
 
                 {user && (
                   <>
                     {(showLiveClasses || user?.unsafeMetadata?.role === "teacher" || mainRole === "admin") && (
-                  <Link href="/live_class" className="duration-150 hover:border-transparent p-1 text-center hover:font-bold">
+                  <Link href="/live_class" className="duration-150 text-slate-600 hover:text-primary font-semibold p-1 text-center">
                     <li>Live classes</li>
                   </Link>
                 )}
                     <li
-                      className="duration-150 hover:border-transparent p-1 text-center cursor-pointer hover:font-bold"
+                      className="duration-150 text-slate-600 hover:text-primary font-semibold p-1 text-center cursor-pointer"
                       onClick={() => setShowSupportModal(true)}>
                       Helpline
                     </li>
@@ -184,7 +174,7 @@ const Navbar = () => {
 
                 <Link
                   href="/about"
-                  className="duration-150 hover:border-transparent p-1 text-center hover:font-bold">
+                  className="duration-150 text-slate-600 hover:text-primary font-semibold p-1 text-center">
                   <li>About Us</li>
                 </Link>
                 {user && (
@@ -217,8 +207,7 @@ const Navbar = () => {
                   <SignedOut>
                     <Button
                       onClick={() => setShowSignIn(true)}
-                      variant="secondary"
-                      className="rounded-full">
+                      className="rounded-full bg-primary hover:bg-primary/90 text-white px-6 font-bold shadow-lg shadow-primary/20 transition-all hover:scale-105">
                       Sign-in
                     </Button>
                   </SignedOut>

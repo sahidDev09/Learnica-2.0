@@ -7,7 +7,7 @@ import LatestCourses from "@/components/homePage/LatestCourse";
 import Promotional from "@/components/homePage/Promotional";
 import Reviews from "@/components/homePage/Reviews";
 import MoveToTop from "@/components/homePage/MoveToTop";
-import { ReactLenis } from "/src/lib/lenis.jsx";
+
 
 const HomePage = () => {
   return (

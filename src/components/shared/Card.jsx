@@ -18,43 +18,55 @@ const Card = ({ course, btnDetailsText }) => {
   }
 
   return (
-    <div className=" bg-card">
-      <div className="w-full mx-auto md:mx-0 border rounded-xl text-gray-800 dark:bg-gray-800 dark:text-white shadow-md">
+    <div className="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(0,0,0,0.1)] transition-all duration-300 group border border-slate-100 overflow-hidden h-full flex flex-col">
+      <div className="relative overflow-hidden h-52">
         <Image
-          className="w-full h-[260px] rounded-t-xl"
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           src={course?.additionalInfo?.image}
           alt={course?.name}
-          width={1000}
-          height={1000}
+          width={400}
+          height={300}
         />
-
-        <div className="p-4">
-          <p className="text-white md:text-base text-sm bg-primary rounded-full px-2 py-0.5 w-fit">
+        <div className="absolute top-4 left-4">
+          <p className="text-white text-xs font-bold uppercase tracking-wider bg-primary/90 backdrop-blur-md rounded-lg px-3 py-1 shadow-lg">
             {course.category}
           </p>
-          <h3 className="text-lg font-semibold mb-1 mt-2">
-            {course.name.length > 35
-              ? `${course.name.slice(0, 35)}...`
-              : course.name}
-          </h3>
-          <p className="text-gray-500 text-sm">
-            Published:{" "}
-            <span className="font-semibold">
-              {formatDate(course.publish_date)}
-            </span>
-          </p>
-          <p className="text-sm text-gray-500 mt-1">
-            Author: <span className="font-semibold">{course.author.name}</span>
-          </p>
+        </div>
+      </div>
 
-          <div className="flex items-center justify-between gap-4">
-            {!btnDetailsText &&
-              <p className="text-2xl font-bold text-secondary">${course.pricing}</p> 
-            }
-            <Link href={`/all-courses/${course._id}`}>
-              <Button className="mt-4 mb-2 bg-secondary">{btnDetailsText ? btnDetailsText : "View Details"}</Button>
-            </Link>
+      <div className="p-6 flex flex-col flex-grow">
+        <h3 className="text-xl font-bold mb-2 text-slate-800 line-clamp-2 min-h-[56px] group-hover:text-primary transition-colors">
+          {course.name}
+        </h3>
+        
+        <div className="flex items-center gap-2 mb-4">
+          <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center overflow-hidden">
+            <Image 
+              src={course.author?.profile || "/assets/profile.png"} 
+              alt={course.author?.name} 
+              width={32} 
+              height={32}
+              className="object-cover"
+            />
           </div>
+          <p className="text-sm text-slate-500 font-medium">
+            By <span className="text-slate-900">{course.author.name}</span>
+          </p>
+        </div>
+
+        <div className="mt-auto pt-4 border-t border-slate-50 flex items-center justify-between">
+          {!btnDetailsText ? (
+            <div className="flex flex-col">
+              <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Price</span>
+              <p className="text-2xl font-black text-secondary">${course.pricing}</p> 
+            </div>
+          ) : <div />}
+          
+          <Link href={`/all-courses/${course._id}`}>
+            <Button className="bg-secondary hover:bg-secondary/90 text-white rounded-xl px-6 py-2 h-auto font-bold transition-all hover:translate-x-1 shadow-lg shadow-secondary/20">
+              {btnDetailsText ? btnDetailsText : "View Details"}
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
