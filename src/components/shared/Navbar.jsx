@@ -189,7 +189,7 @@ const Navbar = () => {
                           className=" rounded-full"
                         />
                       </SheetTrigger>
-                      <SheetContent className="w-[400px] sm:w-[540px] md:w-[600px] p-0 border-l border-zinc-200 dark:border-zinc-800">
+                      <SheetContent className="min-w-[500px] p-0 border-l border-red-500 dark:  border-zinc-800">
                         <div className="flex flex-col h-full">
                           <SheetHeader className="p-6 pb-0">
                             <SheetTitle className="text-xl font-bold tracking-tight">Learnica AI Assistant</SheetTitle>

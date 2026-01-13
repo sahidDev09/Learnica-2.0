@@ -2,8 +2,9 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Bot, User, Loader2, Trash2, Paperclip, ArrowRight, Sparkles } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { useState, useEffect, useRef, useMemo } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUser } from "@clerk/nextjs";
 import suggestion from "/src/lib/chataisuggestion.json";
@@ -53,13 +54,11 @@ const Chat = () => {
   // Auto-scroll to bottom
   useEffect(() => {
     if (scrollRef.current) {
-      const scrollContainer = scrollRef.current.querySelector('[data-radix-scroll-area-viewport]');
-      if (scrollContainer) {
-        scrollContainer.scrollTo({
-          top: scrollContainer.scrollHeight,
-          behavior: 'smooth'
-        });
-      }
+      const scrollContainer = scrollRef.current;
+      scrollContainer.scrollTo({
+        top: scrollContainer.scrollHeight,
+        behavior: 'smooth'
+      });
     }
   }, [messages, typing]);
 
@@ -161,10 +160,13 @@ const Chat = () => {
         ))}
       </div>
 
-      {/* Chat Messages Area */}
       <div className="flex-grow relative overflow-hidden">
-        <ScrollArea className="h-full w-full p-4 md:p-6" ref={scrollRef}>
-          <div className="space-y-6 pb-24"> {/* Extra padding at bottom for the fixed input area */}
+        <div 
+          className="h-full w-full overflow-y-auto p-4 md:p-6 overscroll-y-none scroll-smooth" 
+          ref={scrollRef}
+          onWheel={(e) => e.stopPropagation()}
+        >
+          <div className="space-y-6 pb-32"> {/* Extra padding at bottom for the fixed input area */}
             <AnimatePresence initial={false}>
               {messages.map((m, index) => (
                 <motion.div
@@ -191,8 +193,48 @@ const Chat = () => {
                         ? "bg-primary text-primary-foreground rounded-tr-none" 
                         : "bg-zinc-100 dark:bg-zinc-900 border border-transparent dark:border-zinc-800 rounded-tl-none text-zinc-800 dark:text-zinc-200"
                       }`}>
-                        {m.text}
-                        <span className="block mt-1.5 text-[8px] opacity-40 text-right">
+                        <div className="prose-sm max-w-none break-words">
+                          <ReactMarkdown 
+                            remarkPlugins={[remarkGfm]}
+                            components={{
+                              ul: ({node, ...props}) => <ul className="list-disc pl-4 my-2 space-y-1" {...props} />,
+                              ol: ({node, ...props}) => <ol className="list-decimal pl-4 my-2 space-y-1" {...props} />,
+                              li: ({node, ...props}) => <li className="pl-1" {...props} />,
+                              h1: ({node, ...props}) => <h1 className="text-base font-bold my-2" {...props} />,
+                              h2: ({node, ...props}) => <h2 className="text-sm font-bold my-2" {...props} />,
+                              h3: ({node, ...props}) => <h3 className="text-sm font-bold my-1" {...props} />,
+                              strong: ({node, ...props}) => <span className="font-bold" {...props} />,
+                              a: ({node, ...props}) => <a className="underline underline-offset-2 opacity-90 hover:opacity-100" target="_blank" rel="noopener noreferrer" {...props} />,
+                              blockquote: ({node, ...props}) => <blockquote className="border-l-2 pl-4 italic opacity-80 my-2" {...props} />,
+                              code: ({node, inline, className, children, ...props}) => {
+                                return inline ? (
+                                  <code className={`px-1 py-0.5 rounded font-mono text-[11px] ${
+                                    m.role === "user" 
+                                    ? "bg-primary-foreground/20 text-primary-foreground" 
+                                    : "bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200"
+                                  }`} {...props}>
+                                    {children}
+                                  </code>
+                                ) : (
+                                  <div className="rounded-md my-2 overflow-hidden border border-zinc-200 dark:border-zinc-800 shadow-sm bg-zinc-950">
+                                     <div className="px-3 py-1.5 bg-zinc-900/50 border-b border-zinc-800 flex items-center justify-between">
+                                        <span className="text-[10px] text-zinc-400 font-medium">Code</span>
+                                     </div>
+                                     <div className="p-3 overflow-x-auto bg-zinc-950">
+                                       <code className="font-mono text-xs text-zinc-300 block min-w-full" {...props}>
+                                         {children}
+                                       </code>
+                                     </div>
+                                  </div>
+                                );
+                              },
+                              p: ({node, ...props}) => <p className="mb-2 last:mb-0" {...props} />,
+                            }}
+                          >
+                            {m.text}
+                          </ReactMarkdown>
+                        </div>
+                        <span className="block mt-3 text-[8px] opacity-40 text-right">
                           {new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       </div>
@@ -224,7 +266,7 @@ const Chat = () => {
               </div>
             )}
           </div>
-        </ScrollArea>
+        </div>
       </div>
 
       {/* Fixed Bottom Input (KokonutUI Style) */}
