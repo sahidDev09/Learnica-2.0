@@ -10,7 +10,7 @@ Click Here : [Learnica Live Preview](https://learnica-2-0.vercel.app)
 
 ## 🛠️ Key Features
 
-- **Role Management:** Manage roles for different users (Admin, Instructor, Student) with customizable permissions.
+- **Role Management:** Manage roles for different users (Admin, Instructor, Student) with customizable permissions.n hi 
 
 - **CRUD Operations:** Easily manage courses, user profiles, and other resources with create, read, update, and delete functionalities.
 
