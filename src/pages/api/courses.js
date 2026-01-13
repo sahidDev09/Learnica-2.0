@@ -32,7 +32,10 @@ export default async function handler(req, res) {
             .skip(skip)
             .limit(limit)
             .toArray(); 
-          const uniqueCategories = await courseCollection.distinct("category");
+          let uniqueCategories = [];
+          if (req.query.includeCategories === 'true') {
+             uniqueCategories = await courseCollection.distinct("category");
+          }
 
           res.status(200).json({
             products: courses,

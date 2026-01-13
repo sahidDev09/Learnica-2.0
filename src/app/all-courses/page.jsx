@@ -31,6 +31,10 @@ const Page = () => {
       search: search.trim(),
     });
 
+    if (categories.length === 0) {
+      queryParams.append('includeCategories', 'true');
+    }
+
     const res = await fetch(`/api/courses?${queryParams.toString()}`);
     const data = await res.json();
 
@@ -52,19 +56,7 @@ const Page = () => {
     return debouncedFetchCourses.cancel;
   }, [debouncedFetchCourses]);
 
-  useEffect(() => {
-    const fetchInitialCategories = async () => {
-      setLoading(true);
-      const res = await fetch("/api/courses?page=1&size=1000");
-      const data = await res.json();
-      if (data.categories) {
-        setCategories(data.categories);
-      }
-      setLoading(false);
-    };
 
-    fetchInitialCategories();
-  }, []);
 
   const handleSearchChange = (e) => {
     setPage(1);
