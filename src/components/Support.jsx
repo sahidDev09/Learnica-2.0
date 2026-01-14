@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import { Button } from "./ui/button";
 import { Cross } from "lucide-react";
 
-const Support = ({ showSupportModal, setShowSupportModal, user }) => {
+const Support = ({ showSupportModal, setShowSupportModal, user, className = "" }) => {
   const [selectedOption, setSelectedOption] = useState("");
   const [issueText, setIssueText] = useState("");
   const [isButtonActive, setIsButtonActive] = useState(false);
@@ -176,10 +176,10 @@ const Support = ({ showSupportModal, setShowSupportModal, user }) => {
       {/* Support Modal */}
       {showSupportModal && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop:blur-3xl"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-3xl"
           onClick={handleSupportModalClose} // Close modal when clicked outside
         >
-          <div className="relative p-6 rounded-lg w-96 lg:w-[600px]   bg-secondary ">
+          <div className={`relative p-6 rounded-lg w-96 lg:w-[600px] bg-secondary max-h-[90vh] overflow-y-auto ${className}`}>
             {/* Close Button */}
             <div className="flex justify-between my-2">
               <div>

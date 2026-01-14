@@ -49,7 +49,7 @@
     "lucide-react": "^0.441.0",
     "micro": "^10.0.1",
     "mongodb": "^6.9.0",
-    "motion": "^12.25.0",
+    "motion": "^12.26.2",
     "next": "^14.2.12",
     "next-cloudinary": "^6.16.0",
     "react": "^18.3.1",

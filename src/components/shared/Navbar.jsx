@@ -22,7 +22,12 @@ import {
 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaCashRegister } from "react-icons/fa";
-import Support from "../Support";
+import HelplineContent from "../HelplineContent";
+import {
+  ExpandableScreen,
+  ExpandableScreenContent,
+  ExpandableScreenTrigger,
+} from "../ui/expandable-screen";
 
 import {
   Sheet,
@@ -35,7 +40,6 @@ import {
 import Chat from "../Chat";
 
 const Navbar = () => {
-  const [showSupportModal, setShowSupportModal] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
   const [showLiveClasses, setShowLiveClasses] = useState(false); 
@@ -164,11 +168,16 @@ const Navbar = () => {
                     <li>Live classes</li>
                   </Link>
                 )}
-                    <li
-                      className="duration-150 text-slate-600 hover:text-primary font-semibold p-1 text-center cursor-pointer"
-                      onClick={() => setShowSupportModal(true)}>
-                      Helpline
-                    </li>
+                    <ExpandableScreen layoutId="helpline-desktop">
+                      <li className="duration-150 text-slate-600 hover:text-primary font-semibold p-1 text-center cursor-pointer">
+                        <ExpandableScreenTrigger>
+                          Helpline
+                        </ExpandableScreenTrigger>
+                      </li>
+                      <ExpandableScreenContent className="z-[100]">
+                        <HelplineContent user={user} />
+                      </ExpandableScreenContent>
+                    </ExpandableScreen>
                   </>
                 )}
 
@@ -377,10 +386,16 @@ const Navbar = () => {
                   </Link>
                 )}
           </li>
-          <li
-            className=" hover:font-bold"
-            onClick={()=>setShowSupportModal(true)}>Helpline
-          </li>
+          <ExpandableScreen layoutId="helpline-mobile">
+            <li className="hover:font-bold">
+              <ExpandableScreenTrigger>
+                Helpline
+              </ExpandableScreenTrigger>
+            </li>
+            <ExpandableScreenContent className="z-[100]">
+              <HelplineContent user={user} />
+            </ExpandableScreenContent>
+          </ExpandableScreen>
           <li>
             <Link href="/about" className="hover:font-bold">About Us</Link>
           </li>
@@ -401,11 +416,7 @@ const Navbar = () => {
       )}
       {/* support moadal */}
 
-      <Support
-        user={user}
-        showSupportModal={showSupportModal}
-        setShowSupportModal={setShowSupportModal}
-        className="overflow-y-auto max-h-screen"></Support>
+
     </nav>
   );
 };
