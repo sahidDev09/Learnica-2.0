@@ -1,12 +1,10 @@
 "use client";
 import Loading from "@/app/loading";
 import NoDataFound from "@/app/noDataFound";
-
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
-import { BiSolidShow } from "react-icons/bi";
-import { MdDelete } from "react-icons/md";
+import { Eye, Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
 
 const CoursesPage = () => {
@@ -40,7 +38,6 @@ const CoursesPage = () => {
         })
           .then((res) => res.json())
           .then((data) => {
-           
             if (data.message) {
               Swal.fire("Deleted!", "Successfully deleted.", "success");
               refetch();
@@ -61,79 +58,96 @@ const CoursesPage = () => {
   }
 
   return (
-    <div className=" m-4 mt-10 md:mt-0">
-      <div className="overflow-x-auto px-2 py-6">
-        <table className="table shadow-xl">
-          <thead>
-            <tr className="bg-secondary text-white text-lg">
-              <th className="">Sl</th>
-              <th className="">Owner</th>
-              <th className="">Buyer</th>
-              <th className="">Price</th>
-              <th className="">Status</th>
-              <th className="">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {courses?.length > 0 ? (
-              courses?.map((item, index) => (
-                <tr
-                  key={index}
-                  className="hover:bg-secondary transition-all ease-in-out duration-300 hover:rounded-md hover:text-white text-lg">
-                  <td className="">{index + 1}</td>
-                  <td className="">
-                    <div className="flex items-center gap-3">
-                      <div className="avatar">
-                        <div className="mask mask-squircle h-12 w-12 border-2">
+    <div className="p-6">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-800">Manage Courses</h1>
+        <p className="text-gray-600">Overview of all courses available on the platform</p>
+      </div>
+
+      <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-gray-50 border-b border-gray-100 text-gray-600 uppercase text-xs tracking-wider">
+                <th className="p-5 font-semibold">#</th>
+                <th className="p-5 font-semibold">Course & Author</th>
+                <th className="p-5 font-semibold">Students</th>
+                <th className="p-5 font-semibold">Price</th>
+                <th className="p-5 font-semibold">Status</th>
+                <th className="p-5 font-semibold">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {courses?.length > 0 ? (
+                courses?.map((item, index) => (
+                  <tr
+                    key={index}
+                    className="hover:bg-purple-50 transition-colors duration-200"
+                  >
+                    <td className="p-5 text-gray-500 font-medium">{index + 1}</td>
+                    <td className="p-5">
+                      <div className="flex items-center gap-4">
+                        <div className="relative w-12 h-12 rounded-xl overflow-hidden shadow-sm flex-shrink-0">
                           <Image
-                            src={
-                              item?.additionalInfo?.image ||
-                              "/default-image.jpg"
-                            }
-                            alt={item?.title || "No title available"}
-                            height={80}
-                            width={100}
+                            src={item?.additionalInfo?.image || "/default-image.jpg"}
+                            alt={item?.title || "Course Image"}
+                            fill
+                            className="object-cover"
                           />
                         </div>
-                      </div>
-                      <div>
-                        <div className="font-bold">
-                          {item?.name?.length > 20
-                            ? `${item.name.slice(0, 20)}...`
-                            : item?.name || "Unnamed Course"}
+                        <div>
+                          <div className="font-semibold text-gray-800">
+                            {item?.name?.length > 30
+                              ? `${item.name.slice(0, 30)}...`
+                              : item?.name || "Unnamed Course"}
+                          </div>
+                          <div className="text-xs text-gray-500 mt-0.5">
+                            by {item?.author?.name || "Unknown Author"}
+                          </div>
                         </div>
-                        <div className="text-sm opacity-50">
-                          by {item?.author?.name || "Unknown Author"}
-                        </div>
                       </div>
-                    </div>
-                  </td>
+                    </td>
 
-                  <td className="">376</td>
-                  <td className="">{item?.pricing || "N/A"} $</td>
-                  <td className="">{item?.status || "Published"}</td>
+                    <td className="p-5 text-gray-600 font-medium">376</td>
+                    <td className="p-5 text-gray-800 font-bold">
+                      {item?.pricing ? `$${item.pricing}` : "Free"}
+                    </td>
+                    <td className="p-5">
+                      <span className="px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+                        {item?.status || "Published"}
+                      </span>
+                    </td>
 
-                  <td className="">
-                    <div className="flex gap-4">
-                      <Link href={`/all-courses/${item?._id}`}>
-                        <BiSolidShow className="text-2xl" />
-                      </Link>
-                      <button onClick={() => handleDelete(item?._id)}>
-                        <MdDelete className="text-2xl text-primary" />
-                      </button>
-                    </div>
+                    <td className="p-5">
+                      <div className="flex items-center gap-3">
+                        <Link 
+                          href={`/all-courses/${item?._id}`}
+                          className="bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition-colors"
+                          title="View Details"
+                        >
+                          <Eye size={18} />
+                        </Link>
+                        <button 
+                          onClick={() => handleDelete(item?._id)}
+                          className="bg-red-50 text-red-600 p-2 rounded-lg hover:bg-red-100 transition-colors"
+                          title="Delete Course"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6" className="p-8 text-center">
+                    <NoDataFound />
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="6" className="text-center text-lg font-bold">
-                  <NoDataFound />
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
