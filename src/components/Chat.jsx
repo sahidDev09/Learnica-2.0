@@ -190,7 +190,7 @@ const Chat = () => {
                     <div className={`flex flex-col ${m.role === "user" ? "items-end" : "items-start"}`}>
                       <div className={`px-4 py-3 rounded-2xl text-[13px] leading-relaxed shadow-sm ${
                         m.role === "user" 
-                        ? "bg-primary text-primary-foreground rounded-tr-none" 
+                        ? "bg-[#135276] text-white rounded-tr-none" 
                         : "bg-zinc-100 dark:bg-zinc-900 border border-transparent dark:border-zinc-800 rounded-tl-none text-zinc-800 dark:text-zinc-200"
                       }`}>
                         <div className="prose-sm max-w-none break-words">
@@ -210,7 +210,7 @@ const Chat = () => {
                                 return inline ? (
                                   <code className={`px-1 py-0.5 rounded font-mono text-[11px] ${
                                     m.role === "user" 
-                                    ? "bg-primary-foreground/20 text-primary-foreground" 
+                                    ? "bg-white/20 text-white" 
                                     : "bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200"
                                   }`} {...props}>
                                     {children}
