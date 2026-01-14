@@ -124,6 +124,7 @@ const Navbar = () => {
 
 
   return (
+    <>
     <nav className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-slate-100">
       <div className="w-full container mx-auto text-slate-900">
         <div className="flex mx-auto justify-between items-center py-4 px-6 md:px-0">
@@ -402,22 +403,24 @@ const Navbar = () => {
         </ul>
       </div>
 
-      {/* Sign In Modal */}
-      {showSignIn && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop:blur-3xl overflow-y-auto max-h-screen"
-          onClick={handleOverlayOut}>
-          <SignIn
-            routing="hash"
-            signUpForceRedirectUrl="/"
-            fallbackRedirectUrl="/onboarding"
-          />
-        </div>
-      )}
       {/* support moadal */}
 
 
     </nav>
+
+    {/* Sign In Modal - Rendered outside nav for full-screen coverage */}
+    {showSignIn && (
+      <div
+        className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm overflow-y-auto"
+        onClick={handleOverlayOut}>
+        <SignIn
+          routing="hash"
+          signUpForceRedirectUrl="/"
+          fallbackRedirectUrl="/onboarding"
+        />
+      </div>
+    )}
+    </>
   );
 };
 
