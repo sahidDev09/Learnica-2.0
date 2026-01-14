@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import Header from "./_components/Header";
 import Sidebar from "./_components/Sidebar";
 import { useUser } from "@clerk/nextjs";
@@ -9,6 +10,7 @@ import { FiMenu, FiX } from "react-icons/fi"; // For the menu and close icons
 const Layout = ({ children }) => {
   const [mainRole, setMainRole] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State for toggling sidebar in mobile view
+  const pathname = usePathname();
 
   const { user } = useUser();
 
@@ -37,6 +39,9 @@ const Layout = ({ children }) => {
     setIsSidebarOpen((prev) => !prev); // Toggle the sidebar state
   };
 
+  // Check if current path is admin route
+  const isAdminRoute = pathname?.includes('/admin');
+
   return (
     <div className="">
       {/* Menu Icon for Mobile View */}
@@ -54,7 +59,7 @@ const Layout = ({ children }) => {
         className={`fixed sm:w-72 h-full sm:block transition-transform transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } sm:translate-x-0 bg-white z-40 -mt-10 md:mt-0 `}>
-        {mainRole === "admin" ? <AdminSidebar /> : <Sidebar />}
+        {mainRole === "admin" || isAdminRoute ? <AdminSidebar /> : <Sidebar />}
       </div>
 
       <div className={`sm:ml-72 transition-all`}>
