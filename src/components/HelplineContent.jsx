@@ -184,7 +184,7 @@ const HelplineContent = ({ user }) => {
                 />
             </div>
             <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">
-              We're Here to <span className="text-blue-400">Help</span>
+              We&apos;re Here to <span className="text-blue-400">Help</span>
             </h1>
             <p className="text-slate-300 text-lg max-w-md leading-relaxed">
               Facing an issue? Our dedicated support team is ready to assist you in real-time.
