@@ -2,9 +2,9 @@
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Header from "./_components/Header";
-import Sidebar from "./_components/Sidebar";
 import { useUser } from "@clerk/nextjs";
 import AdminSidebar from "./_components/AdminSidebar";
+import TeacherSidebar from "./_components/TeacherSidebar";
 import { FiMenu, FiX } from "react-icons/fi"; // For the menu and close icons
 
 const Layout = ({ children }) => {
@@ -54,10 +54,10 @@ const Layout = ({ children }) => {
     }
   }, [isAdminRoute, mainRole, loading, isLoaded, router]);
 
-  if ((!isLoaded || loading) && isAdminRoute) {
+  if (!isLoaded || loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-500"></div>
       </div>
     );
   }
@@ -79,7 +79,7 @@ const Layout = ({ children }) => {
         className={`fixed sm:w-72 h-full sm:block transition-transform transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } sm:translate-x-0 bg-white z-40 -mt-10 md:mt-0 `}>
-        {mainRole === "admin" ? <AdminSidebar /> : <Sidebar />}
+        {mainRole === "admin" ? <AdminSidebar /> : <TeacherSidebar />}
       </div>
 
       <div className={`sm:ml-72 transition-all`}>
