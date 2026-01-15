@@ -177,7 +177,7 @@ export default function AddClasses() {
               value={formData.liveTime}
               onChange={handleChange}
               className="input input-bordered w-full min-w-0"
-              placeholder="Enter live time (e.g., 03:00 PM, 25 Sept)"
+              placeholder="Enter live time (e.g., 03:00 PM, 25 Sep 2026)"
               required
             />
           </div>
