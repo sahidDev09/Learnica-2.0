@@ -1,113 +1,120 @@
-# Learnica - Online Course Management System
+# <p align="center"><img src="public/assets/learnicaNavlogo.png" width="40" alt="Learnica Logo"> Learnica 2.0</p>
 
-Welcome to Learnica, a comprehensive platform for online courses designed to deliver a seamless learning experience similar to Coursera or Udemy. Developed by a team of skilled developers, Learnica combines powerful features and a modern UI to cater to both learners and instructors, offering a wide range of functionalities to facilitate online education.
+<p align="center">
+  <strong>Empowering Minds, Shaping Futures</strong>
+</p>
 
-# 🌐 Live Demo
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js" alt="Next.js 14">
+  <img src="https://img.shields.io/badge/React-18-blue?style=for-the-badge&logo=react" alt="React 18">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css" alt="Tailwind CSS">
+  <img src="https://img.shields.io/badge/MongoDB-Checked-47A248?style=for-the-badge&logo=mongodb" alt="MongoDB">
+  <img src="https://img.shields.io/badge/Clerk-Auth-6C47FF?style=for-the-badge&logo=clerk" alt="Clerk Auth">
+</p>
 
-Click Here : [Learnica Live Preview](https://learnica-2-0.vercel.app)
+---
 
-![Overview](https://i.postimg.cc/c18z6jLt/temp-Image-JFv-GLd.avif)
+## 🌟 Overview
 
-## 🛠️ Key Features
+**Learnica 2.0** is a state-of-the-art Online Course Management System designed to provide a premium, seamless learning experience. Drawing inspiration from leading platforms like Coursera and Udemy, Learnica combines a stunning user interface with robust functionality, catering to the needs of students, instructors, and administrators alike.
 
-- **Role Management:** Manage roles for different users (Admin, Instructor, Student) with customizable permissions.
+### 🔗 [Live Preview](https://learnica-2-0.vercel.app)
 
-- **CRUD Operations:** Easily manage courses, user profiles, and other resources with create, read, update, and delete functionalities.
+![Homepage Banner](public/assets/screenshots/homepage.png)
 
-- **Pagination, Filtering, and Search:** Browse courses with ease through efficient pagination, filtering by categories, and search options.
+---
 
-- **Course Enrollment:** Users can easily enroll in courses with a streamlined enrollment process.
+## ✨ Key Features
 
-- **Authentication with Clerk:** Secure and simplified user authentication powered by Clerk.
+### 🎓 For Students
+- **Personalized Learning:** Track your progress through each lesson with our intuitive class tracking system.
+- **Custom Course Collections:** Build your own custom library of topics and courses.
+- **AI Chatbot Assistant:** Get instant help and guidance from our built-in AI assistant.
+- **Rich Resources:** Access PDFs, guides, and download certificates upon completion.
+- **Interactive Notes:** Take course-specific notes directly within the platform.
 
-- **Custom Courses:** Students can create their own custom course collections tailored to their interests.
+### 👨‍🏫 For Instructors
+- **Comprehensive Dashboard:** Manage your courses, track student engagement, and view statistics.
+- **Live Classes:** Schedule and host real-time sessions with students.
+- **Resource Management:** Upload and manage supplementary materials effortlessly.
 
-- **Chatbot AI:** Real-time AI-powered chatbot to assist users with questions and navigation.
+### 🛡️ For Administrators
+- **Robust Role Management:** Manage Admin, Instructor, and Student roles with ease.
+- **Course Moderation:** Review and approve course submissions to maintain quality.
+- **Financial Tracking:** Monitor successful orders and manage payment details.
 
-- **Notes for Specific Courses:** Take notes specific to each course for better tracking and retention.
+---
 
-- **Resources Section:** Authors can upload course-related resources (PDFs, guides, etc.) in a dedicated resources section.
+## 📸 Screenshots
 
-- **Video Locking Mechanism:** Course videos are locked for unenrolled students; they must enroll to access videos, notes, and review sections.
-- **Class Tracking Progression:** Track progression through each class for a better learning experience.
+<div align="center">
+  <img src="public/assets/screenshots/courses.png" width="800" alt="Courses Gallery">
+  <p><em>Explore a wide variety of courses with ease</em></p>
+</div>
 
-- **Course Completion Celebration:** Upon course completion, users are greeted with a celebration screen to recognize their achievement, enhancing user motivation.
+---
 
-- **Payment Gateway Integration:** Secure payment integration for easy course purchases.
+## 🛠️ Technology Stack
 
-- **Payment History:** View payment history and track course purchases.
+| Layer | Technologies |
+| :--- | :--- |
+| **Frontend** | Next.js 14, React 18, Framer Motion, Tailwind CSS, Lucide Icons |
+| **UI Components** | Shadcn/UI, Daisy UI |
+| **Backend** | Node.js, Express.js |
+| **Database** | MongoDB |
+| **Authentication** | Clerk |
+| **Real-time** | Socket.io |
+| **Payments** | Stripe Gateway |
+| **Media** | Next-Cloudinary |
 
-- **Certification:** Download certificates upon course completion to showcase achievements.
+---
 
-- **Course Rating System:** Leave and view ratings and reviews for courses.
-
-## 🖥️ Technologies Used
-
-### Frontend
-
-- **Next.js 14:** A powerful React framework for building server-rendered applications and static websites, enabling improved performance and SEO.
-
-- **Clerk:** A user authentication and management service that supports various authentication methods, including social login and multi-factor authentication.
-
-- **Shadcn UI:** A collection of pre-designed React components and styles for building beautiful user interfaces quickly and efficiently.
-
-- **Daisy UI:** A Tailwind CSS component library that provides a set of pre-designed UI components for faster development with a consistent look.
-
-- **Tailwind CSS:** A utility-first CSS framework for styling web applications, allowing for rapid UI development with customizable design.
-
-- **Framer Motion:** A popular library for creating smooth animations and transitions in React applications, enhancing user experience.
-
-- **Lenis:** A smooth scrolling library that enhances the scrolling experience on web applications, making it more visually appealing.
-
-### Backend
-
-- **Node.js & Express.js:** Handles API requests and server logic.
-
-- **MongoDB:** A NoSQL database used for storing application data, providing flexibility and scalability for data management.
-
-- **Socket.io:** A real-time communication library that enables chat and interactive features, enhancing user engagement through instant messaging capabilities.
-
-### Testing and Collaboration
-
-- **Jest:** A testing framework for JavaScript applications, used for unit and integration testing to ensure code quality and functionality.
-
-- **Git Collaboration:** A version control system for tracking changes in code and collaborating with team members on the project.
-
-- **Notion:** A productivity tool used for documentation, project management, and collaboration among team members.
-
-- **Figma:** A web-based design tool for creating user interfaces, prototypes, and design collaboration among team members.
-
-- **Trello:** A project management tool that helps organize tasks, track progress, and collaborate effectively within the team.
-
-## Getting Started
-
-Follow these steps to set up your Next.js project locally for development and testing.
+## 🚀 Getting Started
 
 ### Prerequisites
-
-Make sure you have the following software installed on your machine:
-
-- [Node.js](https://nodejs.org/en/download/) (v12.22.0 or later)
-- [npm](https://www.npmjs.com/get-npm) (comes with Node.js)
+- Node.js (v18.x or later)
+- npm or yarn
 
 ### Installation
 
-Clone the repository to your local machine:
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/sahidDev09/Learnica-2.0.git
+   cd Learnica-2.0
+   ```
 
-```bash
-git clone https://github.com/sahidDev09/Learnica-2.0
-cd learnica2.0
-npm run dev
-```
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-## 📚 Documentation
+3. **Set up environment variables:**
+   Create a `.env.local` file in the root directory and add your credentials (Clerk, MongoDB, Stripe, etc.).
 
-For detailed information about the project, APIs, and more, please refer to the project documentation [Project Documentation](https://docs.google.com/document/d/1z-jP5jOvPV1-gmGWIApbxTUz4zkCE_-YS27OcJH_0vY/edit?usp=sharing).
+4. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
 
-## 👥 Contributors
+5. **Open the browser:**
+   Navigate to [http://localhost:3000](http://localhost:3000) to see the magic!
 
-- **Sahid** - MERN Stack Developer && UI/UX designer
-- **Farha** - Frontend Developer
-- **Rahat Faruk** - Full Stack Developer
-- **Abdul Mazed** - Frontend & Backend Developer
-- **[Numan Ahmod](https://www.linkedin.com/in/numan-ahmod/)** - MERN Stack Developer
+---
+
+## 👥 Meet the Team
+
+| Name | Role |
+| :--- | :--- |
+| **Sahid** | MERN Stack Developer & UI/UX Designer |
+| **Farha** | Frontend Developer |
+| **Rahat Faruk** | Full Stack Developer |
+| **Abdul Mazed** | Full Stack Developer |
+| **[Numan Ahmod](https://www.linkedin.com/in/numan-ahmod/)** | MERN Stack Developer |
+
+---
+
+## 📄 Documentation
+
+For a deep dive into the architecture and APIs, please refer to our [Detailed Documentation](https://docs.google.com/document/d/1z-jP5jOvPV1-gmGWIApbxTUz4zkCE_-YS27OcJH_0vY/edit?usp=sharing).
+
+<p align="center">Made with ❤️ by the Learnica Team</p>
