@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Header from "./_components/Header";
 import Sidebar from "./_components/Sidebar";
 import { useUser } from "@clerk/nextjs";
@@ -11,8 +11,10 @@ const Layout = ({ children }) => {
   const [mainRole, setMainRole] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State for toggling sidebar in mobile view
   const pathname = usePathname();
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
 
   const currUser = user?.primaryEmailAddress?.emailAddress;
 
@@ -28,7 +30,11 @@ const Layout = ({ children }) => {
           setMainRole(currData.mainRole);
         } catch (error) {
           console.error("Error fetching user data:", error);
+        } finally {
+          setLoading(false);
         }
+      } else {
+        setLoading(false);
       }
     };
 
@@ -40,7 +46,21 @@ const Layout = ({ children }) => {
   };
 
   // Check if current path is admin route
-  const isAdminRoute = pathname?.includes('/admin');
+  const isAdminRoute = pathname?.includes('/dashboard/admin');
+
+  useEffect(() => {
+    if (isLoaded && !loading && isAdminRoute && mainRole !== "admin") {
+      router.push("/");
+    }
+  }, [isAdminRoute, mainRole, loading, isLoaded, router]);
+
+  if ((!isLoaded || loading) && isAdminRoute) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="">
@@ -59,7 +79,7 @@ const Layout = ({ children }) => {
         className={`fixed sm:w-72 h-full sm:block transition-transform transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } sm:translate-x-0 bg-white z-40 -mt-10 md:mt-0 `}>
-        {mainRole === "admin" || isAdminRoute ? <AdminSidebar /> : <Sidebar />}
+        {mainRole === "admin" ? <AdminSidebar /> : <Sidebar />}
       </div>
 
       <div className={`sm:ml-72 transition-all`}>

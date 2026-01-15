@@ -232,11 +232,8 @@ const Navbar = () => {
                     <Button
                       onClick={() => {
                         const isAdmin = mainRole === "admin";
-                        const isTeacher = user?.unsafeMetadata?.role === "teacher";
-                        if (isAdmin && isTeacher) {
+                        if (isAdmin) {
                           setIsDashboardModalOpen(true);
-                        } else if (isAdmin) {
-                          router.push("/dashboard/admin");
                         } else {
                           router.push("/dashboard/teacher");
                         }
@@ -338,12 +335,9 @@ const Navbar = () => {
                 className="rounded-full w-full"
                 onClick={() => {
                   const isAdmin = mainRole === "admin";
-                  const isTeacher = user?.unsafeMetadata?.role === "teacher";
                   handleCloseMenu();
-                  if (isAdmin && isTeacher) {
+                  if (isAdmin) {
                     setIsDashboardModalOpen(true);
-                  } else if (isAdmin) {
-                    router.push("/dashboard/admin");
                   } else {
                     router.push("/dashboard/teacher");
                   }
