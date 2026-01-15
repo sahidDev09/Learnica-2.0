@@ -1,25 +1,198 @@
+"use client";
 import React from "react";
-import { Video } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Video, Calendar, User, Tag, ExternalLink, ShieldCheck } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import Loading from "@/app/loading";
+import NoDataFound from "@/app/noDataFound";
+import { motion } from "framer-motion";
 
-const LiveClass = () => {
+const LiveClassList = () => {
+  const { data: liveClasses, isLoading } = useQuery({
+    queryKey: ["admin-live-classes"],
+    queryFn: async () => {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/live_classes`);
+      if (!res.ok) throw new Error("Failed to fetch live classes");
+      return res.json();
+    },
+  });
+
+  if (isLoading) return <Loading />;
+
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -10 },
+    visible: { opacity: 1, x: 0 },
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8">
-      <div className="container mx-auto">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">Live Class</h1>
-          <p className="text-gray-600">Manage and schedule live classes</p>
-        </div>
-        
-        <div className="bg-white rounded-2xl p-12 shadow-lg border border-gray-100 text-center">
-          <div className="bg-blue-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Video className="w-10 h-10 text-blue-600" />
+    <div className="min-h-screen bg-[#f8fafc] p-4 md:p-8">
+      <div className="max-w-7xl mx-auto">
+        <motion.div 
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4"
+        >
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <div className="p-2 bg-blue-100 rounded-lg">
+                <Video className="w-5 h-5 text-blue-600" />
+              </div>
+              <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Live Classes</h1>
+            </div>
+            <p className="text-gray-500 font-medium">Monitor and oversee all ongoing and scheduled live interactive sessions.</p>
           </div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Live Class Management</h2>
-          <p className="text-gray-600">This section is under development</p>
-        </div>
+          <div className="flex items-center gap-3 bg-white p-2 rounded-xl border border-gray-100 shadow-sm">
+            <div className="flex -space-x-2">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center overflow-hidden">
+                   <User className="w-4 h-4 text-gray-400" />
+                </div>
+              ))}
+            </div>
+            <span className="text-sm font-semibold text-gray-700">Total: {liveClasses?.length || 0} Batches</span>
+          </div>
+        </motion.div>
+
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="bg-white rounded-3xl shadow-xl shadow-blue-900/5 border border-gray-100 overflow-hidden"
+        >
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-gray-50/50 border-b border-gray-100">
+                  <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-widest">Live Session Info</th>
+                  <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-widest">Instructor</th>
+                  <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-widest">Schedule</th>
+                  <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-widest">Status</th>
+                  <th className="p-6 text-xs font-bold text-gray-400 uppercase tracking-widest">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-50">
+                {liveClasses?.length > 0 ? (
+                  liveClasses.map((item, index) => (
+                    <motion.tr 
+                      key={item._id || index}
+                      variants={itemVariants}
+                      className="hover:bg-blue-50/30 transition-all duration-300"
+                    >
+                      <td className="p-6">
+                        <div className="flex items-center gap-4">
+                          <div className="relative w-16 h-16 rounded-2xl overflow-hidden shadow-md flex-shrink-0 group">
+                            <Image
+                              src={item.thumbnail?.startsWith("http") ? item.thumbnail : "/assets/3dEdu.webp"}
+                              alt={item.courseName}
+                              fill
+                              className="object-cover transition-transform duration-500 group-hover:scale-110"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                          </div>
+                          <div className="max-w-[240px]">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="px-2 py-0.5 bg-blue-50 text-blue-600 text-[10px] font-bold rounded-md uppercase tracking-wide">
+                                {item.category}
+                              </span>
+                            </div>
+                            <h3 className="font-bold text-gray-800 line-clamp-1 text-sm md:text-base leading-tight">
+                              {item.courseName}
+                            </h3>
+                            <div className="flex items-center gap-1.5 mt-1 text-xs text-gray-400">
+                              <ShieldCheck className="w-3 h-3 text-green-500" />
+                              Active Session
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="p-6">
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xs">
+                            {item.authorName?.charAt(0)}
+                          </div>
+                          <div>
+                            <div className="font-semibold text-gray-800 text-sm">
+                              {item.authorName}
+                            </div>
+                            <div className="text-xs text-gray-500 font-medium">
+                              {item.authorEmail || "Verified Instructor"}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="p-6">
+                        <div className="flex flex-col gap-1.5">
+                          <div className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                            <Calendar className="w-4 h-4 text-blue-500" />
+                            {item.liveTime}
+                          </div>
+                          <div className="text-xs text-gray-400 font-medium flex items-center gap-1">
+                            <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                            Scheduled Time
+                          </div>
+                        </div>
+                      </td>
+                      <td className="p-6">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-600 text-xs font-bold border border-emerald-100">
+                           <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                           Active
+                        </span>
+                      </td>
+                      <td className="p-6 text-right">
+                        <Link 
+                          href={item.liveLink} 
+                          target="_blank"
+                          className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-blue-600 border border-blue-200 rounded-xl font-bold text-sm shadow-sm hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-300 group"
+                        >
+                          Join Now
+                          <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                        </Link>
+                      </td>
+                    </motion.tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5" className="p-20 text-center">
+                      <div className="flex flex-col items-center gap-4">
+                        <div className="p-6 bg-gray-50 rounded-full">
+                          <Video className="w-12 h-12 text-gray-300" />
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-bold text-gray-800">No Live Classes</h3>
+                          <p className="text-gray-500">There are currently no scheduled live sessions found.</p>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+          {liveClasses?.length > 10 && (
+            <div className="p-6 bg-gray-50/50 border-t border-gray-100 flex justify-center">
+               <button className="px-6 py-2 text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors">
+                  Load More Sessions
+               </button>
+            </div>
+          )}
+        </motion.div>
       </div>
     </div>
   );
 };
 
-export default LiveClass;
+export default LiveClassList;
+
