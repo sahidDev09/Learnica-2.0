@@ -86,7 +86,7 @@ const Checkout = ({
   return (
     <form onSubmit={handleSubmit}>
       {coupon && discount > 0 ? (
-        <p className="text-secondary">You have a Coupon Code! Wanna apply it?</p>
+        <p className="text-primary font-semibold">You have a Coupon Code! Wanna apply it?</p>
       ) : (
         <p className="text-red-500">You have no discount available.</p>
       )}
@@ -101,7 +101,7 @@ const Checkout = ({
         <div>
           <button
             type="button"
-            className="text-blue-500 underline"
+            className="text-primary font-semibold underline"
             onClick={() => setIsCouponInputVisible(!isCouponInputVisible)}
           >
             {isCouponInputVisible ? "Hide Coupon" : "Click here"}
@@ -119,7 +119,7 @@ const Checkout = ({
                 <button
                   type="button"
                   onClick={handleApplyCoupon}
-                  className="bg-secondary text-white p-2 rounded-r"
+                  className="bg-primary text-white px-4 py-2 rounded-r font-bold"
                 >
                   Apply
                 </button>
@@ -140,7 +140,7 @@ const Checkout = ({
 
       {errorMessage && <div className="text-red-500 mt-4">{errorMessage}</div>}
       <button
-  className={`bg-secondary text-white mt-4 p-3 rounded-lg w-full ${isLoading ? "opacity-50" : ""}`}
+  className={`bg-primary text-white mt-4 p-4 rounded-xl w-full font-bold shadow-lg shadow-primary/20 transition-all hover:scale-[1.01] ${isLoading ? "opacity-50" : ""}`}
   disabled={isLoading || !stripe || !clientSecret}
   type="submit"
 >

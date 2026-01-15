@@ -44,6 +44,7 @@ const Navbar = () => {
   const [showSignIn, setShowSignIn] = useState(false);
   const [showLiveClasses, setShowLiveClasses] = useState(false); 
   const [mainRole, setMainRole] = useState(null);
+  const [isDashboardModalOpen, setIsDashboardModalOpen] = useState(false);
 
   const [loading, setLoading] = useState(true);
 
@@ -227,23 +228,21 @@ const Navbar = () => {
 
                   {/* author dashboard */}
 
-                  {user && mainRole === "admin" ? (
-                    <Link href="/dashboard/admin/statistics">
-                      <Button
-                        className="rounded-full bg-primary"
-                        aria-label="Author Dashboard">
-                        <ShieldCheck size={20} /> Admin mode
-                      </Button>
-                    </Link>
-                  ) : user?.unsafeMetadata?.role === "teacher" ? (
-                    <Link href="/dashboard/admin">
-                      <Button
-                        className="rounded-full bg-primary"
-                        aria-label="Author Dashboard">
-                        <ShieldCheck size={20} /> instructor mode
-                      </Button>
-                    </Link>
-                  ) : null}
+                  {user && (mainRole === "admin" || user?.unsafeMetadata?.role === "teacher") && (
+                    <Button
+                      onClick={() => {
+                        const isAdmin = mainRole === "admin";
+                        if (isAdmin) {
+                          setIsDashboardModalOpen(true);
+                        } else {
+                          router.push("/dashboard/teacher");
+                        }
+                      }}
+                      className="rounded-full bg-primary hover:bg-primary/90 text-white font-bold px-6 shadow-lg shadow-primary/20 transition-all hover:rotate-2"
+                      aria-label="Dashboard">
+                      <ShieldCheck size={20} className="mr-2" /> Dashboard
+                    </Button>
+                  )}
 
                   <SignedIn>
                     <UserButton
@@ -330,25 +329,23 @@ const Navbar = () => {
           </li>
           <li>
             {/* author dashboard */}
-            {user && mainRole === "admin" ? (
-              <Link href="/dashboard/admin/statistics">
-                <Button
-                  variant="destructive"
-                  className="rounded-full"
-                  aria-label="Author Dashboard">
-                  <ShieldCheck size={20} /> Admin Mode
-                </Button>
-              </Link>
-            ) : user?.unsafeMetadata?.role === "teacher" ? (
-              <Link href="/dashboard/admin">
-                <Button
-                  variant="destructive"
-                  className="rounded-full"
-                  aria-label="Author Dashboard">
-                  <ShieldCheck size={20} /> Instructor Mode
-                </Button>
-              </Link>
-            ) : null}
+            {user && (mainRole === "admin" || user?.unsafeMetadata?.role === "teacher") && (
+              <Button
+                variant="destructive"
+                className="rounded-full w-full"
+                onClick={() => {
+                  const isAdmin = mainRole === "admin";
+                  handleCloseMenu();
+                  if (isAdmin) {
+                    setIsDashboardModalOpen(true);
+                  } else {
+                    router.push("/dashboard/teacher");
+                  }
+                }}
+                aria-label="Dashboard">
+                <ShieldCheck size={20} className="mr-2" /> Dashboard
+              </Button>
+            )}
           </li>
           <li>
             <Sheet>
@@ -418,6 +415,66 @@ const Navbar = () => {
           signUpForceRedirectUrl="/"
           fallbackRedirectUrl="/onboarding"
         />
+      </div>
+    )}
+
+    {/* Dashboard Selection Modal */}
+    {isDashboardModalOpen && (
+      <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4">
+        <div 
+          className="absolute inset-0 bg-black/60 backdrop-blur-md transition-opacity duration-300" 
+          onClick={() => setIsDashboardModalOpen(false)} 
+        />
+        <div className="relative bg-white dark:bg-zinc-900 rounded-[2.5rem] p-10 max-w-sm w-full shadow-2xl border border-white/20 transform transition-all duration-300 ease-out animate-in zoom-in-95 fade-in">
+          <div className="flex flex-col items-center text-center mb-10">
+            <div className="w-20 h-20 bg-primary/10 rounded-3xl flex items-center justify-center mb-6">
+              <ShieldCheck className="w-10 h-10 text-primary" />
+            </div>
+            <h2 className="text-3xl font-bold text-zinc-900 dark:text-white mb-3">Welcome Back!</h2>
+            <p className="text-zinc-500 dark:text-zinc-400 font-medium">Where you wanna Enter please select</p>
+          </div>
+          
+          <div className="grid gap-5">
+            <button 
+              onClick={() => {
+                setIsDashboardModalOpen(false);
+                router.push("/dashboard/admin");
+              }}
+              className="group relative flex items-center gap-5 p-5 rounded-[1.5rem] bg-primary hover:bg-primary/90 transition-all duration-300 shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95"
+            >
+              <div className="p-3 bg-white/20 rounded-2xl group-hover:rotate-6 transition-transform">
+                <ShieldCheck className="w-6 h-6 text-white" />
+              </div>
+              <div className="text-left">
+                <p className="font-bold text-white uppercase tracking-widest text-xs opacity-80 mb-1">Enter as</p>
+                <p className="text-lg font-extrabold text-white">Admin mode</p>
+              </div>
+            </button>
+
+            <button 
+              onClick={() => {
+                setIsDashboardModalOpen(false);
+                router.push("/dashboard/teacher");
+              }}
+              className="group relative flex items-center gap-5 p-5 rounded-[1.5rem] bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all duration-300 hover:scale-[1.02] active:scale-95"
+            >
+              <div className="p-3 bg-white dark:bg-zinc-700 rounded-2xl shadow-sm group-hover:rotate-6 transition-transform">
+                <PenBox className="w-6 h-6 text-zinc-600 dark:text-zinc-300" />
+              </div>
+              <div className="text-left">
+                <p className="font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest text-xs mb-1">Enter as</p>
+                <p className="text-lg font-extrabold text-zinc-900 dark:text-white">Instructor mode</p>
+              </div>
+            </button>
+          </div>
+
+          <button 
+            onClick={() => setIsDashboardModalOpen(false)}
+            className="mt-8 w-full py-2 text-sm font-semibold text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 transition-colors uppercase tracking-widest"
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     )}
     </>
