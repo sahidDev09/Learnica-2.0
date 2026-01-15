@@ -6,6 +6,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Eye, Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const CoursesPage = () => {
   const {
@@ -16,11 +23,43 @@ const CoursesPage = () => {
     queryKey: ["courses"],
     queryFn: async () => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/all-courses`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/manage-courses`
       );
       return res.json();
     },
   });
+
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/manage-courses?id=${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status: newStatus }),
+        }
+      );
+      const data = await res.json();
+
+      if (res.ok) {
+        Swal.fire({
+          icon: "success",
+          title: "Status Updated",
+          text: `Course status changed to ${newStatus}`,
+          timer: 1500,
+          showConfirmButton: false,
+        });
+        refetch();
+      } else {
+        Swal.fire("Error", data.error || "Failed to update status", "error");
+      }
+    } catch (error) {
+      console.error(error);
+      Swal.fire("Error", "Something went wrong", "error");
+    }
+  };
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -113,13 +152,39 @@ const CoursesPage = () => {
                       {item?.pricing ? `$${item.pricing}` : "Free"}
                     </td>
                     <td className="p-5">
-                      <span className="px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
-                        {item?.status || "Published"}
-                      </span>
+                      <Select
+                        onValueChange={(value) =>
+                          handleStatusChange(item._id, value)
+                        }
+                        defaultValue={
+                          item.status
+                            ? item.status.charAt(0).toUpperCase() +
+                              item.status.slice(1)
+                            : "Pending"
+                        }
+                      >
+                        <SelectTrigger
+                          className={`w-[130px] h-8 text-xs font-semibold rounded-full border-none ${
+                            item.status === "Approved" || item.status === "approved"
+                              ? "bg-green-100 text-green-700"
+                              : item.status === "Rejected" || item.status === "rejected"
+                              ? "bg-red-100 text-red-700"
+                              : "bg-yellow-100 text-yellow-700"
+                          }`}
+                        >
+                          <SelectValue placeholder="Status" />
+                        </SelectTrigger>
+                        <SelectContent className="z-[99999]">
+                          <SelectItem value="Pending">Pending</SelectItem>
+                          <SelectItem value="Approved">Approved</SelectItem>
+                          <SelectItem value="Rejected">Rejected</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </td>
 
                     <td className="p-5">
                       <div className="flex items-center gap-3">
+
                         <Link 
                           href={`/all-courses/${item?._id}`}
                           className="bg-blue-50 text-blue-600 p-2 rounded-lg hover:bg-blue-100 transition-colors"

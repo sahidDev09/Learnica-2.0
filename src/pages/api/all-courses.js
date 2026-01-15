@@ -11,8 +11,8 @@ export default async function handler(req, res) {
     const db = client.db("learnica");
     const courseCollection = db.collection("courses");
     if (method === "GET") {
-      // Fetch all courses
-      const result = await courseCollection.find().toArray();
+      // Fetch all courses with status "Approved"
+      const result = await courseCollection.find({ status: "Approved" }).toArray();
       res.status(200).json(result);
 
       // -------------------------------------------------

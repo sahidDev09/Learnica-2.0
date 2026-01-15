@@ -21,7 +21,7 @@ const NewCourse = ({ myCourse }) => {
     description: myCourse?.description || "",
     pricing: myCourse?.pricing || "",
     objectives: myCourse?.objectives || "",
-    status: myCourse?.status || "pending",
+    status: myCourse?.status || "Pending",
     authorId: myCourse?.author?.id || user?.id || "",
     authorEmail:
       myCourse?.author?.email || user?.primaryEmailAddress?.emailAddress || "",
@@ -190,11 +190,11 @@ const NewCourse = ({ myCourse }) => {
           {myCourse ? "Edit Course" : "Add a New Course"}
         </h1>
         {loading ? (
-          <Button className="bg-secondary" onClick={handleSubmit} disabled>
+          <Button className="bg-primary" onClick={handleSubmit} disabled>
             {myCourse ? "Updating..." : "Uploading..."}
           </Button>
         ) : (
-          <Button className="bg-secondary" onClick={handleSubmit}>
+          <Button className="bg-primary" onClick={handleSubmit}>
             {myCourse ? "Update Course" : "Upload Course"}
           </Button>
         )}
@@ -203,7 +203,7 @@ const NewCourse = ({ myCourse }) => {
         <CardContent>
           <div className=" container mx-auto py-4">
             <Tabs defaultValue="concepts" className=" space-y-4 rounded-md">
-              <TabsList className=" rounded-md bg-secondary text-white">
+              <TabsList className=" rounded-md bg-primary text-white">
                 <TabsTrigger value="concepts">Concepts</TabsTrigger>
                 <TabsTrigger value="course-info">Course Info</TabsTrigger>
                 <TabsTrigger value="additional-settings">

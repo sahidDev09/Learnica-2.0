@@ -31,6 +31,10 @@ const Page = () => {
       search: search.trim(),
     });
 
+    if (user?.primaryEmailAddress?.emailAddress) {
+      queryParams.append("email", user.primaryEmailAddress.emailAddress);
+    }
+
     const res = await fetch(`/api/courses?${queryParams.toString()}`);
     const data = await res.json();
 
@@ -41,7 +45,7 @@ const Page = () => {
     }
 
     setLoading(false);
-  }, [page, size, selectedCategory, search]);
+  }, [page, size, selectedCategory, search, user]);
 
   const debouncedFetchCourses = useCallback(debounce(fetchCourses, 500), [
     fetchCourses,

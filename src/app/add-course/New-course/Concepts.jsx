@@ -59,7 +59,7 @@ const Concepts = ({ lecture, setLecture }) => {
         <CardContent>
           <Button
             onClick={handleAddLecture}
-            className=" bg-secondary text-white">
+            className=" bg-primary text-white">
             Add Lecture
           </Button>
           <div className=" my-2">
@@ -96,7 +96,7 @@ const Concepts = ({ lecture, setLecture }) => {
                     <div className="md:flex items-center gap-3 border rounded-md mt-4">
                       {lec.videoUrl ? (
                         <Button
-                          className="bg-primary text-white"
+                          className="bg-secondary text-white"
                           onClick={() => open()}>
                           Replace video file
                         </Button>

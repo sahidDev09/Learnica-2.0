@@ -236,7 +236,7 @@ const Navbar = () => {
                       </Button>
                     </Link>
                   ) : user?.unsafeMetadata?.role === "teacher" ? (
-                    <Link href="/dashboard/teacher/statistics">
+                    <Link href="/dashboard/admin">
                       <Button
                         className="rounded-full bg-primary"
                         aria-label="Author Dashboard">
@@ -340,7 +340,7 @@ const Navbar = () => {
                 </Button>
               </Link>
             ) : user?.unsafeMetadata?.role === "teacher" ? (
-              <Link href="/dashboard/teacher/statistics">
+              <Link href="/dashboard/admin">
                 <Button
                   variant="destructive"
                   className="rounded-full"

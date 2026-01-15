@@ -9,12 +9,26 @@ export default async function handler(req, res) {
 
     switch (req.method) {
       case "GET":
-        const { category, page = 1, size = 3, search = "" } = req.query;
+        const { category, page = 1, size = 3, search = "", email } = req.query;
         const parsedPage = parseInt(page, 10);
         const parsedSize = parseInt(size, 10);
         const skip = (parsedPage - 1) * parsedSize;
         const limit = parsedSize;
         let filter = {};
+
+        // Role-based visibility logic
+        let showAll = false;
+        if (email) {
+            const user = await db.collection("users").findOne({ email });
+            if (user && (user.role === "admin" || user.mainRole === "admin" || user.role === "teacher")) {
+                showAll = true;
+            }
+        }
+
+        if (!showAll) {
+             filter.status = "Approved";
+        }
+
         if (category) {
           filter.category = category;
         }
