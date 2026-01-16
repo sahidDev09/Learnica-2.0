@@ -264,6 +264,19 @@ const Page = ({ params }) => {
     }
   }, [data]);
 
+  useEffect(() => {
+    if (data?.lectures?.length > 0 && !currentVideoUrl) {
+      const firstUnlockedIndex = data.lectures.findIndex(
+        (lecture) => lecture.freePreview || isEnrolled
+      );
+
+      if (firstUnlockedIndex !== -1) {
+        setCurrentVideoUrl(data.lectures[firstUnlockedIndex].videoUrl);
+        setCurrentLectureIndex(firstUnlockedIndex);
+      }
+    }
+  }, [data, isEnrolled, currentVideoUrl]);
+
   // video playback code
 
   const handlePlayback = (videoUrl, index) => {
