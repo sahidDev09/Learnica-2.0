@@ -275,6 +275,7 @@ const Page = ({ params }) => {
         setCurrentLectureIndex(firstUnlockedIndex);
       }
     }
+    
   }, [data, isEnrolled, currentVideoUrl]);
 
   // video playback code
