@@ -40,7 +40,7 @@ const Page = () => {
       if (!userEmail) return null;
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/get-orders?email=${userEmail}`
+        `/api/get-orders?email=${userEmail}`
       );
       const data = await res.json();
       setOrders(data);

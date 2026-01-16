@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 
 // req: edit note >>
 const editNote = async (data) => {
-  const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/my-notes", {
+  const res = await fetch("/api/my-notes", {
     method: "PATCH",
     headers: {
       "content-type": "application/json"

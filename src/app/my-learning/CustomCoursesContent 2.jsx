@@ -11,7 +11,6 @@ function CustomCoursesContent({ user }) {
     queryKey: ["my-custom-courses"],
     queryFn: async () => {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL +
         `/api/my-learning?email=${userEmail}&type=custom`
       );
       return res.json();

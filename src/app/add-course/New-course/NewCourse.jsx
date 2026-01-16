@@ -98,8 +98,8 @@ const NewCourse = ({ myCourse }) => {
 
     try {
       const url = myCourse
-        ? `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/${myCourse._id}`
-        : `${process.env.NEXT_PUBLIC_BASE_URL}/api/add-course`;
+        ? `/api/courses/${myCourse._id}`
+        : `/api/add-course`;
 
       const method = myCourse ? "PUT" : "POST";
 
@@ -144,7 +144,7 @@ const NewCourse = ({ myCourse }) => {
 
     // try {
     //   const response = await fetch(
-    //     process.env.NEXT_PUBLIC_BASE_URL + "/api/add-course",
+    //     "/api/add-course",
     //     {
     //       method: "POST",
     //       headers: {

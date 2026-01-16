@@ -66,7 +66,7 @@ export default function AddClasses() {
     const fetchAuthorData = async () => {
       try {
         const response = await axios.get(
-          process.env.NEXT_PUBLIC_BASE_URL + "/api/courses"
+          "/api/courses"
         );
         const authorData = response.data;
 
@@ -103,7 +103,7 @@ export default function AddClasses() {
 
     try {
       const response = await axios.post(
-        process.env.NEXT_PUBLIC_BASE_URL + "/api/add-classes",
+        "/api/add-classes",
         formData
       );
       

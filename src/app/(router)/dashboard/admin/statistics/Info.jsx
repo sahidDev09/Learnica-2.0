@@ -11,7 +11,7 @@ function Info() {
     queryKey: ["admin-stats"],
     queryFn: async () => {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + `/api/admin-stats`
+        `/api/admin-stats`
       );
       return res.json();
     },

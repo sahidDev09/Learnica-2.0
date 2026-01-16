@@ -59,7 +59,7 @@ const Page = ({ params }) => {
     queryKey: ["courses", courseId],
     queryFn: async () => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/${courseId}`
+        `/api/courses/${courseId}`
       );
       return res.json();
     },
@@ -73,7 +73,7 @@ const Page = ({ params }) => {
 
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/get-orders?email=${userEmail}&courseId=${courseId}`
+          `/api/get-orders?email=${userEmail}&courseId=${courseId}`
         );
         const orders = await res.json();
         const isAlreadyEnrolled = orders.some(

@@ -10,7 +10,7 @@ const Update = ({ courseParamsId }) => {
     queryKey: ["courseInfo", courseParamsId],
     queryFn: async () => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/courses/${courseParamsId}`
+        `/api/courses/${courseParamsId}`
       );
 
       return res.json();

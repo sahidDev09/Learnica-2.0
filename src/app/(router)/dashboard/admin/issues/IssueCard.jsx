@@ -17,7 +17,7 @@ const IssueCard = () => {
   const fetchIssues = async () => {
     try {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + "/api/submitIssue",
+        "/api/submitIssue",
         {
           method: "GET",
         }
@@ -40,7 +40,7 @@ const IssueCard = () => {
   const deleteIssue = async (id) => {
     try {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + `/api/submitIssue?id=${id}`,
+        `/api/submitIssue?id=${id}`,
         {
           method: "DELETE",
         }

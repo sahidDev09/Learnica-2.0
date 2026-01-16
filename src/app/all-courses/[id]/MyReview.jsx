@@ -14,7 +14,7 @@ function MyReview({courseId, handleLockedBuyBtn, isEnrolled}) {
     queryKey: ["my-review", courseId],
     queryFn: async () => {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + `/api/get-reviews?email=${userEmail}&onlyMe=1&courseId=${courseId}`
+        `/api/get-reviews?email=${userEmail}&onlyMe=1&courseId=${courseId}`
       );
       return res.json();
     },
@@ -36,7 +36,7 @@ function MyReview({courseId, handleLockedBuyBtn, isEnrolled}) {
       if (!isConfirmed) return;
 
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + `/api/get-reviews`,
+        `/api/get-reviews`,
         {
           method: "DELETE",
           headers: {

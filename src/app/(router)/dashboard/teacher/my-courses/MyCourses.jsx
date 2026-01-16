@@ -26,7 +26,7 @@ const MyCourses = () => {
       if (!userEmail) return [];
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/manage-courses?email=${userEmail}`
+        `/api/manage-courses?email=${userEmail}`
       );
       return res.json();
     },

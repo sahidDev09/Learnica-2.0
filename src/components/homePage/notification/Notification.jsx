@@ -10,7 +10,7 @@ const Notification = () => {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    socket = io(process.env.NEXT_PUBLIC_BASE_URL);
+    socket = io();
 
     socket.on("courseApproved", (data) => {
       console.log("New notification received:", data);

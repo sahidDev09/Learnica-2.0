@@ -23,7 +23,7 @@ const Layout = ({ children }) => {
       if (currUser) {
         try {
           const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/user?email=${currUser}`
+            `/api/users/user?email=${currUser}`
           );
           const data = await response.json();
           const currData = data;

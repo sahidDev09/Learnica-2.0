@@ -22,7 +22,7 @@ const Resources = ({ courseId, userid }) => {
   const addResources = async (resData) => {
     try {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + "/api/add-resources",
+        "/api/add-resources",
         {
           method: "POST",
           headers: {
@@ -52,7 +52,7 @@ const Resources = ({ courseId, userid }) => {
     queryKey: ["resources", courseId],
     queryFn: async () => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/resources?courseId=${courseId}`
+        `/api/resources?courseId=${courseId}`
       );
       if (!res.ok) {
         throw new Error("Failed to fetch resources");
@@ -114,7 +114,7 @@ const Resources = ({ courseId, userid }) => {
       if (!isConfirmed) return;
 
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + "/api/resources",
+        "/api/resources",
         {
           method: "DELETE",
           headers: {

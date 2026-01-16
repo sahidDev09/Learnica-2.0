@@ -26,7 +26,7 @@ function QnaModal({ question, courseId }) {
     queryKey: ["qna-ans", question._id, courseId],
     queryFn: async () => {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + `/api/qna-ans?id=${question._id}&courseId=${courseId}`
+        `/api/qna-ans?id=${question._id}&courseId=${courseId}`
       );
       return res.json();
     },
@@ -36,7 +36,7 @@ function QnaModal({ question, courseId }) {
   const handleAnswerDelete = async (ansId) => {
     try {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + `/api/qna-ans?id=${ansId}`,
+        `/api/qna-ans?id=${ansId}`,
         {
           method: "DELETE",
           headers: {

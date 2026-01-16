@@ -16,7 +16,7 @@ const AddInstructor = () => {
     // Fetch the existing instructor data when the component mounts
     const fetchInstructors = async () => {
       try {
-        const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/addSupportLink', {
+        const res = await fetch("/api/addSupportLink", {
           method: 'GET',
         });
         const data = await res.json();
@@ -46,7 +46,7 @@ const AddInstructor = () => {
     };
   
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/api/addSupportLink', {
+      const res = await fetch("/api/addSupportLink", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ const AddInstructor = () => {
     if (confirmed.isConfirmed) {
       setLoading(true);
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/addSupportLink`, {
+        const res = await fetch(`/api/addSupportLink`, {
           method: 'DELETE',
         });
   

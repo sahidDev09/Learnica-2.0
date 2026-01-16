@@ -21,7 +21,7 @@ const AllUsers = () => {
     queryKey: ["users"],
     queryFn: async () => {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/alluser`
+        `/api/users/alluser`
       );
       return res.data;
     },
@@ -29,7 +29,7 @@ const AllUsers = () => {
 
   const handleAdmin = (user) => {
     axios
-      .patch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/admin/${user._id}`)
+      .patch(`/api/users/admin/${user._id}`)
       .then((res) => {
         if (
           res.status === 200 &&
@@ -60,7 +60,7 @@ const AllUsers = () => {
 
   const handleBlockUsers = (user) => {
     axios
-      .patch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/block/${user._id}`)
+      .patch(`/api/users/block/${user._id}`)
       .then((res) => {
         if (
           res.status === 200 &&

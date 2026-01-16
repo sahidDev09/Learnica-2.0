@@ -12,8 +12,7 @@ function Reviews({ courseId }) {
     queryKey: ["course-reviews", courseId],
     queryFn: async () => {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL +
-          `/api/get-reviews?email=${userEmail}&courseId=${courseId}`
+        `/api/get-reviews?email=${userEmail}&courseId=${courseId}`
       );
       return res.json();
     },

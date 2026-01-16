@@ -63,7 +63,7 @@ const Support = ({ showSupportModal, setShowSupportModal, user, className = "" }
 
     try {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + "/api/submitIssue",
+        "/api/submitIssue",
         {
           method: "POST",
           headers: {
@@ -97,7 +97,7 @@ const Support = ({ showSupportModal, setShowSupportModal, user, className = "" }
   const fetchIssues = async () => {
     try {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + "/api/submitIssue",
+        "/api/submitIssue",
         {
           method: "GET",
         }
@@ -124,7 +124,7 @@ const Support = ({ showSupportModal, setShowSupportModal, user, className = "" }
   const fetchLink = async () => {
     try {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + "/api/addSupportLink",
+        "/api/addSupportLink",
         {
           method: "GET",
         }

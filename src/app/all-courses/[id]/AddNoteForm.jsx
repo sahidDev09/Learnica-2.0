@@ -6,7 +6,7 @@ import { useUser } from "@clerk/nextjs";
 
 // req: add new note >>
 const addNote = async (formData) => {
-  const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/my-notes", {
+  const res = await fetch("/api/my-notes", {
     method: "POST",
     headers: {
       "content-type": "application/json",

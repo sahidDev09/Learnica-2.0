@@ -25,7 +25,7 @@ const EditCoursePage = () => {
     const fetchCourse = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/manage-courses?id=${id}`
+          `/api/manage-courses?id=${id}`
         );
         if (!res.ok) throw new Error("Failed to fetch course");
         const data = await res.json();
@@ -82,7 +82,7 @@ const EditCoursePage = () => {
 
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/manage-courses?id=${id}`,
+        `/api/manage-courses?id=${id}`,
         {
           method: "PUT",
           headers: {

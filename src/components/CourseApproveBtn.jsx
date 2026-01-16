@@ -8,7 +8,7 @@ const CourseApproveBtn = ({ c_id, c_title }) => {
 
       // Send the course approval request to the backend API using fetch
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/approveCourse`,
+        `/api/approveCourse`,
         {
           method: "POST",
           headers: {

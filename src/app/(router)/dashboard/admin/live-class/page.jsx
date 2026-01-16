@@ -14,7 +14,7 @@ const LiveClassList = () => {
   const { data: liveClasses, isLoading } = useQuery({
     queryKey: ["admin-live-classes"],
     queryFn: async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/live_classes`);
+      const res = await fetch(`/api/live_classes`);
       if (!res.ok) throw new Error("Failed to fetch live classes");
       return res.json();
     },
@@ -22,7 +22,7 @@ const LiveClassList = () => {
 
   const terminateMutation = useMutation({
     mutationFn: async (id) => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/live_classes?id=${id}`, {
+      const res = await fetch(`/api/live_classes?id=${id}`, {
         method: "DELETE",
       });
       if (!res.ok) throw new Error("Failed to terminate class");

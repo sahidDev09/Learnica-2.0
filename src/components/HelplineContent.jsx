@@ -59,7 +59,7 @@ const HelplineContent = ({ user }) => {
 
     try {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + "/api/submitIssue",
+        "/api/submitIssue",
         {
           method: "POST",
           headers: {
@@ -93,7 +93,7 @@ const HelplineContent = ({ user }) => {
   const fetchIssues = async () => {
     try {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + "/api/submitIssue",
+        "/api/submitIssue",
         {
           method: "GET",
         }
@@ -120,7 +120,7 @@ const HelplineContent = ({ user }) => {
   const fetchLink = async () => {
     try {
       const res = await fetch(
-        process.env.NEXT_PUBLIC_BASE_URL + "/api/addSupportLink",
+        "/api/addSupportLink",
         {
           method: "GET",
         }

@@ -23,7 +23,7 @@ const CoursesPage = () => {
     queryKey: ["courses"],
     queryFn: async () => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/manage-courses`
+        `/api/manage-courses`
       );
       return res.json();
     },
@@ -32,7 +32,7 @@ const CoursesPage = () => {
   const handleStatusChange = async (id, newStatus) => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/manage-courses?id=${id}`,
+        `/api/manage-courses?id=${id}`,
         {
           method: "PUT",
           headers: {
@@ -72,7 +72,7 @@ const CoursesPage = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/all-courses?id=${id}`, {
+        fetch(`/api/all-courses?id=${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())

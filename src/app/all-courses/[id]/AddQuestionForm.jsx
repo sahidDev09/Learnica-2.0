@@ -6,7 +6,7 @@ import { useUser } from "@clerk/nextjs";
 
 // req: add new question >>
 const addQuestion = async (formData) => {
-  const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + "/api/qna-ques", {
+  const res = await fetch("/api/qna-ques", {
     method: "POST",
     headers: {
       "content-type": "application/json",
