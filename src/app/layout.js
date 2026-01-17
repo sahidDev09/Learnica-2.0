@@ -21,7 +21,8 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Learnica</title>
       </head>
-      <body className='overflow-x-hidden'>
+      <body className='overflow-x-hidden relative'>
+        <div className="grid-background"></div>
         <ClerkProvider>
           <TanstackProvider>
             <ReactLenis root>
